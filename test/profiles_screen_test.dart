@@ -27,9 +27,7 @@ void main() {
     List<Profile> profiles, {
     int? activeId,
   }) async {
-    SharedPreferences.setMockInitialValues({
-      if (activeId != null) activeProfileKey: activeId,
-    });
+    SharedPreferences.setMockInitialValues({activeProfileKey: ?activeId});
     final prefs = await SharedPreferences.getInstance();
     await tester.pumpWidget(
       ProviderScope(

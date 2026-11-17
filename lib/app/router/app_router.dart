@@ -4,6 +4,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/categories/presentation/category_list_screen.dart';
 import '../../features/cost_items/presentation/cost_item_list_screen.dart';
+import '../../features/accounts/presentation/account_list_screen.dart';
+import '../../features/backup/presentation/backup_screen.dart';
+import '../../features/reports/presentation/custom_range_report_screen.dart';
+import '../../features/reports/presentation/monthly_report_screen.dart';
+import '../../features/reports/presentation/yearly_report_screen.dart';
+import '../../features/transactions/presentation/edit_transaction_screen.dart';
+import '../../features/transactions/presentation/transaction_detail_screen.dart';
+import '../shell/about_screen.dart';
 import '../shell/home_shell.dart';
 import '../../features/profiles/data/profile_providers.dart';
 import '../../features/profiles/presentation/profile_create_screen.dart';
@@ -62,6 +70,7 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       ),
       GoRoute(path: '/home', builder: (_, _) => const HomeShell()),
       GoRoute(path: '/settings', builder: (_, _) => const SettingsScreen()),
+      GoRoute(path: '/about', builder: (_, _) => const AboutScreen()),
       GoRoute(
         path: '/config/categories',
         builder: (_, _) => const CategoryListScreen(),
@@ -73,6 +82,46 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/config/cost-items',
         builder: (_, _) => const CostItemListScreen(),
+      ),
+      GoRoute(
+        path: '/config/accounts',
+        builder: (_, _) => const AccountListScreen(),
+      ),
+      GoRoute(
+        path: '/transactions/:id',
+        builder: (_, state) => TransactionDetailScreen(
+          transactionId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+        ),
+        routes: [
+          GoRoute(
+            path: 'edit',
+            builder: (_, state) => EditTransactionScreen(
+              transactionId:
+                  int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/reports/monthly',
+        builder: (_, state) => MonthlyReportScreen(
+          year: int.tryParse(state.uri.queryParameters['year'] ?? ''),
+          month: int.tryParse(state.uri.queryParameters['month'] ?? ''),
+        ),
+      ),
+      GoRoute(
+        path: '/reports/yearly',
+        builder: (_, state) => YearlyReportScreen(
+          year: int.tryParse(state.uri.queryParameters['year'] ?? ''),
+        ),
+      ),
+      GoRoute(
+        path: '/reports/range',
+        builder: (_, _) => const CustomRangeReportScreen(),
+      ),
+      GoRoute(
+        path: '/settings/backup',
+        builder: (_, _) => const BackupScreen(),
       ),
     ],
   );

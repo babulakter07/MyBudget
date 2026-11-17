@@ -30,7 +30,20 @@ class SettingsScreen extends StatelessWidget {
             '/config/sub-categories',
           ),
           tile(Icons.list_alt_outlined, 'Cost Items', '/config/cost-items'),
+          tile(
+            Icons.account_balance_wallet_outlined,
+            'Accounts',
+            '/config/accounts',
+          ),
           tile(Icons.people_outline, 'Profiles', '/profiles'),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Text('Data', style: Theme.of(context).textTheme.titleSmall),
+          ),
+          tile(Icons.backup_outlined, 'Backup & Restore', '/settings/backup'),
+          const Divider(),
+          tile(Icons.info_outline, 'About', '/about'),
         ],
       ),
     );

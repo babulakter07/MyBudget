@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// Curated icon set; the key is what gets stored in the database.
 const Map<String, IconData> categoryIcons = {

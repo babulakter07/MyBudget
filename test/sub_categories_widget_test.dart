@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_budget/core/database/app_database.dart';
@@ -16,7 +16,8 @@ void main() {
     final db = AppDatabase.memory();
     addTearDown(() async {
       await tester.pumpWidget(const SizedBox());
-      await db.close();
+      await tester.pump(const Duration(seconds: 1));
+      await tester.runAsync(() => db.close());
     });
     final now = DateTime.now();
     await tester.runAsync(() async {
@@ -70,17 +71,17 @@ void main() {
     expect(find.text('Rice'), findsOneWidget);
 
     await tester.tap(find.byType(FloatingActionButton));
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 400));
     await tester.tap(find.byType(DropdownButtonFormField<int>));
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 400));
     await tester.tap(find.text('Food').last);
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 400));
     await tester.enterText(find.byType(TextFormField), 'rice');
     await tester.tap(find.text('Save'));
     await tester.runAsync(
       () => Future<void>.delayed(const Duration(milliseconds: 200)),
     );
-    await tester.pumpAndSettle();
+    await tester.pump(const Duration(milliseconds: 400));
 
     expect(find.textContaining('already exists'), findsOneWidget);
   });
