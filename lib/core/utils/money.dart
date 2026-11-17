@@ -1,4 +1,4 @@
-﻿// Decimal-safe money helpers. Amounts are integer minor units (paisa).
+// Decimal-safe money helpers. Amounts are integer minor units (paisa).
 
 final RegExp _moneyPattern = RegExp(r'^\d+(\.\d{1,2})?$');
 
@@ -37,4 +37,3 @@ String formatMinor(int minor, {String symbol = '৳'}) {
   }
   return '${negative ? '-' : ''}$symbol$buf.$frac';
 }
-

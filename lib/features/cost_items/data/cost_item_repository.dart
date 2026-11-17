@@ -1,4 +1,4 @@
-﻿import 'package:drift/drift.dart';
+import 'package:drift/drift.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/errors/app_exception.dart';
@@ -302,4 +302,3 @@ class _EscapedLike extends Expression<bool> {
     context.buffer.write(r" ESCAPE '\'");
   }
 }
-

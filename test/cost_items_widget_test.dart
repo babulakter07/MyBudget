@@ -16,6 +16,7 @@ void main() {
     final db = AppDatabase.memory();
     addTearDown(() async {
       await tester.pumpWidget(const SizedBox());
+      await tester.pump(const Duration(seconds: 1));
       await tester.runAsync(() => db.close());
     });
     final now = DateTime(2026);
