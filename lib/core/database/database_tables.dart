@@ -34,8 +34,8 @@ class Categories extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {profileId, id},
-      ];
+    {profileId, id},
+  ];
 }
 
 @DataClassName('SubCategoryRow')
@@ -53,14 +53,14 @@ class SubCategories extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {profileId, id},
-      ];
+    {profileId, id},
+  ];
 
   @override
   List<String> get customConstraints => [
-        'FOREIGN KEY (profile_id) REFERENCES financial_profiles (id)',
-        'FOREIGN KEY (profile_id, category_id) REFERENCES categories (profile_id, id)',
-      ];
+    'FOREIGN KEY (profile_id) REFERENCES financial_profiles (id)',
+    'FOREIGN KEY (profile_id, category_id) REFERENCES categories (profile_id, id)',
+  ];
 }
 
 @DataClassName('CostItemRow')
@@ -82,15 +82,15 @@ class CostItems extends Table {
 
   @override
   List<Set<Column>> get uniqueKeys => [
-        {profileId, id},
-      ];
+    {profileId, id},
+  ];
 
   @override
   List<String> get customConstraints => [
-        'FOREIGN KEY (profile_id) REFERENCES financial_profiles (id)',
-        'FOREIGN KEY (profile_id, sub_category_id) REFERENCES sub_categories (profile_id, id)',
-        'CHECK (default_amount_minor IS NULL OR default_amount_minor >= 0)',
-      ];
+    'FOREIGN KEY (profile_id) REFERENCES financial_profiles (id)',
+    'FOREIGN KEY (profile_id, sub_category_id) REFERENCES sub_categories (profile_id, id)',
+    'CHECK (default_amount_minor IS NULL OR default_amount_minor >= 0)',
+  ];
 }
 
 @DataClassName('SettingRow')

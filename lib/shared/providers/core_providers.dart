@@ -33,5 +33,6 @@ class ActiveProfileIdNotifier extends Notifier<int?> {
   }
 }
 
-final activeProfileIdProvider =
-    NotifierProvider<ActiveProfileIdNotifier, int?>(ActiveProfileIdNotifier.new);
+final activeProfileIdProvider = NotifierProvider<ActiveProfileIdNotifier, int?>(
+  ActiveProfileIdNotifier.new,
+);
