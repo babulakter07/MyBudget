@@ -29,7 +29,7 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   AppDatabase.memory() : super(NativeDatabase.memory());
 
-  static const int currentSchemaVersion = 2;
+  static const int currentSchemaVersion = 3;
 
   @override
   int get schemaVersion => currentSchemaVersion;
@@ -49,6 +49,16 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(accounts);
         await m.createTable(financialTransactions);
         await m.createTable(transactionAuditLogs);
+        await _createV2Indexes();
+      }
+      // from < 2 already created the v2 tables from the current definitions
+      // (which include the v3 shape), so v3 only applies to real v2 databases.
+      if (from >= 2 && from < 3) {
+        // Widen the accounts.type CHECK (rebuilds the table, keeps rows/ids).
+        await m.alterTable(TableMigration(accounts));
+        await m.addColumn(financialTransactions, financialTransactions.paidBy);
+        await m.addColumn(financialTransactions, financialTransactions.forWhom);
+        // Rebuilding a table drops its indexes; recreate them.
         await _createV2Indexes();
       }
     },

@@ -174,7 +174,7 @@ class Accounts extends Table {
   IntColumn get profileId => integer()();
   TextColumn get name => text().withLength(min: 1, max: 80)();
 
-  /// 'cash' | 'bank' | 'mobile' | 'other'
+  /// 'cash' | 'bank' | 'mobile' | 'savings' | 'credit_card' | 'other'
   TextColumn get type => text().withDefault(const Constant('cash'))();
   IntColumn get openingBalanceMinor =>
       integer().withDefault(const Constant(0))();
@@ -193,7 +193,7 @@ class Accounts extends Table {
   @override
   List<String> get customConstraints => [
     'FOREIGN KEY (profile_id) REFERENCES financial_profiles (id)',
-    "CHECK (type IN ('cash','bank','mobile','other'))",
+    "CHECK (type IN ('cash','bank','mobile','savings','credit_card','other'))",
     'CHECK (length(opening_date) = 10)',
   ];
 }
@@ -232,6 +232,11 @@ class FinancialTransactions extends Table {
   TextColumn get txnDate => text()();
   TextColumn get title => text().nullable()();
   TextColumn get remarks => text().nullable()();
+
+  /// Optional free-text household member tags (v3). Labels only; no
+  /// permissions or separate ledgers hang off them.
+  TextColumn get paidBy => text().nullable()();
+  TextColumn get forWhom => text().nullable()();
 
   /// Client-generated key so a retried save cannot create a duplicate.
   TextColumn get idempotencyKey => text().nullable()();

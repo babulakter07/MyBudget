@@ -3423,7 +3423,7 @@ class AccountRow extends DataClass implements Insertable<AccountRow> {
   final int profileId;
   final String name;
 
-  /// 'cash' | 'bank' | 'mobile' | 'other'
+  /// 'cash' | 'bank' | 'mobile' | 'savings' | 'credit_card' | 'other'
   final String type;
   final int openingBalanceMinor;
 
@@ -3926,6 +3926,26 @@ class $FinancialTransactionsTable extends FinancialTransactions
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _paidByMeta = const VerificationMeta('paidBy');
+  @override
+  late final GeneratedColumn<String> paidBy = GeneratedColumn<String>(
+    'paid_by',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _forWhomMeta = const VerificationMeta(
+    'forWhom',
+  );
+  @override
+  late final GeneratedColumn<String> forWhom = GeneratedColumn<String>(
+    'for_whom',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _idempotencyKeyMeta = const VerificationMeta(
     'idempotencyKey',
   );
@@ -4005,6 +4025,8 @@ class $FinancialTransactionsTable extends FinancialTransactions
     txnDate,
     title,
     remarks,
+    paidBy,
+    forWhom,
     idempotencyKey,
     isDeleted,
     deletedAt,
@@ -4170,6 +4192,18 @@ class $FinancialTransactionsTable extends FinancialTransactions
         remarks.isAcceptableOrUnknown(data['remarks']!, _remarksMeta),
       );
     }
+    if (data.containsKey('paid_by')) {
+      context.handle(
+        _paidByMeta,
+        paidBy.isAcceptableOrUnknown(data['paid_by']!, _paidByMeta),
+      );
+    }
+    if (data.containsKey('for_whom')) {
+      context.handle(
+        _forWhomMeta,
+        forWhom.isAcceptableOrUnknown(data['for_whom']!, _forWhomMeta),
+      );
+    }
     if (data.containsKey('idempotency_key')) {
       context.handle(
         _idempotencyKeyMeta,
@@ -4293,6 +4327,14 @@ class $FinancialTransactionsTable extends FinancialTransactions
         DriftSqlType.string,
         data['${effectivePrefix}remarks'],
       ),
+      paidBy: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}paid_by'],
+      ),
+      forWhom: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}for_whom'],
+      ),
       idempotencyKey: attachedDatabase.typeMapping.read(
         DriftSqlType.string,
         data['${effectivePrefix}idempotency_key'],
@@ -4350,6 +4392,11 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
   final String? title;
   final String? remarks;
 
+  /// Optional free-text household member tags (v3). Labels only; no
+  /// permissions or separate ledgers hang off them.
+  final String? paidBy;
+  final String? forWhom;
+
   /// Client-generated key so a retried save cannot create a duplicate.
   final String? idempotencyKey;
   final bool isDeleted;
@@ -4375,6 +4422,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
     required this.txnDate,
     this.title,
     this.remarks,
+    this.paidBy,
+    this.forWhom,
     this.idempotencyKey,
     required this.isDeleted,
     this.deletedAt,
@@ -4425,6 +4474,12 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
     }
     if (!nullToAbsent || remarks != null) {
       map['remarks'] = Variable<String>(remarks);
+    }
+    if (!nullToAbsent || paidBy != null) {
+      map['paid_by'] = Variable<String>(paidBy);
+    }
+    if (!nullToAbsent || forWhom != null) {
+      map['for_whom'] = Variable<String>(forWhom);
     }
     if (!nullToAbsent || idempotencyKey != null) {
       map['idempotency_key'] = Variable<String>(idempotencyKey);
@@ -4480,6 +4535,12 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
       remarks: remarks == null && nullToAbsent
           ? const Value.absent()
           : Value(remarks),
+      paidBy: paidBy == null && nullToAbsent
+          ? const Value.absent()
+          : Value(paidBy),
+      forWhom: forWhom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(forWhom),
       idempotencyKey: idempotencyKey == null && nullToAbsent
           ? const Value.absent()
           : Value(idempotencyKey),
@@ -4526,6 +4587,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
       txnDate: serializer.fromJson<String>(json['txnDate']),
       title: serializer.fromJson<String?>(json['title']),
       remarks: serializer.fromJson<String?>(json['remarks']),
+      paidBy: serializer.fromJson<String?>(json['paidBy']),
+      forWhom: serializer.fromJson<String?>(json['forWhom']),
       idempotencyKey: serializer.fromJson<String?>(json['idempotencyKey']),
       isDeleted: serializer.fromJson<bool>(json['isDeleted']),
       deletedAt: serializer.fromJson<DateTime?>(json['deletedAt']),
@@ -4559,6 +4622,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
       'txnDate': serializer.toJson<String>(txnDate),
       'title': serializer.toJson<String?>(title),
       'remarks': serializer.toJson<String?>(remarks),
+      'paidBy': serializer.toJson<String?>(paidBy),
+      'forWhom': serializer.toJson<String?>(forWhom),
       'idempotencyKey': serializer.toJson<String?>(idempotencyKey),
       'isDeleted': serializer.toJson<bool>(isDeleted),
       'deletedAt': serializer.toJson<DateTime?>(deletedAt),
@@ -4586,6 +4651,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
     String? txnDate,
     Value<String?> title = const Value.absent(),
     Value<String?> remarks = const Value.absent(),
+    Value<String?> paidBy = const Value.absent(),
+    Value<String?> forWhom = const Value.absent(),
     Value<String?> idempotencyKey = const Value.absent(),
     bool? isDeleted,
     Value<DateTime?> deletedAt = const Value.absent(),
@@ -4620,6 +4687,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
     txnDate: txnDate ?? this.txnDate,
     title: title.present ? title.value : this.title,
     remarks: remarks.present ? remarks.value : this.remarks,
+    paidBy: paidBy.present ? paidBy.value : this.paidBy,
+    forWhom: forWhom.present ? forWhom.value : this.forWhom,
     idempotencyKey: idempotencyKey.present
         ? idempotencyKey.value
         : this.idempotencyKey,
@@ -4670,6 +4739,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
       txnDate: data.txnDate.present ? data.txnDate.value : this.txnDate,
       title: data.title.present ? data.title.value : this.title,
       remarks: data.remarks.present ? data.remarks.value : this.remarks,
+      paidBy: data.paidBy.present ? data.paidBy.value : this.paidBy,
+      forWhom: data.forWhom.present ? data.forWhom.value : this.forWhom,
       idempotencyKey: data.idempotencyKey.present
           ? data.idempotencyKey.value
           : this.idempotencyKey,
@@ -4701,6 +4772,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
           ..write('txnDate: $txnDate, ')
           ..write('title: $title, ')
           ..write('remarks: $remarks, ')
+          ..write('paidBy: $paidBy, ')
+          ..write('forWhom: $forWhom, ')
           ..write('idempotencyKey: $idempotencyKey, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('deletedAt: $deletedAt, ')
@@ -4730,6 +4803,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
     txnDate,
     title,
     remarks,
+    paidBy,
+    forWhom,
     idempotencyKey,
     isDeleted,
     deletedAt,
@@ -4758,6 +4833,8 @@ class TransactionRow extends DataClass implements Insertable<TransactionRow> {
           other.txnDate == this.txnDate &&
           other.title == this.title &&
           other.remarks == this.remarks &&
+          other.paidBy == this.paidBy &&
+          other.forWhom == this.forWhom &&
           other.idempotencyKey == this.idempotencyKey &&
           other.isDeleted == this.isDeleted &&
           other.deletedAt == this.deletedAt &&
@@ -4784,6 +4861,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
   final Value<String> txnDate;
   final Value<String?> title;
   final Value<String?> remarks;
+  final Value<String?> paidBy;
+  final Value<String?> forWhom;
   final Value<String?> idempotencyKey;
   final Value<bool> isDeleted;
   final Value<DateTime?> deletedAt;
@@ -4808,6 +4887,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
     this.txnDate = const Value.absent(),
     this.title = const Value.absent(),
     this.remarks = const Value.absent(),
+    this.paidBy = const Value.absent(),
+    this.forWhom = const Value.absent(),
     this.idempotencyKey = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.deletedAt = const Value.absent(),
@@ -4833,6 +4914,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
     required String txnDate,
     this.title = const Value.absent(),
     this.remarks = const Value.absent(),
+    this.paidBy = const Value.absent(),
+    this.forWhom = const Value.absent(),
     this.idempotencyKey = const Value.absent(),
     this.isDeleted = const Value.absent(),
     this.deletedAt = const Value.absent(),
@@ -4865,6 +4948,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
     Expression<String>? txnDate,
     Expression<String>? title,
     Expression<String>? remarks,
+    Expression<String>? paidBy,
+    Expression<String>? forWhom,
     Expression<String>? idempotencyKey,
     Expression<bool>? isDeleted,
     Expression<DateTime>? deletedAt,
@@ -4895,6 +4980,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
       if (txnDate != null) 'txn_date': txnDate,
       if (title != null) 'title': title,
       if (remarks != null) 'remarks': remarks,
+      if (paidBy != null) 'paid_by': paidBy,
+      if (forWhom != null) 'for_whom': forWhom,
       if (idempotencyKey != null) 'idempotency_key': idempotencyKey,
       if (isDeleted != null) 'is_deleted': isDeleted,
       if (deletedAt != null) 'deleted_at': deletedAt,
@@ -4922,6 +5009,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
     Value<String>? txnDate,
     Value<String?>? title,
     Value<String?>? remarks,
+    Value<String?>? paidBy,
+    Value<String?>? forWhom,
     Value<String?>? idempotencyKey,
     Value<bool>? isDeleted,
     Value<DateTime?>? deletedAt,
@@ -4949,6 +5038,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
       txnDate: txnDate ?? this.txnDate,
       title: title ?? this.title,
       remarks: remarks ?? this.remarks,
+      paidBy: paidBy ?? this.paidBy,
+      forWhom: forWhom ?? this.forWhom,
       idempotencyKey: idempotencyKey ?? this.idempotencyKey,
       isDeleted: isDeleted ?? this.isDeleted,
       deletedAt: deletedAt ?? this.deletedAt,
@@ -5024,6 +5115,12 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
     if (remarks.present) {
       map['remarks'] = Variable<String>(remarks.value);
     }
+    if (paidBy.present) {
+      map['paid_by'] = Variable<String>(paidBy.value);
+    }
+    if (forWhom.present) {
+      map['for_whom'] = Variable<String>(forWhom.value);
+    }
     if (idempotencyKey.present) {
       map['idempotency_key'] = Variable<String>(idempotencyKey.value);
     }
@@ -5063,6 +5160,8 @@ class FinancialTransactionsCompanion extends UpdateCompanion<TransactionRow> {
           ..write('txnDate: $txnDate, ')
           ..write('title: $title, ')
           ..write('remarks: $remarks, ')
+          ..write('paidBy: $paidBy, ')
+          ..write('forWhom: $forWhom, ')
           ..write('idempotencyKey: $idempotencyKey, ')
           ..write('isDeleted: $isDeleted, ')
           ..write('deletedAt: $deletedAt, ')
@@ -7781,6 +7880,8 @@ typedef $$FinancialTransactionsTableCreateCompanionBuilder =
       required String txnDate,
       Value<String?> title,
       Value<String?> remarks,
+      Value<String?> paidBy,
+      Value<String?> forWhom,
       Value<String?> idempotencyKey,
       Value<bool> isDeleted,
       Value<DateTime?> deletedAt,
@@ -7807,6 +7908,8 @@ typedef $$FinancialTransactionsTableUpdateCompanionBuilder =
       Value<String> txnDate,
       Value<String?> title,
       Value<String?> remarks,
+      Value<String?> paidBy,
+      Value<String?> forWhom,
       Value<String?> idempotencyKey,
       Value<bool> isDeleted,
       Value<DateTime?> deletedAt,
@@ -7910,6 +8013,16 @@ class $$FinancialTransactionsTableFilterComposer
 
   ColumnFilters<String> get remarks => $composableBuilder(
     column: $table.remarks,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paidBy => $composableBuilder(
+    column: $table.paidBy,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get forWhom => $composableBuilder(
+    column: $table.forWhom,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -8038,6 +8151,16 @@ class $$FinancialTransactionsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get paidBy => $composableBuilder(
+    column: $table.paidBy,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get forWhom => $composableBuilder(
+    column: $table.forWhom,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<String> get idempotencyKey => $composableBuilder(
     column: $table.idempotencyKey,
     builder: (column) => ColumnOrderings(column),
@@ -8149,6 +8272,12 @@ class $$FinancialTransactionsTableAnnotationComposer
   GeneratedColumn<String> get remarks =>
       $composableBuilder(column: $table.remarks, builder: (column) => column);
 
+  GeneratedColumn<String> get paidBy =>
+      $composableBuilder(column: $table.paidBy, builder: (column) => column);
+
+  GeneratedColumn<String> get forWhom =>
+      $composableBuilder(column: $table.forWhom, builder: (column) => column);
+
   GeneratedColumn<String> get idempotencyKey => $composableBuilder(
     column: $table.idempotencyKey,
     builder: (column) => column,
@@ -8231,6 +8360,8 @@ class $$FinancialTransactionsTableTableManager
                 Value<String> txnDate = const Value.absent(),
                 Value<String?> title = const Value.absent(),
                 Value<String?> remarks = const Value.absent(),
+                Value<String?> paidBy = const Value.absent(),
+                Value<String?> forWhom = const Value.absent(),
                 Value<String?> idempotencyKey = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
@@ -8255,6 +8386,8 @@ class $$FinancialTransactionsTableTableManager
                 txnDate: txnDate,
                 title: title,
                 remarks: remarks,
+                paidBy: paidBy,
+                forWhom: forWhom,
                 idempotencyKey: idempotencyKey,
                 isDeleted: isDeleted,
                 deletedAt: deletedAt,
@@ -8281,6 +8414,8 @@ class $$FinancialTransactionsTableTableManager
                 required String txnDate,
                 Value<String?> title = const Value.absent(),
                 Value<String?> remarks = const Value.absent(),
+                Value<String?> paidBy = const Value.absent(),
+                Value<String?> forWhom = const Value.absent(),
                 Value<String?> idempotencyKey = const Value.absent(),
                 Value<bool> isDeleted = const Value.absent(),
                 Value<DateTime?> deletedAt = const Value.absent(),
@@ -8305,6 +8440,8 @@ class $$FinancialTransactionsTableTableManager
                 txnDate: txnDate,
                 title: title,
                 remarks: remarks,
+                paidBy: paidBy,
+                forWhom: forWhom,
                 idempotencyKey: idempotencyKey,
                 isDeleted: isDeleted,
                 deletedAt: deletedAt,

@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart' show Value;
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_budget/core/database/app_database.dart';
@@ -184,5 +185,61 @@ void main() {
           ),
       throwsA(anything),
     );
+  });
+
+  test('v3 accepts savings/credit_card accounts and member tags', () async {
+    final db = _openV1WithData();
+    addTearDown(db.close);
+    final now = DateTime(2026, 11, 1);
+
+    for (final type in ['savings', 'credit_card']) {
+      await db
+          .into(db.accounts)
+          .insert(
+            AccountsCompanion.insert(
+              profileId: 1,
+              name: type,
+              type: Value(type),
+              openingDate: '2026-01-01',
+              createdAt: now,
+              updatedAt: now,
+            ),
+          );
+    }
+    await expectLater(
+      db
+          .into(db.accounts)
+          .insert(
+            AccountsCompanion.insert(
+              profileId: 1,
+              name: 'bad',
+              type: const Value('crypto'),
+              openingDate: '2026-01-01',
+              createdAt: now,
+              updatedAt: now,
+            ),
+          ),
+      throwsA(anything),
+    );
+
+    await db
+        .into(db.financialTransactions)
+        .insert(
+          FinancialTransactionsCompanion.insert(
+            profileId: 1,
+            type: 'income',
+            accountId: 1,
+            accountNameSnapshot: 'savings',
+            amountMinor: 500,
+            txnDate: '2026-11-01',
+            paidBy: const Value('Father'),
+            forWhom: const Value('Mother'),
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+    final row = await db.select(db.financialTransactions).getSingle();
+    expect(row.paidBy, 'Father');
+    expect(row.forWhom, 'Mother');
   });
 }

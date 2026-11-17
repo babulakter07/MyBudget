@@ -5,7 +5,7 @@ import '../domain/backup_models.dart';
 import 'backup_schema.dart';
 
 /// Highest database schema version this build can restore.
-const int maxSupportedSchemaVersion = 2;
+const int maxSupportedSchemaVersion = 3;
 
 /// Pure validation of a backup file (no database access). Mirrors every
 /// constraint the database enforces so a bad file is rejected *before* any
@@ -335,7 +335,14 @@ class BackupValidator {
     }
 
     seen = {};
-    const accountTypes = {'cash', 'bank', 'mobile', 'other'};
+    const accountTypes = {
+      'cash',
+      'bank',
+      'mobile',
+      'savings',
+      'credit_card',
+      'other',
+    };
     for (final r in rows['accounts']!) {
       ref(
         'accounts',

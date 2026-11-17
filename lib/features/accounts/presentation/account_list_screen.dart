@@ -14,6 +14,8 @@ IconData accountTypeIcon(String type) => switch (type) {
   'cash' => Icons.payments_outlined,
   'bank' => Icons.account_balance,
   'mobile' => Icons.smartphone,
+  'savings' => Icons.savings_outlined,
+  'credit_card' => Icons.credit_card,
   _ => Icons.wallet,
 };
 

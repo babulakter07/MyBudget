@@ -1,9 +1,18 @@
-const accountTypes = ['cash', 'bank', 'mobile', 'other'];
+const accountTypes = [
+  'cash',
+  'bank',
+  'mobile',
+  'savings',
+  'credit_card',
+  'other',
+];
 
 String accountTypeLabel(String type) => switch (type) {
   'cash' => 'Cash',
   'bank' => 'Bank',
   'mobile' => 'Mobile banking',
+  'savings' => 'Savings account',
+  'credit_card' => 'Credit card',
   _ => 'Other',
 };
 

@@ -111,6 +111,8 @@ const List<TableSpec> backupTables = [
     ColSpec('txn_date', ColKind.text),
     ColSpec('title', ColKind.text, nullable: true),
     ColSpec('remarks', ColKind.text, nullable: true),
+    ColSpec('paid_by', ColKind.text, nullable: true),
+    ColSpec('for_whom', ColKind.text, nullable: true),
     ColSpec('idempotency_key', ColKind.text, nullable: true),
     ColSpec('is_deleted', ColKind.bool_),
     ColSpec('deleted_at', ColKind.dateTime, nullable: true),
