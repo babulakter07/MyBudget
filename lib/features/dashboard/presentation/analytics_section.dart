@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/utils/money.dart';
+import '../../../l10n/l10n.dart';
 import '../domain/dashboard_calculations.dart';
 import '../domain/dashboard_models.dart';
 import '../providers/dashboard_providers.dart';
@@ -25,7 +26,7 @@ class AnalyticsSection extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SectionCard(
-          title: 'Spending highlights',
+          title: context.l10n.dashboardSpendingHighlights,
           child: AsyncSection(
             value: days,
             builder: (d) {
@@ -40,13 +41,13 @@ class AnalyticsSection extends ConsumerWidget {
               return StatGrid(
                 children: [
                   StatCard(
-                    label: 'Highest spending day',
+                    label: context.l10n.dashboardHighestSpendingDay,
                     value: best == null
                         ? '-'
                         : '${formatMinor(best.amountMinor)} (${best.date})',
                   ),
                   StatCard(
-                    label: 'Average daily expense',
+                    label: context.l10n.dashboardAverageDailyExpense,
                     value: formatMinor(avg),
                   ),
                 ],
@@ -55,27 +56,27 @@ class AnalyticsSection extends ConsumerWidget {
           ),
         ),
         SectionCard(
-          title: 'Top 5 cost items',
+          title: context.l10n.dashboardTop5CostItems,
           child: AsyncSection(
             value: items,
             builder: (list) => _RankedList(
               list,
-              emptyText: 'No cost-item expenses this month.',
+              emptyText: context.l10n.dashboardNoCostItemExpenses,
             ),
           ),
         ),
         SectionCard(
-          title: 'Top 5 categories',
+          title: context.l10n.dashboardTop5Categories,
           child: AsyncSection(
             value: cats,
             builder: (list) => _RankedList(
               list.take(5).toList(),
-              emptyText: 'No category expenses this month.',
+              emptyText: context.l10n.dashboardNoCategoryExpenses,
             ),
           ),
         ),
         SectionCard(
-          title: 'Category distribution',
+          title: context.l10n.dashboardCategoryDistribution,
           child: AsyncSection(
             value: cats,
             builder: (list) => CategoryPie(list),
@@ -115,7 +116,7 @@ class CategoryPie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (items.isEmpty) return const Text('No expenses to chart this month.');
+    if (items.isEmpty) return Text(context.l10n.dashboardNoExpensesToChart);
     final total = items.fold(0, (s, e) => s + e.amountMinor);
     Color colorAt(int i) => dashboardPalette[i % dashboardPalette.length];
     return Column(

@@ -257,6 +257,28 @@ void main() {
       },
     );
 
+    test('copyFromMonth keeps the rollover flag', () async {
+      await setTotal(100000);
+      await alloc(food, 40000);
+      final before = await repo.loadMonth(p1, 2026, 5);
+      await repo.setRolloverEnabled(
+        profileId: p1,
+        categoryBudgetId: before.categories.single.categoryBudgetId,
+        enabled: true,
+      );
+      await repo.copyFromMonth(
+        profileId: p1,
+        fromYear: 2026,
+        fromMonth: 5,
+        toYear: 2026,
+        toMonth: 6,
+      );
+      final copied = await repo.loadMonth(p1, 2026, 6);
+      expect(copied.categories.single.rolloverEnabled, isTrue);
+      // Unspent May allowance carries into June.
+      expect(copied.categories.single.carriedOverMinor, 40000);
+    });
+
     test('copyFromMonth is explicit and only into an empty month', () async {
       await setTotal(100000);
       await alloc(food, 40000);
@@ -392,5 +414,145 @@ void main() {
     await Future<void>.delayed(const Duration(milliseconds: 50));
     await spend(700, '2026-05-02');
     await exp;
+  });
+
+  group('rollover', () {
+    Future<void> setRo(int y, int m, bool v) async {
+      final c = (await repo.loadMonth(
+        p1,
+        y,
+        m,
+      )).categories.firstWhere((c) => c.categoryId == food);
+      await repo.setRolloverEnabled(
+        profileId: p1,
+        categoryBudgetId: c.categoryBudgetId,
+        enabled: v,
+      );
+    }
+
+    Future<void> month(int y, int m, int amt, {bool ro = true}) async {
+      await setTotal(1000000, y: y, m: m);
+      await alloc(food, amt, y: y, m: m);
+      if (ro) await setRo(y, m, true);
+    }
+
+    Future<CategoryBudgetSummary> food_(int y, int m) async =>
+        (await repo.loadMonth(
+          p1,
+          y,
+          m,
+        )).categories.firstWhere((c) => c.categoryId == food);
+
+    test('disabled = reset, unchanged', () async {
+      await month(2026, 4, 10000, ro: false);
+      await month(2026, 5, 10000, ro: false);
+      await spend(2000, '2026-04-10');
+      final c = await food_(2026, 5);
+      expect(c.rolloverEnabled, isFalse);
+      expect(c.carriedOverMinor, 0);
+      expect(c.effectiveAllowanceMinor, 10000);
+      expect(c.remainingMinor, 10000);
+    });
+
+    test('carries one month; totals and allocated sum untouched', () async {
+      await month(2026, 4, 10000);
+      await month(2026, 5, 10000);
+      await spend(2000, '2026-04-10');
+      await spend(500, '2026-05-02');
+      final mb = await repo.loadMonth(p1, 2026, 5);
+      final c = mb.categories.single;
+      expect(c.carriedOverMinor, 8000);
+      expect(c.effectiveAllowanceMinor, 18000);
+      expect(c.remainingMinor, 17500);
+      expect(mb.allocatedMinor, 10000);
+      expect(mb.summary.budgetMinor, 1000000);
+    });
+
+    test('carries across N months recursively', () async {
+      await month(2026, 3, 10000);
+      await month(2026, 4, 10000);
+      await month(2026, 5, 10000);
+      await spend(3000, '2026-03-05'); // carry 7000 into April
+      await spend(4000, '2026-04-05'); // eff 17000 - 4000 = 13000 into May
+      expect((await food_(2026, 4)).carriedOverMinor, 7000);
+      final c = await food_(2026, 5);
+      expect(c.carriedOverMinor, 13000);
+      expect(c.effectiveAllowanceMinor, 23000);
+    });
+
+    test('chain breaks on a missing row or a disabled month', () async {
+      await month(2026, 2, 10000);
+      // March has no row at all.
+      await month(2026, 4, 10000);
+      await month(2026, 5, 10000);
+      expect((await food_(2026, 4)).carriedOverMinor, 0);
+      expect((await food_(2026, 5)).carriedOverMinor, 10000);
+
+      await setRo(2026, 4, false);
+      expect((await food_(2026, 5)).carriedOverMinor, 0);
+    });
+
+    test('overspend clamps to zero and is not debt', () async {
+      await month(2026, 4, 10000);
+      await month(2026, 5, 10000);
+      await month(2026, 6, 10000);
+      await spend(15000, '2026-04-10');
+      expect((await food_(2026, 5)).carriedOverMinor, 0);
+      expect((await food_(2026, 5)).effectiveAllowanceMinor, 10000);
+      expect((await food_(2026, 6)).carriedOverMinor, 10000);
+    });
+
+    test('deleted, income and other-category spend ignored', () async {
+      await month(2026, 4, 10000);
+      await month(2026, 5, 10000);
+      await spend(9000, '2026-04-10', deleted: true);
+      await spend(9000, '2026-04-11', cat: rent);
+      await _expense(
+        db,
+        profileId: p1,
+        accountId: acc,
+        categoryId: food,
+        amount: 9000,
+        date: '2026-04-12',
+        type: 'income',
+      );
+      expect((await food_(2026, 5)).carriedOverMinor, 10000);
+    });
+
+    test('year boundary', () async {
+      await month(2025, 12, 10000);
+      await month(2026, 1, 10000);
+      await spend(1000, '2025-12-31');
+      expect((await food_(2026, 1)).carriedOverMinor, 9000);
+    });
+
+    test('setRolloverEnabled persists and rejects cross-profile', () async {
+      await month(2026, 5, 10000, ro: false);
+      var c = await food_(2026, 5);
+      expect(c.rolloverEnabled, isFalse);
+      await repo.setRolloverEnabled(
+        profileId: p1,
+        categoryBudgetId: c.categoryBudgetId,
+        enabled: true,
+      );
+      expect((await food_(2026, 5)).rolloverEnabled, isTrue);
+      await expectLater(
+        repo.setRolloverEnabled(
+          profileId: p2,
+          categoryBudgetId: c.categoryBudgetId,
+          enabled: false,
+        ),
+        throwsA(isA<ProfileMismatchException>()),
+      );
+      await expectLater(
+        repo.setRolloverEnabled(
+          profileId: p1,
+          categoryBudgetId: 9999,
+          enabled: false,
+        ),
+        throwsA(isA<NotFoundException>()),
+      );
+      expect((await food_(2026, 5)).rolloverEnabled, isTrue);
+    });
   });
 }

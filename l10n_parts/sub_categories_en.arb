@@ -1,0 +1,47 @@
+{
+  "subCategoriesTitle": "Sub-categories",
+  "subCategoriesAdd": "Add sub-category",
+  "subCategoriesEdit": "Edit sub-category",
+  "subCategoriesSearchHint": "Search sub-categories",
+  "subCategoriesSelectProfile": "Select a profile first.",
+  "subCategoriesShowInactive": "Show inactive",
+  "subCategoriesLoadError": "Could not load sub-categories: {error}",
+  "@subCategoriesLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "subCategoriesEmpty": "No sub-categories found.",
+  "subCategoriesInactiveSubtitle": "{category} - inactive",
+  "@subCategoriesInactiveSubtitle": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      }
+    }
+  },
+  "subCategoriesActivateTitle": "Activate sub-category?",
+  "subCategoriesDeactivateTitle": "Deactivate sub-category?",
+  "subCategoriesActivateMessage": "\"{name}\" will be available again.",
+  "@subCategoriesActivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "subCategoriesDeactivateMessage": "\"{name}\" will be hidden from new entries. Existing data is kept.",
+  "@subCategoriesDeactivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "subCategoriesCategoryLabel": "Category",
+  "subCategoriesSelectCategory": "Select a category",
+  "subCategoriesNameLabel": "Name",
+  "subCategoriesNameRequired": "Name is required"
+}

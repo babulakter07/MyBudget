@@ -4,6 +4,7 @@ import 'package:drift/drift.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/errors/app_exception.dart';
+import '../../../core/utils/currency.dart';
 import '../../../core/utils/date_keys.dart';
 import '../domain/transaction_models.dart';
 
@@ -33,6 +34,9 @@ class TransactionRepository {
     costItemName: r.costItemNameSnapshot,
     incomeSource: r.incomeSource,
     amountMinor: r.amountMinor,
+    originalAmountMinor: r.originalAmountMinor,
+    originalCurrency: r.originalCurrency,
+    rateMicro: r.rateMicro,
     date: r.txnDate,
     title: r.title,
     remarks: r.remarks,
@@ -157,6 +161,69 @@ class TransactionRepository {
         );
   }
 
+  /// Validates the optional foreign-currency triple. Returns null when none is
+  /// given; otherwise the normalised triple. Enforces all-or-none, a currency
+  /// different from the profile base currency, rate bounds and the invariant
+  /// `amountMinor == convertToBaseMinor(original, rate)`.
+  Future<_Foreign?> _foreign(
+    int profileId,
+    int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
+  ) async {
+    final given = [
+      originalAmountMinor,
+      originalCurrency,
+      rateMicro,
+    ].where((e) => e != null).length;
+    if (given == 0) return null;
+    if (given != 3) {
+      throw ValidationException(
+        'Original amount, currency and rate must be provided together.',
+      );
+    }
+    final code = normalizeCurrencyCode(originalCurrency!);
+    if (code == null) {
+      throw ValidationException('Enter a valid 3-letter currency code.');
+    }
+    final profile = await (_db.select(
+      _db.financialProfiles,
+    )..where((p) => p.id.equals(profileId))).getSingleOrNull();
+    if (profile == null) throw NotFoundException('Profile not found.');
+    if (profile.currencyCode.toUpperCase() == code) {
+      throw ValidationException(
+        'The original currency must differ from the base currency.',
+      );
+    }
+    if (rateMicro! <= 0 || rateMicro > maxRateMicro) {
+      throw ValidationException('The exchange rate is out of range.');
+    }
+    if (originalAmountMinor! <= 0) {
+      throw ValidationException(
+        'The original amount must be greater than zero.',
+      );
+    }
+    final expected = convertToBaseMinor(
+      originalMinor: originalAmountMinor,
+      rateMicro: rateMicro,
+    );
+    if (expected == null || expected != amountMinor) {
+      throw ValidationException(
+        'The amount does not match the original amount and exchange rate.',
+      );
+    }
+    return _Foreign(originalAmountMinor, code, rateMicro);
+  }
+
+  void _noForeign(int? a, String? c, int? r) {
+    if (a != null || c != null || r != null) {
+      throw ValidationException(
+        'Transfers cannot carry a foreign-currency original amount.',
+      );
+    }
+  }
+
   Future<TransactionRow?> _byKey(int profileId, String key) =>
       (_db.select(_db.financialTransactions)..where(
             (t) => t.profileId.equals(profileId) & t.idempotencyKey.equals(key),
@@ -245,6 +312,9 @@ class TransactionRepository {
     int? subCategoryId,
     int? costItemId,
     required int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
     required String date,
     String? title,
     String? remarks,
@@ -254,6 +324,13 @@ class TransactionRepository {
     idempotencyKey: idempotencyKey,
     build: () async {
       _validAmount(amountMinor);
+      final fx = await _foreign(
+        profileId,
+        amountMinor,
+        originalAmountMinor,
+        originalCurrency,
+        rateMicro,
+      );
       _validDate(date);
       final acc = await _account(
         profileId,
@@ -280,6 +357,9 @@ class TransactionRepository {
         subCategoryNameSnapshot: Value(refs.sub),
         costItemNameSnapshot: Value(refs.item),
         amountMinor: amountMinor,
+        originalAmountMinor: Value(fx?.amountMinor),
+        originalCurrency: Value(fx?.currency),
+        rateMicro: Value(fx?.rateMicro),
         txnDate: date,
         title: Value(_clean(title)),
         remarks: Value(_clean(remarks)),
@@ -290,11 +370,59 @@ class TransactionRepository {
     },
   );
 
+  /// Records one bill as several expenses (one per line) in a single DB
+  /// transaction: if any line is invalid nothing is saved. Lines share the
+  /// account, date, title and remarks. [keyPrefix] makes retries idempotent
+  /// (line i uses `<keyPrefix>-<i>`).
+  Future<List<TransactionView>> createSplitExpense({
+    required int profileId,
+    required int accountId,
+    required String date,
+    required List<SplitExpenseLine> lines,
+    String? title,
+    String? remarks,
+    String? keyPrefix,
+  }) async {
+    if (lines.length < 2) {
+      throw ValidationException('A split needs at least two lines.');
+    }
+    try {
+      return await _db.transaction(() async {
+        final out = <TransactionView>[];
+        for (var i = 0; i < lines.length; i++) {
+          final l = lines[i];
+          out.add(
+            await createExpense(
+              profileId: profileId,
+              accountId: accountId,
+              categoryId: l.categoryId,
+              subCategoryId: l.subCategoryId,
+              costItemId: l.costItemId,
+              amountMinor: l.amountMinor,
+              date: date,
+              title: title,
+              remarks: remarks,
+              idempotencyKey: keyPrefix == null ? null : '$keyPrefix-$i',
+            ),
+          );
+        }
+        return out;
+      });
+    } on AppException {
+      rethrow;
+    } on Object catch (e) {
+      throw _translate(e);
+    }
+  }
+
   Future<TransactionView> createIncome({
     required int profileId,
     required int accountId,
     required String incomeSource,
     required int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
     required String date,
     String? title,
     String? remarks,
@@ -304,6 +432,13 @@ class TransactionRepository {
     idempotencyKey: idempotencyKey,
     build: () async {
       _validAmount(amountMinor);
+      final fx = await _foreign(
+        profileId,
+        amountMinor,
+        originalAmountMinor,
+        originalCurrency,
+        rateMicro,
+      );
       _validDate(date);
       final src = _clean(incomeSource);
       if (src == null) throw ValidationException('Income source is required.');
@@ -320,6 +455,9 @@ class TransactionRepository {
         accountNameSnapshot: acc.name,
         incomeSource: Value(src),
         amountMinor: amountMinor,
+        originalAmountMinor: Value(fx?.amountMinor),
+        originalCurrency: Value(fx?.currency),
+        rateMicro: Value(fx?.rateMicro),
         txnDate: date,
         title: Value(_clean(title)),
         remarks: Value(_clean(remarks)),
@@ -335,6 +473,9 @@ class TransactionRepository {
     required int fromAccountId,
     required int toAccountId,
     required int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
     required String date,
     String? title,
     String? remarks,
@@ -344,6 +485,7 @@ class TransactionRepository {
     idempotencyKey: idempotencyKey,
     build: () async {
       _validAmount(amountMinor);
+      _noForeign(originalAmountMinor, originalCurrency, rateMicro);
       _validDate(date);
       if (fromAccountId == toAccountId) {
         throw ValidationException(
@@ -415,11 +557,21 @@ class TransactionRepository {
     int? subCategoryId,
     int? costItemId,
     required int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
     required String date,
     String? title,
     String? remarks,
   }) => _update(profileId, id, TransactionType.expense, (old) async {
     _validAmount(amountMinor);
+    final fx = await _foreign(
+      profileId,
+      amountMinor,
+      originalAmountMinor,
+      originalCurrency,
+      rateMicro,
+    );
     _validDate(date);
     final acc = await _account(
       profileId,
@@ -446,6 +598,9 @@ class TransactionRepository {
       subCategoryNameSnapshot: Value(refs.sub),
       costItemNameSnapshot: Value(refs.item),
       amountMinor: Value(amountMinor),
+      originalAmountMinor: Value(fx?.amountMinor),
+      originalCurrency: Value(fx?.currency),
+      rateMicro: Value(fx?.rateMicro),
       txnDate: Value(date),
       title: Value(_clean(title)),
       remarks: Value(_clean(remarks)),
@@ -458,11 +613,21 @@ class TransactionRepository {
     required int accountId,
     required String incomeSource,
     required int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
     required String date,
     String? title,
     String? remarks,
   }) => _update(profileId, id, TransactionType.income, (old) async {
     _validAmount(amountMinor);
+    final fx = await _foreign(
+      profileId,
+      amountMinor,
+      originalAmountMinor,
+      originalCurrency,
+      rateMicro,
+    );
     _validDate(date);
     final src = _clean(incomeSource);
     if (src == null) throw ValidationException('Income source is required.');
@@ -479,6 +644,9 @@ class TransactionRepository {
       ),
       incomeSource: Value(src),
       amountMinor: Value(amountMinor),
+      originalAmountMinor: Value(fx?.amountMinor),
+      originalCurrency: Value(fx?.currency),
+      rateMicro: Value(fx?.rateMicro),
       txnDate: Value(date),
       title: Value(_clean(title)),
       remarks: Value(_clean(remarks)),
@@ -491,11 +659,15 @@ class TransactionRepository {
     required int fromAccountId,
     required int toAccountId,
     required int amountMinor,
+    int? originalAmountMinor,
+    String? originalCurrency,
+    int? rateMicro,
     required String date,
     String? title,
     String? remarks,
   }) => _update(profileId, id, TransactionType.transfer, (old) async {
     _validAmount(amountMinor);
+    _noForeign(originalAmountMinor, originalCurrency, rateMicro);
     _validDate(date);
     if (fromAccountId == toAccountId) {
       throw ValidationException(
@@ -707,6 +879,48 @@ class TransactionRepository {
             ..orderBy([(c) => OrderingTerm.asc(c.name)]))
           .watch();
 
+  /// Favourite, active cost items whose sub-category and category are active.
+  Stream<List<FavouriteCostItem>> watchFavouriteItems(int profileId) {
+    final ci = _db.costItems;
+    final sc = _db.subCategories;
+    final cat = _db.categories;
+    final q =
+        _db.select(ci).join([
+            innerJoin(
+              sc,
+              sc.id.equalsExp(ci.subCategoryId) &
+                  sc.profileId.equalsExp(ci.profileId),
+            ),
+            innerJoin(
+              cat,
+              cat.id.equalsExp(sc.categoryId) &
+                  cat.profileId.equalsExp(sc.profileId),
+            ),
+          ])
+          ..where(
+            ci.profileId.equals(profileId) &
+                ci.isFavorite.equals(true) &
+                ci.isActive.equals(true) &
+                sc.isActive.equals(true) &
+                cat.isActive.equals(true),
+          )
+          ..orderBy([OrderingTerm.asc(ci.name.lower())]);
+    return q.watch().map(
+      (rows) => [
+        for (final r in rows)
+          FavouriteCostItem(
+            costItemId: r.readTable(ci).id,
+            name: r.readTable(ci).name,
+            subCategoryId: r.readTable(sc).id,
+            subCategoryName: r.readTable(sc).name,
+            categoryId: r.readTable(cat).id,
+            categoryName: r.readTable(cat).name,
+            defaultAmountMinor: r.readTable(ci).defaultAmountMinor,
+          ),
+      ],
+    );
+  }
+
   Future<List<SubCategoryRow>> activeSubCategories(
     int profileId,
     int categoryId,
@@ -755,4 +969,11 @@ class _EscapedLike extends Expression<bool> {
     Variable<String>(pattern).writeInto(context);
     context.buffer.write(r" ESCAPE '\'");
   }
+}
+
+class _Foreign {
+  const _Foreign(this.amountMinor, this.currency, this.rateMicro);
+  final int amountMinor;
+  final String currency;
+  final int rateMicro;
 }

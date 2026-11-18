@@ -1,0 +1,177 @@
+{
+  "debtsTitle": "Debt",
+  "debtsListTitle": "Debts & loans",
+  "debtsLent": "Lent",
+  "debtsBorrowed": "Borrowed",
+  "debtsGroupByPerson": "Group by person",
+  "debtsShowFlatList": "Show flat list",
+  "debtsAddDebt": "Add debt",
+  "debtsEditDebt": "Edit debt",
+  "debtsIAmOwed": "I am owed",
+  "debtsIOwe": "I owe",
+  "debtsNet": "Net",
+  "debtsOwedToMe": "Owed to me",
+  "debtsOverdue": "Overdue",
+  "debtsStatusOpen": "Open",
+  "debtsStatusOverdue": "Overdue",
+  "debtsStatusSettled": "Settled",
+  "debtsNoLent": "No money lent yet.",
+  "debtsNoBorrowed": "No money borrowed yet.",
+  "debtsNoDueDate": "No due date",
+  "debtsDue": "Due {date}",
+  "@debtsDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsStarted": "Started {date}",
+  "@debtsStarted": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsDueWithPrincipal": "{due}  •  of {principal}",
+  "@debtsDueWithPrincipal": {
+    "placeholders": {
+      "due": {
+        "type": "String"
+      },
+      "principal": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsShareReminder": "Share reminder",
+  "debtsUnarchive": "Unarchive",
+  "debtsAddPayment": "Add payment",
+  "debtsArchived": "Archived",
+  "debtsPrincipal": "Principal",
+  "debtsPaid": "Paid",
+  "debtsOutstanding": "Outstanding",
+  "debtsStartDate": "Start date",
+  "debtsDueDate": "Due date",
+  "debtsNote": "Note",
+  "debtsMarkSettled": "Mark fully settled",
+  "debtsSettleMessage": "Record a payment of {amount}?",
+  "@debtsSettleMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsSettle": "Settle",
+  "debtsPayments": "Payments",
+  "debtsNoPayments": "No payments yet.",
+  "debtsVoided": "Voided",
+  "debtsVoidPayment": "Void payment",
+  "debtsVoidMessage": "Void this payment of {amount}? The outstanding balance will increase.",
+  "@debtsVoidMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsVoid": "Void",
+  "debtsNotFound": "Debt not found.",
+  "debtsReminderLent": "Reminder: {person} owes me {outstanding} (of {principal}).",
+  "@debtsReminderLent": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "outstanding": {
+        "type": "String"
+      },
+      "principal": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsReminderLentDue": "Reminder: {person} owes me {outstanding} (of {principal}). Due: {date}.",
+  "@debtsReminderLentDue": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "outstanding": {
+        "type": "String"
+      },
+      "principal": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsReminderBorrowed": "Reminder: I owe {person} {outstanding} (of {principal}).",
+  "@debtsReminderBorrowed": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "outstanding": {
+        "type": "String"
+      },
+      "principal": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsReminderBorrowedDue": "Reminder: I owe {person} {outstanding} (of {principal}). Due: {date}.",
+  "@debtsReminderBorrowedDue": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "outstanding": {
+        "type": "String"
+      },
+      "principal": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsILent": "I lent",
+  "debtsIBorrowed": "I borrowed",
+  "debtsPerson": "Person",
+  "debtsPersonRequired": "Person name is required",
+  "debtsAmount": "Amount",
+  "debtsInvalidAmount": "Enter a valid amount (max 2 decimals)",
+  "debtsAmountPositive": "Amount must be greater than zero",
+  "debtsPaymentDate": "Payment date",
+  "debtsNotSet": "Not set",
+  "debtsClearField": "Clear {label}",
+  "@debtsClearField": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsOutstandingAmount": "Outstanding: {amount}",
+  "@debtsOutstandingAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "debtsMaxAmount": "Maximum is {amount}",
+  "@debtsMaxAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  }
+}

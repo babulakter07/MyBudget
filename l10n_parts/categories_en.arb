@@ -1,0 +1,40 @@
+{
+  "categoriesTitle": "Categories",
+  "categoriesAdd": "Add category",
+  "categoriesEdit": "Edit category",
+  "categoriesSearchHint": "Search categories",
+  "categoriesShowInactive": "Show inactive",
+  "categoriesSelectProfile": "Select a profile to manage categories.",
+  "categoriesEmpty": "No categories yet. Tap + to add one.",
+  "categoriesLoadError": "Something went wrong: {error}",
+  "@categoriesLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "categoriesActivateTitle": "Activate category?",
+  "categoriesDeactivateTitle": "Deactivate category?",
+  "categoriesActivateMessage": "\"{name}\" will be available again.",
+  "@categoriesActivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoriesDeactivateMessage": "\"{name}\" will be hidden from new entries. Existing data is kept.",
+  "@categoriesDeactivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoriesNameLabel": "Name",
+  "categoriesNameRequired": "Name is required",
+  "categoriesDescriptionLabel": "Description",
+  "categoriesIconLabel": "Icon",
+  "categoriesColorLabel": "Color"
+}

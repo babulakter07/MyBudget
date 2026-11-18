@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/errors/app_exception.dart';
 import '../../../core/utils/date_keys.dart';
 import '../../../core/utils/money.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../domain/account.dart';
 import '../providers/account_providers.dart';
@@ -122,16 +123,21 @@ class _AccountFormSheetState extends ConsumerState<AccountFormSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.existing == null ? 'Add account' : 'Edit account',
+                widget.existing == null
+                    ? context.l10n.accountsAdd
+                    : context.l10n.accountsEdit,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _name,
                 maxLength: 80,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+                decoration: InputDecoration(
+                  labelText: context.l10n.accountsNameLabel,
+                ),
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? context.l10n.accountsNameRequired
+                    : null,
               ),
               const SizedBox(height: 8),
               Wrap(
@@ -139,7 +145,7 @@ class _AccountFormSheetState extends ConsumerState<AccountFormSheet> {
                 children: [
                   for (final t in accountTypes)
                     ChoiceChip(
-                      label: Text(accountTypeLabel(t)),
+                      label: Text(accountTypeLabel(context.l10n, t)),
                       selected: _type == t,
                       onSelected: (_) => setState(() => _type = t),
                     ),
@@ -151,21 +157,21 @@ class _AccountFormSheetState extends ConsumerState<AccountFormSheet> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                decoration: const InputDecoration(
-                  labelText: 'Opening balance',
+                decoration: InputDecoration(
+                  labelText: context.l10n.accountsOpeningBalance,
                   hintText: '0.00',
                 ),
                 validator: (v) {
                   final t = v?.trim() ?? '';
                   if (t.isEmpty) return null;
                   return parseMajorToMinor(t) == null
-                      ? 'Enter a valid amount (max 2 decimals)'
+                      ? context.l10n.accountsAmountInvalid
                       : null;
                 },
               ),
               ListTile(
                 contentPadding: EdgeInsets.zero,
-                title: const Text('Opening date'),
+                title: Text(context.l10n.accountsOpeningDate),
                 subtitle: Text(_date),
                 trailing: const Icon(Icons.calendar_today),
                 onTap: _pickDate,
@@ -182,7 +188,7 @@ class _AccountFormSheetState extends ConsumerState<AccountFormSheet> {
                 alignment: Alignment.centerRight,
                 child: FilledButton(
                   onPressed: _saving ? null : _save,
-                  child: const Text('Save'),
+                  child: Text(context.l10n.commonSave),
                 ),
               ),
             ],

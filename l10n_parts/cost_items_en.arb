@@ -1,0 +1,49 @@
+{
+  "costItemsTitle": "Cost Items",
+  "costItemsAdd": "Add cost item",
+  "costItemsEdit": "Edit cost item",
+  "costItemsSearchHint": "Search name or description",
+  "costItemsSelectProfile": "Select a profile first.",
+  "costItemsCategoryLabel": "Category",
+  "costItemsSubCategoryLabel": "Sub-category",
+  "costItemsShowInactive": "Show inactive",
+  "costItemsLoadError": "Could not load cost items: {error}",
+  "@costItemsLoadError": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "costItemsEmpty": "No cost items found.",
+  "costItemsInactiveSuffix": " · Inactive",
+  "costItemsActivateTitle": "Activate cost item?",
+  "costItemsDeactivateTitle": "Deactivate cost item?",
+  "costItemsActivateMessage": "\"{name}\" will be available again.",
+  "@costItemsActivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "costItemsDeactivateMessage": "\"{name}\" will be hidden from new entries. Existing data is preserved.",
+  "@costItemsDeactivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "costItemsActivateAction": "Activate",
+  "costItemsDeactivateAction": "Deactivate",
+  "costItemsFavRemoveTooltip": "Remove from quick add",
+  "costItemsFavAddTooltip": "Add to quick add",
+  "costItemsSelectCategory": "Select a category",
+  "costItemsSelectSubCategory": "Select a sub-category",
+  "costItemsNameLabel": "Name",
+  "costItemsNameRequired": "Name is required",
+  "costItemsDescriptionOptional": "Description (optional)",
+  "costItemsDefaultAmountOptional": "Default amount (optional)",
+  "costItemsAmountInvalid": "Enter a valid amount (max 2 decimals)"
+}

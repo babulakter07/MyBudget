@@ -1,12 +1,14 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../l10n/l10n.dart';
+
 /// Shows a confirm/cancel dialog. Returns true only when confirmed.
 Future<bool> showConfirmDialog(
   BuildContext context, {
   required String title,
   required String message,
-  String confirmLabel = 'Confirm',
-  String cancelLabel = 'Cancel',
+  String? confirmLabel,
+  String? cancelLabel,
 }) async {
   final result = await showDialog<bool>(
     context: context,
@@ -16,11 +18,11 @@ Future<bool> showConfirmDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.of(ctx).pop(false),
-          child: Text(cancelLabel),
+          child: Text(cancelLabel ?? ctx.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: () => Navigator.of(ctx).pop(true),
-          child: Text(confirmLabel),
+          child: Text(confirmLabel ?? ctx.l10n.commonConfirm),
         ),
       ],
     ),

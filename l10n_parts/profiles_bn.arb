@@ -1,0 +1,15 @@
+{
+  "profilesSelectTitle": "প্রোফাইল নির্বাচন",
+  "profilesNew": "নতুন প্রোফাইল",
+  "profilesEmpty": "এখনও কোনো প্রোফাইল নেই।\nশুরু করতে একটি তৈরি করুন।",
+  "profilesReactivateTitle": "প্রোফাইল আবার সক্রিয় করবেন?",
+  "profilesDeactivateTitle": "প্রোফাইল নিষ্ক্রিয় করবেন?",
+  "profilesReactivateMessage": "\"{name}\" আবার ব্যবহার করা যাবে।",
+  "profilesDeactivateMessage": "\"{name}\" নির্বাচন তালিকা থেকে লুকানো হবে। কোনো ডেটা মুছবে না এবং যেকোনো সময় আবার সক্রিয় করতে পারবেন।",
+  "profilesReactivate": "আবার সক্রিয় করুন",
+  "profilesDeactivate": "নিষ্ক্রিয় করুন",
+  "profilesInactiveSubtitle": "{currency} - নিষ্ক্রিয়",
+  "profilesNameLabel": "প্রোফাইলের নাম",
+  "profilesNameRequired": "নাম দিতে হবে",
+  "profilesCurrencyLabel": "মুদ্রা"
+}

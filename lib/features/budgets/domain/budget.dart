@@ -15,12 +15,26 @@ class BudgetSummary {
       budgetMinor <= 0 ? 0 : expenseMinor * 100 / budgetMinor;
 }
 
+/// Per-category budget for one month.
+///
+/// Rollover semantics (optional per category, default OFF = RESET):
+/// for a row with [rolloverEnabled] in month M,
+/// `carriedOverMinor = max(0, effectiveAllowance(M-1) - spent(M-1))`, where
+/// effectiveAllowance(M-1) = amount(M-1) + its own carry (recursive, 12-month
+/// lookback). No row in M-1, or a row without rollover, breaks the chain
+/// (carry 0). Overspend never carries as debt. The effective allowance
+/// ([effectiveAllowanceMinor] = [allocationMinor] + [carriedOverMinor]) drives
+/// remaining/percent/over-budget status. The monthly total and the
+/// sum(category) <= total validation use [allocationMinor] only.
 class CategoryBudgetSummary {
   const CategoryBudgetSummary({
     required this.categoryId,
     required this.categoryName,
     required this.allocationMinor,
     required this.spentMinor,
+    this.categoryBudgetId = 0,
+    this.rolloverEnabled = false,
+    this.carriedOverMinor = 0,
   });
 
   final int categoryId;
@@ -28,8 +42,17 @@ class CategoryBudgetSummary {
   final int allocationMinor;
   final int spentMinor;
 
-  BudgetSummary get summary =>
-      BudgetSummary(budgetMinor: allocationMinor, expenseMinor: spentMinor);
+  /// Row id of the category_budgets row (used to toggle rollover).
+  final int categoryBudgetId;
+  final bool rolloverEnabled;
+  final int carriedOverMinor;
+
+  int get effectiveAllowanceMinor => allocationMinor + carriedOverMinor;
+
+  BudgetSummary get summary => BudgetSummary(
+    budgetMinor: effectiveAllowanceMinor,
+    expenseMinor: spentMinor,
+  );
   int get remainingMinor => summary.remainingMinor;
 }
 

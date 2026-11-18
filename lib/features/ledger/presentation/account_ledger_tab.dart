@@ -6,6 +6,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../core/utils/date_keys.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../domain/ledger_models.dart';
 import '../providers/ledger_providers.dart';
 import 'ledger_table.dart';
@@ -55,9 +56,9 @@ class _AccountLedgerTabState extends ConsumerState<AccountLedgerTab> {
       error: (e, _) => ErrorState(error: e),
       data: (accounts) {
         if (accounts.isEmpty) {
-          return const EmptyState(
+          return EmptyState(
             icon: Icons.account_balance_wallet_outlined,
-            message: 'No accounts yet. Add an account to see its ledger.',
+            message: context.l10n.ledgerNoAccounts,
           );
         }
         final ledgerAsync = ref.watch(accountLedgerProvider);
@@ -71,9 +72,9 @@ class _AccountLedgerTabState extends ConsumerState<AccountLedgerTab> {
                     key: ValueKey('acc-$effectiveId'),
                     initialValue: effectiveId,
                     isExpanded: true,
-                    decoration: const InputDecoration(
-                      labelText: 'Account',
-                      border: OutlineInputBorder(),
+                    decoration: InputDecoration(
+                      labelText: context.l10n.ledgerAccount,
+                      border: const OutlineInputBorder(),
                       isDense: true,
                     ),
                     items: [
@@ -81,7 +82,9 @@ class _AccountLedgerTabState extends ConsumerState<AccountLedgerTab> {
                         DropdownMenuItem(
                           value: a.id,
                           child: Text(
-                            a.isActive ? a.name : '${a.name} (inactive)',
+                            a.isActive
+                                ? a.name
+                                : context.l10n.ledgerAccountInactive(a.name),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -101,14 +104,14 @@ class _AccountLedgerTabState extends ConsumerState<AccountLedgerTab> {
                         child: TextField(
                           controller: _search,
                           decoration: InputDecoration(
-                            hintText: 'Search title, remarks, category, item',
+                            hintText: context.l10n.ledgerSearchHint,
                             prefixIcon: const Icon(Icons.search),
                             isDense: true,
                             border: const OutlineInputBorder(),
                             suffixIcon: filter.search.isEmpty
                                 ? null
                                 : IconButton(
-                                    tooltip: 'Clear search',
+                                    tooltip: context.l10n.ledgerClearSearch,
                                     icon: const Icon(Icons.clear),
                                     onPressed: () {
                                       _search.clear();
@@ -158,14 +161,14 @@ class _LedgerBody extends StatelessWidget {
   const _LedgerBody({required this.ledger});
   final AccountLedger ledger;
 
-  static const _columns = [
-    LedgerColumn('Date', 96),
-    LedgerColumn('Description', 190),
-    LedgerColumn('Income', 104, numeric: true),
-    LedgerColumn('Expense', 104, numeric: true),
-    LedgerColumn('Transfer In', 104, numeric: true),
-    LedgerColumn('Transfer Out', 104, numeric: true),
-    LedgerColumn('Balance', 120, numeric: true),
+  static List<LedgerColumn> _columns(AppLocalizations l) => [
+    LedgerColumn(l.ledgerColDate, 96),
+    LedgerColumn(l.ledgerColDescription, 190),
+    LedgerColumn(l.ledgerColIncome, 104, numeric: true),
+    LedgerColumn(l.ledgerColExpense, 104, numeric: true),
+    LedgerColumn(l.ledgerColTransferIn, 104, numeric: true),
+    LedgerColumn(l.ledgerColTransferOut, 104, numeric: true),
+    LedgerColumn(l.ledgerColBalance, 120, numeric: true),
   ];
 
   Widget _amount(BuildContext context, int minor, {Color? color}) => minor == 0
@@ -182,13 +185,13 @@ class _LedgerBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 4),
             child: Text(
-              'No transactions in this period.',
+              context.l10n.ledgerNoTransactions,
               style: theme.textTheme.bodyMedium,
             ),
           ),
         Expanded(
           child: LedgerTable(
-            columns: _columns,
+            columns: _columns(context.l10n),
             rowCount: rows.length,
             onRowTap: (i) {
               final r = rows[i];
@@ -202,7 +205,9 @@ class _LedgerBody extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      r.description,
+                      r.isOpening
+                          ? context.l10n.ledgerOpeningBalance
+                          : r.description,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                       style: r.isOpening
@@ -233,9 +238,9 @@ class _LedgerBody extends StatelessWidget {
             },
             footer: [
               const SizedBox.shrink(),
-              const Text(
-                'Total',
-                style: TextStyle(fontWeight: FontWeight.bold),
+              Text(
+                context.l10n.ledgerTotal,
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               Text(formatMinor(ledger.totalIncomeMinor)),
               Text(formatMinor(ledger.totalExpenseMinor)),

@@ -1,0 +1,43 @@
+{
+  "tagsTitle": "Tags",
+  "tagsArchiveTitle": "Archive tag",
+  "tagsArchiveMessage": "\"{name}\" stays on old transactions but can no longer be added to new ones.",
+  "@tagsArchiveMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "tagsHideArchived": "Hide archived",
+  "tagsShowArchived": "Show archived",
+  "tagsAdd": "Add tag",
+  "tagsEmpty": "No tags yet. Tap + to create one.",
+  "tagsArchived": "Archived",
+  "tagsNew": "New tag",
+  "tagsEdit": "Edit tag",
+  "tagsName": "Name",
+  "tagsNameRequired": "Tag name is required.",
+  "tagsNewName": "New tag name",
+  "tagsReportTitle": "Tag report",
+  "tagsDateRange": "{from}  to  {to}",
+  "@tagsDateRange": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "tagsReportEmpty": "No tagged transactions in this range.",
+  "tagsTransactionCount": "{count, plural, =1{{count} transaction} other{{count} transactions}}",
+  "@tagsTransactionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
+}

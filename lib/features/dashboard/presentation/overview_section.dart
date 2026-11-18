@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../core/utils/money.dart';
+import '../../../l10n/l10n.dart';
 import '../domain/dashboard_calculations.dart';
 import '../providers/dashboard_providers.dart';
 import 'dashboard_widgets.dart';
@@ -25,21 +26,21 @@ class OverviewSection extends ConsumerWidget {
         return StatGrid(
           children: [
             StatCard(
-              label: 'Monthly budget',
+              label: context.l10n.dashboardMonthlyBudget,
               value: formatMinor(o.budgetMinor),
             ),
             StatCard(
-              label: 'Month expense',
+              label: context.l10n.dashboardMonthExpense,
               value: formatMinor(o.expenseMinor),
               color: AppColors.expense,
             ),
             StatCard(
-              label: 'Remaining budget',
+              label: context.l10n.dashboardRemainingBudget,
               value: formatMinor(o.remainingMinor),
               color: o.remainingMinor < 0 ? error : null,
             ),
             StatCard(
-              label: 'Budget utilization',
+              label: context.l10n.dashboardBudgetUtilization,
               value: '${pct.toStringAsFixed(1)}%',
               color: over ? error : null,
               footer: LinearProgressIndicator(
@@ -51,7 +52,7 @@ class OverviewSection extends ConsumerWidget {
               ),
             ),
             StatCard(
-              label: 'Cash balance (active accounts)',
+              label: context.l10n.dashboardCashBalance,
               value: cash.when(
                 data: formatMinor,
                 loading: () => '...',
@@ -59,7 +60,7 @@ class OverviewSection extends ConsumerWidget {
               ),
             ),
             StatCard(
-              label: 'Month income',
+              label: context.l10n.dashboardMonthIncome,
               value: formatMinor(o.incomeMinor),
               color: AppColors.income,
             ),

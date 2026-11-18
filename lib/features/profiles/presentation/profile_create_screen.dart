@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/errors/app_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../data/profile_providers.dart';
 
@@ -53,8 +54,9 @@ class _ProfileCreateScreenState extends ConsumerState<ProfileCreateScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('New profile')),
+      appBar: AppBar(title: Text(l10n.profilesNew)),
       body: Form(
         key: _formKey,
         child: ListView(
@@ -66,21 +68,22 @@ class _ProfileCreateScreenState extends ConsumerState<ProfileCreateScreen> {
               maxLength: 80,
               textCapitalization: TextCapitalization.words,
               decoration: InputDecoration(
-                labelText: 'Profile name',
+                labelText: l10n.profilesNameLabel,
                 border: const OutlineInputBorder(),
                 errorText: _serverError,
               ),
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? l10n.profilesNameRequired
+                  : null,
               onFieldSubmitted: (_) => _submit(),
             ),
             const SizedBox(height: 8),
             TextFormField(
               initialValue: 'BDT',
               enabled: false,
-              decoration: const InputDecoration(
-                labelText: 'Currency',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: l10n.profilesCurrencyLabel,
+                border: const OutlineInputBorder(),
               ),
             ),
             const SizedBox(height: 24),
@@ -92,7 +95,7 @@ class _ProfileCreateScreenState extends ConsumerState<ProfileCreateScreen> {
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Create'),
+                  : Text(l10n.commonCreate),
             ),
           ],
         ),

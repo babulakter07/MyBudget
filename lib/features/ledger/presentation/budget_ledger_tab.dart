@@ -5,6 +5,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../providers/ledger_providers.dart';
 import 'ledger_table.dart';
 import 'period_pickers.dart';
@@ -12,12 +13,12 @@ import 'period_pickers.dart';
 class BudgetLedgerTab extends ConsumerWidget {
   const BudgetLedgerTab({super.key});
 
-  static const _columns = [
-    LedgerColumn('Date', 96),
-    LedgerColumn('Cost Item', 170),
-    LedgerColumn('Category', 140),
-    LedgerColumn('Expense', 110, numeric: true),
-    LedgerColumn('Remaining Budget', 150, numeric: true),
+  static List<LedgerColumn> _columns(AppLocalizations l) => [
+    LedgerColumn(l.ledgerColDate, 96),
+    LedgerColumn(l.ledgerColCostItem, 170),
+    LedgerColumn(l.ledgerColCategory, 140),
+    LedgerColumn(l.ledgerColExpense, 110, numeric: true),
+    LedgerColumn(l.ledgerColRemainingBudget, 150, numeric: true),
   ];
 
   @override
@@ -35,7 +36,7 @@ class BudgetLedgerTab extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                tooltip: 'Previous month',
+                tooltip: context.l10n.ledgerPreviousMonth,
                 icon: const Icon(Icons.chevron_left),
                 onPressed: () =>
                     notifier.set(DateTime(month.year, month.month - 1)),
@@ -51,7 +52,7 @@ class BudgetLedgerTab extends ConsumerWidget {
                 child: Text(monthLabel(month)),
               ),
               IconButton(
-                tooltip: 'Next month',
+                tooltip: context.l10n.ledgerNextMonth,
                 icon: const Icon(Icons.chevron_right),
                 onPressed: () =>
                     notifier.set(DateTime(month.year, month.month + 1)),
@@ -68,7 +69,10 @@ class BudgetLedgerTab extends ConsumerWidget {
               final rows = ledger.rows;
               final errorColor = theme.colorScheme.error;
               Widget remainingText(int? v, {bool bold = false}) => v == null
-                  ? Text('No budget', style: theme.textTheme.bodySmall)
+                  ? Text(
+                      context.l10n.ledgerNoBudget,
+                      style: theme.textTheme.bodySmall,
+                    )
                   : Text(
                       formatMinor(v),
                       style: TextStyle(
@@ -82,7 +86,7 @@ class BudgetLedgerTab extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
-                        'No budget set for this month.',
+                        context.l10n.ledgerNoBudgetSet,
                         style: theme.textTheme.bodyMedium,
                       ),
                     )
@@ -90,18 +94,20 @@ class BudgetLedgerTab extends ConsumerWidget {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 4),
                       child: Text(
-                        'Monthly budget: ${formatMinor(ledger.budgetMinor!)}',
+                        context.l10n.ledgerMonthlyBudget(
+                          formatMinor(ledger.budgetMinor!),
+                        ),
                         style: theme.textTheme.bodyMedium,
                       ),
                     ),
                   Expanded(
                     child: rows.isEmpty
-                        ? const EmptyState(
+                        ? EmptyState(
                             icon: Icons.receipt_long_outlined,
-                            message: 'No expenses in this month.',
+                            message: context.l10n.ledgerNoExpenses,
                           )
                         : LedgerTable(
-                            columns: _columns,
+                            columns: _columns(context.l10n),
                             rowCount: rows.length,
                             onRowTap: (i) =>
                                 context.push('/transactions/${rows[i].id}'),
@@ -122,8 +128,8 @@ class BudgetLedgerTab extends ConsumerWidget {
                             },
                             footer: [
                               const SizedBox.shrink(),
-                              const Text(
-                                'Total',
+                              Text(
+                                context.l10n.ledgerTotal,
                                 style: TextStyle(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox.shrink(),

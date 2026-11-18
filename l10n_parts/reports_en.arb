@@ -1,0 +1,113 @@
+{
+  "reportsMonthlyReport": "Monthly report",
+  "reportsMonthlyReportSubtitle": "Income, expense, budget, categories, daily spending",
+  "reportsYearlyReport": "Yearly report",
+  "reportsYearlyReportSubtitle": "All 12 months, comparison, highest and lowest month",
+  "reportsCustomRange": "Custom range",
+  "reportsCustomRangeSubtitle": "Pick any start and end date",
+  "reportsCustomRangeReport": "Custom range report",
+  "reportsSelectDayHelp": "Select any day in the month",
+  "reportsSelectYear": "Select year",
+  "reportsIncome": "Income",
+  "reportsExpense": "Expense",
+  "reportsBudget": "Budget",
+  "reportsRemaining": "Remaining",
+  "reportsUtilization": "Utilization",
+  "reportsNet": "Net",
+  "reportsNotSet": "Not set",
+  "reportsOverBudget": "Over budget",
+  "reportsAvgMonthlyExpense": "Avg monthly expense",
+  "reportsHighestMonth": "Highest month",
+  "reportsLowestMonth": "Lowest month",
+  "reportsNoDataMonth": "No data for this month.",
+  "reportsNoDataYear": "No data for this year.",
+  "reportsNoTransactionsRange": "No transactions in this range.",
+  "reportsNoExpensesMonth": "No expenses this month.",
+  "reportsNoExpensesRange": "No expenses in this range.",
+  "reportsNoData": "No data",
+  "reportsCategoryWiseExpense": "Category-wise expense",
+  "reportsDailyExpenditure": "Daily expenditure",
+  "reportsSubCategories": "Sub-categories",
+  "reportsItems": "Items",
+  "reportsAccountMovements": "Account movements",
+  "reportsIncomeVsExpense": "Income vs expense",
+  "reportsMonthlyComparison": "Monthly comparison",
+  "reportsCategoryComparison": "Category comparison",
+  "reportsSubCategory": "Sub-category",
+  "reportsAmount": "Amount",
+  "reportsItem": "Item",
+  "reportsAccount": "Account",
+  "reportsOpening": "Opening",
+  "reportsClosing": "Closing",
+  "reportsMonth": "Month",
+  "reportsCategory": "Category",
+  "reportsTotal": "Total",
+  "reportsAccountFlow": "{name}\n+{income}  -{expense}  in {transferIn}  out {transferOut}",
+  "@reportsAccountFlow": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "income": {
+        "type": "String"
+      },
+      "expense": {
+        "type": "String"
+      },
+      "transferIn": {
+        "type": "String"
+      },
+      "transferOut": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsRangeFromTo": "{from}  to  {to}",
+  "@reportsRangeFromTo": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsExportFailed": "Export failed: {error}",
+  "@reportsExportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "reportsExportPdf": "Export PDF",
+  "reportsExportCsv": "Export CSV",
+  "reportsPrint": "Print",
+  "reportsPrevious": "Previous",
+  "reportsNext": "Next",
+  "reportsMonth01Full": "January",
+  "reportsMonth01Short": "Jan",
+  "reportsMonth02Full": "February",
+  "reportsMonth02Short": "Feb",
+  "reportsMonth03Full": "March",
+  "reportsMonth03Short": "Mar",
+  "reportsMonth04Full": "April",
+  "reportsMonth04Short": "Apr",
+  "reportsMonth05Full": "May",
+  "reportsMonth05Short": "May",
+  "reportsMonth06Full": "June",
+  "reportsMonth06Short": "Jun",
+  "reportsMonth07Full": "July",
+  "reportsMonth07Short": "Jul",
+  "reportsMonth08Full": "August",
+  "reportsMonth08Short": "Aug",
+  "reportsMonth09Full": "September",
+  "reportsMonth09Short": "Sep",
+  "reportsMonth10Full": "October",
+  "reportsMonth10Short": "Oct",
+  "reportsMonth11Full": "November",
+  "reportsMonth11Short": "Nov",
+  "reportsMonth12Full": "December",
+  "reportsMonth12Short": "Dec"
+}

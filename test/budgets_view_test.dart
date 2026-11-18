@@ -107,4 +107,61 @@ void main() {
     await tester.pump();
     expect(find.text('June 2026'), findsOneWidget);
   });
+
+  testWidgets(
+    'rollover toggle and carried-over label use effective allowance',
+    (tester) async {
+      await _pump(
+        tester,
+        const MonthBudget(
+          year: 2026,
+          month: 5,
+          hasBudget: true,
+          summary: BudgetSummary(budgetMinor: 100000, expenseMinor: 0),
+          categories: [
+            CategoryBudgetSummary(
+              categoryId: 1,
+              categoryName: 'Food',
+              allocationMinor: 50000,
+              spentMinor: 20000,
+              categoryBudgetId: 7,
+              rolloverEnabled: true,
+              carriedOverMinor: 8000,
+            ),
+          ],
+        ),
+      );
+      expect(find.text('Carry over unspent'), findsOneWidget);
+      expect(find.text('+৳80.00 carried over'), findsOneWidget);
+      expect(find.text('Spent ৳200.00 of ৳580.00'), findsOneWidget);
+      expect(find.text('Remaining ৳380.00'), findsOneWidget);
+      final sw = tester.widget<SwitchListTile>(find.byType(SwitchListTile));
+      expect(sw.value, isTrue);
+    },
+  );
+
+  testWidgets('no carried-over line when rollover is off', (tester) async {
+    await _pump(
+      tester,
+      const MonthBudget(
+        year: 2026,
+        month: 5,
+        hasBudget: true,
+        summary: BudgetSummary(budgetMinor: 100000, expenseMinor: 0),
+        categories: [
+          CategoryBudgetSummary(
+            categoryId: 1,
+            categoryName: 'Food',
+            allocationMinor: 50000,
+            spentMinor: 0,
+          ),
+        ],
+      ),
+    );
+    expect(find.textContaining('carried over'), findsNothing);
+    expect(
+      tester.widget<SwitchListTile>(find.byType(SwitchListTile)).value,
+      isFalse,
+    );
+  });
 }

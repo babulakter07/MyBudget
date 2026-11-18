@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../../l10n/l10n.dart';
+
 import 'account_ledger_tab.dart';
 import 'budget_ledger_tab.dart';
 
@@ -9,17 +11,17 @@ class LedgerView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const DefaultTabController(
+    return DefaultTabController(
       length: 2,
       child: Column(
         children: [
           TabBar(
             tabs: [
-              Tab(text: 'Account Ledger'),
-              Tab(text: 'Budget Ledger'),
+              Tab(text: context.l10n.ledgerAccountTab),
+              Tab(text: context.l10n.ledgerBudgetTab),
             ],
           ),
-          Expanded(
+          const Expanded(
             child: TabBarView(
               children: [AccountLedgerTab(), BudgetLedgerTab()],
             ),

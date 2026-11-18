@@ -1,0 +1,19 @@
+{
+  "tagsTitle": "ট্যাগ",
+  "tagsArchiveTitle": "ট্যাগ আর্কাইভ করুন",
+  "tagsArchiveMessage": "\"{name}\" পুরনো লেনদেনে থাকবে, তবে নতুন লেনদেনে আর যোগ করা যাবে না।",
+  "tagsHideArchived": "আর্কাইভ করাগুলো লুকান",
+  "tagsShowArchived": "আর্কাইভ করাগুলো দেখান",
+  "tagsAdd": "ট্যাগ যোগ করুন",
+  "tagsEmpty": "এখনো কোনো ট্যাগ নেই। তৈরি করতে + চাপুন।",
+  "tagsArchived": "আর্কাইভ করা",
+  "tagsNew": "নতুন ট্যাগ",
+  "tagsEdit": "ট্যাগ সম্পাদনা",
+  "tagsName": "নাম",
+  "tagsNameRequired": "ট্যাগের নাম দিতে হবে।",
+  "tagsNewName": "নতুন ট্যাগের নাম",
+  "tagsReportTitle": "ট্যাগ রিপোর্ট",
+  "tagsDateRange": "{from}  থেকে  {to}",
+  "tagsReportEmpty": "এই সময়সীমায় ট্যাগ করা কোনো লেনদেন নেই।",
+  "tagsTransactionCount": "{count, plural, =1{{count}টি লেনদেন} other{{count}টি লেনদেন}}"
+}

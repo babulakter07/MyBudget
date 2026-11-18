@@ -5,24 +5,28 @@ import '../../../app/theme/app_colors.dart';
 import '../../../core/errors/app_exception.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../domain/budget.dart';
 import '../providers/budget_providers.dart';
 
-const _monthNames = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+String _monthLabel(AppLocalizations l, int year, int month) {
+  final name = [
+    l.budgetsMonthJanuary,
+    l.budgetsMonthFebruary,
+    l.budgetsMonthMarch,
+    l.budgetsMonthApril,
+    l.budgetsMonthMay,
+    l.budgetsMonthJune,
+    l.budgetsMonthJuly,
+    l.budgetsMonthAugust,
+    l.budgetsMonthSeptember,
+    l.budgetsMonthOctober,
+    l.budgetsMonthNovember,
+    l.budgetsMonthDecember,
+  ][month - 1];
+  return l.budgetsMonthYear(name, '$year');
+}
 
 /// Budget tab body (no Scaffold; lives inside the home shell).
 class BudgetView extends ConsumerWidget {
@@ -39,9 +43,9 @@ class BudgetView extends ConsumerWidget {
         _MonthPicker(month: month),
         Expanded(
           child: profileId == null
-              ? const EmptyState(
+              ? EmptyState(
                   icon: Icons.person_off,
-                  message: 'Select a profile to manage budgets.',
+                  message: context.l10n.budgetsSelectProfile,
                 )
               : async.when(
                   loading: () => const LoadingView(),
@@ -67,7 +71,7 @@ class _MonthPicker extends ConsumerWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         IconButton(
-          tooltip: 'Previous month',
+          tooltip: context.l10n.budgetsPreviousMonth,
           icon: const Icon(Icons.chevron_left),
           onPressed: notifier.previous,
         ),
@@ -78,14 +82,14 @@ class _MonthPicker extends ConsumerWidget {
               initialDate: DateTime(month.year, month.month),
               firstDate: DateTime(2000),
               lastDate: DateTime(2100),
-              helpText: 'Select any day in the month',
+              helpText: context.l10n.budgetsPickMonthHelp,
             );
             if (picked != null) notifier.set(picked.year, picked.month);
           },
-          child: Text('${_monthNames[month.month - 1]} ${month.year}'),
+          child: Text(_monthLabel(context.l10n, month.year, month.month)),
         ),
         IconButton(
-          tooltip: 'Next month',
+          tooltip: context.l10n.budgetsNextMonth,
           icon: const Icon(Icons.chevron_right),
           onPressed: notifier.next,
         ),
@@ -103,17 +107,19 @@ class _Empty extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return EmptyState(
       icon: Icons.savings_outlined,
-      message: 'New month: set a budget; nothing carries over.',
+      message: context.l10n.budgetsEmptyMessage,
       action: FilledButton(
         onPressed: () => _showBudgetDialog(context, ref, profileId, month, 0),
-        child: const Text('Set budget'),
+        child: Text(context.l10n.budgetsSetBudget),
       ),
     );
   }
 }
 
 void _snack(BuildContext context, Object e) {
-  final msg = e is AppException ? e.message : 'Something went wrong: $e';
+  final msg = e is AppException
+      ? e.message
+      : context.l10n.budgetsErrorWithDetail('$e');
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(msg)));
 }
 
@@ -127,8 +133,8 @@ Future<void> _showBudgetDialog(
   final minor = await showDialog<int>(
     context: context,
     builder: (_) => _AmountDialog(
-      title: 'Monthly budget',
-      label: 'Total budget',
+      title: context.l10n.budgetsMonthlyBudget,
+      label: context.l10n.budgetsTotalBudget,
       initialMinor: currentMinor,
     ),
   );
@@ -171,10 +177,13 @@ class _Populated extends ConsumerWidget {
                 Row(
                   children: [
                     Expanded(
-                      child: Text('Budget', style: theme.textTheme.titleMedium),
+                      child: Text(
+                        context.l10n.budgetsBudget,
+                        style: theme.textTheme.titleMedium,
+                      ),
                     ),
                     IconButton(
-                      tooltip: 'Edit budget',
+                      tooltip: context.l10n.budgetsEditBudget,
                       icon: const Icon(Icons.edit),
                       onPressed: () => _showBudgetDialog(
                         context,
@@ -197,14 +206,21 @@ class _Populated extends ConsumerWidget {
                   minHeight: 8,
                 ),
                 const SizedBox(height: 4),
-                Text('${s.utilizationPercent.toStringAsFixed(1)}% used'),
+                Text(
+                  context.l10n.budgetsPercentUsed(
+                    s.utilizationPercent.toStringAsFixed(1),
+                  ),
+                ),
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _Stat(label: 'Spent', value: formatMinor(s.expenseMinor)),
                     _Stat(
-                      label: 'Remaining',
+                      label: context.l10n.budgetsSpent,
+                      value: formatMinor(s.expenseMinor),
+                    ),
+                    _Stat(
+                      label: context.l10n.budgetsRemaining,
                       value: formatMinor(s.remainingMinor),
                       color: remColor,
                     ),
@@ -219,37 +235,55 @@ class _Populated extends ConsumerWidget {
           children: [
             Expanded(
               child: Text(
-                'Category allocations',
+                context.l10n.budgetsCategoryAllocations,
                 style: theme.textTheme.titleMedium,
               ),
             ),
             TextButton.icon(
               onPressed: () => _editAllocation(context, ref, profileId, mb),
               icon: const Icon(Icons.add),
-              label: const Text('Add allocation'),
+              label: Text(context.l10n.budgetsAddAllocation),
             ),
           ],
         ),
         Text(
-          'Allocated ${formatMinor(mb.allocatedMinor)} of '
-          '${formatMinor(s.budgetMinor)} (inside the total, not added).',
+          context.l10n.budgetsAllocatedSummary(
+            formatMinor(mb.allocatedMinor),
+            formatMinor(s.budgetMinor),
+          ),
           style: theme.textTheme.bodySmall,
         ),
         if (mb.categories.isEmpty)
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 16),
-            child: Text('No category allocations for this month.'),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Text(context.l10n.budgetsNoAllocations),
           ),
         for (final c in mb.categories)
           _AllocationTile(
             c: c,
+            onToggleRollover: (v) async {
+              try {
+                await ref
+                    .read(budgetRepositoryProvider)
+                    .setRolloverEnabled(
+                      profileId: profileId,
+                      categoryBudgetId: c.categoryBudgetId,
+                      enabled: v,
+                    );
+              } catch (e) {
+                if (context.mounted) _snack(context, e);
+              }
+            },
             onEdit: () => _editAllocation(context, ref, profileId, mb, c),
             onRemove: () async {
               final ok = await showConfirmDialog(
                 context,
-                title: 'Remove allocation?',
-                message: 'Remove the allocation for "${c.categoryName}"?',
-                confirmLabel: 'Remove',
+                title: context.l10n.budgetsRemoveAllocationTitle,
+                message: context.l10n.budgetsRemoveAllocationMessage(
+                  c.categoryName,
+                ),
+                confirmLabel: context.l10n.commonRemove,
+                cancelLabel: context.l10n.commonCancel,
               );
               if (!ok) return;
               try {
@@ -295,7 +329,9 @@ class _AllocationTile extends StatelessWidget {
     required this.c,
     required this.onEdit,
     required this.onRemove,
+    required this.onToggleRollover,
   });
+  final ValueChanged<bool> onToggleRollover;
   final CategoryBudgetSummary c;
   final VoidCallback onEdit;
   final VoidCallback onRemove;
@@ -316,17 +352,32 @@ class _AllocationTile extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            'Spent ${formatMinor(c.spentMinor)} of ${formatMinor(c.allocationMinor)}',
+            context.l10n.budgetsSpentOf(
+              formatMinor(c.spentMinor),
+              formatMinor(c.effectiveAllowanceMinor),
+            ),
           ),
+          if (c.rolloverEnabled && c.carriedOverMinor > 0)
+            Text(
+              context.l10n.budgetsCarriedOver(formatMinor(c.carriedOverMinor)),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           Text(
-            'Remaining ${formatMinor(c.remainingMinor)}',
+            context.l10n.budgetsRemainingAmount(formatMinor(c.remainingMinor)),
             style: over ? const TextStyle(color: AppColors.expense) : null,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            dense: true,
+            title: Text(context.l10n.budgetsCarryOverUnspent),
+            value: c.rolloverEnabled,
+            onChanged: onToggleRollover,
           ),
         ],
       ),
       onTap: onEdit,
       trailing: IconButton(
-        tooltip: 'Remove allocation',
+        tooltip: context.l10n.budgetsRemoveAllocation,
         icon: const Icon(Icons.delete_outline),
         onPressed: onRemove,
       ),
@@ -355,9 +406,7 @@ Future<void> _editAllocation(
     if (options.isEmpty) {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('No active categories left to allocate.'),
-          ),
+          SnackBar(content: Text(context.l10n.budgetsNoCategoriesLeft)),
         );
       }
       return;
@@ -428,18 +477,18 @@ class _AmountDialogState extends State<_AmountDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: () {
             final m = parseMajorToMinor(_c.text);
             if (m == null) {
-              setState(() => _error = 'Enter a valid amount (max 2 decimals)');
+              setState(() => _error = context.l10n.budgetsInvalidAmount);
               return;
             }
             Navigator.pop(context, m);
           },
-          child: const Text('Save'),
+          child: Text(context.l10n.commonSave),
         ),
       ],
     );
@@ -480,13 +529,19 @@ class _AllocationDialogState extends State<_AllocationDialog> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text(widget.lockCategory ? 'Edit allocation' : 'Add allocation'),
+      title: Text(
+        widget.lockCategory
+            ? context.l10n.budgetsEditAllocation
+            : context.l10n.budgetsAddAllocation,
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           DropdownButtonFormField<int>(
             initialValue: _category,
-            decoration: const InputDecoration(labelText: 'Category'),
+            decoration: InputDecoration(
+              labelText: context.l10n.budgetsCategory,
+            ),
             items: [
               for (final o in widget.options)
                 DropdownMenuItem(value: o.id, child: Text(o.name)),
@@ -499,7 +554,7 @@ class _AllocationDialogState extends State<_AllocationDialog> {
             controller: _c,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
             decoration: InputDecoration(
-              labelText: 'Allocation',
+              labelText: context.l10n.budgetsAllocation,
               errorText: _error,
             ),
           ),
@@ -508,18 +563,18 @@ class _AllocationDialogState extends State<_AllocationDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: () {
             final m = parseMajorToMinor(_c.text);
             if (m == null) {
-              setState(() => _error = 'Enter a valid amount (max 2 decimals)');
+              setState(() => _error = context.l10n.budgetsInvalidAmount);
               return;
             }
             Navigator.pop(context, (_category, m));
           },
-          child: const Text('Save'),
+          child: Text(context.l10n.commonSave),
         ),
       ],
     );

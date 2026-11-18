@@ -21,6 +21,14 @@ part 'app_database.g.dart';
     Accounts,
     FinancialTransactions,
     TransactionAuditLogs,
+    RecurringRules,
+    SavingsGoals,
+    Debts,
+    DebtPayments,
+    Tags,
+    TransactionTags,
+    TransactionAttachments,
+    ExchangeRates,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -29,7 +37,7 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   AppDatabase.memory() : super(NativeDatabase.memory());
 
-  static const int currentSchemaVersion = 3;
+  static const int currentSchemaVersion = 5;
 
   @override
   int get schemaVersion => currentSchemaVersion;
@@ -40,6 +48,8 @@ class AppDatabase extends _$AppDatabase {
       await m.createAll();
       await _createIndexes();
       await _createV2Indexes();
+      await _createV4Indexes();
+      await _createV5Indexes();
     },
     onUpgrade: (m, from, to) async {
       // Stepwise migrations. Never rewrite earlier steps.
@@ -60,6 +70,42 @@ class AppDatabase extends _$AppDatabase {
         await m.addColumn(financialTransactions, financialTransactions.forWhom);
         // Rebuilding a table drops its indexes; recreate them.
         await _createV2Indexes();
+      }
+      if (from < 4) {
+        await m.createTable(recurringRules);
+        await m.createTable(savingsGoals);
+        await m.createTable(debts);
+        await m.createTable(debtPayments);
+        await m.createTable(tags);
+        await m.createTable(transactionTags);
+        await m.createTable(transactionAttachments);
+        await m.addColumn(costItems, costItems.isFavorite);
+        // Databases upgraded from v1 got category_budgets (already including
+        // the column) from the v2 step above.
+        if (from >= 2) {
+          await m.addColumn(categoryBudgets, categoryBudgets.rolloverEnabled);
+        }
+        await _createV4Indexes();
+      }
+      if (from < 5) {
+        await m.createTable(exchangeRates);
+        // Databases created before v2 get the (already extended) table from
+        // the v2 step above, so only add columns for real v2+ databases.
+        if (from >= 2) {
+          await m.addColumn(
+            financialTransactions,
+            financialTransactions.originalAmountMinor,
+          );
+          await m.addColumn(
+            financialTransactions,
+            financialTransactions.originalCurrency,
+          );
+          await m.addColumn(
+            financialTransactions,
+            financialTransactions.rateMicro,
+          );
+        }
+        await _createV5Indexes();
       }
     },
     beforeOpen: (details) async {
@@ -86,6 +132,35 @@ class AppDatabase extends _$AppDatabase {
     );
     await customStatement(
       'CREATE INDEX idx_cost_items_sub ON cost_items (profile_id, sub_category_id)',
+    );
+  }
+
+  /// v4 indexes (recurring, goals, debts, tags, attachments).
+  Future<void> _createV4Indexes() async {
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_tags_profile_name ON tags (profile_id, name COLLATE NOCASE)',
+    );
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_goals_profile_name ON savings_goals (profile_id, name COLLATE NOCASE)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_recurring_due ON recurring_rules (profile_id, is_active, next_due_date)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_debt_payments_debt ON debt_payments (profile_id, debt_id)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_txn_tags_tag ON transaction_tags (profile_id, tag_id)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_attachments_txn ON transaction_attachments (profile_id, transaction_id)',
+    );
+  }
+
+  /// v5 indexes (exchange rates).
+  Future<void> _createV5Indexes() async {
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_rates_profile_code ON exchange_rates (profile_id, currency_code)',
     );
   }
 

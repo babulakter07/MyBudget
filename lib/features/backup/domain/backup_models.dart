@@ -1,7 +1,13 @@
 // Backup domain types (no Flutter, no Drift).
 
 const String backupFormatName = 'mybudget-backup';
-const int backupFormatVersion = 1;
+
+/// Format history: 1 = schema <= 3 tables; 2 = adds v4 tables/columns and the
+/// optional `attachmentFiles` map (older files restore with defaults);
+/// 3 = adds schema v5 multi-currency (`exchange_rates` table and the
+/// `original_amount_minor`/`original_currency`/`rate_micro` transaction
+/// columns; older files restore with an empty table and NULL columns).
+const int backupFormatVersion = 3;
 
 /// Origin of a backup file. Encoded in the file name prefix.
 enum BackupKind {
@@ -101,8 +107,47 @@ class RestoreResult {
     required this.counts,
     required this.safetyBackupPath,
     required this.activeProfileCleared,
+    this.photosRestored = 0,
+    this.photosFailed = 0,
   });
   final Map<String, int> counts;
   final String safetyBackupPath;
   final bool activeProfileCleared;
+
+  /// Receipt photos written back into the attachments directory.
+  final int photosRestored;
+
+  /// Photos that could not be written (the data itself is restored).
+  final int photosFailed;
+}
+
+/// Result of an export: the JSON text plus photo statistics.
+class BackupExport {
+  const BackupExport({
+    required this.json,
+    this.photosEmbedded = 0,
+    this.photosMissing = 0,
+    this.photoBytes = 0,
+  });
+  final String json;
+  final int photosEmbedded;
+
+  /// Referenced photos whose file was not found (skipped, not an error).
+  final int photosMissing;
+  final int photoBytes;
+}
+
+/// Approximate size of the receipt photos a backup could embed.
+class PhotoEstimate {
+  const PhotoEstimate({
+    required this.count,
+    required this.bytes,
+    required this.missing,
+  });
+  final int count;
+  final int bytes;
+  final int missing;
+
+  /// Embedded as base64 (+~33%).
+  int get approxBackupBytes => (bytes * 4 / 3).ceil();
 }

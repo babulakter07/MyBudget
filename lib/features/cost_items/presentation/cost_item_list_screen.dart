@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/database/app_database.dart';
 import '../../../core/errors/app_exception.dart';
 import '../../../core/utils/money.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../domain/cost_item.dart';
 import '../providers/cost_item_providers.dart';
@@ -78,21 +79,28 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(active ? 'Activate cost item?' : 'Deactivate cost item?'),
+        title: Text(
+          active
+              ? context.l10n.costItemsActivateTitle
+              : context.l10n.costItemsDeactivateTitle,
+        ),
         content: Text(
           active
-              ? '"${v.item.name}" will be available again.'
-              : '"${v.item.name}" will be hidden from new entries. '
-                    'Existing data is preserved.',
+              ? context.l10n.costItemsActivateMessage(v.item.name)
+              : context.l10n.costItemsDeactivateMessage(v.item.name),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: Text(active ? 'Activate' : 'Deactivate'),
+            child: Text(
+              active
+                  ? context.l10n.costItemsActivateAction
+                  : context.l10n.costItemsDeactivateAction,
+            ),
           ),
         ],
       ),
@@ -102,6 +110,18 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
       await ref
           .read(costItemRepositoryProvider)
           .setActive(pid, v.item.id, active);
+    } on AppException catch (e) {
+      _snack(e.message);
+    }
+  }
+
+  Future<void> _toggleFavorite(CostItemView v) async {
+    final pid = ref.read(activeProfileIdProvider);
+    if (pid == null) return;
+    try {
+      await ref
+          .read(costItemRepositoryProvider)
+          .setFavorite(pid, v.item.id, !v.item.isFavorite);
     } on AppException catch (e) {
       _snack(e.message);
     }
@@ -127,24 +147,24 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
     final pid = ref.watch(activeProfileIdProvider);
     final async = ref.watch(costItemsProvider(_filter));
     return Scaffold(
-      appBar: AppBar(title: const Text('Cost Items')),
+      appBar: AppBar(title: Text(context.l10n.costItemsTitle)),
       floatingActionButton: pid == null
           ? null
           : FloatingActionButton.extended(
               onPressed: () => _openForm(),
               icon: const Icon(Icons.add),
-              label: const Text('Add cost item'),
+              label: Text(context.l10n.costItemsAdd),
             ),
       body: pid == null
-          ? const Center(child: Text('Select a profile first.'))
+          ? Center(child: Text(context.l10n.costItemsSelectProfile))
           : Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                   child: TextField(
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      hintText: 'Search name or description',
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: context.l10n.costItemsSearchHint,
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (s) => _update(search: s),
@@ -159,14 +179,14 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
                           key: ValueKey('fc${_filter.categoryId}'),
                           initialValue: _filter.categoryId,
                           isExpanded: true,
-                          decoration: const InputDecoration(
-                            labelText: 'Category',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: context.l10n.costItemsCategoryLabel,
+                            border: const OutlineInputBorder(),
                           ),
                           items: [
-                            const DropdownMenuItem<int?>(
+                            DropdownMenuItem<int?>(
                               value: null,
-                              child: Text('All'),
+                              child: Text(context.l10n.commonAll),
                             ),
                             for (final c in _categories)
                               DropdownMenuItem<int?>(
@@ -185,14 +205,14 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
                           ),
                           initialValue: _filter.subCategoryId,
                           isExpanded: true,
-                          decoration: const InputDecoration(
-                            labelText: 'Sub-category',
-                            border: OutlineInputBorder(),
+                          decoration: InputDecoration(
+                            labelText: context.l10n.costItemsSubCategoryLabel,
+                            border: const OutlineInputBorder(),
                           ),
                           items: [
-                            const DropdownMenuItem<int?>(
+                            DropdownMenuItem<int?>(
                               value: null,
-                              child: Text('All'),
+                              child: Text(context.l10n.commonAll),
                             ),
                             for (final s in _subCategories)
                               DropdownMenuItem<int?>(
@@ -213,7 +233,7 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
                 ),
                 SwitchListTile(
                   dense: true,
-                  title: const Text('Show inactive'),
+                  title: Text(context.l10n.costItemsShowInactive),
                   value: _filter.includeInactive,
                   onChanged: (v) => _update(includeInactive: v),
                 ),
@@ -224,14 +244,12 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
                     error: (e, _) => Center(
                       child: Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Text('Could not load cost items: $e'),
+                        child: Text(context.l10n.costItemsLoadError('$e')),
                       ),
                     ),
                     data: (items) {
                       if (items.isEmpty) {
-                        return const Center(
-                          child: Text('No cost items found.'),
-                        );
+                        return Center(child: Text(context.l10n.costItemsEmpty));
                       }
                       return ListView.separated(
                         padding: const EdgeInsets.only(bottom: 88),
@@ -257,13 +275,26 @@ class _CostItemListScreenState extends ConsumerState<CostItemListScreen> {
       title: Text(it.name),
       subtitle: Text(
         '${v.categoryName} › ${v.subCategoryName}$amount'
-        '${it.isActive ? '' : ' · Inactive'}',
+        '${it.isActive ? '' : context.l10n.costItemsInactiveSuffix}',
       ),
       onTap: () => _openForm(v),
-      trailing: Switch(
-        key: ValueKey('active-${it.id}'),
-        value: it.isActive,
-        onChanged: (a) => _toggleActive(v, a),
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          IconButton(
+            key: ValueKey('fav-${it.id}'),
+            tooltip: it.isFavorite
+                ? context.l10n.costItemsFavRemoveTooltip
+                : context.l10n.costItemsFavAddTooltip,
+            icon: Icon(it.isFavorite ? Icons.star : Icons.star_border),
+            onPressed: () => _toggleFavorite(v),
+          ),
+          Switch(
+            key: ValueKey('active-${it.id}'),
+            value: it.isActive,
+            onChanged: (a) => _toggleActive(v, a),
+          ),
+        ],
       ),
     );
   }
@@ -406,7 +437,9 @@ class _FormState extends ConsumerState<_CostItemFormDialog> {
         ),
     ];
     return AlertDialog(
-      title: Text(editing ? 'Edit cost item' : 'Add cost item'),
+      title: Text(
+        editing ? context.l10n.costItemsEdit : context.l10n.costItemsAdd,
+      ),
       content: SingleChildScrollView(
         child: Form(
           key: _formKey,
@@ -417,30 +450,39 @@ class _FormState extends ConsumerState<_CostItemFormDialog> {
                 key: ValueKey('cat$_catId${_cats.length}'),
                 initialValue: _catId,
                 isExpanded: true,
-                decoration: const InputDecoration(labelText: 'Category'),
+                decoration: InputDecoration(
+                  labelText: context.l10n.costItemsCategoryLabel,
+                ),
                 items: catItems,
                 onChanged: _pickCategory,
-                validator: (v) => v == null ? 'Select a category' : null,
+                validator: (v) =>
+                    v == null ? context.l10n.costItemsSelectCategory : null,
               ),
               DropdownButtonFormField<int?>(
                 key: ValueKey('sub$_catId$_subId${_subs.length}'),
                 initialValue: _subId,
                 isExpanded: true,
-                decoration: const InputDecoration(labelText: 'Sub-category'),
+                decoration: InputDecoration(
+                  labelText: context.l10n.costItemsSubCategoryLabel,
+                ),
                 items: subItems,
                 onChanged: (v) => setState(() => _subId = v),
-                validator: (v) => v == null ? 'Select a sub-category' : null,
+                validator: (v) =>
+                    v == null ? context.l10n.costItemsSelectSubCategory : null,
               ),
               TextFormField(
                 controller: _name,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+                decoration: InputDecoration(
+                  labelText: context.l10n.costItemsNameLabel,
+                ),
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? context.l10n.costItemsNameRequired
+                    : null,
               ),
               TextFormField(
                 controller: _desc,
-                decoration: const InputDecoration(
-                  labelText: 'Description (optional)',
+                decoration: InputDecoration(
+                  labelText: context.l10n.costItemsDescriptionOptional,
                 ),
               ),
               TextFormField(
@@ -448,15 +490,15 @@ class _FormState extends ConsumerState<_CostItemFormDialog> {
                 keyboardType: const TextInputType.numberWithOptions(
                   decimal: true,
                 ),
-                decoration: const InputDecoration(
-                  labelText: 'Default amount (optional)',
+                decoration: InputDecoration(
+                  labelText: context.l10n.costItemsDefaultAmountOptional,
                   prefixText: '৳ ',
                 ),
                 validator: (v) {
                   final t = v?.trim() ?? '';
                   if (t.isEmpty) return null;
                   return parseMajorToMinor(t) == null
-                      ? 'Enter a valid amount (max 2 decimals)'
+                      ? context.l10n.costItemsAmountInvalid
                       : null;
                 },
               ),
@@ -477,11 +519,11 @@ class _FormState extends ConsumerState<_CostItemFormDialog> {
       actions: [
         TextButton(
           onPressed: _saving ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: _saving ? null : _save,
-          child: const Text('Save'),
+          child: Text(context.l10n.commonSave),
         ),
       ],
     );

@@ -3,6 +3,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:my_budget/app/app.dart';
 import 'package:my_budget/core/database/app_database.dart';
+import 'package:my_budget/features/notifications/data/notification_gateway.dart';
+import 'package:my_budget/features/notifications/data/notification_providers.dart';
 import 'package:my_budget/shared/providers/core_providers.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -36,6 +38,9 @@ void main() {
         overrides: [
           appDatabaseProvider.overrideWithValue(db),
           sharedPreferencesProvider.overrideWithValue(prefs),
+          notificationGatewayProvider.overrideWithValue(
+            FakeNotificationGateway(),
+          ),
         ],
         child: const MyBudgetApp(),
       ),
@@ -66,11 +71,26 @@ void main() {
       expect(find.textContaining('coming soon'), findsNothing);
     }
 
+    // Tall viewport so the long settings list builds every tile.
+    tester.view.devicePixelRatio = 1.0;
+    tester.view.physicalSize = const Size(800, 2400);
+    addTearDown(tester.view.reset);
     await tester.tap(find.byTooltip('Settings'));
     await tester.pump(const Duration(milliseconds: 100));
     await tester.pump(const Duration(milliseconds: 600));
     expect(find.text('Accounts'), findsOneWidget);
-    expect(find.text('Backup & Restore'), findsOneWidget);
+    // The settings list is long; new v4 entries must be reachable.
+    for (final label in [
+      'Recurring transactions',
+      'Savings goals',
+      'Debts & loans',
+      'Security',
+      'Notifications',
+      'Backup & Restore',
+      'Import from CSV',
+    ]) {
+      expect(find.text(label), findsOneWidget, reason: label);
+    }
     await tester.ensureVisible(find.text('About'));
     await tester.pump();
     await tester.tap(find.text('About'));

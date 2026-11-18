@@ -1,0 +1,38 @@
+{
+  "accountsTitle": "Accounts",
+  "accountsAdd": "Add account",
+  "accountsEdit": "Edit account",
+  "accountsSearchHint": "Search accounts",
+  "accountsShowInactive": "Show inactive",
+  "accountsSelectProfile": "Select a profile to manage accounts.",
+  "accountsEmpty": "No accounts yet. Tap + to add one.",
+  "accountsActivateTitle": "Activate account?",
+  "accountsDeactivateTitle": "Deactivate account?",
+  "accountsActivateMessage": "\"{name}\" will be available again.",
+  "@accountsActivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "accountsDeactivateMessage": "\"{name}\" will be hidden from new entries. Existing data is kept.",
+  "@accountsDeactivateMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "accountsNameLabel": "Name",
+  "accountsNameRequired": "Name is required",
+  "accountsOpeningBalance": "Opening balance",
+  "accountsAmountInvalid": "Enter a valid amount (max 2 decimals)",
+  "accountsOpeningDate": "Opening date",
+  "accountsTypeCash": "Cash",
+  "accountsTypeBank": "Bank",
+  "accountsTypeMobile": "Mobile banking",
+  "accountsTypeSavings": "Savings account",
+  "accountsTypeCreditCard": "Credit card",
+  "accountsTypeOther": "Other"
+}

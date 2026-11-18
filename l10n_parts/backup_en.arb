@@ -1,0 +1,175 @@
+{
+  "backupTitle": "Backup & Restore",
+  "backupBackUpNow": "Back up now",
+  "backupCreateBackup": "Create backup",
+  "backupCreateAndShare": "Create & share",
+  "backupRestoreFromFile": "Restore from file",
+  "backupAutoBackup": "Automatic backup",
+  "backupSavedBackups": "Saved backups",
+  "backupNoBackupsYet": "No backups yet. Tap \"Create backup\" to make the first one.",
+  "backupFrequency": "Frequency",
+  "backupKeepLast": "Keep last automatic backups",
+  "backupFreqOff": "Off",
+  "backupFreqDaily": "Daily",
+  "backupFreqWeekly": "Weekly",
+  "backupKindManual": "Manual",
+  "backupKindAuto": "Automatic",
+  "backupKindSafety": "Safety (before restore)",
+  "backupNoAutoRun": "No automatic backup has run yet.",
+  "backupLastRunSucceeded": "Last run succeeded",
+  "backupLastRunFailed": "Last run failed",
+  "backupStatusAt": " at {time}",
+  "@backupStatusAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "backupStatusMessage": " ({message})",
+  "@backupStatusMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "backupAutoNote": "Android decides when background work runs, so automatic backups may be delayed by hours (battery saver, Doze). Backups stay on this device. Manual and safety backups are never removed automatically. Automatic backups are NOT password protected and do not include receipt photos; use \"Create & share\" for an encrypted copy with photos.",
+  "backupCannotRestoreTitle": "Backup cannot be restored",
+  "backupNothingChanged": "Nothing was changed. Problems found:",
+  "backupReplaceAllTitle": "Replace all data?",
+  "backupCreatedAt": "Backup created: {date}",
+  "@backupCreatedAt": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "backupContains": "Contains:",
+  "backupContainsRow": "• {count} {label}",
+  "@backupContainsRow": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "backupReplaceWarning": "Restoring will REPLACE all current data in the app with this backup. A safety backup of your current data is created first, so you can go back.",
+  "backupReplaceData": "Replace data",
+  "backupDeleteTitle": "Delete backup?",
+  "backupDeleteMessage": "Delete {name}? This cannot be undone.",
+  "@backupDeleteMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backupSomethingWrong": "Something went wrong: {error}",
+  "@backupSomethingWrong": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "backupUnreadableFile": "That file is not a readable JSON backup.",
+  "backupSavedToast": "Backup saved: {name}",
+  "@backupSavedToast": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backupEncryptedSuffix": " (encrypted)",
+  "backupMissingPhotosSuffix": ". {count} receipt photo(s) were missing and skipped.",
+  "@backupMissingPhotosSuffix": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupRestoreCompleteCleared": "Restore complete. Your previous profile is not in this backup; please choose a profile.",
+  "backupRestoreComplete": "Restore complete. A safety backup of the previous data was saved.",
+  "backupIncludePhotos": "Include receipt photos",
+  "backupPhotoCount": "{count} photo(s), about {size}",
+  "@backupPhotoCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "backupMissingSkipped": " ({count} missing file(s) will be skipped)",
+  "@backupMissingSkipped": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "backupNoPhotos": "No receipt photos to include.",
+  "backupEncrypt": "Encrypt with a password",
+  "backupEncryptNote": "AES-256. If you forget the password the backup cannot be opened by anyone, including us.",
+  "backupPasswordMinLabel": "Password (min {min})",
+  "@backupPasswordMinLabel": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "backupHide": "Hide",
+  "backupShow": "Show",
+  "backupConfirmPassword": "Confirm password",
+  "backupPasswordTooShort": "Use at least {min} characters for the password.",
+  "@backupPasswordTooShort": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "backupPasswordMismatch": "The two passwords do not match.",
+  "backupPasswordRequired": "Password required",
+  "backupEncryptedPrompt": "This backup is encrypted. Enter its password.",
+  "backupPassword": "Password",
+  "backupUnlock": "Unlock",
+  "backupTableFinancialProfiles": "financial profiles",
+  "backupTableExchangeRates": "exchange rates",
+  "backupTableCategories": "categories",
+  "backupTableSubCategories": "sub categories",
+  "backupTableCostItems": "cost items",
+  "backupTableMonthlyBudgets": "monthly budgets",
+  "backupTableCategoryBudgets": "category budgets",
+  "backupTableAccounts": "accounts",
+  "backupTableRecurringRules": "recurring rules",
+  "backupTableSavingsGoals": "savings goals",
+  "backupTableDebts": "debts",
+  "backupTableDebtPayments": "debt payments",
+  "backupTableFinancialTransactions": "financial transactions",
+  "backupTableTransactionAuditLogs": "transaction audit logs",
+  "backupTableTags": "tags",
+  "backupTableTransactionAttachments": "transaction attachments",
+  "backupReminderTitle": "Back up your data",
+  "backupReminderNone": "You have no backup yet. Your data exists only on this phone.",
+  "backupReminderOld": "Your last backup was {days} days ago.",
+  "@backupReminderOld": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "backupReminderAction": "Back up",
+  "backupReminderLater": "Later"
+}

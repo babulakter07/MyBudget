@@ -1,0 +1,21 @@
+{
+  "attachmentsCamera": "Camera",
+  "attachmentsGallery": "Gallery",
+  "attachmentsAddFailed": "Could not add the photo.",
+  "attachmentsDeleteTitle": "Delete attachment",
+  "attachmentsRemoveMessage": "Remove this photo?",
+  "attachmentsHeader": "Attachments ({count}/{max})",
+  "@attachmentsHeader": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "attachmentsAddPhoto": "Add photo",
+  "attachmentsNone": "No attachments",
+  "attachmentsViewerTitle": "Attachment"
+}

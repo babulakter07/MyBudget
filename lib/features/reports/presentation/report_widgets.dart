@@ -6,6 +6,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../core/utils/money.dart';
+import '../../../l10n/l10n.dart';
 import '../data/report_exporters.dart';
 import '../domain/report_document.dart';
 import '../domain/report_models.dart';
@@ -14,6 +15,39 @@ import '../providers/report_providers.dart';
 /// Money text for the UI ('৳' for BDT, otherwise the currency code).
 String moneyText(int minor, String currencyCode) =>
     formatMinor(minor, symbol: currencyCode == 'BDT' ? '৳' : '$currencyCode ');
+
+/// Localized full month name (1..12) for on-screen use. PDF/CSV exports keep
+/// the English `monthName`.
+String localMonthName(AppLocalizations l, int month) => switch (month) {
+  1 => l.reportsMonth01Full,
+  2 => l.reportsMonth02Full,
+  3 => l.reportsMonth03Full,
+  4 => l.reportsMonth04Full,
+  5 => l.reportsMonth05Full,
+  6 => l.reportsMonth06Full,
+  7 => l.reportsMonth07Full,
+  8 => l.reportsMonth08Full,
+  9 => l.reportsMonth09Full,
+  10 => l.reportsMonth10Full,
+  11 => l.reportsMonth11Full,
+  _ => l.reportsMonth12Full,
+};
+
+/// Localized short month name (1..12).
+String localMonthShort(AppLocalizations l, int month) => switch (month) {
+  1 => l.reportsMonth01Short,
+  2 => l.reportsMonth02Short,
+  3 => l.reportsMonth03Short,
+  4 => l.reportsMonth04Short,
+  5 => l.reportsMonth05Short,
+  6 => l.reportsMonth06Short,
+  7 => l.reportsMonth07Short,
+  8 => l.reportsMonth08Short,
+  9 => l.reportsMonth09Short,
+  10 => l.reportsMonth10Short,
+  11 => l.reportsMonth11Short,
+  _ => l.reportsMonth12Short,
+};
 
 const chartPalette = <Color>[
   Color(0xFF1B7F5C),
@@ -109,11 +143,11 @@ class SimpleTable extends StatelessWidget {
     super.key,
     required this.headers,
     required this.rows,
-    this.emptyText = 'No data',
+    this.emptyText,
   });
   final List<String> headers;
   final List<List<String>> rows;
-  final String emptyText;
+  final String? emptyText;
 
   @override
   Widget build(BuildContext context) {
@@ -121,7 +155,10 @@ class SimpleTable extends StatelessWidget {
     if (rows.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8),
-        child: Text(emptyText, style: theme.textTheme.bodyMedium),
+        child: Text(
+          emptyText ?? context.l10n.reportsNoData,
+          style: theme.textTheme.bodyMedium,
+        ),
       );
     }
     Widget cell(String t, int i, {bool bold = false}) => Expanded(
@@ -328,7 +365,7 @@ class ReportAsyncBody<T> extends StatelessWidget {
               const SizedBox(height: 16),
               FilledButton.tonal(
                 onPressed: onRetry,
-                child: const Text('Retry'),
+                child: Text(context.l10n.commonRetry),
               ),
             ],
           ),
@@ -350,17 +387,20 @@ List<Widget> exportActions({
 }) {
   Future<void> run(Future<void> Function() task) async {
     final messenger = ScaffoldMessenger.of(context);
+    final l = context.l10n;
     try {
       await task();
     } catch (e) {
-      messenger.showSnackBar(SnackBar(content: Text('Export failed: $e')));
+      messenger.showSnackBar(
+        SnackBar(content: Text(l.reportsExportFailed('$e'))),
+      );
     }
   }
 
   final svc = ref.read(reportFileServiceProvider);
   return [
     IconButton(
-      tooltip: 'Export PDF',
+      tooltip: context.l10n.reportsExportPdf,
       icon: const Icon(Icons.picture_as_pdf_outlined),
       onPressed: enabled
           ? () =>
@@ -368,14 +408,14 @@ List<Widget> exportActions({
           : null,
     ),
     IconButton(
-      tooltip: 'Export CSV',
+      tooltip: context.l10n.reportsExportCsv,
       icon: const Icon(Icons.table_view_outlined),
       onPressed: enabled
           ? () => run(() => svc.shareCsv(build(plainDecimal)))
           : null,
     ),
     IconButton(
-      tooltip: 'Print',
+      tooltip: context.l10n.reportsPrint,
       icon: const Icon(Icons.print_outlined),
       onPressed: enabled
           ? () =>
@@ -405,7 +445,7 @@ class PeriodNavigator extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         IconButton(
-          tooltip: 'Previous',
+          tooltip: context.l10n.reportsPrevious,
           icon: const Icon(Icons.chevron_left),
           onPressed: onPrev,
         ),
@@ -415,7 +455,7 @@ class PeriodNavigator extends StatelessWidget {
           label: Text(label),
         ),
         IconButton(
-          tooltip: 'Next',
+          tooltip: context.l10n.reportsNext,
           icon: const Icon(Icons.chevron_right),
           onPressed: onNext,
         ),

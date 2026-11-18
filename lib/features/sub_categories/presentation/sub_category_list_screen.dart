@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/app_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../data/sub_category_providers.dart';
 import '../domain/sub_category.dart';
@@ -35,21 +36,23 @@ class _SubCategoryListScreenState extends ConsumerState<SubCategoryListScreen> {
       context: context,
       builder: (ctx) => AlertDialog(
         title: Text(
-          value ? 'Activate sub-category?' : 'Deactivate sub-category?',
+          value
+              ? context.l10n.subCategoriesActivateTitle
+              : context.l10n.subCategoriesDeactivateTitle,
         ),
         content: Text(
           value
-              ? '"${v.name}" will be available again.'
-              : '"${v.name}" will be hidden from new entries. Existing data is kept.',
+              ? context.l10n.subCategoriesActivateMessage(v.name)
+              : context.l10n.subCategoriesDeactivateMessage(v.name),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Confirm'),
+            child: Text(context.l10n.commonConfirm),
           ),
         ],
       ),
@@ -79,24 +82,24 @@ class _SubCategoryListScreenState extends ConsumerState<SubCategoryListScreen> {
     final list = ref.watch(subCategoriesProvider(_filter));
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Sub-categories')),
+      appBar: AppBar(title: Text(context.l10n.subCategoriesTitle)),
       floatingActionButton: profileId == null
           ? null
           : FloatingActionButton(
-              tooltip: 'Add sub-category',
+              tooltip: context.l10n.subCategoriesAdd,
               onPressed: () => _openForm(),
               child: const Icon(Icons.add),
             ),
       body: profileId == null
-          ? const Center(child: Text('Select a profile first.'))
+          ? Center(child: Text(context.l10n.subCategoriesSelectProfile))
           : Column(
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
                   child: TextField(
-                    decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.search),
-                      hintText: 'Search sub-categories',
+                    decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.search),
+                      hintText: context.l10n.subCategoriesSearchHint,
                       border: OutlineInputBorder(),
                     ),
                     onChanged: (v) => setState(() => _search = v),
@@ -114,7 +117,7 @@ class _SubCategoryListScreenState extends ConsumerState<SubCategoryListScreen> {
                       Padding(
                         padding: const EdgeInsets.only(right: 8),
                         child: ChoiceChip(
-                          label: const Text('All'),
+                          label: Text(context.l10n.commonAll),
                           selected: _categoryId == null,
                           onSelected: (_) => setState(() => _categoryId = null),
                         ),
@@ -134,7 +137,7 @@ class _SubCategoryListScreenState extends ConsumerState<SubCategoryListScreen> {
                 ),
                 SwitchListTile(
                   dense: true,
-                  title: const Text('Show inactive'),
+                  title: Text(context.l10n.subCategoriesShowInactive),
                   value: _showInactive,
                   onChanged: (v) => setState(() => _showInactive = v),
                 ),
@@ -143,12 +146,12 @@ class _SubCategoryListScreenState extends ConsumerState<SubCategoryListScreen> {
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
                     error: (e, _) => Center(
-                      child: Text('Could not load sub-categories: $e'),
+                      child: Text(context.l10n.subCategoriesLoadError('$e')),
                     ),
                     data: (items) {
                       if (items.isEmpty) {
-                        return const Center(
-                          child: Text('No sub-categories found.'),
+                        return Center(
+                          child: Text(context.l10n.subCategoriesEmpty),
                         );
                       }
                       return ListView.builder(
@@ -158,8 +161,11 @@ class _SubCategoryListScreenState extends ConsumerState<SubCategoryListScreen> {
                           return ListTile(
                             title: Text(v.name),
                             subtitle: Text(
-                              v.categoryName +
-                                  (v.isActive ? '' : ' - inactive'),
+                              v.isActive
+                                  ? v.categoryName
+                                  : context.l10n.subCategoriesInactiveSubtitle(
+                                      v.categoryName,
+                                    ),
                             ),
                             onTap: () => _openForm(v),
                             trailing: Switch(
@@ -247,7 +253,9 @@ class _SubCategoryFormDialogState
     final value = options.any((c) => c.id == _categoryId) ? _categoryId : null;
     return AlertDialog(
       title: Text(
-        widget.existing == null ? 'Add sub-category' : 'Edit sub-category',
+        widget.existing == null
+            ? context.l10n.subCategoriesAdd
+            : context.l10n.subCategoriesEdit,
       ),
       content: Form(
         key: _formKey,
@@ -257,20 +265,26 @@ class _SubCategoryFormDialogState
             DropdownButtonFormField<int>(
               initialValue: value,
               isExpanded: true,
-              decoration: const InputDecoration(labelText: 'Category'),
+              decoration: InputDecoration(
+                labelText: context.l10n.subCategoriesCategoryLabel,
+              ),
               items: [
                 for (final c in options)
                   DropdownMenuItem(value: c.id, child: Text(c.name)),
               ],
               onChanged: (v) => setState(() => _categoryId = v),
-              validator: (v) => v == null ? 'Select a category' : null,
+              validator: (v) =>
+                  v == null ? context.l10n.subCategoriesSelectCategory : null,
             ),
             TextFormField(
               controller: _name,
               maxLength: 80,
-              decoration: const InputDecoration(labelText: 'Name'),
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+              decoration: InputDecoration(
+                labelText: context.l10n.subCategoriesNameLabel,
+              ),
+              validator: (v) => (v == null || v.trim().isEmpty)
+                  ? context.l10n.subCategoriesNameRequired
+                  : null,
             ),
             if (_error != null)
               Padding(
@@ -286,11 +300,11 @@ class _SubCategoryFormDialogState
       actions: [
         TextButton(
           onPressed: _saving ? null : () => Navigator.pop(context),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         FilledButton(
           onPressed: _saving ? null : _save,
-          child: const Text('Save'),
+          child: Text(context.l10n.commonSave),
         ),
       ],
     );

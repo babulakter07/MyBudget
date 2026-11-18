@@ -1,0 +1,40 @@
+{
+  "splitTitle": "Split a bill",
+  "splitIntro": "Use this when one bill covers several categories, for example groceries and household items. Each line is saved as its own expense, all together or not at all.",
+  "splitAccount": "Account",
+  "splitBillTitle": "Title (optional)",
+  "splitLine": "Line {n}",
+  "@splitLine": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "splitRemoveLine": "Remove line",
+  "splitCategory": "Category",
+  "splitSubCategory": "Sub-category (optional)",
+  "splitCostItem": "Cost item (optional)",
+  "splitAmount": "Amount",
+  "splitAddLine": "Add line",
+  "splitTotal": "Total: {amount}",
+  "@splitTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitSave": "Save split",
+  "splitErrAccount": "Choose an account.",
+  "splitErrLine": "Every line needs a category and an amount greater than zero.",
+  "splitSaved": "{n} expenses saved",
+  "@splitSaved": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "splitOpen": "Split a bill"
+}

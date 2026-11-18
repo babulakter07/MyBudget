@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../core/utils/money.dart';
+import '../../../l10n/l10n.dart';
 import '../../ledger/presentation/period_pickers.dart';
 import '../domain/dashboard_calculations.dart';
 import '../domain/dashboard_models.dart';
@@ -18,7 +19,7 @@ class YearlySection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final year = ref.watch(dashboardFilterProvider.select((f) => f.year));
     return SectionCard(
-      title: 'Yearly overview',
+      title: context.l10n.dashboardYearlyOverview,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +37,7 @@ class YearlySection extends ConsumerWidget {
               }
             },
             icon: const Icon(Icons.calendar_today_outlined),
-            label: Text('Year $year'),
+            label: Text(context.l10n.dashboardYear(year)),
           ),
           const SizedBox(height: 12),
           AsyncSection<YearlyTotals>(
@@ -50,32 +51,32 @@ class YearlySection extends ConsumerWidget {
                   StatGrid(
                     children: [
                       StatCard(
-                        label: 'Total income',
+                        label: context.l10n.dashboardTotalIncome,
                         value: formatMinor(s.totalIncomeMinor),
                         color: AppColors.income,
                       ),
                       StatCard(
-                        label: 'Total expense',
+                        label: context.l10n.dashboardTotalExpense,
                         value: formatMinor(s.totalExpenseMinor),
                         color: AppColors.expense,
                       ),
                       StatCard(
-                        label: 'Average monthly expense',
+                        label: context.l10n.dashboardAverageMonthlyExpense,
                         value: formatMinor(s.averageMonthlyExpenseMinor),
                       ),
                       StatCard(
-                        label: 'Highest spending month',
+                        label: context.l10n.dashboardHighestSpendingMonth,
                         value: monthOrDash(s.highestMonth),
                       ),
                       StatCard(
-                        label: 'Lowest spending month',
+                        label: context.l10n.dashboardLowestSpendingMonth,
                         value: monthOrDash(s.lowestMonth),
                       ),
                     ],
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Monthly expense trend',
+                    context.l10n.dashboardMonthlyExpenseTrend,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(height: 8),

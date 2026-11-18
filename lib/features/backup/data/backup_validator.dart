@@ -1,11 +1,13 @@
 import 'dart:convert';
 
+import '../../../core/utils/currency.dart';
 import '../../../core/utils/date_keys.dart';
 import '../domain/backup_models.dart';
+import 'backup_paths.dart';
 import 'backup_schema.dart';
 
 /// Highest database schema version this build can restore.
-const int maxSupportedSchemaVersion = 3;
+const int maxSupportedSchemaVersion = 5;
 
 /// Pure validation of a backup file (no database access). Mirrors every
 /// constraint the database enforces so a bad file is rejected *before* any
@@ -101,6 +103,11 @@ class BackupValidator {
     var structureOk = true;
     for (final spec in backupTables) {
       final raw = tablesRaw[spec.name];
+      if (raw == null && spec.optional) {
+        // Older backup (before schema v4): the table did not exist.
+        rows[spec.name] = const [];
+        continue;
+      }
       if (raw == null) {
         err('Required table "${spec.name}" is missing.');
         structureOk = false;
@@ -124,7 +131,7 @@ class BackupValidator {
         for (final c in spec.columns) {
           final v = r[c.name];
           if (v == null) {
-            if (!c.nullable) {
+            if (!c.nullable && c.defaultValue == null) {
               err('$label: "${c.name}" is required.');
               ok = false;
             }
@@ -156,7 +163,7 @@ class BackupValidator {
     // ---- Duplicate ids ---------------------------------------------------
     final byId = <String, Map<int, Map<String, dynamic>>>{};
     for (final spec in backupTables) {
-      if (spec.name == 'application_settings') continue;
+      if (!spec.hasId) continue;
       final map = <int, Map<String, dynamic>>{};
       for (final r in rows[spec.name]!) {
         final id = r['id'] as int;
@@ -225,6 +232,33 @@ class BackupValidator {
         _nocase(r['name'] as String),
         r['id']!,
       );
+    }
+
+    seen = {};
+    final codeRe = RegExp(r'^[A-Z]{3}$');
+    for (final r in rows['exchange_rates']!) {
+      final id = r['id'];
+      ref(
+        'exchange_rates',
+        r,
+        'profile_id',
+        'financial_profiles',
+        profileScoped: false,
+      );
+      final code = r['currency_code'] as String;
+      if (!codeRe.hasMatch(code)) {
+        err(
+          'exchange_rates id $id: currency code "$code" must be 3 upper-case letters.',
+        );
+      }
+      if ((r['rate_micro'] as int) <= 0) {
+        err('exchange_rates id $id: rate must be greater than zero.');
+      }
+      if (!seen.add('${r['profile_id']}|$code')) {
+        err(
+          'exchange_rates id $id: duplicate rate for $code in the same profile.',
+        );
+      }
     }
 
     seen = {};
@@ -415,6 +449,7 @@ class BackupValidator {
       if (type == 'expense' && r['category_id'] == null) {
         err('financial_transactions id $id: an expense needs a category.');
       }
+      _checkOriginal(r, type, byId['financial_profiles']!, err);
       final key = r['idempotency_key'];
       if (key is String && !seen.add('${r['profile_id']}|$key')) {
         err('financial_transactions id $id: duplicate idempotency key "$key".');
@@ -443,11 +478,275 @@ class BackupValidator {
       }
     }
 
+    // ---- v4 tables -------------------------------------------------------
+    final dateRe = isValidDateKey;
+    void profileRef(String table, Map<String, dynamic> r) =>
+        ref(table, r, 'profile_id', 'financial_profiles', profileScoped: false);
+
+    const frequencies = {'daily', 'weekly', 'monthly', 'yearly'};
+    for (final r in rows['recurring_rules']!) {
+      final id = r['id'];
+      profileRef('recurring_rules', r);
+      final type = r['type'];
+      if (!txnTypes.contains(type)) {
+        err('recurring_rules id $id: unknown type "$type".');
+      }
+      if (!frequencies.contains(r['frequency'])) {
+        err('recurring_rules id $id: unknown frequency "${r['frequency']}".');
+      }
+      if ((r['amount_minor'] as int) <= 0) {
+        err('recurring_rules id $id: amount must be greater than zero.');
+      }
+      if ((r['interval_count'] as int) < 1) {
+        err('recurring_rules id $id: interval must be at least 1.');
+      }
+      for (final k in ['start_date', 'next_due_date']) {
+        if (!dateRe(r[k] as String)) {
+          err('recurring_rules id $id: $k must be a valid yyyy-MM-dd date.');
+        }
+      }
+      final end = r['end_date'];
+      if (end != null && !dateRe(end as String)) {
+        err(
+          'recurring_rules id $id: end_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+      final remind = r['remind_days_before'];
+      if (remind is int && remind < 0) {
+        err('recurring_rules id $id: reminder days must not be negative.');
+      }
+      if ((r['title'] as String).isEmpty) {
+        err('recurring_rules id $id: title is required.');
+      }
+      ref('recurring_rules', r, 'account_id', 'accounts');
+      ref('recurring_rules', r, 'to_account_id', 'accounts');
+      ref('recurring_rules', r, 'category_id', 'categories');
+      ref('recurring_rules', r, 'sub_category_id', 'sub_categories');
+      ref('recurring_rules', r, 'cost_item_id', 'cost_items');
+      if (type == 'transfer') {
+        final to = r['to_account_id'];
+        if (to == null || to == r['account_id']) {
+          err(
+            'recurring_rules id $id: a transfer needs a different destination account.',
+          );
+        }
+      } else if (r['to_account_id'] != null) {
+        err(
+          'recurring_rules id $id: only transfers may have a destination account.',
+        );
+      }
+      if (type == 'expense' && r['category_id'] == null) {
+        err('recurring_rules id $id: an expense needs a category.');
+      }
+    }
+
+    seen = {};
+    for (final r in rows['savings_goals']!) {
+      profileRef('savings_goals', r);
+      name('savings_goals', r);
+      ref('savings_goals', r, 'account_id', 'accounts');
+      if ((r['target_minor'] as int) <= 0) {
+        err('savings_goals id ${r['id']}: target must be greater than zero.');
+      }
+      final td = r['target_date'];
+      if (td != null && !dateRe(td as String)) {
+        err(
+          'savings_goals id ${r['id']}: target_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+      unique(
+        'savings_goals',
+        seen,
+        '${r['profile_id']}|${_nocase(r['name'] as String)}',
+        r['id']!,
+      );
+    }
+
+    for (final r in rows['debts']!) {
+      profileRef('debts', r);
+      final pn = r['person_name'] as String;
+      if (pn.isEmpty || pn.length > 80) {
+        err('debts id ${r['id']}: person name must be 1-80 characters.');
+      }
+      if (!{'lent', 'borrowed'}.contains(r['direction'])) {
+        err('debts id ${r['id']}: unknown direction "${r['direction']}".');
+      }
+      if ((r['principal_minor'] as int) <= 0) {
+        err('debts id ${r['id']}: principal must be greater than zero.');
+      }
+      if (!dateRe(r['start_date'] as String)) {
+        err('debts id ${r['id']}: start_date must be a valid yyyy-MM-dd date.');
+      }
+      final dd = r['due_date'];
+      if (dd != null && !dateRe(dd as String)) {
+        err('debts id ${r['id']}: due_date must be a valid yyyy-MM-dd date.');
+      }
+    }
+
+    for (final r in rows['debt_payments']!) {
+      profileRef('debt_payments', r);
+      ref('debt_payments', r, 'debt_id', 'debts');
+      if ((r['amount_minor'] as int) <= 0) {
+        err('debt_payments id ${r['id']}: amount must be greater than zero.');
+      }
+      if (!dateRe(r['payment_date'] as String)) {
+        err(
+          'debt_payments id ${r['id']}: payment_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+    }
+
+    seen = {};
+    for (final r in rows['tags']!) {
+      profileRef('tags', r);
+      final n = r['name'] as String;
+      if (n.isEmpty || n.length > 40) {
+        err('tags id ${r['id']}: name must be 1-40 characters.');
+      }
+      unique('tags', seen, '${r['profile_id']}|${_nocase(n)}', r['id']!);
+    }
+
+    seen = {};
+    for (final r in rows['transaction_tags']!) {
+      profileRef('transaction_tags', r);
+      final label = 'transaction_tags (${r['transaction_id']}, ${r['tag_id']})';
+      final tx = byId['financial_transactions']![r['transaction_id']];
+      if (tx == null) {
+        err('$label: transaction does not exist.');
+      } else if (tx['profile_id'] != r['profile_id']) {
+        err(
+          '$label: transaction belongs to a different profile (cross-profile reference).',
+        );
+      }
+      final tg = byId['tags']![r['tag_id']];
+      if (tg == null) {
+        err('$label: tag does not exist.');
+      } else if (tg['profile_id'] != r['profile_id']) {
+        err(
+          '$label: tag belongs to a different profile (cross-profile reference).',
+        );
+      }
+      if (!seen.add('${r['transaction_id']}|${r['tag_id']}')) {
+        err('$label: duplicate tag on the same transaction.');
+      }
+    }
+
+    for (final r in rows['transaction_attachments']!) {
+      profileRef('transaction_attachments', r);
+      ref(
+        'transaction_attachments',
+        r,
+        'transaction_id',
+        'financial_transactions',
+      );
+      final rel = r['relative_path'] as String;
+      if (!isSafeRelativePath(rel)) {
+        err(
+          'transaction_attachments id ${r['id']}: unsafe file path "$rel" '
+          '(paths must be relative and stay inside the attachments folder).',
+        );
+      }
+      if ((r['size_bytes'] as int) < 0) {
+        err(
+          'transaction_attachments id ${r['id']}: size must not be negative.',
+        );
+      }
+    }
+
+    // ---- Embedded photo files -------------------------------------------
+    final files = root['attachmentFiles'];
+    var photoCount = 0;
+    if (files != null) {
+      if (files is! Map<String, dynamic>) {
+        err('"attachmentFiles" must be an object of path to base64 data.');
+      } else {
+        for (final e in files.entries) {
+          if (!isSafeRelativePath(e.key)) {
+            err('Embedded photo has an unsafe path "${e.key}".');
+            continue;
+          }
+          final v = e.value;
+          if (v is! String) {
+            err('Embedded photo "${e.key}" has invalid data.');
+            continue;
+          }
+          try {
+            base64Decode(v);
+          } on FormatException {
+            err('Embedded photo "${e.key}" is not valid base64 data.');
+            continue;
+          }
+          photoCount++;
+        }
+      }
+    }
+
     return finish(
-      counts: {for (final s in backupTables) s.name: rows[s.name]!.length},
+      counts: {
+        for (final s in backupTables) s.name: rows[s.name]!.length,
+        if (photoCount > 0) 'photo_files': photoCount,
+      },
       createdAt: createdAt,
       schemaVersion: schemaVersion,
     );
+  }
+
+  /// Multi-currency columns of a transaction (schema v5): all-or-none, only
+  /// expense/income, and amount_minor must equal the rounded conversion.
+  static void _checkOriginal(
+    Map<String, dynamic> r,
+    Object? type,
+    Map<int, Map<String, dynamic>> profiles,
+    void Function(String) err,
+  ) {
+    final o = r['original_amount_minor'];
+    final c = r['original_currency'];
+    final rate = r['rate_micro'];
+    final set = [o, c, rate].where((v) => v != null).length;
+    if (set == 0) return;
+    final id = r['id'];
+    final label = 'financial_transactions id $id';
+    if (set != 3) {
+      err(
+        '$label: original_amount_minor, original_currency and rate_micro '
+        'must all be set or all be empty.',
+      );
+      return;
+    }
+    if (type != 'expense' && type != 'income') {
+      err(
+        '$label: only expense and income transactions may have an original currency amount.',
+      );
+    }
+    var ok = true;
+    if (!RegExp(r'^[A-Z]{3}$').hasMatch(c as String)) {
+      err('$label: original_currency "$c" must be 3 upper-case letters.');
+    } else {
+      final base = profiles[r['profile_id']]?['currency_code'];
+      if (base == c) {
+        err(
+          '$label: original_currency must differ from the profile currency ($base).',
+        );
+      }
+    }
+    if ((o as int) <= 0) {
+      err('$label: original_amount_minor must be greater than zero.');
+      ok = false;
+    }
+    if ((rate as int) <= 0) {
+      err('$label: rate_micro must be greater than zero.');
+      ok = false;
+    }
+    if (ok) {
+      final expected = convertToBaseMinor(originalMinor: o, rateMicro: rate);
+      if (expected == null || expected != r['amount_minor']) {
+        err(
+          '$label: amount_minor ${r['amount_minor']} does not match the '
+          'converted original amount (expected ${expected ?? 'a valid value'} '
+          'from $o x rate $rate).',
+        );
+      }
+    }
   }
 
   /// Mirrors SQLite's NOCASE collation (ASCII-only case folding).

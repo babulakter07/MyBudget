@@ -1,0 +1,63 @@
+{
+  "searchHint": "Search transactions",
+  "searchClearText": "Clear text",
+  "searchFilters": "Filters",
+  "searchClearFilters": "Clear filters",
+  "searchEmptyHint": "Search by title, remarks, category, account, tag…",
+  "searchRecent": "Recent searches",
+  "searchClearAll": "Clear all",
+  "searchRemove": "Remove",
+  "searchNoResults": "No matching transactions.",
+  "searchResults": "Results",
+  "searchTypeExpense": "Expense",
+  "searchTypeIncome": "Income",
+  "searchTypeTransfer": "Transfer",
+  "searchSectionType": "Type",
+  "searchSectionAmount": "Amount",
+  "searchSectionDateRange": "Date range",
+  "searchSectionAccounts": "Accounts",
+  "searchSectionCategories": "Categories",
+  "searchSectionTags": "Tags",
+  "searchSectionSortBy": "Sort by",
+  "searchMin": "Min",
+  "searchMax": "Max",
+  "searchFrom": "From",
+  "searchTo": "To",
+  "searchReset": "Reset",
+  "searchNoneAvailable": "None available",
+  "searchErrInvalidMin": "Invalid minimum amount",
+  "searchErrInvalidMax": "Invalid maximum amount",
+  "searchErrMinGreater": "Minimum is greater than maximum",
+  "searchErrDateOrder": "From date is after to date",
+  "searchChipFrom": "From {date}",
+  "@searchChipFrom": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "searchChipTo": "To {date}",
+  "@searchChipTo": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "searchChipAccount": "Account",
+  "searchChipCategory": "Category",
+  "searchChipTag": "#{name}",
+  "@searchChipTag": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "searchTagFallback": "tag",
+  "searchSortNewest": "Newest",
+  "searchSortOldest": "Oldest",
+  "searchSortHighest": "Highest",
+  "searchSortLowest": "Lowest"
+}

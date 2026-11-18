@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../domain/report_document.dart';
 import '../domain/report_models.dart';
 import '../providers/report_providers.dart';
@@ -30,7 +31,7 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
     final picked = await showDialog<int>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Select year'),
+        title: Text(context.l10n.reportsSelectYear),
         content: SizedBox(
           width: 300,
           height: 300,
@@ -52,7 +53,7 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
     final report = async.asData?.value;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Yearly report'),
+        title: Text(context.l10n.reportsYearlyReport),
         actions: exportActions(
           context: context,
           ref: ref,
@@ -77,8 +78,8 @@ class _YearlyReportScreenState extends ConsumerState<YearlyReportScreen> {
               value: async,
               onRetry: () => ref.invalidate(yearlyReportProvider(_year)),
               builder: (r) => r.isEmpty
-                  ? const EmptyState(
-                      message: 'No data for this year.',
+                  ? EmptyState(
+                      message: context.l10n.reportsNoDataYear,
                       icon: Icons.insert_chart_outlined,
                     )
                   : _YearlyBody(report: r),
@@ -96,63 +97,71 @@ class _YearlyBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final r = report;
     final cur = r.currencyCode;
     String m(int v) => moneyText(v, cur);
     String monthOf(YearlyMonthRow? row) => row == null
         ? '-'
-        : '${monthName(row.month).substring(0, 3)} (${m(row.expenseMinor)})';
+        : '${localMonthShort(l, row.month)} (${m(row.expenseMinor)})';
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
       children: [
         SummaryGrid(
           cards: [
             SummaryCard(
-              label: 'Income',
+              label: l.reportsIncome,
               value: m(r.incomeMinor),
               color: AppColors.income,
             ),
             SummaryCard(
-              label: 'Expense',
+              label: l.reportsExpense,
               value: m(r.expenseMinor),
               color: AppColors.expense,
             ),
             SummaryCard(
-              label: 'Budget',
-              value: r.budgetMinor == null ? 'Not set' : m(r.budgetMinor!),
+              label: l.reportsBudget,
+              value: r.budgetMinor == null
+                  ? l.reportsNotSet
+                  : m(r.budgetMinor!),
             ),
             SummaryCard(
-              label: 'Avg monthly expense',
+              label: l.reportsAvgMonthlyExpense,
               value: m(r.averageMonthlyExpenseMinor),
             ),
             SummaryCard(
-              label: 'Highest month',
+              label: l.reportsHighestMonth,
               value: monthOf(r.highestSpendingMonth),
             ),
             SummaryCard(
-              label: 'Lowest month',
+              label: l.reportsLowestMonth,
               value: monthOf(r.lowestSpendingMonth),
             ),
           ],
         ),
-        const SectionTitle('Income vs expense'),
+        SectionTitle(l.reportsIncomeVsExpense),
         _IncomeExpenseChart(months: r.months),
-        const SectionTitle('Monthly comparison'),
+        SectionTitle(l.reportsMonthlyComparison),
         SimpleTable(
-          headers: const ['Month', 'Income', 'Expense', 'Remaining'],
+          headers: [
+            l.reportsMonth,
+            l.reportsIncome,
+            l.reportsExpense,
+            l.reportsRemaining,
+          ],
           rows: [
             for (final row in r.months)
               [
-                monthName(row.month),
+                localMonthName(l, row.month),
                 m(row.incomeMinor),
                 m(row.expenseMinor),
                 row.remainingMinor == null ? '-' : m(row.remainingMinor!),
               ],
           ],
         ),
-        const SectionTitle('Category comparison'),
+        SectionTitle(l.reportsCategoryComparison),
         SimpleTable(
-          headers: const ['Category', 'Total'],
+          headers: [l.reportsCategory, l.reportsTotal],
           rows: [
             for (final c in r.categories) [c.name, m(c.totalMinor)],
           ],
@@ -191,7 +200,7 @@ class _IncomeExpenseChart extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
-                          monthName(i + 1).substring(0, 1),
+                          localMonthShort(context.l10n, i + 1).substring(0, 1),
                           style: theme.textTheme.labelSmall,
                         ),
                       );
@@ -227,11 +236,11 @@ class _IncomeExpenseChart extends StatelessWidget {
           children: [
             Icon(Icons.circle, size: 10, color: AppColors.income),
             const SizedBox(width: 4),
-            Text('Income', style: theme.textTheme.bodySmall),
+            Text(context.l10n.reportsIncome, style: theme.textTheme.bodySmall),
             const SizedBox(width: 16),
             Icon(Icons.circle, size: 10, color: AppColors.expense),
             const SizedBox(width: 4),
-            Text('Expense', style: theme.textTheme.bodySmall),
+            Text(context.l10n.reportsExpense, style: theme.textTheme.bodySmall),
           ],
         ),
       ],

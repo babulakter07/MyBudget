@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../domain/report_document.dart';
 import '../domain/report_models.dart';
 import '../providers/report_providers.dart';
@@ -44,7 +45,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
       initialDate: DateTime(_year, _month),
       firstDate: DateTime(2000),
       lastDate: DateTime(2100),
-      helpText: 'Select any day in the month',
+      helpText: context.l10n.reportsSelectDayHelp,
     );
     if (picked != null) {
       setState(() {
@@ -61,7 +62,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
     final report = async.asData?.value;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Monthly report'),
+        title: Text(context.l10n.reportsMonthlyReport),
         actions: exportActions(
           context: context,
           ref: ref,
@@ -75,7 +76,7 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: PeriodNavigator(
-              label: '${monthName(_month)} $_year',
+              label: '${localMonthName(context.l10n, _month)} $_year',
               onPrev: () => _shift(-1),
               onNext: () => _shift(1),
               onPick: _pick,
@@ -86,8 +87,8 @@ class _MonthlyReportScreenState extends ConsumerState<MonthlyReportScreen> {
               value: async,
               onRetry: () => ref.invalidate(monthlyReportProvider(key)),
               builder: (r) => r.isEmpty
-                  ? const EmptyState(
-                      message: 'No data for this month.',
+                  ? EmptyState(
+                      message: context.l10n.reportsNoDataMonth,
                       icon: Icons.insert_chart_outlined,
                     )
                   : _MonthlyBody(report: r),
@@ -105,6 +106,7 @@ class _MonthlyBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final r = report;
     final cur = r.currencyCode;
     String m(int v) => moneyText(v, cur);
@@ -117,47 +119,49 @@ class _MonthlyBody extends StatelessWidget {
         SummaryGrid(
           cards: [
             SummaryCard(
-              label: 'Income',
+              label: l.reportsIncome,
               value: m(r.incomeMinor),
               color: AppColors.income,
             ),
             SummaryCard(
-              label: 'Expense',
+              label: l.reportsExpense,
               value: m(r.expenseMinor),
               color: AppColors.expense,
             ),
             SummaryCard(
-              label: 'Budget',
-              value: r.budgetMinor == null ? 'Not set' : m(r.budgetMinor!),
+              label: l.reportsBudget,
+              value: r.budgetMinor == null
+                  ? l.reportsNotSet
+                  : m(r.budgetMinor!),
             ),
             SummaryCard(
-              label: 'Remaining',
+              label: l.reportsRemaining,
               value: remaining == null ? '-' : m(remaining),
               color: negative ? AppColors.expense : null,
-              subtitle: negative ? 'Over budget' : null,
+              subtitle: negative ? l.reportsOverBudget : null,
             ),
-            SummaryCard(label: 'Utilization', value: percentText(util)),
-            SummaryCard(label: 'Net', value: m(r.netMinor)),
+            SummaryCard(label: l.reportsUtilization, value: percentText(util)),
+            SummaryCard(label: l.reportsNet, value: m(r.netMinor)),
           ],
         ),
-        const SectionTitle('Category-wise expense'),
+        SectionTitle(l.reportsCategoryWiseExpense),
         if (r.categories.isEmpty)
-          const Text('No expenses this month.')
+          Text(l.reportsNoExpensesMonth)
         else
           CategoryPie(categories: r.categories, currencyCode: cur),
-        const SectionTitle('Daily expenditure'),
+        SectionTitle(l.reportsDailyExpenditure),
         DailyBarChart(daily: r.daily),
-        const SectionTitle('Sub-categories'),
+        SectionTitle(l.reportsSubCategories),
         SimpleTable(
-          headers: const ['Sub-category', 'Amount'],
+          headers: [l.reportsSubCategory, l.reportsAmount],
           rows: [
             for (final s in r.subCategories)
               ['${s.categoryName} / ${s.name}', m(s.amountMinor)],
           ],
         ),
-        const SectionTitle('Items'),
+        SectionTitle(l.reportsItems),
         SimpleTable(
-          headers: const ['Item', 'Amount'],
+          headers: [l.reportsItem, l.reportsAmount],
           rows: [
             for (final i in r.items)
               [
@@ -166,14 +170,19 @@ class _MonthlyBody extends StatelessWidget {
               ],
           ],
         ),
-        const SectionTitle('Account movements'),
+        SectionTitle(l.reportsAccountMovements),
         SimpleTable(
-          headers: const ['Account', 'Opening', 'Closing'],
+          headers: [l.reportsAccount, l.reportsOpening, l.reportsClosing],
           rows: [
             for (final a in r.accounts)
               [
-                '${a.accountName}\n+${m(a.incomeMinor)}  -${m(a.expenseMinor)}  '
-                    'in ${m(a.transferInMinor)}  out ${m(a.transferOutMinor)}',
+                l.reportsAccountFlow(
+                  a.accountName,
+                  m(a.incomeMinor),
+                  m(a.expenseMinor),
+                  m(a.transferInMinor),
+                  m(a.transferOutMinor),
+                ),
                 m(a.openingMinor),
                 m(a.closingMinor),
               ],

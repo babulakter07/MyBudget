@@ -1,0 +1,11 @@
+{
+  "attachmentsCamera": "ক্যামেরা",
+  "attachmentsGallery": "গ্যালারি",
+  "attachmentsAddFailed": "ছবি যোগ করা যায়নি।",
+  "attachmentsDeleteTitle": "সংযুক্তি মুছুন",
+  "attachmentsRemoveMessage": "এই ছবিটি সরাবেন?",
+  "attachmentsHeader": "সংযুক্তি ({count}/{max})",
+  "attachmentsAddPhoto": "ছবি যোগ করুন",
+  "attachmentsNone": "কোনো সংযুক্তি নেই",
+  "attachmentsViewerTitle": "সংযুক্তি"
+}

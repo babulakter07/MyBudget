@@ -8,7 +8,9 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../core/errors/app_exception.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
+import '../data/backup_crypto.dart';
 import '../data/backup_providers.dart';
 import '../data/backup_service.dart';
 import '../domain/backup_models.dart';
@@ -21,7 +23,31 @@ String _fmtSize(int bytes) {
 
 String _fmtDate(DateTime d) => DateFormat('yyyy-MM-dd HH:mm').format(d);
 
-String _tableLabel(String t) => t.replaceAll('_', ' ');
+String _tableLabel(AppLocalizations l, String t) => switch (t) {
+  'financial_profiles' => l.backupTableFinancialProfiles,
+  'exchange_rates' => l.backupTableExchangeRates,
+  'categories' => l.backupTableCategories,
+  'sub_categories' => l.backupTableSubCategories,
+  'cost_items' => l.backupTableCostItems,
+  'monthly_budgets' => l.backupTableMonthlyBudgets,
+  'category_budgets' => l.backupTableCategoryBudgets,
+  'accounts' => l.backupTableAccounts,
+  'recurring_rules' => l.backupTableRecurringRules,
+  'savings_goals' => l.backupTableSavingsGoals,
+  'debts' => l.backupTableDebts,
+  'debt_payments' => l.backupTableDebtPayments,
+  'financial_transactions' => l.backupTableFinancialTransactions,
+  'transaction_audit_logs' => l.backupTableTransactionAuditLogs,
+  'tags' => l.backupTableTags,
+  'transaction_attachments' => l.backupTableTransactionAttachments,
+  _ => t.replaceAll('_', ' '),
+};
+
+String _frequencyLabel(AppLocalizations l, BackupFrequency f) => switch (f) {
+  BackupFrequency.off => l.backupFreqOff,
+  BackupFrequency.daily => l.backupFreqDaily,
+  BackupFrequency.weekly => l.backupFreqWeekly,
+};
 
 class BackupScreen extends ConsumerStatefulWidget {
   const BackupScreen({super.key});
@@ -48,7 +74,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     } on AppException catch (e) {
       _toast(e.message);
     } catch (e) {
-      _toast('Something went wrong: $e');
+      if (mounted) _toast(context.l10n.backupSomethingWrong('$e'));
     } finally {
       if (mounted) setState(() => _busy = false);
       ref.invalidate(backupListProvider);
@@ -58,8 +84,28 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
 
   Future<void> _create({required bool share}) => _guard(() async {
     final service = await ref.read(backupServiceProvider.future);
-    final info = await service.createBackupFile(kind: BackupKind.manual);
-    _toast('Backup saved: ${info.name}');
+    final estimate = await service.estimatePhotos();
+    if (!mounted) return;
+    final options = await showDialog<_ExportOptions>(
+      context: context,
+      builder: (_) => _ExportDialog(estimate: estimate),
+    );
+    if (options == null) return;
+    BackupExport? stats;
+    final info = await service.createBackupFile(
+      kind: BackupKind.manual,
+      includePhotos: options.includePhotos,
+      password: options.password,
+      onExport: (e) => stats = e,
+    );
+    final missing = stats?.photosMissing ?? 0;
+    if (!mounted) return;
+    final l = context.l10n;
+    _toast(
+      l.backupSavedToast(info.name) +
+          (options.password != null ? l.backupEncryptedSuffix : '') +
+          (missing > 0 ? l.backupMissingPhotosSuffix(missing) : ''),
+    );
     if (share) await _share(info);
   });
 
@@ -84,27 +130,49 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     try {
       text = utf8.decode(await file.readAsBytes());
     } on FormatException {
-      throw ValidationException('That file is not a readable JSON backup.');
+      if (mounted) _toast(context.l10n.backupUnreadableFile);
+      return;
     }
     final service = await ref.read(backupServiceProvider.future);
     await _restoreJson(service, text);
   });
 
+  Future<String?> _askPassword({String? error}) => showDialog<String>(
+    context: context,
+    builder: (_) => _PasswordPromptDialog(error: error),
+  );
+
   /// validate -> summary/errors -> explicit confirmation -> restore.
-  Future<void> _restoreJson(BackupService service, String json) async {
+  Future<void> _restoreJson(BackupService service, String text) async {
+    var json = text;
+    if (BackupCrypto.isEncrypted(text)) {
+      String? error;
+      while (true) {
+        if (!mounted) return;
+        final pw = await _askPassword(error: error);
+        if (pw == null) return; // cancelled, nothing changed
+        try {
+          json = await service.decryptIfNeeded(text, password: pw);
+          break;
+        } on ValidationException catch (e) {
+          error = e.message;
+        }
+      }
+    }
     final v = service.validate(json);
     if (!mounted) return;
+    final l10n = context.l10n;
     if (!v.isValid) {
       await showDialog<void>(
         context: context,
         builder: (ctx) => AlertDialog(
-          title: const Text('Backup cannot be restored'),
+          title: Text(l10n.backupCannotRestoreTitle),
           content: SizedBox(
             width: double.maxFinite,
             child: ListView(
               shrinkWrap: true,
               children: [
-                const Text('Nothing was changed. Problems found:'),
+                Text(l10n.backupNothingChanged),
                 const SizedBox(height: 8),
                 for (final e in v.errors) Text('• $e'),
               ],
@@ -113,7 +181,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(ctx).pop(),
-              child: const Text('Close'),
+              child: Text(l10n.commonClose),
             ),
           ],
         ),
@@ -123,24 +191,24 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('Replace all data?'),
+        title: Text(l10n.backupReplaceAllTitle),
         content: SizedBox(
           width: double.maxFinite,
           child: ListView(
             shrinkWrap: true,
             children: [
               if (v.createdAt != null)
-                Text('Backup created: ${_fmtDate(v.createdAt!.toLocal())}'),
+                Text(l10n.backupCreatedAt(_fmtDate(v.createdAt!.toLocal()))),
               const SizedBox(height: 8),
-              const Text('Contains:'),
+              Text(l10n.backupContains),
               for (final e in v.counts.entries)
                 if (e.key != 'application_settings')
-                  Text('• ${e.value} ${_tableLabel(e.key)}'),
+                  Text(
+                    l10n.backupContainsRow(e.value, _tableLabel(l10n, e.key)),
+                  ),
               const SizedBox(height: 12),
               Text(
-                'Restoring will REPLACE all current data in the app with '
-                'this backup. A safety backup of your current data is '
-                'created first, so you can go back.',
+                l10n.backupReplaceWarning,
                 style: TextStyle(
                   color: Theme.of(ctx).colorScheme.error,
                   fontWeight: FontWeight.w600,
@@ -152,11 +220,11 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),
-            child: const Text('Cancel'),
+            child: Text(l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.of(ctx).pop(true),
-            child: const Text('Replace data'),
+            child: Text(l10n.backupReplaceData),
           ),
         ],
       ),
@@ -173,18 +241,17 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     await ref.read(backupSchedulerProvider).schedule(settings.frequency);
     _toast(
       result.activeProfileCleared
-          ? 'Restore complete. Your previous profile is not in this backup; '
-                'please choose a profile.'
-          : 'Restore complete. A safety backup of the previous data was saved.',
+          ? l10n.backupRestoreCompleteCleared
+          : l10n.backupRestoreComplete,
     );
   }
 
   Future<void> _delete(BackupFileInfo info) async {
     final ok = await showConfirmDialog(
       context,
-      title: 'Delete backup?',
-      message: 'Delete ${info.name}? This cannot be undone.',
-      confirmLabel: 'Delete',
+      title: context.l10n.backupDeleteTitle,
+      message: context.l10n.backupDeleteMessage(info.name),
+      confirmLabel: context.l10n.commonDelete,
     );
     if (!ok) return;
     await _guard(() async {
@@ -209,9 +276,10 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     final list = ref.watch(backupListProvider);
     final settings = ref.watch(backupSettingsProvider);
     final theme = Theme.of(context);
+    final l = context.l10n;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Backup & Restore')),
+      appBar: AppBar(title: Text(l.backupTitle)),
       body: Column(
         children: [
           if (_busy) const LinearProgressIndicator(),
@@ -219,7 +287,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
             child: ListView(
               padding: const EdgeInsets.all(16),
               children: [
-                Text('Back up now', style: theme.textTheme.titleMedium),
+                Text(l.backupBackUpNow, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
@@ -228,22 +296,22 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                     FilledButton.icon(
                       onPressed: _busy ? null : () => _create(share: false),
                       icon: const Icon(Icons.save_alt),
-                      label: const Text('Create backup'),
+                      label: Text(l.backupCreateBackup),
                     ),
                     FilledButton.tonalIcon(
                       onPressed: _busy ? null : () => _create(share: true),
                       icon: const Icon(Icons.share),
-                      label: const Text('Create & share'),
+                      label: Text(l.backupCreateAndShare),
                     ),
                     OutlinedButton.icon(
                       onPressed: _busy ? null : _pickAndRestore,
                       icon: const Icon(Icons.upload_file),
-                      label: const Text('Restore from file'),
+                      label: Text(l.backupRestoreFromFile),
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-                Text('Automatic backup', style: theme.textTheme.titleMedium),
+                Text(l.backupAutoBackup, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 8),
                 settings.when(
                   loading: () => const Padding(
@@ -262,7 +330,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                   ),
                 ),
                 const SizedBox(height: 24),
-                Text('Saved backups', style: theme.textTheme.titleMedium),
+                Text(l.backupSavedBackups, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 4),
                 list.when(
                   loading: () => const Padding(
@@ -274,12 +342,10 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                     onRetry: () => ref.invalidate(backupListProvider),
                   ),
                   data: (items) => items.isEmpty
-                      ? const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 16),
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
                           child: EmptyState(
-                            message:
-                                'No backups yet. Tap "Create backup" to make '
-                                'the first one.',
+                            message: l.backupNoBackupsYet,
                             icon: Icons.backup_outlined,
                           ),
                         )
@@ -320,11 +386,18 @@ class _AutoSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l = context.l10n;
     final status = settings.lastSuccess == null
-        ? 'No automatic backup has run yet.'
-        : '${settings.lastSuccess! ? 'Last run succeeded' : 'Last run failed'}'
-              '${settings.lastBackupAt != null ? ' at ${_fmtDate(settings.lastBackupAt!)}' : ''}'
-              '${settings.lastMessage != null ? ' (${settings.lastMessage})' : ''}';
+        ? l.backupNoAutoRun
+        : (settings.lastSuccess!
+                  ? l.backupLastRunSucceeded
+                  : l.backupLastRunFailed) +
+              (settings.lastBackupAt != null
+                  ? l.backupStatusAt(_fmtDate(settings.lastBackupAt!))
+                  : '') +
+              (settings.lastMessage != null
+                  ? l.backupStatusMessage(settings.lastMessage!)
+                  : '');
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(12),
@@ -333,7 +406,7 @@ class _AutoSection extends StatelessWidget {
           children: [
             Row(
               children: [
-                const Expanded(child: Text('Frequency')),
+                Expanded(child: Text(l.backupFrequency)),
                 DropdownButton<BackupFrequency>(
                   value: settings.frequency,
                   onChanged: busy
@@ -341,14 +414,17 @@ class _AutoSection extends StatelessWidget {
                       : (v) => v == null ? null : onFrequency(v),
                   items: [
                     for (final f in BackupFrequency.values)
-                      DropdownMenuItem(value: f, child: Text(f.label)),
+                      DropdownMenuItem(
+                        value: f,
+                        child: Text(_frequencyLabel(l, f)),
+                      ),
                   ],
                 ),
               ],
             ),
             Row(
               children: [
-                const Expanded(child: Text('Keep last automatic backups')),
+                Expanded(child: Text(l.backupKeepLast)),
                 DropdownButton<int>(
                   value: settings.retention,
                   onChanged: busy
@@ -375,13 +451,7 @@ class _AutoSection extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
-              'Android decides when background work runs, so automatic '
-              'backups may be delayed by hours (battery saver, Doze). '
-              'Backups stay on this device. Manual and safety backups are '
-              'never removed automatically.',
-              style: theme.textTheme.bodySmall,
-            ),
+            Text(l.backupAutoNote, style: theme.textTheme.bodySmall),
           ],
         ),
       ),
@@ -405,10 +475,11 @@ class _BackupTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final kind = switch (info.kind) {
-      BackupKind.manual => 'Manual',
-      BackupKind.auto => 'Automatic',
-      BackupKind.safety => 'Safety (before restore)',
+      BackupKind.manual => l.backupKindManual,
+      BackupKind.auto => l.backupKindAuto,
+      BackupKind.safety => l.backupKindSafety,
     };
     return Card(
       child: ListTile(
@@ -417,24 +488,220 @@ class _BackupTile extends StatelessWidget {
         trailing: Wrap(
           children: [
             IconButton(
-              tooltip: 'Share',
+              tooltip: l.commonShare,
               icon: const Icon(Icons.share_outlined),
               onPressed: busy ? null : onShare,
             ),
             IconButton(
-              tooltip: 'Restore',
+              tooltip: l.commonRestore,
               icon: const Icon(Icons.restore),
               onPressed: busy ? null : onRestore,
             ),
             if (onDelete != null)
               IconButton(
-                tooltip: 'Delete',
+                tooltip: l.commonDelete,
                 icon: const Icon(Icons.delete_outline),
                 onPressed: busy ? null : onDelete,
               ),
           ],
         ),
       ),
+    );
+  }
+}
+
+class _ExportOptions {
+  const _ExportOptions({required this.includePhotos, this.password});
+  final bool includePhotos;
+
+  /// Non-null => encrypt the file with this password.
+  final String? password;
+}
+
+class _ExportDialog extends StatefulWidget {
+  const _ExportDialog({required this.estimate});
+  final PhotoEstimate estimate;
+
+  @override
+  State<_ExportDialog> createState() => _ExportDialogState();
+}
+
+class _ExportDialogState extends State<_ExportDialog> {
+  bool _photos = true;
+  bool _encrypt = false;
+  bool _show = false;
+  final _pw = TextEditingController();
+  final _pw2 = TextEditingController();
+  String? _error;
+
+  @override
+  void dispose() {
+    _pw.dispose();
+    _pw2.dispose();
+    super.dispose();
+  }
+
+  void _submit() {
+    if (_encrypt) {
+      if (_pw.text.length < minBackupPasswordLength) {
+        setState(
+          () => _error = context.l10n.backupPasswordTooShort(
+            minBackupPasswordLength,
+          ),
+        );
+        return;
+      }
+      if (_pw.text != _pw2.text) {
+        setState(() => _error = context.l10n.backupPasswordMismatch);
+        return;
+      }
+    }
+    Navigator.of(context).pop(
+      _ExportOptions(
+        includePhotos: _photos,
+        password: _encrypt ? _pw.text : null,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final e = widget.estimate;
+    final theme = Theme.of(context);
+    final l = context.l10n;
+    return AlertDialog(
+      title: Text(l.backupCreateBackup),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (e.count + e.missing > 0)
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                value: _photos,
+                onChanged: (v) => setState(() => _photos = v ?? true),
+                title: Text(l.backupIncludePhotos),
+                subtitle: Text(
+                  l.backupPhotoCount(e.count, _fmtSize(e.approxBackupBytes)) +
+                      (e.missing > 0 ? l.backupMissingSkipped(e.missing) : ''),
+                ),
+              )
+            else
+              Text(l.backupNoPhotos, style: theme.textTheme.bodySmall),
+            SwitchListTile(
+              contentPadding: EdgeInsets.zero,
+              value: _encrypt,
+              onChanged: (v) => setState(() {
+                _encrypt = v;
+                _error = null;
+              }),
+              title: Text(l.backupEncrypt),
+              subtitle: Text(l.backupEncryptNote),
+            ),
+            if (_encrypt) ...[
+              TextField(
+                controller: _pw,
+                obscureText: !_show,
+                autocorrect: false,
+                enableSuggestions: false,
+                decoration: InputDecoration(
+                  labelText: l.backupPasswordMinLabel(minBackupPasswordLength),
+                  suffixIcon: IconButton(
+                    tooltip: _show ? l.backupHide : l.backupShow,
+                    icon: Icon(_show ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () => setState(() => _show = !_show),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              TextField(
+                controller: _pw2,
+                obscureText: !_show,
+                autocorrect: false,
+                enableSuggestions: false,
+                decoration: InputDecoration(labelText: l.backupConfirmPassword),
+              ),
+              if (_error != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    _error!,
+                    style: TextStyle(color: theme.colorScheme.error),
+                  ),
+                ),
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l.commonCancel),
+        ),
+        FilledButton(onPressed: _submit, child: Text(l.commonCreate)),
+      ],
+    );
+  }
+}
+
+class _PasswordPromptDialog extends StatefulWidget {
+  const _PasswordPromptDialog({this.error});
+  final String? error;
+
+  @override
+  State<_PasswordPromptDialog> createState() => _PasswordPromptDialogState();
+}
+
+class _PasswordPromptDialogState extends State<_PasswordPromptDialog> {
+  final _pw = TextEditingController();
+
+  @override
+  void dispose() {
+    _pw.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    return AlertDialog(
+      title: Text(l.backupPasswordRequired),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(l.backupEncryptedPrompt),
+          const SizedBox(height: 8),
+          TextField(
+            controller: _pw,
+            obscureText: true,
+            autofocus: true,
+            autocorrect: false,
+            enableSuggestions: false,
+            decoration: InputDecoration(labelText: l.backupPassword),
+            onSubmitted: (v) => Navigator.of(context).pop(v),
+          ),
+          if (widget.error != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                widget.error!,
+                style: TextStyle(color: Theme.of(context).colorScheme.error),
+              ),
+            ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(l.commonCancel),
+        ),
+        FilledButton(
+          onPressed: () => Navigator.of(context).pop(_pw.text),
+          child: Text(l.backupUnlock),
+        ),
+      ],
     );
   }
 }

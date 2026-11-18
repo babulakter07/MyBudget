@@ -1,18 +1,28 @@
 import 'dart:math';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/errors/app_exception.dart';
+import '../../../core/utils/currency.dart';
 import '../../../core/utils/date_keys.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
+import '../../attachments/domain/attachment.dart';
+import '../../attachments/presentation/attachments_section.dart';
+import '../../attachments/providers/attachment_providers.dart';
+import '../../currency/domain/exchange_rate.dart';
+import '../../currency/providers/currency_providers.dart';
+import '../../profiles/data/profile_providers.dart';
+import '../../tags/presentation/tag_picker.dart';
+import '../../tags/providers/tag_providers.dart';
 import '../domain/transaction_models.dart';
 import '../providers/transaction_providers.dart';
-
-const _incomeSources = ['Salary', 'Freelance', 'Business', 'Other'];
+import 'amount_keypad.dart';
 
 String _newIdempotencyKey() =>
     '${DateTime.now().microsecondsSinceEpoch}-${Random().nextInt(1 << 31)}';
@@ -45,8 +55,16 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
   late DateTime _date;
   String _idempotencyKey = _newIdempotencyKey();
   bool _saving = false;
+
+  /// Selected foreign currency (null = base) and the rate it uses.
+  String? _fxCode;
+  int? _fxRate;
   String? _error;
   int _gen = 0;
+  Set<int> _tagIds = <int>{};
+  Set<int> _initialTagIds = <int>{};
+  bool _tagsLoaded = true;
+  final PendingAttachments _pending = PendingAttachments();
 
   bool get _editing => widget.existing != null;
 
@@ -65,10 +83,38 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       _subId = e.subCategoryId;
       _itemId = e.costItemId;
       _date = parseDateKey(e.date);
-      _amount.text = formatMinor(e.amountMinor, symbol: '');
+      if (e.isForeign && !e.isTransfer) {
+        _fxCode = e.originalCurrency;
+        _fxRate = e.rateMicro;
+        _amount.text = formatMinor(e.originalAmountMinor!, symbol: '');
+      } else {
+        _amount.text = formatMinor(e.amountMinor, symbol: '');
+      }
       _title.text = e.title ?? '';
       _remarks.text = e.remarks ?? '';
       _source.text = e.incomeSource ?? '';
+      _tagsLoaded = false;
+      _loadTags(e.id);
+    }
+  }
+
+  Future<void> _loadTags(int id) async {
+    try {
+      final pid = ref.read(activeProfileIdProvider);
+      if (pid == null) return;
+      final tags = await ref
+          .read(tagRepositoryProvider)
+          .tagsForTransaction(pid, id)
+          .first;
+      if (!mounted) return;
+      setState(() {
+        _tagIds = {for (final t in tags) t.id};
+        _initialTagIds = {..._tagIds};
+        _tagsLoaded = true;
+      });
+    } on Object {
+      // Leave tags untouched on failure (_tagsLoaded stays false so a save
+      // never wipes them).
     }
   }
 
@@ -78,6 +124,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
     _title.dispose();
     _remarks.dispose();
     _source.dispose();
+    _pending.dispose();
     super.dispose();
   }
 
@@ -88,8 +135,23 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
     if (!_formKey.currentState!.validate()) return;
     final pid = ref.read(activeProfileIdProvider);
     if (pid == null) return;
-    final amount = parseMajorToMinor(_amount.text);
-    if (amount == null) return;
+    final typed = parseMajorToMinor(_amount.text);
+    if (typed == null) return;
+    final fxCode = _type == TransactionType.transfer ? null : _fxCode;
+    final fxRate = fxCode == null ? null : _fxRate;
+    var amount = typed;
+    int? origMinor;
+    if (fxCode != null) {
+      final base = fxRate == null
+          ? null
+          : convertToBaseMinor(originalMinor: typed, rateMicro: fxRate);
+      if (base == null) {
+        setState(() => _error = context.l10n.transactionsCannotConvertSave);
+        return;
+      }
+      amount = base;
+      origMinor = typed;
+    }
     setState(() {
       _saving = true;
       _error = null;
@@ -98,33 +160,40 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
     final date = dateKey(_date);
     try {
       final e = widget.existing;
+      int? newId;
       if (e == null) {
         switch (_type) {
           case TransactionType.expense:
-            await repo.createExpense(
+            newId = (await repo.createExpense(
               profileId: pid,
               accountId: _accountId!,
               categoryId: _categoryId!,
               subCategoryId: _subId,
               costItemId: _itemId,
               amountMinor: amount,
+              originalAmountMinor: origMinor,
+              originalCurrency: fxCode,
+              rateMicro: fxRate,
               date: date,
               title: _title.text,
               remarks: _remarks.text,
               idempotencyKey: _idempotencyKey,
-            );
+            )).id;
           case TransactionType.income:
-            await repo.createIncome(
+            newId = (await repo.createIncome(
               profileId: pid,
               accountId: _accountId!,
               incomeSource: _source.text,
               amountMinor: amount,
+              originalAmountMinor: origMinor,
+              originalCurrency: fxCode,
+              rateMicro: fxRate,
               date: date,
               remarks: _remarks.text,
               idempotencyKey: _idempotencyKey,
-            );
+            )).id;
           default:
-            await repo.createTransfer(
+            newId = (await repo.createTransfer(
               profileId: pid,
               fromAccountId: _accountId!,
               toAccountId: _toAccountId!,
@@ -132,7 +201,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               date: date,
               remarks: _remarks.text,
               idempotencyKey: _idempotencyKey,
-            );
+            )).id;
         }
       } else {
         switch (_type) {
@@ -145,6 +214,9 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               subCategoryId: _subId,
               costItemId: _itemId,
               amountMinor: amount,
+              originalAmountMinor: origMinor,
+              originalCurrency: fxCode,
+              rateMicro: fxRate,
               date: date,
               title: _title.text,
               remarks: _remarks.text,
@@ -156,6 +228,9 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               accountId: _accountId!,
               incomeSource: _source.text,
               amountMinor: amount,
+              originalAmountMinor: origMinor,
+              originalCurrency: fxCode,
+              rateMicro: fxRate,
               date: date,
               title: _title.text,
               remarks: _remarks.text,
@@ -173,14 +248,20 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             );
         }
       }
+      // The transaction is saved; tag/receipt failures must never undo it.
+      final warning = await _saveExtras(pid, e?.id ?? newId!);
       if (!mounted) return;
       if (_editing) {
         setState(() => _saving = false);
+        if (warning != null) _snack(warning);
         widget.onSaved?.call();
         return;
       }
-      ScaffoldMessenger.maybeOf(context)
-          ?.showSnackBar(const SnackBar(content: Text('Transaction saved')));
+      _snack(
+        warning == null
+            ? context.l10n.transactionsSaved
+            : context.l10n.transactionsSavedWithWarning(warning),
+      );
       setState(() {
         _saving = false;
         _idempotencyKey = _newIdempotencyKey();
@@ -192,9 +273,13 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
         _subId = null;
         _itemId = null;
         _toAccountId = null;
+        _fxCode = null;
+        _fxRate = null;
         _date = DateTime.now();
+        _tagIds = <int>{};
         _gen++;
       });
+      _pending.clear();
       widget.onSaved?.call();
     } on AppException catch (e) {
       if (mounted) {
@@ -207,10 +292,153 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       if (mounted) {
         setState(() {
           _saving = false;
-          _error = 'Could not save the transaction: $e';
+          _error = context.l10n.transactionsSaveFailed('$e');
         });
       }
     }
+  }
+
+  void _snack(String m) =>
+      ScaffoldMessenger.maybeOf(context)
+          ?.showSnackBar(SnackBar(content: Text(m)));
+
+  /// Saves tags and (add mode) pending receipts for a saved transaction.
+  /// Returns a warning message when something failed, else null.
+  Future<String?> _saveExtras(int pid, int txnId) async {
+    final l = context.l10n;
+    final problems = <String>[];
+    final tagsChanged = _editing
+        ? (_tagsLoaded &&
+              (_tagIds.length != _initialTagIds.length ||
+                  !_tagIds.containsAll(_initialTagIds)))
+        : _tagIds.isNotEmpty;
+    if (tagsChanged) {
+      try {
+        await ref
+            .read(tagRepositoryProvider)
+            .setTagsForTransaction(pid, txnId, _tagIds);
+      } on Object catch (err) {
+        problems.add(l.transactionsTagsSaveFailed(_msg(err)));
+      }
+    }
+    if (!_editing && !_pending.isEmpty) {
+      try {
+        await ref
+            .read(attachmentRepositoryProvider)
+            .commitPending(
+              profileId: pid,
+              transactionId: txnId,
+              pending: _pending,
+            );
+      } on Object catch (err) {
+        problems.add(l.transactionsReceiptsSaveFailed(_msg(err)));
+      }
+    }
+    if (problems.isEmpty) return null;
+    return l.transactionsExtrasWarning(problems.join(l.transactionsWarningAnd));
+  }
+
+  String _msg(Object err) => err is AppException ? err.message : '$err';
+
+  Future<void> _openKeypad() async {
+    final m = await showAmountKeypad(context, initial: _amount.text.trim());
+    if (m != null && mounted) {
+      setState(() => _amount.text = formatMinor(m, symbol: ''));
+    }
+  }
+
+  /// Prefills the add form. Only called in add mode.
+  void _prefill({
+    required String type,
+    int? accountId,
+    int? toAccountId,
+    int? categoryId,
+    int? subId,
+    int? itemId,
+    int? amountMinor,
+    String? title,
+    String? source,
+  }) {
+    setState(() {
+      _type = type;
+      _error = null;
+      if (accountId != null) _accountId = accountId;
+      _toAccountId = toAccountId;
+      _categoryId = categoryId;
+      _subId = subId;
+      _itemId = itemId;
+      _fxCode = null;
+      _fxRate = null;
+      if (amountMinor != null && amountMinor > 0) {
+        _amount.text = formatMinor(amountMinor, symbol: '');
+      }
+      if (title != null) _title.text = title;
+      if (source != null) _source.text = source;
+      _date = DateTime.now();
+      _idempotencyKey = _newIdempotencyKey();
+      _gen++;
+    });
+  }
+
+  void _repeatLast(TransactionView t, List<AccountRow> accounts) {
+    bool active(int? id) => id != null && accounts.any((a) => a.id == id);
+    _prefill(
+      type: t.type,
+      accountId: active(t.accountId) ? t.accountId : null,
+      toAccountId: active(t.toAccountId) ? t.toAccountId : null,
+      categoryId: t.categoryId,
+      subId: t.subCategoryId,
+      itemId: t.costItemId,
+      amountMinor: t.amountMinor,
+      title: t.type == TransactionType.income ? null : (t.title ?? ''),
+      source: t.type == TransactionType.income ? (t.incomeSource ?? '') : null,
+    );
+  }
+
+  Widget _quickAdd(List<AccountRow> accounts) {
+    final last = ref.watch(recentTransactionsProvider(1)).value;
+    final favs =
+        ref.watch(favouriteCostItemsProvider).value ??
+        const <FavouriteCostItem>[];
+    final lastTxn = (last == null || last.isEmpty) ? null : last.first;
+    if (lastTxn == null && favs.isEmpty) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: SingleChildScrollView(
+        key: const ValueKey('quick-add-row'),
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            if (lastTxn != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ActionChip(
+                  key: const ValueKey('repeat-last'),
+                  avatar: const Icon(Icons.replay, size: 18),
+                  label: Text(context.l10n.transactionsRepeatLast),
+                  onPressed: () => _repeatLast(lastTxn, accounts),
+                ),
+              ),
+            for (final f in favs)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: ActionChip(
+                  key: ValueKey('fav-chip-${f.costItemId}'),
+                  avatar: const Icon(Icons.star, size: 18),
+                  label: Text(f.name),
+                  onPressed: () => _prefill(
+                    type: TransactionType.expense,
+                    categoryId: f.categoryId,
+                    subId: f.subCategoryId,
+                    itemId: f.costItemId,
+                    amountMinor: f.defaultAmountMinor,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _pickDate() async {
@@ -242,11 +470,9 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
     final cats = catsAsync.value ?? const <CategoryRow>[];
 
     if (accounts.isEmpty && !_editing) {
-      return const EmptyState(
+      return EmptyState(
         icon: Icons.account_balance_wallet_outlined,
-        message:
-            'No accounts yet.\nCreate an account in Settings > Accounts '
-            'before adding transactions.',
+        message: context.l10n.transactionsNoAccounts,
       );
     }
     if (!_editing && _accountId == null && accounts.length == 1) {
@@ -259,22 +485,23 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
         padding: const EdgeInsets.all(16),
         children: [
           if (!_editing) ...[
+            _quickAdd(accounts),
             SegmentedButton<String>(
-              segments: const [
+              segments: [
                 ButtonSegment(
                   value: TransactionType.expense,
-                  label: Text('Expense'),
-                  icon: Icon(Icons.arrow_upward),
+                  label: Text(context.l10n.transactionsTypeExpense),
+                  icon: const Icon(Icons.arrow_upward),
                 ),
                 ButtonSegment(
                   value: TransactionType.income,
-                  label: Text('Income'),
-                  icon: Icon(Icons.arrow_downward),
+                  label: Text(context.l10n.transactionsTypeIncome),
+                  icon: const Icon(Icons.arrow_downward),
                 ),
                 ButtonSegment(
                   value: TransactionType.transfer,
-                  label: Text('Transfer'),
-                  icon: Icon(Icons.swap_horiz),
+                  label: Text(context.l10n.transactionsTypeTransfer),
+                  icon: const Icon(Icons.swap_horiz),
                 ),
               ],
               selected: {_type},
@@ -290,8 +517,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           _accountDropdown(
             accounts: accounts,
             label: _type == TransactionType.transfer
-                ? 'From account'
-                : 'Account',
+                ? context.l10n.transactionsFromAccount
+                : context.l10n.transactionsAccount,
             value: _accountId,
             existingId: widget.existing?.accountId,
             existingName: widget.existing?.accountName,
@@ -305,48 +532,57 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             const SizedBox(height: 12),
             _accountDropdown(
               accounts: accounts,
-              label: 'To account',
+              label: context.l10n.transactionsToAccount,
               value: _toAccountId,
               existingId: widget.existing?.toAccountId,
               existingName: widget.existing?.toAccountName,
               excludeId: _accountId,
               keyName: 'to-account-field',
               onChanged: (v) => setState(() => _toAccountId = v),
-              validatorExtra: (v) =>
-                  v == _accountId ? 'Choose a different account' : null,
+              validatorExtra: (v) => v == _accountId
+                  ? context.l10n.transactionsChooseDifferentAccount
+                  : null,
             ),
           ],
           const SizedBox(height: 12),
+          if (_type != TransactionType.transfer) _currencySelector(),
           TextFormField(
             key: const ValueKey('amount-field'),
             controller: _amount,
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
-              labelText: 'Amount',
-              prefixText: '৳ ',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: context.l10n.transactionsAmount,
+              prefixText:
+                  '${_fxCode != null && _type != TransactionType.transfer ? currencySymbol(_fxCode!) : _baseSymbol} ',
+              border: const OutlineInputBorder(),
+              suffixIcon: IconButton(
+                key: const ValueKey('calc-button'),
+                tooltip: context.l10n.transactionsCalculator,
+                icon: const Icon(Icons.calculate_outlined),
+                onPressed: _openKeypad,
+              ),
             ),
             validator: (v) {
               final t = v?.trim() ?? '';
-              if (t.isEmpty) return 'Enter an amount';
+              if (t.isEmpty) return context.l10n.transactionsEnterAmount;
               final m = parseMajorToMinor(t);
               if (m == null) {
-                return 'Enter a valid amount, like 1250 or 1250.50 '
-                    '(max 2 decimals)';
+                return context.l10n.transactionsInvalidAmount;
               }
-              if (m <= 0) return 'Amount must be greater than zero';
+              if (m <= 0) return context.l10n.transactionsAmountPositive;
               return null;
             },
           ),
+          if (_type != TransactionType.transfer) _conversionLine(),
           const SizedBox(height: 12),
           InkWell(
             key: const ValueKey('date-field'),
             onTap: _pickDate,
             child: InputDecorator(
-              decoration: const InputDecoration(
-                labelText: 'Date',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.calendar_today),
+              decoration: InputDecoration(
+                labelText: context.l10n.transactionsDate,
+                border: const OutlineInputBorder(),
+                suffixIcon: const Icon(Icons.calendar_today),
               ),
               child: Text(dateKey(_date)),
             ),
@@ -356,9 +592,9 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             TextFormField(
               key: const ValueKey('title-field'),
               controller: _title,
-              decoration: const InputDecoration(
-                labelText: 'Title (optional)',
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: context.l10n.transactionsTitleOptional,
+                border: const OutlineInputBorder(),
               ),
             ),
           ],
@@ -367,11 +603,31 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
             key: const ValueKey('remarks-field'),
             controller: _remarks,
             maxLines: 2,
-            decoration: const InputDecoration(
-              labelText: 'Remarks (optional)',
-              border: OutlineInputBorder(),
+            decoration: InputDecoration(
+              labelText: context.l10n.transactionsRemarksOptional,
+              border: const OutlineInputBorder(),
             ),
           ),
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.transactionsTags,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          const SizedBox(height: 4),
+          TagPicker(
+            selectedIds: _tagIds,
+            onChanged: (ids) => setState(() => _tagIds = ids),
+          ),
+          const SizedBox(height: 16),
+          Text(
+            context.l10n.transactionsReceipts,
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
+          const SizedBox(height: 4),
+          if (_editing)
+            AttachmentsSection(transactionId: widget.existing!.id)
+          else
+            AttachmentsSection(pending: _pending),
           if (_error != null)
             Padding(
               padding: const EdgeInsets.only(top: 12),
@@ -390,10 +646,127 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
                     height: 20,
                     child: CircularProgressIndicator(strokeWidth: 2),
                   )
-                : Text(_editing ? 'Save changes' : 'Save'),
+                : Text(
+                    _editing
+                        ? context.l10n.transactionsSaveChanges
+                        : context.l10n.commonSave,
+                  ),
           ),
         ],
       ),
+    );
+  }
+
+  String get _baseCode =>
+      ref.watch(activeProfileProvider).value?.currencyCode.toUpperCase() ??
+      'BDT';
+
+  String get _baseSymbol => currencySymbol(_baseCode);
+
+  void _pickCurrency(String? code, List<ExchangeRate> rates) {
+    setState(() {
+      _error = null;
+      if (code == null) {
+        _fxCode = null;
+        _fxRate = null;
+        return;
+      }
+      final active = rates.where((r) => r.currencyCode == code).firstOrNull;
+      _fxCode = code;
+      _fxRate = active?.rateMicro ?? _fxRate;
+    });
+  }
+
+  Widget _currencySelector() {
+    final rates = ref.watch(exchangeRatesProvider).value ?? const [];
+    final e = widget.existing;
+    final savedCode = (e != null && e.isForeign) ? e.originalCurrency : null;
+    final codes = <String>[
+      for (final r in rates)
+        if (r.currencyCode != _baseCode) r.currencyCode,
+      if (savedCode != null && !rates.any((r) => r.currencyCode == savedCode))
+        savedCode,
+    ];
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Wrap(
+        spacing: 8,
+        runSpacing: 4,
+        crossAxisAlignment: WrapCrossAlignment.center,
+        children: [
+          ChoiceChip(
+            key: ValueKey('currency-chip-$_baseCode'),
+            label: Text(_baseCode),
+            selected: _fxCode == null,
+            onSelected: (_) => _pickCurrency(null, rates),
+          ),
+          for (final c in codes)
+            ChoiceChip(
+              key: ValueKey('currency-chip-$c'),
+              label: Text(c),
+              selected: _fxCode == c,
+              onSelected: (_) => _pickCurrency(c, rates),
+            ),
+          if (codes.isEmpty)
+            TextButton(
+              key: const ValueKey('add-rates-link'),
+              onPressed: () => context.push('/config/currencies'),
+              child: Text(context.l10n.transactionsAddExchangeRates),
+            ),
+        ],
+      ),
+    );
+  }
+
+  Widget _conversionLine() {
+    final code = _fxCode;
+    if (code == null) return const SizedBox.shrink();
+    return ValueListenableBuilder<TextEditingValue>(
+      valueListenable: _amount,
+      builder: (context, v, _) {
+        final rate = _fxRate;
+        final typed = parseMajorToMinor(v.text);
+        final theme = Theme.of(context);
+        String text;
+        var bad = false;
+        if (rate == null) {
+          text = context.l10n.transactionsNoRate(code);
+          bad = true;
+        } else if (typed == null || typed <= 0) {
+          text = context.l10n.transactionsRateLine(
+            code,
+            _baseSymbol,
+            formatRate(rate),
+          );
+        } else {
+          final base = convertToBaseMinor(
+            originalMinor: typed,
+            rateMicro: rate,
+          );
+          if (base == null) {
+            text = context.l10n.transactionsConvertFail;
+            bad = true;
+          } else {
+            text = context.l10n.transactionsConvertedLine(
+              formatMinor(base, symbol: _baseSymbol),
+              code,
+              formatRate(rate),
+            );
+          }
+        }
+        return Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text(
+            text,
+            key: const ValueKey('conversion-line'),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: bad
+                  ? theme.colorScheme.error
+                  : theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -417,7 +790,11 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           !accounts.any((a) => a.id == existingId))
         DropdownMenuItem<int>(
           value: existingId,
-          child: Text('${existingName ?? 'Account'} (inactive)'),
+          child: Text(
+            context.l10n.transactionsInactiveSuffix(
+              existingName ?? context.l10n.transactionsAccount,
+            ),
+          ),
         ),
     ];
     final current = items.any((i) => i.value == value) ? value : null;
@@ -431,21 +808,19 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       ),
       items: items,
       onChanged: onChanged,
-      validator: (v) =>
-          v == null ? 'Select an account' : validatorExtra?.call(v),
+      validator: (v) => v == null
+          ? context.l10n.transactionsSelectAccount
+          : validatorExtra?.call(v),
     );
   }
 
   List<Widget> _expenseFields(List<CategoryRow> cats) {
     final e = widget.existing;
     if (cats.isEmpty && !_editing) {
-      return const [
+      return [
         Padding(
-          padding: EdgeInsets.only(bottom: 16),
-          child: Text(
-            'No categories yet. Create a category in Settings > Categories '
-            'to record expenses.',
-          ),
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Text(context.l10n.transactionsNoCategories),
         ),
       ];
     }
@@ -464,7 +839,11 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       if (e?.categoryId != null && !cats.any((c) => c.id == e!.categoryId))
         DropdownMenuItem<int>(
           value: e!.categoryId,
-          child: Text('${e.categoryName ?? 'Category'} (inactive)'),
+          child: Text(
+            context.l10n.transactionsInactiveSuffix(
+              e.categoryName ?? context.l10n.transactionsCategory,
+            ),
+          ),
         ),
     ];
     final subItems = [
@@ -475,7 +854,11 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           !subs.any((s) => s.id == e.subCategoryId))
         DropdownMenuItem<int>(
           value: e.subCategoryId,
-          child: Text('${e.subCategoryName ?? 'Sub-category'} (inactive)'),
+          child: Text(
+            context.l10n.transactionsInactiveSuffix(
+              e.subCategoryName ?? context.l10n.transactionsSubCategory,
+            ),
+          ),
         ),
     ];
     final costItems = [
@@ -486,7 +869,11 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           !items.any((i) => i.id == e.costItemId))
         DropdownMenuItem<int>(
           value: e.costItemId,
-          child: Text('${e.costItemName ?? 'Cost item'} (inactive)'),
+          child: Text(
+            context.l10n.transactionsInactiveSuffix(
+              e.costItemName ?? context.l10n.transactionsCostItem,
+            ),
+          ),
         ),
     ];
     int? valid(int? v, List<DropdownMenuItem<int>> l) =>
@@ -497,9 +884,9 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
         key: ValueKey('cat-$_categoryId-${catItems.length}-$_gen'),
         initialValue: valid(_categoryId, catItems),
         isExpanded: true,
-        decoration: const InputDecoration(
-          labelText: 'Category',
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          labelText: context.l10n.transactionsCategory,
+          border: const OutlineInputBorder(),
         ),
         items: catItems,
         onChanged: (v) => setState(() {
@@ -507,16 +894,17 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
           _subId = null;
           _itemId = null;
         }),
-        validator: (v) => v == null ? 'Select a category' : null,
+        validator: (v) =>
+            v == null ? context.l10n.transactionsSelectCategory : null,
       ),
       const SizedBox(height: 12),
       DropdownButtonFormField<int>(
         key: ValueKey('sub-$_categoryId-$_subId-${subItems.length}-$_gen'),
         initialValue: valid(_subId, subItems),
         isExpanded: true,
-        decoration: const InputDecoration(
-          labelText: 'Sub-category (optional)',
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          labelText: context.l10n.transactionsSubCategoryOptional,
+          border: const OutlineInputBorder(),
         ),
         items: subItems,
         onChanged: _categoryId == null
@@ -531,9 +919,9 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
         key: ValueKey('item-$_subId-$_itemId-${costItems.length}-$_gen'),
         initialValue: valid(_itemId, costItems),
         isExpanded: true,
-        decoration: const InputDecoration(
-          labelText: 'Cost item (optional)',
-          border: OutlineInputBorder(),
+        decoration: InputDecoration(
+          labelText: context.l10n.transactionsCostItemOptional,
+          border: const OutlineInputBorder(),
         ),
         items: costItems,
         onChanged: _subId == null
@@ -544,7 +932,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
                     .where((i) => i.id == v)
                     .map((i) => i.defaultAmountMinor)
                     .firstOrNull;
-                if (def != null && def > 0) {
+                if (def != null && def > 0 && _fxCode == null) {
                   _amount.text = formatMinor(def, symbol: '');
                 }
               }),
@@ -553,25 +941,35 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
     ];
   }
 
-  List<Widget> _incomeFields() => [
-    TextFormField(
-      key: const ValueKey('source-field'),
-      controller: _source,
-      decoration: const InputDecoration(
-        labelText: 'Income source',
-        border: OutlineInputBorder(),
+  List<Widget> _incomeFields() {
+    final l = context.l10n;
+    final sources = [
+      l.transactionsSourceSalary,
+      l.transactionsSourceFreelance,
+      l.transactionsSourceBusiness,
+      l.transactionsSourceOther,
+    ];
+    return [
+      TextFormField(
+        key: const ValueKey('source-field'),
+        controller: _source,
+        decoration: InputDecoration(
+          labelText: context.l10n.transactionsIncomeSource,
+          border: const OutlineInputBorder(),
+        ),
+        validator: (v) => (v == null || v.trim().isEmpty)
+            ? context.l10n.transactionsEnterIncomeSource
+            : null,
       ),
-      validator: (v) =>
-          (v == null || v.trim().isEmpty) ? 'Enter an income source' : null,
-    ),
-    const SizedBox(height: 8),
-    Wrap(
-      spacing: 8,
-      children: [
-        for (final s in _incomeSources)
-          ActionChip(label: Text(s), onPressed: () => _source.text = s),
-      ],
-    ),
-    const SizedBox(height: 12),
-  ];
+      const SizedBox(height: 8),
+      Wrap(
+        spacing: 8,
+        children: [
+          for (final s in sources)
+            ActionChip(label: Text(s), onPressed: () => _source.text = s),
+        ],
+      ),
+      const SizedBox(height: 12),
+    ];
+  }
 }

@@ -1,0 +1,238 @@
+{
+  "transactionsRepeatLast": "Repeat last",
+  "transactionsTypeExpense": "Expense",
+  "transactionsTypeIncome": "Income",
+  "transactionsTypeTransfer": "Transfer",
+  "transactionsFromAccount": "From account",
+  "transactionsToAccount": "To account",
+  "transactionsAccount": "Account",
+  "transactionsAmount": "Amount",
+  "transactionsCalculator": "Calculator",
+  "transactionsDate": "Date",
+  "transactionsTitleOptional": "Title (optional)",
+  "transactionsRemarksOptional": "Remarks (optional)",
+  "transactionsTags": "Tags",
+  "transactionsReceipts": "Receipts",
+  "transactionsAddExchangeRates": "Add exchange rates",
+  "transactionsInactiveSuffix": "{name} (inactive)",
+  "@transactionsInactiveSuffix": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsCategory": "Category",
+  "transactionsSubCategory": "Sub-category",
+  "transactionsSubCategoryOptional": "Sub-category (optional)",
+  "transactionsCostItem": "Cost item",
+  "transactionsCostItemOptional": "Cost item (optional)",
+  "transactionsIncomeSource": "Income source",
+  "transactionsSourceSalary": "Salary",
+  "transactionsSourceFreelance": "Freelance",
+  "transactionsSourceBusiness": "Business",
+  "transactionsSourceOther": "Other",
+  "transactionsChooseDifferentAccount": "Choose a different account",
+  "transactionsSelectAccount": "Select an account",
+  "transactionsSelectCategory": "Select a category",
+  "transactionsEnterIncomeSource": "Enter an income source",
+  "transactionsEnterAmount": "Enter an amount",
+  "transactionsInvalidAmount": "Enter a valid amount, like 1250 or 1250.50 (max 2 decimals)",
+  "transactionsAmountPositive": "Amount must be greater than zero",
+  "transactionsNoAccounts": "No accounts yet.\nCreate an account in Settings > Accounts before adding transactions.",
+  "transactionsNoCategories": "No categories yet. Create a category in Settings > Categories to record expenses.",
+  "transactionsSaveChanges": "Save changes",
+  "transactionsSaved": "Transaction saved",
+  "transactionsSavedWithWarning": "Transaction saved. {warning}",
+  "@transactionsSavedWithWarning": {
+    "placeholders": {
+      "warning": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsCannotConvertSave": "This amount cannot be converted at the selected rate (it rounds to zero or is too large). Change the amount or rate.",
+  "transactionsSaveFailed": "Could not save the transaction: {error}",
+  "@transactionsSaveFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsTagsSaveFailed": "tags could not be saved ({reason})",
+  "@transactionsTagsSaveFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsReceiptsSaveFailed": "receipts could not be saved ({reason})",
+  "@transactionsReceiptsSaveFailed": {
+    "placeholders": {
+      "reason": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsWarningAnd": " and ",
+  "transactionsExtrasWarning": "Warning: {problems}. You can add them by editing the transaction.",
+  "@transactionsExtrasWarning": {
+    "placeholders": {
+      "problems": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsNoRate": "No exchange rate for {code}. Add one in exchange rates.",
+  "@transactionsNoRate": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsRateLine": "1 {code} = {symbol}{rate}",
+  "@transactionsRateLine": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsConvertFail": "Amount cannot be converted (rounds to zero or too large).",
+  "transactionsConvertedLine": "= {amount} at 1 {code} = {rate}",
+  "@transactionsConvertedLine": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsSelectProfileFirst": "Select a profile first.",
+  "transactionsEditTitle": "Edit transaction",
+  "transactionsNotFound": "Transaction not found.",
+  "transactionsDeletedCannotEdit": "This transaction is deleted. Restore it to edit.",
+  "transactionsUpdated": "Transaction updated",
+  "transactionsDetailTitle": "Transaction",
+  "transactionsDeleteTitle": "Delete transaction?",
+  "transactionsDeleteTransferMessage": "This transfer will be removed from both accounts. You can undo this.",
+  "transactionsDeleteMessage": "This transaction will be removed from balances, budgets and reports. You can undo this.",
+  "transactionsDeleted": "Transaction deleted",
+  "transactionsRestored": "Transaction restored",
+  "transactionsIsDeleted": "This transaction is deleted",
+  "transactionsExcludedNote": "It is excluded from balances, budgets and reports.",
+  "transactionsOriginalLine": "{original} at 1 {code} = {symbol}{rate}",
+  "@transactionsOriginalLine": {
+    "placeholders": {
+      "original": {
+        "type": "String"
+      },
+      "code": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsDescription": "Description",
+  "transactionsSource": "Source",
+  "transactionsTitle": "Title",
+  "transactionsRemarks": "Remarks",
+  "transactionsHistory": "History",
+  "transactionsHistoryLoadFailed": "Could not load history: {error}",
+  "@transactionsHistoryLoadFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsNoHistory": "No history yet.",
+  "transactionsAuditCreated": "Created",
+  "transactionsAuditEdited": "Edited",
+  "transactionsAuditDeleted": "Deleted",
+  "transactionsAuditRestored": "Restored",
+  "transactionsChangeAmount": "amount: {from} → {to}",
+  "@transactionsChangeAmount": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsChangeOriginalAmount": "original amount: {from} → {to}",
+  "@transactionsChangeOriginalAmount": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsChangeOriginalCurrency": "original currency: {from} → {to}",
+  "@transactionsChangeOriginalCurrency": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsChangeRate": "rate: {from} → {to}",
+  "@transactionsChangeRate": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsChangeGeneric": "{field}: {from} → {to}",
+  "@transactionsChangeGeneric": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "transactionsFieldTitle": "title",
+  "transactionsFieldRemarks": "remarks",
+  "transactionsFieldIncomeSource": "incomeSource",
+  "transactionsFieldDate": "txnDate",
+  "transactionsFieldType": "type",
+  "transactionsKeypadUseAmount": "Use amount",
+  "transactionsKeypadAmountPositive": "Amount must be greater than zero."
+}

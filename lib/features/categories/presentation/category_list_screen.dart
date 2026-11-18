@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/app_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../domain/category.dart';
 import '../providers/category_providers.dart';
@@ -18,11 +19,11 @@ class CategoryListScreen extends ConsumerWidget {
     final async = ref.watch(categoriesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Categories')),
+      appBar: AppBar(title: Text(context.l10n.categoriesTitle)),
       floatingActionButton: profileId == null
           ? null
           : FloatingActionButton(
-              tooltip: 'Add category',
+              tooltip: context.l10n.categoriesAdd,
               onPressed: () => showCategoryForm(context),
               child: const Icon(Icons.add),
             ),
@@ -31,16 +32,16 @@ class CategoryListScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: TextField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search categories',
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: context.l10n.categoriesSearchHint,
                 border: OutlineInputBorder(),
               ),
               onChanged: ref.read(categoryFilterProvider.notifier).setSearch,
             ),
           ),
           SwitchListTile(
-            title: const Text('Show inactive'),
+            title: Text(context.l10n.categoriesShowInactive),
             value: filter.includeInactive,
             onChanged: ref
                 .read(categoryFilterProvider.notifier)
@@ -48,21 +49,21 @@ class CategoryListScreen extends ConsumerWidget {
           ),
           Expanded(
             child: profileId == null
-                ? const _Message(
+                ? _Message(
                     icon: Icons.person_off,
-                    text: 'Select a profile to manage categories.',
+                    text: context.l10n.categoriesSelectProfile,
                   )
                 : async.when(
                     loading: () =>
                         const Center(child: CircularProgressIndicator()),
                     error: (e, _) => _Message(
                       icon: Icons.error_outline,
-                      text: 'Something went wrong: $e',
+                      text: context.l10n.categoriesLoadError('$e'),
                     ),
                     data: (items) => items.isEmpty
-                        ? const _Message(
+                        ? _Message(
                             icon: Icons.category_outlined,
-                            text: 'No categories yet. Tap + to add one.',
+                            text: context.l10n.categoriesEmpty,
                           )
                         : ListView.builder(
                             itemCount: items.length,
@@ -106,20 +107,24 @@ class _CategoryTile extends ConsumerWidget {
     final ok = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text(value ? 'Activate category?' : 'Deactivate category?'),
+        title: Text(
+          value
+              ? context.l10n.categoriesActivateTitle
+              : context.l10n.categoriesDeactivateTitle,
+        ),
         content: Text(
           value
-              ? '"${category.name}" will be available again.'
-              : '"${category.name}" will be hidden from new entries. Existing data is kept.',
+              ? context.l10n.categoriesActivateMessage(category.name)
+              : context.l10n.categoriesDeactivateMessage(category.name),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Cancel'),
+            child: Text(context.l10n.commonCancel),
           ),
           FilledButton(
             onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Confirm'),
+            child: Text(context.l10n.commonConfirm),
           ),
         ],
       ),

@@ -1,0 +1,67 @@
+{
+  "currencyTitle": "Exchange rates",
+  "currencyAddRateTooltip": "Add rate",
+  "currencyNoProfile": "Select a profile to manage exchange rates.",
+  "currencyBaseCard": "Base currency: {code} ({symbol})",
+  "@currencyBaseCard": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyBaseCardSub": "All balances, budgets and reports use it",
+  "currencyInfo": "Rates are entered by you and are never fetched online. They are only used when you enter a transaction in a foreign currency. Transactions you already saved keep the rate they were saved with, so changing a rate here never rewrites history.",
+  "currencyEmptyTitle": "No exchange rates yet",
+  "currencyEmptyBody": "Add a rate for each foreign currency you spend or earn in, e.g. 1 USD = your base currency amount.",
+  "currencyAddRate": "Add exchange rate",
+  "currencyEditRate": "Edit exchange rate",
+  "currencyRateEquals": "1 {code} = {symbol}{rate}",
+  "@currencyRateEquals": {
+    "placeholders": {
+      "code": {
+        "type": "String"
+      },
+      "symbol": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyUpdated": "Updated {date}",
+  "@currencyUpdated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyUpdatedInactive": "Updated {date} - inactive",
+  "@currencyUpdatedInactive": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyFieldCurrency": "Currency",
+  "currencyOtherCode": "Other code",
+  "currencyCodeLabel": "3-letter currency code",
+  "currencyRateLabel": "Rate (in {base})",
+  "@currencyRateLabel": {
+    "placeholders": {
+      "base": {
+        "type": "String"
+      }
+    }
+  },
+  "currencyRateHelper": "Base currency amount for 1 unit of the foreign currency",
+  "currencyErrCode": "Currency code must be 3 letters, e.g. USD.",
+  "currencyErrChoose": "Choose a currency.",
+  "currencyErrRate": "Enter a rate greater than zero with up to 6 decimals, e.g. 122.5."
+}

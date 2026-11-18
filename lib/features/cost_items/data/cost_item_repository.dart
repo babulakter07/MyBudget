@@ -19,6 +19,7 @@ class CostItemRepository {
     description: r.description,
     defaultAmountMinor: r.defaultAmountMinor,
     isActive: r.isActive,
+    isFavorite: r.isFavorite,
     createdAt: r.createdAt,
     updatedAt: r.updatedAt,
   );
@@ -155,6 +156,19 @@ class CostItemRepository {
     )..where((c) => c.id.equals(id) & c.profileId.equals(profileId))).write(
       CostItemsCompanion(
         isActive: Value(active),
+        updatedAt: Value(DateTime.now()),
+      ),
+    );
+  }
+
+  /// Marks/unmarks a cost item as a quick-add favourite (profile-checked).
+  Future<void> setFavorite(int profileId, int id, bool favorite) async {
+    await _get(profileId, id);
+    await (_db.update(
+      _db.costItems,
+    )..where((c) => c.id.equals(id) & c.profileId.equals(profileId))).write(
+      CostItemsCompanion(
+        isFavorite: Value(favorite),
         updatedAt: Value(DateTime.now()),
       ),
     );

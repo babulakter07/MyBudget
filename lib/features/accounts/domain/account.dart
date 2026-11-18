@@ -1,3 +1,5 @@
+import '../../../l10n/generated/app_localizations.dart';
+
 const accountTypes = [
   'cash',
   'bank',
@@ -7,13 +9,14 @@ const accountTypes = [
   'other',
 ];
 
-String accountTypeLabel(String type) => switch (type) {
-  'cash' => 'Cash',
-  'bank' => 'Bank',
-  'mobile' => 'Mobile banking',
-  'savings' => 'Savings account',
-  'credit_card' => 'Credit card',
-  _ => 'Other',
+/// Localized display label; the stored [type] value is unchanged.
+String accountTypeLabel(AppLocalizations l, String type) => switch (type) {
+  'cash' => l.accountsTypeCash,
+  'bank' => l.accountsTypeBank,
+  'mobile' => l.accountsTypeMobile,
+  'savings' => l.accountsTypeSavings,
+  'credit_card' => l.accountsTypeCreditCard,
+  _ => l.accountsTypeOther,
 };
 
 class Account {

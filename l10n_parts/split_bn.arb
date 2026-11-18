@@ -1,0 +1,40 @@
+{
+  "splitTitle": "বিল ভাগ করুন",
+  "splitIntro": "একটি বিলে একাধিক ক্যাটাগরির খরচ থাকলে এটি ব্যবহার করুন, যেমন বাজার ও ঘরের জিনিস। প্রতিটি লাইন আলাদা খরচ হিসেবে সংরক্ষিত হয়, সব একসাথে নয়তো কিছুই নয়।",
+  "splitAccount": "অ্যাকাউন্ট",
+  "splitBillTitle": "শিরোনাম (ঐচ্ছিক)",
+  "splitLine": "লাইন {n}",
+  "@splitLine": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "splitRemoveLine": "লাইন সরান",
+  "splitCategory": "ক্যাটাগরি",
+  "splitSubCategory": "সাব-ক্যাটাগরি (ঐচ্ছিক)",
+  "splitCostItem": "কস্ট আইটেম (ঐচ্ছিক)",
+  "splitAmount": "অঙ্ক",
+  "splitAddLine": "লাইন যোগ করুন",
+  "splitTotal": "মোট: {amount}",
+  "@splitTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "splitSave": "ভাগ সংরক্ষণ করুন",
+  "splitErrAccount": "একটি অ্যাকাউন্ট বেছে নিন।",
+  "splitErrLine": "প্রতিটি লাইনে ক্যাটাগরি ও শূন্যের বেশি অঙ্ক লাগবে।",
+  "splitSaved": "{n}টি খরচ সংরক্ষিত হয়েছে",
+  "@splitSaved": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
+  },
+  "splitOpen": "বিল ভাগ করুন"
+}

@@ -1,6 +1,8 @@
 import 'package:intl/intl.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../l10n/l10n.dart';
+
 /// Pops a dialog to choose a month (and year). Returns a DateTime on day 1,
 /// or null when dismissed. With [yearOnly] only the year is chosen (month = 1).
 Future<DateTime?> showMonthYearPicker(
@@ -33,13 +35,13 @@ class _MonthYearDialogState extends State<_MonthYearDialog> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           IconButton(
-            tooltip: 'Previous year',
+            tooltip: context.l10n.ledgerPreviousYear,
             icon: const Icon(Icons.chevron_left),
             onPressed: _year > 1971 ? () => setState(() => _year--) : null,
           ),
           Text('$_year'),
           IconButton(
-            tooltip: 'Next year',
+            tooltip: context.l10n.ledgerNextYear,
             icon: const Icon(Icons.chevron_right),
             onPressed: _year < 9998 ? () => setState(() => _year++) : null,
           ),
@@ -65,12 +67,12 @@ class _MonthYearDialogState extends State<_MonthYearDialog> {
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+          child: Text(context.l10n.commonCancel),
         ),
         if (widget.yearOnly)
           FilledButton(
             onPressed: () => Navigator.of(context).pop(DateTime(_year)),
-            child: const Text('Select'),
+            child: Text(context.l10n.ledgerSelect),
           ),
       ],
     );

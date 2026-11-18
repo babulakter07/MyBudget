@@ -1,0 +1,19 @@
+{
+  "subCategoriesTitle": "সাব-ক্যাটাগরি",
+  "subCategoriesAdd": "সাব-ক্যাটাগরি যোগ করুন",
+  "subCategoriesEdit": "সাব-ক্যাটাগরি সম্পাদনা",
+  "subCategoriesSearchHint": "সাব-ক্যাটাগরি খুঁজুন",
+  "subCategoriesSelectProfile": "প্রথমে একটি প্রোফাইল নির্বাচন করুন।",
+  "subCategoriesShowInactive": "নিষ্ক্রিয় দেখান",
+  "subCategoriesLoadError": "সাব-ক্যাটাগরি লোড করা যায়নি: {error}",
+  "subCategoriesEmpty": "কোনো সাব-ক্যাটাগরি পাওয়া যায়নি।",
+  "subCategoriesInactiveSubtitle": "{category} - নিষ্ক্রিয়",
+  "subCategoriesActivateTitle": "সাব-ক্যাটাগরি সক্রিয় করবেন?",
+  "subCategoriesDeactivateTitle": "সাব-ক্যাটাগরি নিষ্ক্রিয় করবেন?",
+  "subCategoriesActivateMessage": "\"{name}\" আবার ব্যবহার করা যাবে।",
+  "subCategoriesDeactivateMessage": "নতুন এন্ট্রি থেকে \"{name}\" লুকানো থাকবে। বিদ্যমান তথ্য সংরক্ষিত থাকবে।",
+  "subCategoriesCategoryLabel": "ক্যাটাগরি",
+  "subCategoriesSelectCategory": "একটি ক্যাটাগরি নির্বাচন করুন",
+  "subCategoriesNameLabel": "নাম",
+  "subCategoriesNameRequired": "নাম দেওয়া আবশ্যক"
+}

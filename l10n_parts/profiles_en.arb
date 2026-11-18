@@ -1,0 +1,18 @@
+{
+  "profilesSelectTitle": "Select profile",
+  "profilesNew": "New profile",
+  "profilesEmpty": "No profiles yet.\nCreate one to get started.",
+  "profilesReactivateTitle": "Reactivate profile?",
+  "profilesDeactivateTitle": "Deactivate profile?",
+  "profilesReactivateMessage": "\"{name}\" will be available again.",
+  "@profilesReactivateMessage": {"placeholders": {"name": {"type": "String"}}},
+  "profilesDeactivateMessage": "\"{name}\" will be hidden from selection. No data is deleted and you can reactivate it anytime.",
+  "@profilesDeactivateMessage": {"placeholders": {"name": {"type": "String"}}},
+  "profilesReactivate": "Reactivate",
+  "profilesDeactivate": "Deactivate",
+  "profilesInactiveSubtitle": "{currency} - Inactive",
+  "@profilesInactiveSubtitle": {"placeholders": {"currency": {"type": "String"}}},
+  "profilesNameLabel": "Profile name",
+  "profilesNameRequired": "Name is required",
+  "profilesCurrencyLabel": "Currency"
+}

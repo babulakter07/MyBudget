@@ -1,0 +1,110 @@
+{
+  "budgetsSelectProfile": "Select a profile to manage budgets.",
+  "budgetsPreviousMonth": "Previous month",
+  "budgetsNextMonth": "Next month",
+  "budgetsPickMonthHelp": "Select any day in the month",
+  "budgetsMonthYear": "{month} {year}",
+  "@budgetsMonthYear": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      },
+      "year": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsMonthJanuary": "January",
+  "budgetsMonthFebruary": "February",
+  "budgetsMonthMarch": "March",
+  "budgetsMonthApril": "April",
+  "budgetsMonthMay": "May",
+  "budgetsMonthJune": "June",
+  "budgetsMonthJuly": "July",
+  "budgetsMonthAugust": "August",
+  "budgetsMonthSeptember": "September",
+  "budgetsMonthOctober": "October",
+  "budgetsMonthNovember": "November",
+  "budgetsMonthDecember": "December",
+  "budgetsEmptyMessage": "New month: set a budget; nothing carries over.",
+  "budgetsSetBudget": "Set budget",
+  "budgetsErrorWithDetail": "Something went wrong: {error}",
+  "@budgetsErrorWithDetail": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsMonthlyBudget": "Monthly budget",
+  "budgetsTotalBudget": "Total budget",
+  "budgetsInvalidAmount": "Enter a valid amount (max 2 decimals)",
+  "budgetsBudget": "Budget",
+  "budgetsEditBudget": "Edit budget",
+  "budgetsPercentUsed": "{percent}% used",
+  "@budgetsPercentUsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsSpent": "Spent",
+  "budgetsRemaining": "Remaining",
+  "budgetsCategoryAllocations": "Category allocations",
+  "budgetsAddAllocation": "Add allocation",
+  "budgetsEditAllocation": "Edit allocation",
+  "budgetsAllocatedSummary": "Allocated {allocated} of {total} (inside the total, not added).",
+  "@budgetsAllocatedSummary": {
+    "placeholders": {
+      "allocated": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsNoAllocations": "No category allocations for this month.",
+  "budgetsRemoveAllocationTitle": "Remove allocation?",
+  "budgetsRemoveAllocationMessage": "Remove the allocation for \"{name}\"?",
+  "@budgetsRemoveAllocationMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsRemoveAllocation": "Remove allocation",
+  "budgetsSpentOf": "Spent {spent} of {allowance}",
+  "@budgetsSpentOf": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "allowance": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsCarriedOver": "+{amount} carried over",
+  "@budgetsCarriedOver": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsRemainingAmount": "Remaining {amount}",
+  "@budgetsRemainingAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "budgetsCarryOverUnspent": "Carry over unspent",
+  "budgetsNoCategoriesLeft": "No active categories left to allocate.",
+  "budgetsCategory": "Category",
+  "budgetsAllocation": "Allocation"
+}

@@ -1,0 +1,29 @@
+{
+  "setupTitle": "Getting started",
+  "setupProgress": "{done} of {total} steps done",
+  "@setupProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "setupAllDone": "All set! You are ready to use MyBudget.",
+  "setupStepAccount": "Add an account",
+  "setupStepAccountBody": "Where your money sits, such as Cash or a bank. Enter its opening balance.",
+  "setupStepCategory": "Create a category",
+  "setupStepCategoryBody": "For example Food or Transport. Sub-categories and items can come later.",
+  "setupStepBudget": "Set this month's budget",
+  "setupStepBudgetBody": "How much you plan to spend this month.",
+  "setupStepTransaction": "Record your first transaction",
+  "setupStepTransactionBody": "Add an expense or some income.",
+  "setupGo": "Go",
+  "setupDone": "Done",
+  "setupOpenManual": "Read the user manual",
+  "setupCardTitle": "Finish setting up",
+  "setupCardAction": "Continue",
+  "setupDismiss": "Hide this guide"
+}

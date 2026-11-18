@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 
 import '../../../core/errors/app_exception.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../data/profile_providers.dart';
 import '../domain/profile.dart';
@@ -15,12 +16,13 @@ class ProfileSelectionScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profiles = ref.watch(profilesStreamProvider);
     final activeId = ref.watch(activeProfileIdProvider);
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: AppBar(title: const Text('Select profile')),
+      appBar: AppBar(title: Text(l10n.profilesSelectTitle)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/profiles/new'),
         icon: const Icon(Icons.add),
-        label: const Text('New profile'),
+        label: Text(l10n.profilesNew),
       ),
       body: profiles.when(
         loading: () => const LoadingView(),
@@ -30,9 +32,9 @@ class ProfileSelectionScreen extends ConsumerWidget {
         ),
         data: (list) {
           if (list.isEmpty) {
-            return const EmptyState(
+            return EmptyState(
               icon: Icons.account_balance_wallet_outlined,
-              message: 'No profiles yet.\nCreate one to get started.',
+              message: l10n.profilesEmpty,
             );
           }
           return ListView.builder(
@@ -56,14 +58,19 @@ class _ProfileTile extends ConsumerWidget {
 
   Future<void> _toggleActive(BuildContext context, WidgetRef ref) async {
     final activate = !profile.isActive;
+    final l10n = context.l10n;
     final ok = await showConfirmDialog(
       context,
-      title: activate ? 'Reactivate profile?' : 'Deactivate profile?',
+      title: activate
+          ? l10n.profilesReactivateTitle
+          : l10n.profilesDeactivateTitle,
       message: activate
-          ? '"${profile.name}" will be available again.'
-          : '"${profile.name}" will be hidden from selection. '
-                'No data is deleted and you can reactivate it anytime.',
-      confirmLabel: activate ? 'Reactivate' : 'Deactivate',
+          ? l10n.profilesReactivateMessage(profile.name)
+          : l10n.profilesDeactivateMessage(profile.name),
+      confirmLabel: activate
+          ? l10n.profilesReactivate
+          : l10n.profilesDeactivate,
+      cancelLabel: l10n.commonCancel,
     );
     if (!ok || !context.mounted) return;
     try {
@@ -84,6 +91,7 @@ class _ProfileTile extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final l10n = context.l10n;
     return ListTile(
       leading: CircleAvatar(
         backgroundColor: profile.isActive
@@ -95,7 +103,7 @@ class _ProfileTile extends ConsumerWidget {
       subtitle: Text(
         profile.isActive
             ? profile.currencyCode
-            : '${profile.currencyCode} - Inactive',
+            : l10n.profilesInactiveSubtitle(profile.currencyCode),
       ),
       selected: isSelected,
       trailing: Row(
@@ -103,7 +111,9 @@ class _ProfileTile extends ConsumerWidget {
         children: [
           if (isSelected) const Icon(Icons.check_circle),
           IconButton(
-            tooltip: profile.isActive ? 'Deactivate' : 'Reactivate',
+            tooltip: profile.isActive
+                ? l10n.profilesDeactivate
+                : l10n.profilesReactivate,
             icon: Icon(
               profile.isActive
                   ? Icons.archive_outlined

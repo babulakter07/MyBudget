@@ -7,6 +7,10 @@ import '../../features/dashboard/presentation/dashboard_view.dart';
 import '../../features/ledger/presentation/ledger_view.dart';
 import '../../features/reports/presentation/reports_view.dart';
 import '../../features/transactions/presentation/add_transaction_view.dart';
+import '../../features/onboarding/presentation/backup_reminder_card.dart';
+import '../../features/onboarding/presentation/setup_guide_card.dart';
+import '../../l10n/l10n.dart';
+import 'home_tab_provider.dart';
 
 /// Bottom-nav shell: Home, Budget, Add, Ledger, Reports.
 class HomeShell extends ConsumerStatefulWidget {
@@ -17,12 +21,17 @@ class HomeShell extends ConsumerStatefulWidget {
 }
 
 class _HomeShellState extends ConsumerState<HomeShell> {
-  int _index = 0;
-
-  static const _titles = ['Home', 'Budget', 'Add', 'Ledger', 'Reports'];
-
   @override
   Widget build(BuildContext context) {
+    final index = ref.watch(homeTabProvider);
+    final l10n = context.l10n;
+    final titles = [
+      l10n.appShellTabHome,
+      l10n.appShellTabBudget,
+      l10n.appShellTabAdd,
+      l10n.appShellTabLedger,
+      l10n.appShellTabReports,
+    ];
     final pages = <Widget>[
       const DashboardView(),
       const BudgetView(),
@@ -32,44 +41,58 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(_titles[_index]),
+        title: Text(titles[index]),
         actions: [
           IconButton(
-            tooltip: 'Settings',
+            tooltip: l10n.commonSearch,
+            icon: const Icon(Icons.search),
+            onPressed: () => context.push('/search'),
+          ),
+          IconButton(
+            tooltip: l10n.appShellSettings,
             icon: const Icon(Icons.settings_outlined),
             onPressed: () => context.push('/settings'),
           ),
         ],
       ),
-      body: IndexedStack(index: _index, children: pages),
+      body: Column(
+        children: [
+          if (index == HomeTab.home) const SetupGuideCard(),
+          if (index == HomeTab.home) const BackupReminderCard(),
+          Expanded(
+            child: IndexedStack(index: index, children: pages),
+          ),
+        ],
+      ),
       bottomNavigationBar: NavigationBar(
-        selectedIndex: _index,
-        onDestinationSelected: (i) => setState(() => _index = i),
-        destinations: const [
+        selectedIndex: index,
+        onDestinationSelected: (i) =>
+            ref.read(homeTabProvider.notifier).select(i),
+        destinations: [
           NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
+            icon: const Icon(Icons.home_outlined),
+            selectedIcon: const Icon(Icons.home),
+            label: titles[0],
           ),
           NavigationDestination(
-            icon: Icon(Icons.pie_chart_outline),
-            selectedIcon: Icon(Icons.pie_chart),
-            label: 'Budget',
+            icon: const Icon(Icons.pie_chart_outline),
+            selectedIcon: const Icon(Icons.pie_chart),
+            label: titles[1],
           ),
           NavigationDestination(
-            icon: Icon(Icons.add_circle_outline),
-            selectedIcon: Icon(Icons.add_circle),
-            label: 'Add',
+            icon: const Icon(Icons.add_circle_outline),
+            selectedIcon: const Icon(Icons.add_circle),
+            label: titles[2],
           ),
           NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            selectedIcon: Icon(Icons.receipt_long),
-            label: 'Ledger',
+            icon: const Icon(Icons.receipt_long_outlined),
+            selectedIcon: const Icon(Icons.receipt_long),
+            label: titles[3],
           ),
           NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined),
-            selectedIcon: Icon(Icons.bar_chart),
-            label: 'Reports',
+            icon: const Icon(Icons.bar_chart_outlined),
+            selectedIcon: const Icon(Icons.bar_chart),
+            label: titles[4],
           ),
         ],
       ),

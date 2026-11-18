@@ -4,12 +4,18 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app/app.dart';
 import 'core/database/app_database.dart';
+import 'core/logging/app_logger.dart';
 import 'features/backup/data/backup_scheduler.dart';
 import 'features/backup/data/backup_service.dart';
 import 'shared/providers/core_providers.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    (await AppLogger.init()).installGlobalHandlers();
+  } catch (e) {
+    debugPrint('Logger setup failed: $e');
+  }
   final AppDatabase db;
   final SharedPreferences prefs;
   try {
@@ -19,6 +25,7 @@ Future<void> main() async {
     await db.customSelect('SELECT 1').get();
   } catch (e, st) {
     debugPrint('Startup failure: $e\n$st');
+    AppLogger.instance?.logError(e, st, context: 'startup');
     runApp(_StartupError(error: e));
     return;
   }

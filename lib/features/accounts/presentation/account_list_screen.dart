@@ -5,6 +5,7 @@ import '../../../app/theme/app_colors.dart';
 import '../../../core/errors/app_exception.dart';
 import '../../../core/utils/money.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../domain/account.dart';
 import '../providers/account_providers.dart';
@@ -29,11 +30,11 @@ class AccountListScreen extends ConsumerWidget {
     final async = ref.watch(accountBalancesProvider);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Accounts')),
+      appBar: AppBar(title: Text(context.l10n.accountsTitle)),
       floatingActionButton: profileId == null
           ? null
           : FloatingActionButton(
-              tooltip: 'Add account',
+              tooltip: context.l10n.accountsAdd,
               onPressed: () => showAccountForm(context),
               child: const Icon(Icons.add),
             ),
@@ -42,16 +43,16 @@ class AccountListScreen extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
             child: TextField(
-              decoration: const InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search accounts',
+              decoration: InputDecoration(
+                prefixIcon: const Icon(Icons.search),
+                hintText: context.l10n.accountsSearchHint,
                 border: OutlineInputBorder(),
               ),
               onChanged: ref.read(accountFilterProvider.notifier).setSearch,
             ),
           ),
           SwitchListTile(
-            title: const Text('Show inactive'),
+            title: Text(context.l10n.accountsShowInactive),
             value: filter.includeInactive,
             onChanged: ref
                 .read(accountFilterProvider.notifier)
@@ -59,17 +60,17 @@ class AccountListScreen extends ConsumerWidget {
           ),
           Expanded(
             child: profileId == null
-                ? const EmptyState(
+                ? EmptyState(
                     icon: Icons.person_off,
-                    message: 'Select a profile to manage accounts.',
+                    message: context.l10n.accountsSelectProfile,
                   )
                 : async.when(
                     loading: () => const LoadingView(),
                     error: (e, _) => ErrorState(error: e),
                     data: (items) => items.isEmpty
-                        ? const EmptyState(
+                        ? EmptyState(
                             icon: Icons.account_balance_wallet_outlined,
-                            message: 'No accounts yet. Tap + to add one.',
+                            message: context.l10n.accountsEmpty,
                           )
                         : ListView.builder(
                             itemCount: items.length,
@@ -91,10 +92,14 @@ class _AccountTile extends ConsumerWidget {
     final account = item.account;
     final ok = await showConfirmDialog(
       context,
-      title: value ? 'Activate account?' : 'Deactivate account?',
+      title: value
+          ? context.l10n.accountsActivateTitle
+          : context.l10n.accountsDeactivateTitle,
       message: value
-          ? '"${account.name}" will be available again.'
-          : '"${account.name}" will be hidden from new entries. Existing data is kept.',
+          ? context.l10n.accountsActivateMessage(account.name)
+          : context.l10n.accountsDeactivateMessage(account.name),
+      confirmLabel: context.l10n.commonConfirm,
+      cancelLabel: context.l10n.commonCancel,
     );
     if (!ok) return;
     try {
@@ -120,7 +125,7 @@ class _AccountTile extends ConsumerWidget {
         account.name,
         style: account.isActive ? null : TextStyle(color: theme.disabledColor),
       ),
-      subtitle: Text(accountTypeLabel(account.type)),
+      subtitle: Text(accountTypeLabel(context.l10n, account.type)),
       onTap: () => showAccountForm(context, existing: account),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,

@@ -1,0 +1,135 @@
+{
+  "importTitle": "Import CSV",
+  "importStep1": "1. Choose a file",
+  "importIntro": "Import expenses and income from a bank or e-wallet CSV. Re-importing the same file never creates duplicates.",
+  "importChooseFile": "Choose CSV file",
+  "importFirstRowHeader": "First row is a header",
+  "importStep2": "2. Map the columns  ({rows} rows, delimiter \"{delimiter}\")",
+  "@importStep2": {
+    "placeholders": {
+      "rows": {
+        "type": "int"
+      },
+      "delimiter": {
+        "type": "String"
+      }
+    }
+  },
+  "importDelimiterTab": "tab",
+  "importColDate": "Date *",
+  "importColAmount": "Amount *",
+  "importColDescription": "Description",
+  "importColType": "Type (expense/income)",
+  "importColTypeNone": "Use the +/- sign of the amount",
+  "importColCategory": "Category",
+  "importNotMapped": "(not mapped)",
+  "importDateFormat": "Date format",
+  "importIntoAccount": "Import into account *",
+  "importDefaultCategory": "Default category for expenses",
+  "importDefaultCategoryHelp": "Used when a row has no category or its name does not match an existing category exactly. Categories are never created automatically.",
+  "importDefaultCategoryNone": "None (rows without a match are invalid)",
+  "importStep3": "3. Preview",
+  "importSummary": "{valid} to import · {duplicate} already imported · {invalid} invalid (showing first {shown} rows)",
+  "@importSummary": {
+    "placeholders": {
+      "valid": {
+        "type": "int"
+      },
+      "duplicate": {
+        "type": "int"
+      },
+      "invalid": {
+        "type": "int"
+      },
+      "shown": {
+        "type": "int"
+      }
+    }
+  },
+  "importImportRows": "Import {count} rows",
+  "@importImportRows": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importInvalidNote": "Invalid rows are skipped; the valid rows are imported all-or-nothing.",
+  "importFinished": "Import finished",
+  "importImported": "Imported: {count}",
+  "@importImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importSkippedDuplicates": "Skipped duplicates: {count}",
+  "@importSkippedDuplicates": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importInvalidRows": "Invalid rows: {count}",
+  "@importInvalidRows": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "importCouldNotRead": "Could not read that file: {error}",
+  "@importCouldNotRead": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "importImportFailed": "Import failed: {error}",
+  "@importImportFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "importRowInvalid": "Row {number}: {cells}",
+  "@importRowInvalid": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "cells": {
+        "type": "String"
+      }
+    }
+  },
+  "importRowDuplicate": "Row {number}: already imported",
+  "@importRowDuplicate": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "importRowValid": "Row {number}: {kind} {amount}",
+  "@importRowValid": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      },
+      "kind": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "importKindExpense": "Expense",
+  "importKindIncome": "Income",
+  "importNoDescription": "(no description)"
+}

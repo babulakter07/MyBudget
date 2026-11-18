@@ -1,0 +1,192 @@
+{
+  "insightsTitle": "Insights",
+  "insightsPreviousMonth": "Previous month",
+  "insightsNextMonth": "Next month",
+  "insightsNoData": "No spending data for this month yet.",
+  "insightsVsLastMonth": "Vs last month",
+  "insightsUnusualSpending": "Unusual spending",
+  "insightsNothingUnusual": "Nothing unusual this month.",
+  "insightsWeekdayCardTitle": "Spending by weekday (last 90 days)",
+  "insightsTopItems": "Top items this month",
+  "insightsNoExpenses": "No expenses this month.",
+  "insightsSavingsRate": "Savings rate",
+  "insightsNoIncome": "No income recorded this month.",
+  "insightsForecastTitle": "Month-end forecast",
+  "insightsForecastDetail": "Spent so far {spent} · daily average {average} · {days} days left",
+  "@insightsForecastDetail": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "average": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsForecastRecurring": "Includes {amount} of upcoming recurring expenses",
+  "@insightsForecastRecurring": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsCategoryNew": "{name} is new this month: {amount}",
+  "@insightsCategoryNew": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsCategoryUp": "{name} is up {amount}{percent} vs last month",
+  "@insightsCategoryUp": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsCategoryDown": "{name} is down {amount}{percent} vs last month",
+  "@insightsCategoryDown": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsTotalNone": "No spending this month or last month",
+  "insightsTotalNoPrevious": "You spent {amount} with no spending last month",
+  "@insightsTotalNoPrevious": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsTotalSame": "Spending is the same as last month",
+  "insightsTotalUp": "Total spending is up {amount}{percent} vs last month",
+  "@insightsTotalUp": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsTotalDown": "Total spending is down {amount}{percent} vs last month",
+  "@insightsTotalDown": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsUnusual": "Unusual: {amount} on {label} is {excess} above your usual {usual}",
+  "@insightsUnusual": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "label": {
+        "type": "String"
+      },
+      "excess": {
+        "type": "String"
+      },
+      "usual": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsForecastNoBudget": "Projected month-end spending: {projected} (no budget set)",
+  "@insightsForecastNoBudget": {
+    "placeholders": {
+      "projected": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsForecastOnTrack": "On track: projected {projected} of your {budget} budget",
+  "@insightsForecastOnTrack": {
+    "placeholders": {
+      "projected": {
+        "type": "String"
+      },
+      "budget": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsForecastAtRisk": "At risk: projected {projected} is close to your {budget} budget",
+  "@insightsForecastAtRisk": {
+    "placeholders": {
+      "projected": {
+        "type": "String"
+      },
+      "budget": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsForecastOver": "Projected to exceed your budget by {over} ({projected} vs {budget})",
+  "@insightsForecastOver": {
+    "placeholders": {
+      "over": {
+        "type": "String"
+      },
+      "projected": {
+        "type": "String"
+      },
+      "budget": {
+        "type": "String"
+      }
+    }
+  },
+  "insightsSavingsSaved": "You saved {percent}% of your income this month",
+  "@insightsSavingsSaved": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsSavingsOverspent": "You spent {percent}% more than you earned this month",
+  "@insightsSavingsOverspent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "insightsWeekdayMostMon": "You spend the most on Mondays",
+  "insightsWeekdayMostTue": "You spend the most on Tuesdays",
+  "insightsWeekdayMostWed": "You spend the most on Wednesdays",
+  "insightsWeekdayMostThu": "You spend the most on Thursdays",
+  "insightsWeekdayMostFri": "You spend the most on Fridays",
+  "insightsWeekdayMostSat": "You spend the most on Saturdays",
+  "insightsWeekdayMostSun": "You spend the most on Sundays"
+}

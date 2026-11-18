@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../../l10n/l10n.dart';
+
 class LoadingView extends StatelessWidget {
   const LoadingView({super.key});
   @override
@@ -58,7 +60,10 @@ class ErrorState extends StatelessWidget {
           children: [
             Icon(Icons.error_outline, size: 56, color: theme.colorScheme.error),
             const SizedBox(height: 12),
-            Text('Something went wrong', style: theme.textTheme.titleMedium),
+            Text(
+              context.l10n.commonSomethingWentWrong,
+              style: theme.textTheme.titleMedium,
+            ),
             const SizedBox(height: 4),
             Text(
               '$error',
@@ -69,7 +74,7 @@ class ErrorState extends StatelessWidget {
               const SizedBox(height: 16),
               FilledButton.tonal(
                 onPressed: onRetry,
-                child: const Text('Retry'),
+                child: Text(context.l10n.commonRetry),
               ),
             ],
           ],

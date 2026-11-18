@@ -1,6 +1,8 @@
 import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
+import '../../../l10n/l10n.dart';
+
 /// Reports tab body (no Scaffold). Routes: /reports/monthly, /reports/yearly,
 /// /reports/range.
 class ReportsView extends StatelessWidget {
@@ -13,20 +15,20 @@ class ReportsView extends StatelessWidget {
       children: [
         _ReportCard(
           icon: Icons.calendar_view_month,
-          title: 'Monthly report',
-          subtitle: 'Income, expense, budget, categories, daily spending',
+          title: context.l10n.reportsMonthlyReport,
+          subtitle: context.l10n.reportsMonthlyReportSubtitle,
           onTap: () => context.push('/reports/monthly'),
         ),
         _ReportCard(
           icon: Icons.bar_chart,
-          title: 'Yearly report',
-          subtitle: 'All 12 months, comparison, highest and lowest month',
+          title: context.l10n.reportsYearlyReport,
+          subtitle: context.l10n.reportsYearlyReportSubtitle,
           onTap: () => context.push('/reports/yearly'),
         ),
         _ReportCard(
           icon: Icons.date_range,
-          title: 'Custom range',
-          subtitle: 'Pick any start and end date',
+          title: context.l10n.reportsCustomRange,
+          subtitle: context.l10n.reportsCustomRangeSubtitle,
           onTap: () => context.push('/reports/range'),
         ),
       ],

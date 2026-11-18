@@ -6,7 +6,10 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../core/database/app_database.dart';
 import '../../../core/errors/app_exception.dart';
+import '../../../core/storage/app_paths.dart';
 import '../domain/backup_models.dart';
+import 'backup_crypto.dart';
+import 'backup_paths.dart';
 import 'backup_schema.dart';
 import 'backup_validator.dart';
 
@@ -33,7 +36,10 @@ class BackupService {
     required this.backupsDirectory,
     DateTime Function()? clock,
     BackupValidator validator = const BackupValidator(),
+    Future<Directory> Function()? attachmentsDir,
+    this.crypto = const BackupCrypto(),
   }) : _clock = clock ?? DateTime.now,
+       _attachmentsDir = attachmentsDir ?? attachmentsDirectory,
        // ignore: prefer_initializing_formals
        _validator = validator;
 
@@ -43,19 +49,30 @@ class BackupService {
   final Directory backupsDirectory;
   final DateTime Function() _clock;
   final BackupValidator _validator;
+  final Future<Directory> Function() _attachmentsDir;
+
+  /// Encryption settings. Tests inject a low PBKDF2 iteration count.
+  final BackupCrypto crypto;
 
   // ------------------------------------------------------------------ export
 
-  /// Whole database as versioned JSON. Includes inactive and soft-deleted
-  /// rows. Money stays integer minor units.
-  Future<String> exportJson() async {
+  /// Whole database as versioned JSON (no photos). Includes inactive and
+  /// soft-deleted rows. Money stays integer minor units.
+  Future<String> exportJson({bool includePhotos = false}) async =>
+      (await exportBackup(includePhotos: includePhotos)).json;
+
+  /// Export with statistics. With [includePhotos], every receipt photo
+  /// referenced by `transaction_attachments` is embedded as base64 under
+  /// `attachmentFiles` (key = relative path). Missing files are skipped and
+  /// counted in [BackupExport.photosMissing]; they never fail the export.
+  Future<BackupExport> exportBackup({bool includePhotos = false}) async {
     final tables = <String, Object?>{};
     // One read transaction => a consistent snapshot across tables.
     await db.transaction(() async {
       for (final spec in backupTables) {
         final result = await db
             .customSelect(
-              'SELECT * FROM "${spec.name}" ORDER BY "${spec.orderBy}"',
+              'SELECT * FROM "${spec.name}" ORDER BY ${spec.orderBySql}',
             )
             .get();
         final out = <Map<String, Object?>>[];
@@ -71,13 +88,91 @@ class BackupService {
         tables[spec.name] = out;
       }
     });
-    return jsonEncode({
-      'format': backupFormatName,
-      'version': backupFormatVersion,
-      'createdAt': _clock().toUtc().toIso8601String(),
-      'schemaVersion': AppDatabase.currentSchemaVersion,
-      'tables': tables,
-    });
+
+    final files = <String, String>{};
+    var missing = 0;
+    var bytes = 0;
+    if (includePhotos) {
+      final rels = <String>{
+        for (final r in tables['transaction_attachments'] as List)
+          (r as Map<String, Object?>)['relative_path'] as String,
+      };
+      if (rels.isNotEmpty) {
+        final root = (await _attachmentsDir()).path;
+        for (final rel in rels) {
+          final path = resolveInside(root, rel);
+          if (path == null) {
+            missing++;
+            continue;
+          }
+          final f = File(path);
+          try {
+            if (!await f.exists()) {
+              missing++;
+              continue;
+            }
+            final data = await f.readAsBytes();
+            bytes += data.length;
+            files[rel] = base64Encode(data);
+          } on FileSystemException {
+            missing++;
+          }
+        }
+      }
+    }
+    return BackupExport(
+      json: jsonEncode({
+        'format': backupFormatName,
+        'version': backupFormatVersion,
+        'createdAt': _clock().toUtc().toIso8601String(),
+        'schemaVersion': AppDatabase.currentSchemaVersion,
+        'tables': tables,
+        if (includePhotos && files.isNotEmpty) 'attachmentFiles': files,
+      }),
+      photosEmbedded: files.length,
+      photosMissing: missing,
+      photoBytes: bytes,
+    );
+  }
+
+  /// Approximate size of the photos a backup would embed (for the export
+  /// dialog). Reads only file metadata.
+  Future<PhotoEstimate> estimatePhotos() async {
+    final rows = await db
+        .customSelect(
+          'SELECT DISTINCT relative_path FROM transaction_attachments',
+        )
+        .get();
+    if (rows.isEmpty) {
+      return const PhotoEstimate(count: 0, bytes: 0, missing: 0);
+    }
+    final root = (await _attachmentsDir()).path;
+    var count = 0, bytes = 0, missing = 0;
+    for (final r in rows) {
+      final path = resolveInside(root, r.data['relative_path'] as String);
+      final f = path == null ? null : File(path);
+      if (f != null && f.existsSync()) {
+        count++;
+        bytes += f.lengthSync();
+      } else {
+        missing++;
+      }
+    }
+    return PhotoEstimate(count: count, bytes: bytes, missing: missing);
+  }
+
+  /// Encrypts backup JSON with [password] (>= 6 characters).
+  Future<String> encryptJson(String json, String password) =>
+      crypto.encrypt(json, password);
+
+  /// Returns plain backup JSON: [text] unchanged when it is a plain backup,
+  /// otherwise the decrypted content. Throws [BackupPasswordRequired] when
+  /// the file is encrypted and no password was given, and a
+  /// [ValidationException] on a wrong password or tampering.
+  Future<String> decryptIfNeeded(String text, {String? password}) async {
+    if (!BackupCrypto.isEncrypted(text)) return text;
+    if (password == null || password.isEmpty) throw BackupPasswordRequired();
+    return crypto.decrypt(text, password);
   }
 
   Object? _toJson(ColSpec c, Object? v) {
@@ -93,6 +188,7 @@ class BackupService {
   }
 
   Object? _fromJson(ColSpec c, Object? v) {
+    v ??= c.defaultValue;
     if (v == null) return null;
     return switch (c.kind) {
       ColKind.bool_ => (v as bool) ? 1 : 0,
@@ -112,20 +208,32 @@ class BackupService {
   /// Any failure rolls the transaction back and leaves the old data intact.
   /// If [activeProfileId] no longer exists afterwards, [clearActiveProfile]
   /// is invoked (the router then sends the user to the profile screen).
+  ///
+  /// [json] may also be an encrypted envelope; then [password] is required
+  /// (see [decryptIfNeeded]). Receipt photos embedded in the backup are
+  /// written into the attachments directory only AFTER the database restore
+  /// committed, so a failed restore never touches any file.
   Future<RestoreResult> restore(
     String json, {
+    String? password,
     int? activeProfileId,
     Future<void> Function()? clearActiveProfile,
   }) async {
+    json = await decryptIfNeeded(json, password: password);
     final validation = validate(json);
     if (!validation.isValid) {
       throw ValidationException(
         'Backup is not valid and was not restored: ${validation.errors.first}',
       );
     }
-    final tables =
-        (jsonDecode(json) as Map<String, dynamic>)['tables']
-            as Map<String, dynamic>;
+    final root = jsonDecode(json) as Map<String, dynamic>;
+    final tables = root['tables'] as Map<String, dynamic>;
+    final embedded = <String, List<int>>{
+      for (final e
+          in ((root['attachmentFiles'] as Map<String, dynamic>?) ?? const {})
+              .entries)
+        e.key: base64Decode(e.value as String),
+    };
 
     final safety = await createBackupFile(kind: BackupKind.safety);
 
@@ -150,7 +258,7 @@ class BackupService {
           final cols = spec.columns.map((c) => '"${c.name}"').join(',');
           final marks = List.filled(spec.columns.length, '?').join(',');
           final sql = 'INSERT INTO "${spec.name}" ($cols) VALUES ($marks)';
-          for (final raw in tables[spec.name] as List) {
+          for (final raw in (tables[spec.name] as List?) ?? const []) {
             final row = raw as Map<String, dynamic>;
             if (spec.name == 'application_settings' &&
                 transientSettingKeys.contains(row['key'])) {
@@ -183,10 +291,33 @@ class BackupService {
         cleared = true;
       }
     }
+    var restored = 0, failed = 0;
+    if (embedded.isNotEmpty) {
+      final dir = (await _attachmentsDir()).path;
+      for (final e in embedded.entries) {
+        final path = resolveInside(dir, e.key);
+        if (path == null) {
+          failed++; // defence in depth; validation already rejects these
+          continue;
+        }
+        try {
+          final target = File(path);
+          await target.parent.create(recursive: true);
+          final tmp = File('$path.restoring');
+          await tmp.writeAsBytes(e.value, flush: true);
+          await tmp.rename(path);
+          restored++;
+        } on FileSystemException {
+          failed++;
+        }
+      }
+    }
     return RestoreResult(
       counts: validation.counts,
       safetyBackupPath: safety.path,
       activeProfileCleared: cleared,
+      photosRestored: restored,
+      photosFailed: failed,
     );
   }
 
@@ -204,8 +335,26 @@ class BackupService {
   }
 
   /// Writes a full backup into the app-private backups directory.
-  Future<BackupFileInfo> createBackupFile({required BackupKind kind}) async {
-    final json = await exportJson();
+  ///
+  /// Manual backups embed receipt photos by default; automatic and safety
+  /// backups do not (they would bloat every run; safety restores never delete
+  /// photo files). A [password] writes an encrypted envelope instead of plain
+  /// JSON; automatic backups are always plain. [onExport] receives the photo
+  /// statistics (e.g. skipped-file warning count).
+  Future<BackupFileInfo> createBackupFile({
+    required BackupKind kind,
+    bool? includePhotos,
+    String? password,
+    void Function(BackupExport export)? onExport,
+  }) async {
+    if (password != null) BackupCrypto.checkPassword(password);
+    final export = await exportBackup(
+      includePhotos: includePhotos ?? kind == BackupKind.manual,
+    );
+    onExport?.call(export);
+    final json = password == null
+        ? export.json
+        : await crypto.encrypt(export.json, password);
     await backupsDirectory.create(recursive: true);
     final stamp = _fileStamp(_clock());
     var name = '${kind.name}_$stamp.json';

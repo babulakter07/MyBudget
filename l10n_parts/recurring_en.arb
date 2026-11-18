@@ -1,0 +1,75 @@
+{
+  "recurringTitle": "Recurring transactions",
+  "recurringAddTooltip": "Add recurring rule",
+  "recurringNoProfile": "Select a profile to manage recurring transactions.",
+  "recurringEmpty": "No recurring rules yet. Tap + to add one.",
+  "recurringEveryN": "{frequency} (every {count})",
+  "@recurringEveryN": {
+    "placeholders": {
+      "frequency": {
+        "type": "String"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurringStatusEnded": "Ended",
+  "recurringStatusPaused": "Paused",
+  "recurringStatusNext": "Next: {date}",
+  "@recurringStatusNext": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "recurringPause": "Pause",
+  "recurringResume": "Resume",
+  "recurringFormEdit": "Edit recurring rule",
+  "recurringFormNew": "New recurring rule",
+  "recurringTypeExpense": "Expense",
+  "recurringTypeIncome": "Income",
+  "recurringTypeTransfer": "Transfer",
+  "recurringFieldTitle": "Title",
+  "recurringFieldAmount": "Amount",
+  "recurringFieldAccount": "Account",
+  "recurringFieldFromAccount": "From account",
+  "recurringFieldToAccount": "To account",
+  "recurringFieldIncomeSource": "Income source",
+  "recurringFieldCategory": "Category",
+  "recurringFieldSubCategory": "Sub-category (optional)",
+  "recurringFieldCostItem": "Cost item (optional)",
+  "recurringFieldFrequency": "Frequency",
+  "recurringFieldEveryN": "Every N",
+  "recurringFieldStartDate": "Start date",
+  "recurringFieldEndDate": "End date (optional)",
+  "recurringNoEnd": "No end",
+  "recurringClearEndDate": "Clear end date",
+  "recurringFieldReminder": "Reminder",
+  "recurringFieldRemarks": "Remarks (optional)",
+  "recurringEnterTitle": "Enter a title",
+  "recurringEnterAmount": "Enter a valid amount",
+  "recurringSelectAccount": "Select an account",
+  "recurringSelectDestination": "Select a destination",
+  "recurringDifferentAccount": "Choose a different account",
+  "recurringEnterIncomeSource": "Enter an income source",
+  "recurringSelectCategory": "Select a category",
+  "recurringMin1": "Min 1",
+  "recurringFreqDaily": "Daily",
+  "recurringFreqWeekly": "Weekly",
+  "recurringFreqMonthly": "Monthly",
+  "recurringFreqYearly": "Yearly",
+  "recurringNoReminder": "No reminder",
+  "recurringOnTheDay": "On the day",
+  "recurringDaysBefore": "{count, plural, =1{{count} day before} other{{count} days before}}",
+  "@recurringDaysBefore": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "recurringSaveChanges": "Save changes",
+  "recurringCreateRule": "Create rule"
+}

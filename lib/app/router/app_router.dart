@@ -19,6 +19,22 @@ import '../../features/profiles/presentation/profile_selection_screen.dart';
 import '../shell/settings_screen.dart';
 import '../../features/sub_categories/presentation/sub_category_list_screen.dart';
 import '../../shared/providers/core_providers.dart';
+import '../../features/currency/presentation/exchange_rates_screen.dart';
+import '../../features/debts/presentation/debt_detail_screen.dart';
+import '../../features/debts/presentation/debt_list_screen.dart';
+import '../../features/goals/presentation/goal_list_screen.dart';
+import '../../features/import/presentation/csv_import_screen.dart';
+import '../../features/help/presentation/user_manual_screen.dart';
+import '../../features/onboarding/presentation/setup_guide_screen.dart';
+import '../../features/transactions/presentation/split_expense_screen.dart';
+import '../../features/insights/presentation/insights_screen.dart';
+import '../../features/notifications/presentation/notification_settings_screen.dart';
+import '../../features/preferences/preferences.dart';
+import '../../features/recurring/presentation/recurring_list_screen.dart';
+import '../../features/search/presentation/search_screen.dart';
+import '../../features/security/security.dart';
+import '../../features/tags/presentation/tag_list_screen.dart';
+import '../../features/tags/presentation/tag_report_screen.dart';
 
 /// Pure redirect decision, exposed for testing.
 String? profileRedirect({
@@ -88,6 +104,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         builder: (_, _) => const AccountListScreen(),
       ),
       GoRoute(
+        path: '/transactions/split',
+        builder: (_, _) => const SplitExpenseScreen(),
+      ),
+      GoRoute(
         path: '/transactions/:id',
         builder: (_, state) => TransactionDetailScreen(
           transactionId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
@@ -118,6 +138,54 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/reports/range',
         builder: (_, _) => const CustomRangeReportScreen(),
+      ),
+      GoRoute(path: '/search', builder: (_, _) => const SearchScreen()),
+      GoRoute(path: '/insights', builder: (_, _) => const InsightsScreen()),
+      GoRoute(path: '/goals', builder: (_, _) => const GoalListScreen()),
+      GoRoute(
+        path: '/debts',
+        builder: (_, _) => const DebtListScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (_, state) => DebtDetailScreen(
+              debtId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/config/recurring',
+        builder: (_, _) => const RecurringListScreen(),
+      ),
+      GoRoute(
+        path: '/config/currencies',
+        builder: (_, _) => const ExchangeRatesScreen(),
+      ),
+      GoRoute(path: '/config/tags', builder: (_, _) => const TagListScreen()),
+      GoRoute(path: '/tags/report', builder: (_, _) => const TagReportScreen()),
+      GoRoute(path: '/setup', builder: (_, _) => const SetupGuideScreen()),
+      GoRoute(
+        path: '/help',
+        builder: (_, state) => UserManualScreen(
+          initialTopicId: state.uri.queryParameters['topic'],
+        ),
+      ),
+      GoRoute(
+        path: '/settings/security',
+        builder: (_, _) => const SecuritySettingsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/preferences',
+        builder: (_, _) => const PreferencesScreen(),
+      ),
+      GoRoute(
+        path: '/settings/notifications',
+        builder: (_, _) => const NotificationSettingsScreen(),
+      ),
+      GoRoute(
+        path: '/settings/import',
+        builder: (_, _) => const CsvImportScreen(),
       ),
       GoRoute(
         path: '/settings/backup',

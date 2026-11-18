@@ -3,6 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
+import '../../debts/presentation/debt_summary_card.dart';
+import '../../goals/presentation/goals_summary_card.dart';
+import '../../insights/presentation/insights_highlights_card.dart';
 import '../../ledger/presentation/period_pickers.dart';
 import '../../profiles/data/profile_providers.dart';
 import '../providers/dashboard_providers.dart';
@@ -26,12 +30,12 @@ class DashboardView extends ConsumerWidget {
           Card(
             child: ListTile(
               leading: const Icon(Icons.account_circle_outlined),
-              title: Text(profile?.name ?? 'No profile'),
+              title: Text(profile?.name ?? context.l10n.dashboardNoProfile),
               subtitle: Text(profile?.currencyCode ?? ''),
               trailing: TextButton.icon(
                 onPressed: () => context.go('/profiles'),
                 icon: const Icon(Icons.swap_horiz),
-                label: const Text('Switch'),
+                label: Text(context.l10n.dashboardSwitch),
               ),
             ),
           ),
@@ -40,6 +44,9 @@ class DashboardView extends ConsumerWidget {
           const SizedBox(height: 12),
           const OverviewSection(),
           const SizedBox(height: 12),
+          const InsightsHighlightsCard(),
+          const GoalsSummaryCard(),
+          const DebtSummaryCard(),
           const AnalyticsSection(),
           const YearlySection(),
         ],
@@ -62,12 +69,12 @@ class _PeriodFilter extends ConsumerWidget {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         ChoiceChip(
-          label: const Text('Current month'),
+          label: Text(context.l10n.dashboardCurrentMonth),
           selected: filter.mode == DashboardPeriodMode.current,
           onSelected: (_) => notifier.setCurrent(),
         ),
         ChoiceChip(
-          label: const Text('Previous month'),
+          label: Text(context.l10n.dashboardPreviousMonth),
           selected: filter.mode == DashboardPeriodMode.previous,
           onSelected: (_) => notifier.setPrevious(),
         ),
@@ -75,7 +82,7 @@ class _PeriodFilter extends ConsumerWidget {
           label: Text(
             filter.mode == DashboardPeriodMode.selected
                 ? monthLabel(month)
-                : 'Select month',
+                : context.l10n.dashboardSelectMonth,
           ),
           selected: filter.mode == DashboardPeriodMode.selected,
           onSelected: (_) async {

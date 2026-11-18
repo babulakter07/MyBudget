@@ -1,0 +1,29 @@
+{
+  "setupTitle": "শুরু করুন",
+  "setupProgress": "{total}টির মধ্যে {done}টি ধাপ সম্পন্ন",
+  "@setupProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "setupAllDone": "সব ঠিক আছে! আপনি MyBudget ব্যবহারের জন্য প্রস্তুত।",
+  "setupStepAccount": "একটি অ্যাকাউন্ট যোগ করুন",
+  "setupStepAccountBody": "আপনার টাকা যেখানে আছে, যেমন নগদ বা ব্যাংক। শুরুর ব্যালেন্স দিন।",
+  "setupStepCategory": "একটি ক্যাটাগরি তৈরি করুন",
+  "setupStepCategoryBody": "যেমন খাবার বা যাতায়াত। সাব-ক্যাটাগরি ও আইটেম পরে যোগ করা যাবে।",
+  "setupStepBudget": "এই মাসের বাজেট ঠিক করুন",
+  "setupStepBudgetBody": "এই মাসে কত খরচ করার পরিকল্পনা করছেন।",
+  "setupStepTransaction": "প্রথম লেনদেন লিখুন",
+  "setupStepTransactionBody": "একটি খরচ বা আয় যোগ করুন।",
+  "setupGo": "যান",
+  "setupDone": "সম্পন্ন",
+  "setupOpenManual": "ব্যবহার নির্দেশিকা পড়ুন",
+  "setupCardTitle": "সেটআপ শেষ করুন",
+  "setupCardAction": "চালিয়ে যান",
+  "setupDismiss": "এই নির্দেশনা লুকান"
+}

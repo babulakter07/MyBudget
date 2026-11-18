@@ -1,0 +1,114 @@
+{
+  "goalsTitle": "Savings goals",
+  "goalsAddGoal": "Add goal",
+  "goalsEditGoal": "Edit goal",
+  "goalsShowArchived": "Show archived",
+  "goalsSelectProfile": "Select a profile to manage goals.",
+  "goalsEmpty": "No savings goals yet. Tap + to add one.",
+  "goalsArchiveTitle": "Archive goal?",
+  "goalsArchiveMessage": "\"{name}\" will be hidden from your goals. Your account and transactions are not affected.",
+  "@goalsArchiveMessage": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsAccountLine": "Account: {account}",
+  "@goalsAccountLine": {
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsAccountLineArchived": "Account: {account} - archived",
+  "@goalsAccountLineArchived": {
+    "placeholders": {
+      "account": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsArchiveGoal": "Archive goal",
+  "goalsRestoreGoal": "Restore goal",
+  "goalsGoalName": "Goal name",
+  "goalsNameRequired": "Name is required",
+  "goalsTargetAmount": "Target amount",
+  "goalsInvalidAmount": "Enter a valid amount (max 2 decimals)",
+  "goalsTargetPositive": "Target must be greater than zero",
+  "goalsSavingsAccount": "Savings account",
+  "goalsNoAccounts": "No active accounts. Add an account first.",
+  "goalsChooseAccount": "Choose the account that holds the savings.",
+  "goalsTargetDateOptional": "Target date (optional)",
+  "goalsNoDeadline": "No deadline",
+  "goalsClearDate": "Clear date",
+  "goalsNoteOptional": "Note (optional)",
+  "goalsAchieved": "Achieved",
+  "goalsGoalReached": "Goal reached",
+  "goalsProgressOf": "{current} of {target}",
+  "@goalsProgressOf": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "target": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsRemaining": "{amount} remaining",
+  "@goalsRemaining": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsSavePerMonth": "Save {amount} / month",
+  "@goalsSavePerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsTargetDate": "Target date {date}",
+  "@goalsTargetDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsOverdueBy": "Overdue by {days, plural, =1{1 day} other{{days} days}} ({date})",
+  "@goalsOverdueBy": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsDueToday": "Due today ({date})",
+  "@goalsDueToday": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "goalsDaysLeft": "{days, plural, =1{1 day left ({date})} other{{days} days left ({date})}}",
+  "@goalsDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  }
+}

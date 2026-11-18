@@ -76,3 +76,12 @@ final txnActiveCostItemsProvider =
           .watch(transactionRepositoryProvider)
           .activeCostItems(pid, subCategoryId);
     });
+
+/// Favourite cost items for the quick-add chip row.
+final favouriteCostItemsProvider = StreamProvider<List<FavouriteCostItem>>((
+  ref,
+) {
+  final pid = ref.watch(activeProfileIdProvider);
+  if (pid == null) return Stream.value(const <FavouriteCostItem>[]);
+  return ref.watch(transactionRepositoryProvider).watchFavouriteItems(pid);
+});

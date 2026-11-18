@@ -7,6 +7,7 @@ class CostItem {
     this.description,
     this.defaultAmountMinor,
     required this.isActive,
+    this.isFavorite = false,
     required this.createdAt,
     required this.updatedAt,
   });
@@ -18,6 +19,7 @@ class CostItem {
   final String? description;
   final int? defaultAmountMinor;
   final bool isActive;
+  final bool isFavorite;
   final DateTime createdAt;
   final DateTime updatedAt;
 }

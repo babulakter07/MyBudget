@@ -1,0 +1,45 @@
+{
+  "ledgerAccountTab": "Account Ledger",
+  "ledgerBudgetTab": "Budget Ledger",
+  "ledgerNoAccounts": "No accounts yet. Add an account to see its ledger.",
+  "ledgerAccount": "Account",
+  "ledgerAccountInactive": "{name} (inactive)",
+  "@ledgerAccountInactive": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "ledgerSearchHint": "Search title, remarks, category, item",
+  "ledgerClearSearch": "Clear search",
+  "ledgerColDate": "Date",
+  "ledgerColDescription": "Description",
+  "ledgerColIncome": "Income",
+  "ledgerColExpense": "Expense",
+  "ledgerColTransferIn": "Transfer In",
+  "ledgerColTransferOut": "Transfer Out",
+  "ledgerColBalance": "Balance",
+  "ledgerColCostItem": "Cost Item",
+  "ledgerColCategory": "Category",
+  "ledgerColRemainingBudget": "Remaining Budget",
+  "ledgerTotal": "Total",
+  "ledgerOpeningBalance": "Opening Balance",
+  "ledgerNoTransactions": "No transactions in this period.",
+  "ledgerPreviousMonth": "Previous month",
+  "ledgerNextMonth": "Next month",
+  "ledgerNoBudget": "No budget",
+  "ledgerNoBudgetSet": "No budget set for this month.",
+  "ledgerMonthlyBudget": "Monthly budget: {amount}",
+  "@ledgerMonthlyBudget": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "ledgerNoExpenses": "No expenses in this month.",
+  "ledgerPreviousYear": "Previous year",
+  "ledgerNextYear": "Next year",
+  "ledgerSelect": "Select"
+}

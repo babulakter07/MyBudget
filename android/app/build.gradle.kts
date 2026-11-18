@@ -17,10 +17,13 @@ if (keystorePropertiesFile.exists()) {
 
 android {
     namespace = "com.mybudget.my_budget"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_local_notifications and androidx.core 1.19 require API 37+.
+    // (compileSdk only enables newer APIs; targetSdk/minSdk are unchanged.)
+    compileSdk = maxOf(flutter.compileSdkVersion, 37)
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -66,6 +69,11 @@ kotlin {
     compilerOptions {
         jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
     }
+}
+
+dependencies {
+    // Required by flutter_local_notifications (java.time on older Android).
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }
 
 flutter {

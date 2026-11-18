@@ -1,0 +1,59 @@
+{
+  "securityTitle": "Security",
+  "securityEnterPin": "Enter PIN to unlock",
+  "securityIncorrectPinShort": "Incorrect PIN",
+  "securityIncorrectPin": "Incorrect PIN.",
+  "securityLockoutShort": "Too many attempts. Try again in {seconds}s",
+  "@securityLockoutShort": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "securityLockout": "Too many attempts. Try again in {seconds}s.",
+  "@securityLockout": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "securityPinInvalid": "PIN must be 4 to 6 digits.",
+  "securityPinsMismatch": "PINs do not match.",
+  "securityNewPinsMismatch": "New PINs do not match.",
+  "securityNotEnabled": "App lock is not enabled.",
+  "securitySetPin": "Set PIN",
+  "securityNewPinLabel": "New PIN (4-6 digits)",
+  "securityConfirmPinLabel": "Confirm PIN",
+  "securityTurnOff": "Turn off app lock",
+  "securityCurrentPinLabel": "Current PIN",
+  "securityChangePin": "Change PIN",
+  "securityConfirmNewPinLabel": "Confirm new PIN",
+  "securityPinChanged": "PIN changed",
+  "securityAppLock": "App lock",
+  "securityAppLockSubtitle": "Require a PIN to open MyBudget",
+  "securityBiometric": "Unlock with biometrics",
+  "securityBiometricConfirm": "Confirm to enable biometric unlock",
+  "securityBiometricUnlock": "Unlock MyBudget",
+  "securityAutoLock": "Auto-lock",
+  "securityAutoLockSubtitle": "Lock after the app is in the background",
+  "securityDelayImmediately": "Immediately",
+  "securityDelay30s": "After 30 seconds",
+  "securityDelay1m": "After 1 minute",
+  "securityDelay5m": "After 5 minutes",
+  "securityRecoveryTitle": "Your recovery code",
+  "securityRecoveryBody": "If you forget your PIN, this code is the only way back in. Write it down and keep it somewhere safe. It is shown only once.",
+  "securityRecoverySaved": "I have saved it",
+  "securityRecoveryCopy": "Copy",
+  "securityRecoveryCopied": "Code copied",
+  "securityNewRecoveryCode": "New recovery code",
+  "securityNewRecoveryCodeSubtitle": "Replaces your old code",
+  "securityForgotPin": "Forgot PIN?",
+  "securityRecoverTitle": "Reset with recovery code",
+  "securityRecoverBody": "Enter your recovery code. App lock will be turned off, and you can set a new PIN in Settings > Security.",
+  "securityRecoverLabel": "Recovery code",
+  "securityRecoverInvalid": "That recovery code is not correct.",
+  "securityRecoverAction": "Reset",
+  "securityRecoverCancel": "Back"
+}

@@ -1,0 +1,19 @@
+{
+  "categoriesTitle": "ক্যাটাগরি",
+  "categoriesAdd": "ক্যাটাগরি যোগ করুন",
+  "categoriesEdit": "ক্যাটাগরি সম্পাদনা",
+  "categoriesSearchHint": "ক্যাটাগরি খুঁজুন",
+  "categoriesShowInactive": "নিষ্ক্রিয় দেখান",
+  "categoriesSelectProfile": "ক্যাটাগরি পরিচালনা করতে একটি প্রোফাইল নির্বাচন করুন।",
+  "categoriesEmpty": "এখনও কোনো ক্যাটাগরি নেই। যোগ করতে + চাপুন।",
+  "categoriesLoadError": "কিছু ভুল হয়েছে: {error}",
+  "categoriesActivateTitle": "ক্যাটাগরি সক্রিয় করবেন?",
+  "categoriesDeactivateTitle": "ক্যাটাগরি নিষ্ক্রিয় করবেন?",
+  "categoriesActivateMessage": "\"{name}\" আবার ব্যবহার করা যাবে।",
+  "categoriesDeactivateMessage": "নতুন এন্ট্রি থেকে \"{name}\" লুকানো থাকবে। বিদ্যমান তথ্য সংরক্ষিত থাকবে।",
+  "categoriesNameLabel": "নাম",
+  "categoriesNameRequired": "নাম দেওয়া আবশ্যক",
+  "categoriesDescriptionLabel": "বিবরণ",
+  "categoriesIconLabel": "আইকন",
+  "categoriesColorLabel": "রঙ"
+}

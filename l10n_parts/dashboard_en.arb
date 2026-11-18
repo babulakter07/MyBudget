@@ -1,0 +1,37 @@
+{
+  "dashboardNoProfile": "No profile",
+  "dashboardSwitch": "Switch",
+  "dashboardCurrentMonth": "Current month",
+  "dashboardPreviousMonth": "Previous month",
+  "dashboardSelectMonth": "Select month",
+  "dashboardMonthlyBudget": "Monthly budget",
+  "dashboardMonthExpense": "Month expense",
+  "dashboardRemainingBudget": "Remaining budget",
+  "dashboardBudgetUtilization": "Budget utilization",
+  "dashboardCashBalance": "Cash balance (active accounts)",
+  "dashboardMonthIncome": "Month income",
+  "dashboardSpendingHighlights": "Spending highlights",
+  "dashboardHighestSpendingDay": "Highest spending day",
+  "dashboardAverageDailyExpense": "Average daily expense",
+  "dashboardTop5CostItems": "Top 5 cost items",
+  "dashboardTop5Categories": "Top 5 categories",
+  "dashboardCategoryDistribution": "Category distribution",
+  "dashboardNoCostItemExpenses": "No cost-item expenses this month.",
+  "dashboardNoCategoryExpenses": "No category expenses this month.",
+  "dashboardNoExpensesToChart": "No expenses to chart this month.",
+  "dashboardYearlyOverview": "Yearly overview",
+  "dashboardYear": "Year {year}",
+  "@dashboardYear": {
+    "placeholders": {
+      "year": {
+        "type": "int"
+      }
+    }
+  },
+  "dashboardTotalIncome": "Total income",
+  "dashboardTotalExpense": "Total expense",
+  "dashboardAverageMonthlyExpense": "Average monthly expense",
+  "dashboardHighestSpendingMonth": "Highest spending month",
+  "dashboardLowestSpendingMonth": "Lowest spending month",
+  "dashboardMonthlyExpenseTrend": "Monthly expense trend"
+}

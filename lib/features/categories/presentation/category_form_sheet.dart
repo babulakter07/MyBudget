@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/errors/app_exception.dart';
+import '../../../l10n/l10n.dart';
 import '../../../shared/providers/core_providers.dart';
 import '../domain/category.dart';
 import '../providers/category_providers.dart';
@@ -103,24 +104,31 @@ class _CategoryFormSheetState extends ConsumerState<CategoryFormSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.existing == null ? 'Add category' : 'Edit category',
+                widget.existing == null
+                    ? context.l10n.categoriesAdd
+                    : context.l10n.categoriesEdit,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
               const SizedBox(height: 12),
               TextFormField(
                 controller: _name,
                 maxLength: 80,
-                decoration: const InputDecoration(labelText: 'Name'),
-                validator: (v) =>
-                    (v == null || v.trim().isEmpty) ? 'Name is required' : null,
+                decoration: InputDecoration(
+                  labelText: context.l10n.categoriesNameLabel,
+                ),
+                validator: (v) => (v == null || v.trim().isEmpty)
+                    ? context.l10n.categoriesNameRequired
+                    : null,
               ),
               TextFormField(
                 controller: _desc,
-                decoration: const InputDecoration(labelText: 'Description'),
+                decoration: InputDecoration(
+                  labelText: context.l10n.categoriesDescriptionLabel,
+                ),
                 maxLines: 2,
               ),
               const SizedBox(height: 12),
-              const Text('Icon'),
+              Text(context.l10n.categoriesIconLabel),
               const SizedBox(height: 4),
               Wrap(
                 spacing: 6,
@@ -136,7 +144,7 @@ class _CategoryFormSheetState extends ConsumerState<CategoryFormSheet> {
                 ],
               ),
               const SizedBox(height: 12),
-              const Text('Color'),
+              Text(context.l10n.categoriesColorLabel),
               const SizedBox(height: 4),
               Wrap(
                 spacing: 8,
@@ -172,7 +180,7 @@ class _CategoryFormSheetState extends ConsumerState<CategoryFormSheet> {
                 alignment: Alignment.centerRight,
                 child: FilledButton(
                   onPressed: _saving ? null : _save,
-                  child: const Text('Save'),
+                  child: Text(context.l10n.commonSave),
                 ),
               ),
             ],

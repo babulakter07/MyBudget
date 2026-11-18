@@ -24,6 +24,9 @@ class TransactionView {
     this.costItemName,
     this.incomeSource,
     required this.amountMinor,
+    this.originalAmountMinor,
+    this.originalCurrency,
+    this.rateMicro,
     required this.date,
     this.title,
     this.remarks,
@@ -48,6 +51,17 @@ class TransactionView {
   final String? costItemName;
   final String? incomeSource;
   final int amountMinor;
+
+  /// Foreign-currency entry (all three set, or all null). [amountMinor] is
+  /// always the converted base-currency amount.
+  final int? originalAmountMinor;
+  final String? originalCurrency;
+  final int? rateMicro;
+
+  bool get isForeign =>
+      originalAmountMinor != null &&
+      originalCurrency != null &&
+      rateMicro != null;
 
   /// 'yyyy-MM-dd'
   final String date;
@@ -127,4 +141,40 @@ class TransactionAuditEntry {
   final String? previousJson;
   final String? newJson;
   final DateTime createdAt;
+}
+
+/// A favourite cost item with its active parents, for the quick-add chips.
+class FavouriteCostItem {
+  const FavouriteCostItem({
+    required this.costItemId,
+    required this.name,
+    required this.subCategoryId,
+    required this.subCategoryName,
+    required this.categoryId,
+    required this.categoryName,
+    this.defaultAmountMinor,
+  });
+
+  final int costItemId;
+  final String name;
+  final int subCategoryId;
+  final String subCategoryName;
+  final int categoryId;
+  final String categoryName;
+  final int? defaultAmountMinor;
+}
+
+/// One category/item/amount line of a split bill.
+class SplitExpenseLine {
+  const SplitExpenseLine({
+    required this.categoryId,
+    this.subCategoryId,
+    this.costItemId,
+    required this.amountMinor,
+  });
+
+  final int categoryId;
+  final int? subCategoryId;
+  final int? costItemId;
+  final int amountMinor;
 }

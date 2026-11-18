@@ -1,0 +1,23 @@
+{
+  "currencyTitle": "বিনিময় হার",
+  "currencyAddRateTooltip": "হার যোগ করুন",
+  "currencyNoProfile": "বিনিময় হার পরিচালনা করতে একটি প্রোফাইল বেছে নিন।",
+  "currencyBaseCard": "মূল মুদ্রা: {code} ({symbol})",
+  "currencyBaseCardSub": "সব ব্যালেন্স, বাজেট ও রিপোর্টে এটি ব্যবহৃত হয়",
+  "currencyInfo": "হারগুলো আপনি নিজে দেন, অনলাইন থেকে আনা হয় না। বিদেশি মুদ্রায় লেনদেন লেখার সময়ই কেবল এগুলো ব্যবহৃত হয়। আগে সংরক্ষিত লেনদেন যে হারে সংরক্ষিত হয়েছিল সেটিই থাকে, তাই এখানে হার বদলালে পুরোনো হিসাব বদলায় না।",
+  "currencyEmptyTitle": "এখনও কোনো বিনিময় হার নেই",
+  "currencyEmptyBody": "যে বিদেশি মুদ্রায় খরচ বা আয় করেন তার প্রতিটির জন্য হার যোগ করুন, যেমন ১ ইউনিট = আপনার মূল মুদ্রার পরিমাণ।",
+  "currencyAddRate": "বিনিময় হার যোগ করুন",
+  "currencyEditRate": "বিনিময় হার সম্পাদনা",
+  "currencyRateEquals": "১ {code} = {symbol}{rate}",
+  "currencyUpdated": "হালনাগাদ {date}",
+  "currencyUpdatedInactive": "হালনাগাদ {date} - নিষ্ক্রিয়",
+  "currencyFieldCurrency": "মুদ্রা",
+  "currencyOtherCode": "অন্য কোড",
+  "currencyCodeLabel": "৩ অক্ষরের মুদ্রা কোড",
+  "currencyRateLabel": "হার ({base} এ)",
+  "currencyRateHelper": "বিদেশি মুদ্রার ১ ইউনিটের জন্য মূল মুদ্রার পরিমাণ",
+  "currencyErrCode": "মুদ্রা কোড ৩টি অক্ষরের হতে হবে, যেমন USD।",
+  "currencyErrChoose": "একটি মুদ্রা বেছে নিন।",
+  "currencyErrRate": "শূন্যের বেশি হার লিখুন, দশমিকের পরে সর্বোচ্চ ৬ ঘর, যেমন 122.5।"
+}

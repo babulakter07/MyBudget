@@ -4,6 +4,7 @@ import 'package:material_ui/material_ui.dart';
 import '../../../app/theme/app_colors.dart';
 import '../../../core/utils/date_keys.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../../l10n/l10n.dart';
 import '../domain/report_document.dart';
 import '../domain/report_models.dart';
 import '../providers/report_providers.dart';
@@ -59,7 +60,7 @@ class _CustomRangeReportScreenState
     final report = async.asData?.value;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Custom range report'),
+        title: Text(context.l10n.reportsCustomRangeReport),
         actions: exportActions(
           context: context,
           ref: ref,
@@ -76,7 +77,7 @@ class _CustomRangeReportScreenState
               child: OutlinedButton.icon(
                 onPressed: _pick,
                 icon: const Icon(Icons.date_range),
-                label: Text('$_from  to  $_to'),
+                label: Text(context.l10n.reportsRangeFromTo(_from, _to)),
               ),
             ),
           ),
@@ -85,8 +86,8 @@ class _CustomRangeReportScreenState
               value: async,
               onRetry: () => ref.invalidate(rangeReportProvider(key)),
               builder: (r) => r.isEmpty
-                  ? const EmptyState(
-                      message: 'No transactions in this range.',
+                  ? EmptyState(
+                      message: context.l10n.reportsNoTransactionsRange,
                       icon: Icons.insert_chart_outlined,
                     )
                   : _RangeBody(report: r),
@@ -104,6 +105,7 @@ class _RangeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final r = report;
     String m(int v) => moneyText(v, r.currencyCode);
     return ListView(
@@ -112,28 +114,28 @@ class _RangeBody extends StatelessWidget {
         SummaryGrid(
           cards: [
             SummaryCard(
-              label: 'Income',
+              label: l.reportsIncome,
               value: m(r.incomeMinor),
               color: AppColors.income,
             ),
             SummaryCard(
-              label: 'Expense',
+              label: l.reportsExpense,
               value: m(r.expenseMinor),
               color: AppColors.expense,
             ),
-            SummaryCard(label: 'Net', value: m(r.netMinor)),
+            SummaryCard(label: l.reportsNet, value: m(r.netMinor)),
           ],
         ),
-        const SectionTitle('Category-wise expense'),
+        SectionTitle(l.reportsCategoryWiseExpense),
         if (r.categories.isEmpty)
-          const Text('No expenses in this range.')
+          Text(l.reportsNoExpensesRange)
         else
           CategoryPie(categories: r.categories, currencyCode: r.currencyCode),
-        const SectionTitle('Daily expenditure'),
+        SectionTitle(l.reportsDailyExpenditure),
         DailyBarChart(daily: r.daily),
-        const SectionTitle('Items'),
+        SectionTitle(l.reportsItems),
         SimpleTable(
-          headers: const ['Item', 'Amount'],
+          headers: [l.reportsItem, l.reportsAmount],
           rows: [
             for (final i in r.items)
               [
