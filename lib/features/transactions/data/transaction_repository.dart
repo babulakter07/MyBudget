@@ -36,6 +36,8 @@ class TransactionRepository {
     date: r.txnDate,
     title: r.title,
     remarks: r.remarks,
+    paidBy: r.paidBy,
+    forWhom: r.forWhom,
     isDeleted: r.isDeleted,
     deletedAt: r.deletedAt,
     createdAt: r.createdAt,
@@ -248,6 +250,8 @@ class TransactionRepository {
     required String date,
     String? title,
     String? remarks,
+    String? paidBy,
+    String? forWhom,
     String? idempotencyKey,
   }) => _create(
     profileId: profileId,
@@ -283,6 +287,8 @@ class TransactionRepository {
         txnDate: date,
         title: Value(_clean(title)),
         remarks: Value(_clean(remarks)),
+        paidBy: Value(_clean(paidBy)),
+        forWhom: Value(_clean(forWhom)),
         idempotencyKey: Value(_clean(idempotencyKey)),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -298,6 +304,8 @@ class TransactionRepository {
     required String date,
     String? title,
     String? remarks,
+    String? paidBy,
+    String? forWhom,
     String? idempotencyKey,
   }) => _create(
     profileId: profileId,
@@ -323,6 +331,8 @@ class TransactionRepository {
         txnDate: date,
         title: Value(_clean(title)),
         remarks: Value(_clean(remarks)),
+        paidBy: Value(_clean(paidBy)),
+        forWhom: Value(_clean(forWhom)),
         idempotencyKey: Value(_clean(idempotencyKey)),
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -418,6 +428,8 @@ class TransactionRepository {
     required String date,
     String? title,
     String? remarks,
+    String? paidBy,
+    String? forWhom,
   }) => _update(profileId, id, TransactionType.expense, (old) async {
     _validAmount(amountMinor);
     _validDate(date);
@@ -449,6 +461,8 @@ class TransactionRepository {
       txnDate: Value(date),
       title: Value(_clean(title)),
       remarks: Value(_clean(remarks)),
+      paidBy: Value(_clean(paidBy)),
+      forWhom: Value(_clean(forWhom)),
     );
   });
 
@@ -461,6 +475,8 @@ class TransactionRepository {
     required String date,
     String? title,
     String? remarks,
+    String? paidBy,
+    String? forWhom,
   }) => _update(profileId, id, TransactionType.income, (old) async {
     _validAmount(amountMinor);
     _validDate(date);
@@ -482,6 +498,8 @@ class TransactionRepository {
       txnDate: Value(date),
       title: Value(_clean(title)),
       remarks: Value(_clean(remarks)),
+      paidBy: Value(_clean(paidBy)),
+      forWhom: Value(_clean(forWhom)),
     );
   });
 
@@ -650,6 +668,8 @@ class TransactionRepository {
               w &
               (_EscapedLike(r.title.lower(), p) |
                   _EscapedLike(r.remarks.lower(), p) |
+                  _EscapedLike(r.paidBy.lower(), p) |
+                  _EscapedLike(r.forWhom.lower(), p) |
                   _EscapedLike(r.incomeSource.lower(), p) |
                   _EscapedLike(r.accountNameSnapshot.lower(), p) |
                   _EscapedLike(r.toAccountNameSnapshot.lower(), p) |
@@ -690,6 +710,23 @@ class TransactionRepository {
           );
 
   // ------------------------------------------------- form lookup (read-only)
+
+  /// Distinct member names already used in paid-by / for-whom tags of this
+  /// profile (non-deleted rows), sorted case-insensitively.
+  Stream<List<String>> watchMemberNames(int profileId) => _db
+      .customSelect(
+        'SELECT MIN(name) AS name FROM ('
+        ' SELECT paid_by AS name FROM financial_transactions'
+        '  WHERE profile_id = ?1 AND is_deleted = 0 AND paid_by IS NOT NULL'
+        ' UNION ALL'
+        ' SELECT for_whom FROM financial_transactions'
+        '  WHERE profile_id = ?1 AND is_deleted = 0 AND for_whom IS NOT NULL'
+        ') GROUP BY name COLLATE NOCASE ORDER BY name COLLATE NOCASE',
+        variables: [Variable.withInt(profileId)],
+        readsFrom: {_db.financialTransactions},
+      )
+      .watch()
+      .map((rows) => [for (final r in rows) r.read<String>('name')]);
 
   Stream<List<AccountRow>> watchActiveAccounts(int profileId) =>
       (_db.select(_db.accounts)

@@ -27,6 +27,8 @@ class TransactionView {
     required this.date,
     this.title,
     this.remarks,
+    this.paidBy,
+    this.forWhom,
     required this.isDeleted,
     this.deletedAt,
     required this.createdAt,
@@ -53,6 +55,10 @@ class TransactionView {
   final String date;
   final String? title;
   final String? remarks;
+
+  /// Optional household member tags (labels only).
+  final String? paidBy;
+  final String? forWhom;
   final bool isDeleted;
   final DateTime? deletedAt;
   final DateTime createdAt;

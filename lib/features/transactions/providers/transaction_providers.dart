@@ -76,3 +76,10 @@ final txnActiveCostItemsProvider =
           .watch(transactionRepositoryProvider)
           .activeCostItems(pid, subCategoryId);
     });
+
+/// Member names used before in paid-by / for-whom (form suggestions).
+final txnMemberNamesProvider = StreamProvider<List<String>>((ref) {
+  final pid = ref.watch(activeProfileIdProvider);
+  if (pid == null) return Stream.value(const <String>[]);
+  return ref.watch(transactionRepositoryProvider).watchMemberNames(pid);
+});

@@ -35,6 +35,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
   final _title = TextEditingController();
   final _remarks = TextEditingController();
   final _source = TextEditingController();
+  final _paidBy = TextEditingController();
+  final _forWhom = TextEditingController();
 
   late String _type;
   int? _accountId;
@@ -69,6 +71,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       _title.text = e.title ?? '';
       _remarks.text = e.remarks ?? '';
       _source.text = e.incomeSource ?? '';
+      _paidBy.text = e.paidBy ?? '';
+      _forWhom.text = e.forWhom ?? '';
     }
   }
 
@@ -78,6 +82,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
     _title.dispose();
     _remarks.dispose();
     _source.dispose();
+    _paidBy.dispose();
+    _forWhom.dispose();
     super.dispose();
   }
 
@@ -111,6 +117,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               date: date,
               title: _title.text,
               remarks: _remarks.text,
+              paidBy: _paidBy.text,
+              forWhom: _forWhom.text,
               idempotencyKey: _idempotencyKey,
             );
           case TransactionType.income:
@@ -121,6 +129,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               amountMinor: amount,
               date: date,
               remarks: _remarks.text,
+              paidBy: _paidBy.text,
+              forWhom: _forWhom.text,
               idempotencyKey: _idempotencyKey,
             );
           default:
@@ -148,6 +158,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               date: date,
               title: _title.text,
               remarks: _remarks.text,
+              paidBy: _paidBy.text,
+              forWhom: _forWhom.text,
             );
           case TransactionType.income:
             await repo.updateIncome(
@@ -159,6 +171,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               date: date,
               title: _title.text,
               remarks: _remarks.text,
+              paidBy: _paidBy.text,
+              forWhom: _forWhom.text,
             );
           default:
             await repo.updateTransfer(
@@ -188,6 +202,8 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
         _title.clear();
         _remarks.clear();
         _source.clear();
+        _paidBy.clear();
+        _forWhom.clear();
         _categoryId = null;
         _subId = null;
         _itemId = null;
@@ -351,6 +367,7 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
               child: Text(dateKey(_date)),
             ),
           ),
+          if (_type != TransactionType.transfer) ..._memberFields(),
           if (_type != TransactionType.income) ...[
             const SizedBox(height: 12),
             TextFormField(
@@ -551,6 +568,67 @@ class _TransactionFormState extends ConsumerState<TransactionForm> {
       ),
       const SizedBox(height: 12),
     ];
+  }
+
+  /// Optional household tags: who paid / received, and who it was for.
+  List<Widget> _memberFields() {
+    final names = ref.watch(txnMemberNamesProvider).value ?? const <String>[];
+    final income = _type == TransactionType.income;
+    return [
+      const SizedBox(height: 12),
+      _memberField(
+        controller: _paidBy,
+        keyName: 'paid-by-field',
+        label: income ? 'Received by (optional)' : 'Paid by (optional)',
+        names: names,
+      ),
+      const SizedBox(height: 12),
+      _memberField(
+        controller: _forWhom,
+        keyName: 'for-whom-field',
+        label: 'For whom (optional)',
+        names: names,
+      ),
+    ];
+  }
+
+  Widget _memberField({
+    required TextEditingController controller,
+    required String keyName,
+    required String label,
+    required List<String> names,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextFormField(
+          key: ValueKey(keyName),
+          controller: controller,
+          textCapitalization: TextCapitalization.words,
+          maxLength: 60,
+          decoration: InputDecoration(
+            labelText: label,
+            hintText: 'e.g. Father, Mother, Self',
+            border: const OutlineInputBorder(),
+            counterText: '',
+          ),
+        ),
+        if (names.isNotEmpty) ...[
+          const SizedBox(height: 6),
+          Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              for (final n in names.take(8))
+                ActionChip(
+                  label: Text(n),
+                  onPressed: () => setState(() => controller.text = n),
+                ),
+            ],
+          ),
+        ],
+      ],
+    );
   }
 
   List<Widget> _incomeFields() => [

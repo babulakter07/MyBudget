@@ -174,6 +174,10 @@ class _Body extends StatelessWidget {
           _row('Cost item', t.costItemName),
         ],
         if (t.isIncome) _row('Source', t.incomeSource),
+        if (!t.isTransfer) ...[
+          _row(t.isIncome ? 'Received by' : 'Paid by', t.paidBy),
+          _row('For whom', t.forWhom),
+        ],
         _row('Title', t.title),
         _row('Remarks', t.remarks),
         const Divider(height: 32),

@@ -714,6 +714,94 @@ void main() {
     });
   });
 
+  group('member tags (paid by / for whom)', () {
+    test(
+      'stored on create, trimmed, editable, searchable, clearable',
+      () async {
+        final e = await repo.createExpense(
+          profileId: p1,
+          accountId: cash,
+          categoryId: food,
+          amountMinor: 600,
+          date: '2026-02-10',
+          paidBy: '  Father ',
+          forWhom: 'Mother',
+        );
+        expect(e.paidBy, 'Father');
+        expect(e.forWhom, 'Mother');
+
+        final i = await repo.createIncome(
+          profileId: p1,
+          accountId: cash,
+          incomeSource: 'Salary',
+          amountMinor: 1000,
+          date: '2026-02-11',
+          paidBy: 'Self',
+        );
+        expect(i.paidBy, 'Self');
+        expect(i.forWhom, isNull);
+
+        // Search matches the tags.
+        expect(
+          (await list(const TransactionFilter(search: 'mother'))).single.id,
+          e.id,
+        );
+
+        // Edit changes a tag; blank clears it.
+        final u = await repo.updateExpense(
+          profileId: p1,
+          id: e.id,
+          accountId: cash,
+          categoryId: food,
+          amountMinor: 600,
+          date: '2026-02-10',
+          paidBy: 'Brother',
+          forWhom: '   ',
+        );
+        expect(u.paidBy, 'Brother');
+        expect(u.forWhom, isNull);
+        final a = await audits(e.id);
+        final upd = a.singleWhere((x) => x.action == 'update');
+        expect(jsonDecode(upd.newJson!)['paidBy'], 'Brother');
+      },
+    );
+
+    test('name suggestions: distinct, case-insensitive, profile-scoped, '
+        'skip deleted', () async {
+      await repo.createExpense(
+        profileId: p1,
+        accountId: cash,
+        categoryId: food,
+        amountMinor: 100,
+        date: '2026-02-10',
+        paidBy: 'father',
+        forWhom: 'Mother',
+      );
+      await repo.createExpense(
+        profileId: p1,
+        accountId: cash,
+        categoryId: food,
+        amountMinor: 100,
+        date: '2026-02-10',
+        paidBy: 'Father',
+      );
+      final gone = await repo.createExpense(
+        profileId: p1,
+        accountId: cash,
+        categoryId: food,
+        amountMinor: 100,
+        date: '2026-02-10',
+        paidBy: 'Ghost',
+      );
+      await repo.softDelete(p1, gone.id);
+
+      final names = await repo.watchMemberNames(p1).first;
+      expect(names.length, 2);
+      expect(names.map((n) => n.toLowerCase()), ['father', 'mother']);
+      expect(await repo.watchMemberNames(p2).first, isEmpty);
+    });
+  });
+
   test('sequential writes keep sums right', () async {
     for (var i = 0; i < 20; i++) {
       await expense(amount: 150, key: 'k$i');
