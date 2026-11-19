@@ -1,0 +1,88 @@
+{
+  "walletsTitle": "Wallets & balances",
+  "walletsTotalBalance": "Total balance",
+  "walletsTotalNote": "Cash, bank, mobile and savings accounts (credit cards excluded)",
+  "walletsCardsNote": "Credit-card accounts are shown separately and are not part of the total.",
+  "walletsEmpty": "No accounts yet. Add a cash, bank or mobile wallet account to start tracking balances.",
+  "walletsAddAccount": "Add account",
+  "walletsInOut": "In {inAmount} · Out {outAmount}",
+  "@walletsInOut": {
+    "placeholders": {
+      "inAmount": {
+        "type": "String"
+      },
+      "outAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsCurrentBalance": "Current balance",
+  "walletsMoneyIn": "Money in",
+  "walletsMoneyOut": "Money out",
+  "walletsThisMonth": "This month",
+  "walletsAddMoney": "Add money",
+  "walletsTransferWithdraw": "Transfer / Withdraw",
+  "walletsPeriodMonth": "This month",
+  "walletsPeriod3Months": "Last 3 months",
+  "walletsPeriodYear": "This year",
+  "walletsPeriodAll": "All",
+  "walletsLedgerTitle": "Ledger",
+  "walletsOpeningBalance": "Opening balance",
+  "walletsOpening": "Opening",
+  "walletsClosing": "Closing",
+  "walletsTotalIn": "Total in",
+  "walletsTotalOut": "Total out",
+  "walletsBalanceAfter": "Balance after: {amount}",
+  "@walletsBalanceAfter": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsNoMovements": "No movements in this period.",
+  "walletsAmount": "Amount",
+  "walletsDate": "Date",
+  "walletsNote": "Note (optional)",
+  "walletsSource": "Source",
+  "walletsSourceDeposit": "Deposit",
+  "walletsSourceSalary": "Salary",
+  "walletsSourceInterest": "Interest",
+  "walletsSourceGift": "Gift",
+  "walletsSourceOther": "Other",
+  "walletsSourceRequired": "Enter the source of this money",
+  "walletsPreviewAdd": "Current {current} + {added} = {after} after",
+  "@walletsPreviewAdd": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "added": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsPreviewMove": "{name}: {before} → {after}",
+  "@walletsPreviewMove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsTransferTo": "Transfer to",
+  "walletsTransferHint": "Moving money from a bank to cash is a withdrawal.",
+  "walletsNoOtherAccount": "Add another account first to transfer money.",
+  "walletsMoneyAdded": "Money added",
+  "walletsTransferSaved": "Transfer saved",
+  "walletsNotFound": "Account not found."
+}

@@ -107,13 +107,13 @@ void main() {
 
   group('multi-currency backup', () {
     test('versions', () {
-      expect(backupFormatVersion, 3);
+      expect(backupFormatVersion, 4);
     });
 
     test('export carries rates and original_* columns', () async {
       final j = await export();
-      expect(j['version'], 3);
-      expect(j['schemaVersion'], 5);
+      expect(j['version'], 4);
+      expect(j['schemaVersion'], 6);
       expect(rates(j), hasLength(2));
       expect(txns(j)[0]['original_currency'], 'USD');
       expect(txns(j)[2]['original_currency'], isNull);
@@ -200,15 +200,15 @@ void main() {
       );
     });
 
-    test('version 4 is rejected as newer', () async {
+    test('version 5 is rejected as newer', () async {
       final j = await export();
-      j['version'] = 4;
+      j['version'] = 5;
       expectInvalid(j, 'newer version');
     });
 
-    test('schema 6 is rejected', () async {
+    test('schema 7 is rejected', () async {
       final j = await export();
-      j['schemaVersion'] = 6;
+      j['schemaVersion'] = 7;
       expectInvalid(j, 'schema');
     });
 

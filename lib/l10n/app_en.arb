@@ -55,8 +55,10 @@
   "appShellAboutTapToCopy": "Tap a contact to copy it",
   "appShellAccounts": "Accounts",
   "appShellBackupRestore": "Backup & Restore",
+  "appShellBankLoans": "Bank loans",
   "appShellCategories": "Categories",
   "appShellCostItems": "Cost Items",
+  "appShellCreditCards": "Credit cards",
   "appShellDebtsLoans": "Debts & loans",
   "appShellExchangeRates": "Exchange rates",
   "appShellImportCsv": "Import from CSV",
@@ -83,6 +85,7 @@
   "appShellTabReports": "Reports",
   "appShellTagReport": "Tag report",
   "appShellTags": "Tags",
+  "appShellWallets": "Wallets & balances",
   "attachmentsAddFailed": "Could not add the photo.",
   "attachmentsAddPhoto": "Add photo",
   "attachmentsCamera": "Camera",
@@ -502,6 +505,300 @@
   "costItemsShowInactive": "Show inactive",
   "costItemsSubCategoryLabel": "Sub-category",
   "costItemsTitle": "Cost Items",
+  "creditCardsActivate": "Activate card",
+  "creditCardsAdd": "Add card",
+  "creditCardsAddBill": "Add bill",
+  "creditCardsAmountPositive": "Amount must be greater than zero",
+  "creditCardsAvailable": "Available credit",
+  "creditCardsAvailableShort": "Available",
+  "creditCardsBillAmount": "Bill {amount}",
+  "@creditCardsBillAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsBillAmountLabel": "Bill amount",
+  "creditCardsBillNotFound": "Bill not found.",
+  "creditCardsBillTitle": "{month} bill",
+  "@creditCardsBillTitle": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsBills": "Bills",
+  "creditCardsBreakdown": "Bill breakdown",
+  "creditCardsChargesAdded": "Interest & fees added",
+  "creditCardsChipApr": "APR {rate}",
+  "@creditCardsChipApr": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChipDueDays": "Pay within {days} days",
+  "@creditCardsChipDueDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsChipLateFee": "Late fee {rate}",
+  "@creditCardsChipLateFee": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChipMin": "Min {rate}",
+  "@creditCardsChipMin": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChipStatementDay": "Statement day {day}",
+  "@creditCardsChipStatementDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsDaysOverdue": "{days} days overdue",
+  "@creditCardsDaysOverdue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsDeactivate": "Deactivate card",
+  "creditCardsDueOn": "Due {date}",
+  "@creditCardsDueOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsEdit": "Edit card",
+  "creditCardsEditBill": "Edit bill",
+  "creditCardsEffectiveAnnual": "Effective annual cost so far: {percent}",
+  "@creditCardsEffectiveAnnual": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsEmpty": "No credit cards yet. Add one to track bills, interest and late fees.",
+  "creditCardsExtraCharges": "Added to this bill",
+  "creditCardsExtraPct": "+{percent} charges",
+  "@creditCardsExtraPct": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsExtraValue": "{amount} (+{percent})",
+  "@creditCardsExtraValue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsFieldApr": "Interest rate per year (APR %)",
+  "creditCardsFieldBank": "Bank",
+  "creditCardsFieldBillAmount": "New charges this month",
+  "creditCardsFieldDueDate": "Payment due date",
+  "creditCardsFieldDueDays": "Days to pay after statement",
+  "creditCardsFieldLastFour": "Last 4 digits (optional)",
+  "creditCardsFieldLateFeeFloor": "Late fee minimum amount",
+  "creditCardsFieldLateFeePct": "Late fee (% of unpaid minimum)",
+  "creditCardsFieldLimit": "Credit limit",
+  "creditCardsFieldMinDue": "Minimum payment due",
+  "creditCardsFieldMinFloor": "Minimum payment floor (amount)",
+  "creditCardsFieldMinPct": "Minimum payment (% of bill)",
+  "creditCardsFieldMonth": "Statement month (YYYY-MM)",
+  "creditCardsFieldName": "Card name",
+  "creditCardsFieldNote": "Note",
+  "creditCardsFieldPayAmount": "Amount",
+  "creditCardsFieldPayDate": "Payment date",
+  "creditCardsFieldStatementDate": "Statement date",
+  "creditCardsFieldStatementDay": "Statement day (1-28)",
+  "creditCardsHelpApr": "Charged on the unpaid bill after the due date, as a daily rate (APR / 365).",
+  "creditCardsHelpBillAmount": "Only this month's new charges, not the unpaid balance of earlier bills.",
+  "creditCardsHelpDueDays": "Payment due date = statement date + this many days.",
+  "creditCardsHelpInterestFromStatement": "Many banks remove the interest-free period when the whole bill is not paid by the due date. On: interest runs from the statement date. Off: from the due date.",
+  "creditCardsHelpLateFee": "Charged when the minimum is not paid by the due date: the larger of the % and this amount.",
+  "creditCardsHelpMin": "Minimum due = the larger of the % and this amount, never more than the bill.",
+  "creditCardsHelpMinDue": "Filled from the card policy; change it to match your statement.",
+  "creditCardsHelpStatementDay": "Day of the month your bank generates the statement.",
+  "creditCardsInactiveBanner": "This card is inactive.",
+  "creditCardsInterest": "Interest ({rate} APR)",
+  "@creditCardsInterest": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsInterestFromStatement": "Interest from statement date if not paid in full",
+  "creditCardsInvalidMonth": "Use the format YYYY-MM",
+  "creditCardsInvalidNumber": "Enter a valid number",
+  "creditCardsInvalidPercent": "Enter a percentage from 0 to 100",
+  "creditCardsLastFourInvalid": "Enter exactly 4 digits",
+  "creditCardsLateFee": "Late fee ({rate})",
+  "@creditCardsLateFee": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsLimit": "Credit limit",
+  "creditCardsMaxAmount": "Maximum is {amount}",
+  "@creditCardsMaxAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsMinimumDue": "Minimum due",
+  "creditCardsNextDue": "Next due: {card} on {date}",
+  "@creditCardsNextDue": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsNoBills": "No bills yet. Add a monthly statement to start tracking.",
+  "creditCardsNoPayments": "No payments recorded.",
+  "creditCardsNotFound": "Card not found.",
+  "creditCardsNothingDue": "Nothing due",
+  "creditCardsOutstanding": "Outstanding",
+  "creditCardsOverdueBadge": "Overdue",
+  "creditCardsOverdueBills": "Overdue bills: {count}",
+  "@creditCardsOverdueBills": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsPaidSoFar": "Paid so far",
+  "creditCardsPay": "Pay",
+  "creditCardsPayFull": "Full remaining",
+  "creditCardsPayMinimum": "Minimum due",
+  "creditCardsPaymentTitle": "Record payment",
+  "creditCardsPayments": "Payments",
+  "creditCardsPolicy": "Billing policy",
+  "creditCardsProjectionIntro": "Estimated interest and fees on this bill by {date} (30 days after the due date):",
+  "@creditCardsProjectionIntro": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsProjectionMin": "Pay only the minimum ({amount}) now: {charges}",
+  "@creditCardsProjectionMin": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "charges": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsProjectionNothing": "Pay nothing more: {charges}",
+  "@creditCardsProjectionNothing": {
+    "placeholders": {
+      "charges": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsProjectionTitle": "What if you delay?",
+  "creditCardsRangeInt": "Enter a number from {min} to {max}",
+  "@creditCardsRangeInt": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsRemaining": "Remaining",
+  "creditCardsRemainingAmount": "Remaining {amount}",
+  "@creditCardsRemainingAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsRemainingNow": "Remaining: {amount}",
+  "@creditCardsRemainingNow": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsShowInactive": "Show inactive cards",
+  "creditCardsStatusMinPaid": "Minimum paid",
+  "creditCardsStatusOverdue": "Overdue",
+  "creditCardsStatusPaid": "Paid",
+  "creditCardsStatusPartial": "Partly paid",
+  "creditCardsStatusUnpaid": "Unpaid",
+  "creditCardsTitle": "Credit cards",
+  "creditCardsTotalLimit": "Total limit",
+  "creditCardsTotalOutstanding": "Total outstanding",
+  "creditCardsTotalPayable": "Total payable",
+  "creditCardsUsed": "Used {percent}",
+  "@creditCardsUsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsVoid": "Void",
+  "creditCardsVoidBill": "Void bill",
+  "creditCardsVoidBillMessage": "Void this bill? It is kept for history but no longer counts toward your outstanding balance.",
+  "creditCardsVoidPayment": "Void payment",
+  "creditCardsVoidPaymentMessage": "Void the payment of {amount}? The balance, interest and fees will be recalculated.",
+  "@creditCardsVoidPaymentMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsVoided": "Voided",
+  "creditCardsVoidedBanner": "This bill is voided.",
   "currencyAddRate": "Add exchange rate",
   "currencyAddRateTooltip": "Add rate",
   "currencyBaseCard": "Base currency: {code} ({symbol})",
@@ -1255,6 +1552,240 @@
   "ledgerSearchHint": "Search title, remarks, category, item",
   "ledgerSelect": "Select",
   "ledgerTotal": "Total",
+  "loansAdd": "Add loan",
+  "loansAmount": "Amount",
+  "loansAmountPositive": "Amount must be greater than zero",
+  "loansArchived": "Archived",
+  "loansBalanceAfter": "Balance {amount}",
+  "@loansBalanceAfter": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansClosedMessage": "Loan fully paid",
+  "loansDueOn": "Due on {date}. Pick the date you actually paid.",
+  "@loansDueOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loansEdit": "Edit loan",
+  "loansEmpty": "No loans yet. Tap + to add a bank loan.",
+  "loansFirstDueDate": "First installment date",
+  "loansFreqMonthly": "Monthly",
+  "loansFreqWeekly": "Weekly",
+  "loansFreqYearly": "Yearly",
+  "loansFrequency": "Repayment frequency",
+  "loansInstDue": "Due",
+  "loansInstOverdue": "Overdue",
+  "loansInstPaid": "Paid",
+  "loansInstPartial": "Partial",
+  "loansInstallment": "Installment per period",
+  "loansInstallmentHelper": "Calculated: {amount}. Leave empty to use it, or type the figure from your bank.",
+  "@loansInstallmentHelper": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansInstallmentNo": "Installment {no}",
+  "@loansInstallmentNo": {
+    "placeholders": {
+      "no": {
+        "type": "int"
+      }
+    }
+  },
+  "loansInterestMethod": "Interest method",
+  "loansInterestPart": "Interest",
+  "loansInterestRate": "Annual interest rate (%)",
+  "loansInvalidAmount": "Enter a valid amount",
+  "loansInvalidRate": "Enter a rate between 0 and 100",
+  "loansInvalidTenure": "Enter 1 to 1200 installments",
+  "loansLender": "Bank / lender name",
+  "loansLenderRequired": "Enter the bank or lender name",
+  "loansListTitle": "Loans",
+  "loansMarkInstallmentPaid": "Mark installment {no} as paid",
+  "@loansMarkInstallmentPaid": {
+    "placeholders": {
+      "no": {
+        "type": "int"
+      }
+    }
+  },
+  "loansMarkPaid": "Mark paid",
+  "loansMaxAmount": "Maximum is {max}",
+  "@loansMaxAmount": {
+    "placeholders": {
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "loansMethodFlat": "Flat rate",
+  "loansMethodReducing": "Reducing balance",
+  "loansMonthlyCommitment": "Per month",
+  "loansNextDueRow": "Next due {date} • {amount}",
+  "@loansNextDueRow": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansNoPayments": "No payments recorded yet.",
+  "loansNotFound": "Loan not found.",
+  "loansNote": "Note",
+  "loansOverdue": "Overdue",
+  "loansOverdueSummary": "{count} overdue installments • {amount}",
+  "@loansOverdueSummary": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansPaidOfAmount": "{paid} of {total} paid",
+  "@loansPaidOfAmount": {
+    "placeholders": {
+      "paid": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "loansPaidOn": "Paid on {date}",
+  "@loansPaidOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loansPaidSoFar": "Paid so far",
+  "loansPaymentDate": "Payment date",
+  "loansPayments": "Payments",
+  "loansPerMonth": "{amount} / month",
+  "@loansPerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansPerWeek": "{amount} / week",
+  "@loansPerWeek": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansPerYear": "{amount} / year",
+  "@loansPerYear": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansPrincipal": "Loan amount (principal)",
+  "loansPrincipalPart": "Principal",
+  "loansProcessingFee": "Processing fee (optional)",
+  "loansProgressPercent": "{percent}% repaid",
+  "@loansProgressPercent": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "loansRatePerYear": "{rate}% per year",
+  "@loansRatePerYear": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "loansRecordPayment": "Record payment",
+  "loansReferenceNo": "Loan account / reference no. (optional)",
+  "loansRemaining": "Remaining",
+  "loansRemainingAmount": "Remaining: {amount}",
+  "@loansRemainingAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansSchedule": "Schedule",
+  "loansShowArchived": "Show archived loans",
+  "loansStartDate": "Disbursement date",
+  "loansStatusActive": "Active",
+  "loansStatusClosed": "Closed",
+  "loansStatusOverdue": "Overdue",
+  "loansTenure": "Number of installments",
+  "loansTenureApprox": "≈ {years} years {months} months",
+  "@loansTenureApprox": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      },
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "loansTenureValue": "{count} installments ({frequency})",
+  "@loansTenureValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "frequency": {
+        "type": "String"
+      }
+    }
+  },
+  "loansTermsLocked": "Payments are recorded. You can still change the interest rate and installment (for a rate revision); other terms are locked. Void the payments to change them.",
+  "loansTitle": "Loan",
+  "loansTotalCost": "Total cost (with fee)",
+  "loansTotalInterest": "Total interest",
+  "loansTotalPayable": "Total payable",
+  "loansTotalRemaining": "Remaining",
+  "loansType": "Loan type",
+  "loansTypeBusiness": "Business loan",
+  "loansTypeEducation": "Education loan",
+  "loansTypeHome": "Home loan",
+  "loansTypeOther": "Other loan",
+  "loansTypePersonal": "Personal loan",
+  "loansTypeVehicle": "Vehicle loan",
+  "loansUnarchive": "Unarchive",
+  "loansVoid": "Void",
+  "loansVoidMessage": "Void the payment of {amount}? The remaining balance will be recalculated.",
+  "@loansVoidMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansVoidPayment": "Void payment",
+  "loansVoided": "Voided",
   "notificationsBudgetAlerts": "Budget alerts",
   "notificationsBudgetAlertsSubtitle": "Warn me at 80% and when I go over a budget",
   "notificationsBudgetWarningBody": "You have used 80% of your budget ({spent} of {budget}).",
@@ -2129,5 +2660,91 @@
   "transactionsTypeIncome": "Income",
   "transactionsTypeTransfer": "Transfer",
   "transactionsUpdated": "Transaction updated",
-  "transactionsWarningAnd": " and "
+  "transactionsWarningAnd": " and ",
+  "walletsAddAccount": "Add account",
+  "walletsAddMoney": "Add money",
+  "walletsAmount": "Amount",
+  "walletsBalanceAfter": "Balance after: {amount}",
+  "@walletsBalanceAfter": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsCardsNote": "Credit-card accounts are shown separately and are not part of the total.",
+  "walletsClosing": "Closing",
+  "walletsCurrentBalance": "Current balance",
+  "walletsDate": "Date",
+  "walletsEmpty": "No accounts yet. Add a cash, bank or mobile wallet account to start tracking balances.",
+  "walletsInOut": "In {inAmount} · Out {outAmount}",
+  "@walletsInOut": {
+    "placeholders": {
+      "inAmount": {
+        "type": "String"
+      },
+      "outAmount": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsLedgerTitle": "Ledger",
+  "walletsMoneyAdded": "Money added",
+  "walletsMoneyIn": "Money in",
+  "walletsMoneyOut": "Money out",
+  "walletsNoMovements": "No movements in this period.",
+  "walletsNoOtherAccount": "Add another account first to transfer money.",
+  "walletsNotFound": "Account not found.",
+  "walletsNote": "Note (optional)",
+  "walletsOpening": "Opening",
+  "walletsOpeningBalance": "Opening balance",
+  "walletsPeriod3Months": "Last 3 months",
+  "walletsPeriodAll": "All",
+  "walletsPeriodMonth": "This month",
+  "walletsPeriodYear": "This year",
+  "walletsPreviewAdd": "Current {current} + {added} = {after} after",
+  "@walletsPreviewAdd": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "added": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsPreviewMove": "{name}: {before} → {after}",
+  "@walletsPreviewMove": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "String"
+      }
+    }
+  },
+  "walletsSource": "Source",
+  "walletsSourceDeposit": "Deposit",
+  "walletsSourceGift": "Gift",
+  "walletsSourceInterest": "Interest",
+  "walletsSourceOther": "Other",
+  "walletsSourceRequired": "Enter the source of this money",
+  "walletsSourceSalary": "Salary",
+  "walletsThisMonth": "This month",
+  "walletsTitle": "Wallets & balances",
+  "walletsTotalBalance": "Total balance",
+  "walletsTotalIn": "Total in",
+  "walletsTotalNote": "Cash, bank, mobile and savings accounts (credit cards excluded)",
+  "walletsTotalOut": "Total out",
+  "walletsTransferHint": "Moving money from a bank to cash is a withdrawal.",
+  "walletsTransferSaved": "Transfer saved",
+  "walletsTransferTo": "Transfer to",
+  "walletsTransferWithdraw": "Transfer / Withdraw"
 }

@@ -122,10 +122,16 @@ class AppLocalizationsBn extends AppLocalizations {
   String get appShellBackupRestore => 'ব্যাকআপ ও রিস্টোর';
 
   @override
+  String get appShellBankLoans => 'ব্যাংক লোন';
+
+  @override
   String get appShellCategories => 'ক্যাটাগরি';
 
   @override
   String get appShellCostItems => 'খরচের আইটেম';
+
+  @override
+  String get appShellCreditCards => 'ক্রেডিট কার্ড';
 
   @override
   String get appShellDebtsLoans => 'ঋণ ও ধার';
@@ -205,6 +211,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get appShellTags => 'ট্যাগ';
+
+  @override
+  String get appShellWallets => 'ওয়ালেট ও ব্যালেন্স';
 
   @override
   String get attachmentsAddFailed => 'ছবি যোগ করা যায়নি।';
@@ -891,6 +900,389 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get costItemsTitle => 'খরচের আইটেম';
+
+  @override
+  String get creditCardsActivate => 'কার্ড সক্রিয় করুন';
+
+  @override
+  String get creditCardsAdd => 'কার্ড যোগ করুন';
+
+  @override
+  String get creditCardsAddBill => 'বিল যোগ করুন';
+
+  @override
+  String get creditCardsAmountPositive => 'অঙ্ক শূন্যের বেশি হতে হবে';
+
+  @override
+  String get creditCardsAvailable => 'ব্যবহারযোগ্য ক্রেডিট';
+
+  @override
+  String get creditCardsAvailableShort => 'ব্যবহারযোগ্য';
+
+  @override
+  String creditCardsBillAmount(String amount) {
+    return 'বিল $amount';
+  }
+
+  @override
+  String get creditCardsBillAmountLabel => 'বিলের অঙ্ক';
+
+  @override
+  String get creditCardsBillNotFound => 'বিল পাওয়া যায়নি।';
+
+  @override
+  String creditCardsBillTitle(String month) {
+    return '$month মাসের বিল';
+  }
+
+  @override
+  String get creditCardsBills => 'বিলসমূহ';
+
+  @override
+  String get creditCardsBreakdown => 'বিলের বিবরণ';
+
+  @override
+  String get creditCardsChargesAdded => 'যুক্ত হওয়া সুদ ও ফি';
+
+  @override
+  String creditCardsChipApr(String rate) {
+    return 'বার্ষিক সুদ $rate';
+  }
+
+  @override
+  String creditCardsChipDueDays(int days) {
+    return '$days দিনের মধ্যে পরিশোধ';
+  }
+
+  @override
+  String creditCardsChipLateFee(String rate) {
+    return 'বিলম্ব ফি $rate';
+  }
+
+  @override
+  String creditCardsChipMin(String rate) {
+    return 'ন্যূনতম $rate';
+  }
+
+  @override
+  String creditCardsChipStatementDay(int day) {
+    return 'স্টেটমেন্ট $day তারিখে';
+  }
+
+  @override
+  String creditCardsDaysOverdue(int days) {
+    return '$days দিন মেয়াদোত্তীর্ণ';
+  }
+
+  @override
+  String get creditCardsDeactivate => 'কার্ড নিষ্ক্রিয় করুন';
+
+  @override
+  String creditCardsDueOn(String date) {
+    return 'পরিশোধের তারিখ $date';
+  }
+
+  @override
+  String get creditCardsEdit => 'কার্ড সম্পাদনা';
+
+  @override
+  String get creditCardsEditBill => 'বিল সম্পাদনা';
+
+  @override
+  String creditCardsEffectiveAnnual(String percent) {
+    return 'এ পর্যন্ত কার্যকর বার্ষিক খরচ: $percent';
+  }
+
+  @override
+  String get creditCardsEmpty =>
+      'এখনও কোনো ক্রেডিট কার্ড নেই। বিল, সুদ ও বিলম্ব ফি ট্র্যাক করতে একটি কার্ড যোগ করুন।';
+
+  @override
+  String get creditCardsExtraCharges => 'এই বিলে যুক্ত হয়েছে';
+
+  @override
+  String creditCardsExtraPct(String percent) {
+    return '+$percent চার্জ';
+  }
+
+  @override
+  String creditCardsExtraValue(String amount, String percent) {
+    return '$amount (+$percent)';
+  }
+
+  @override
+  String get creditCardsFieldApr => 'বার্ষিক সুদের হার (APR %)';
+
+  @override
+  String get creditCardsFieldBank => 'ব্যাংক';
+
+  @override
+  String get creditCardsFieldBillAmount => 'এ মাসের নতুন খরচ';
+
+  @override
+  String get creditCardsFieldDueDate => 'পরিশোধের শেষ তারিখ';
+
+  @override
+  String get creditCardsFieldDueDays => 'স্টেটমেন্টের পর পরিশোধের দিন';
+
+  @override
+  String get creditCardsFieldLastFour => 'শেষ ৪ অঙ্ক (ঐচ্ছিক)';
+
+  @override
+  String get creditCardsFieldLateFeeFloor => 'বিলম্ব ফির সর্বনিম্ন অঙ্ক';
+
+  @override
+  String get creditCardsFieldLateFeePct => 'বিলম্ব ফি (অপরিশোধিত ন্যূনতমের %)';
+
+  @override
+  String get creditCardsFieldLimit => 'ক্রেডিট সীমা';
+
+  @override
+  String get creditCardsFieldMinDue => 'ন্যূনতম পরিশোধযোগ্য';
+
+  @override
+  String get creditCardsFieldMinFloor => 'ন্যূনতম পরিশোধের সর্বনিম্ন অঙ্ক';
+
+  @override
+  String get creditCardsFieldMinPct => 'ন্যূনতম পরিশোধ (বিলের %)';
+
+  @override
+  String get creditCardsFieldMonth => 'স্টেটমেন্টের মাস (YYYY-MM)';
+
+  @override
+  String get creditCardsFieldName => 'কার্ডের নাম';
+
+  @override
+  String get creditCardsFieldNote => 'নোট';
+
+  @override
+  String get creditCardsFieldPayAmount => 'অঙ্ক';
+
+  @override
+  String get creditCardsFieldPayDate => 'পরিশোধের তারিখ';
+
+  @override
+  String get creditCardsFieldStatementDate => 'স্টেটমেন্টের তারিখ';
+
+  @override
+  String get creditCardsFieldStatementDay => 'স্টেটমেন্টের দিন (১-২৮)';
+
+  @override
+  String get creditCardsHelpApr =>
+      'মেয়াদের পর অপরিশোধিত বিলের উপর দৈনিক হারে (APR / ৩৬৫) সুদ ধরা হয়।';
+
+  @override
+  String get creditCardsHelpBillAmount =>
+      'শুধু এ মাসের নতুন খরচ, আগের বিলের অপরিশোধিত বকেয়া নয়।';
+
+  @override
+  String get creditCardsHelpDueDays =>
+      'পরিশোধের শেষ তারিখ = স্টেটমেন্টের তারিখ + এই কয়দিন।';
+
+  @override
+  String get creditCardsHelpInterestFromStatement =>
+      'শেষ তারিখের মধ্যে পুরো বিল না দিলে অনেক ব্যাংক সুদমুক্ত সময় বাতিল করে। চালু: স্টেটমেন্টের তারিখ থেকে সুদ। বন্ধ: শেষ তারিখ থেকে সুদ।';
+
+  @override
+  String get creditCardsHelpLateFee =>
+      'নির্ধারিত তারিখের মধ্যে ন্যূনতম পরিশোধ না করলে ধরা হয়: % ও এই অঙ্কের মধ্যে বড়টি।';
+
+  @override
+  String get creditCardsHelpMin =>
+      'ন্যূনতম বকেয়া = % ও এই অঙ্কের মধ্যে বড়টি, তবে বিলের বেশি নয়।';
+
+  @override
+  String get creditCardsHelpMinDue =>
+      'কার্ডের নীতি থেকে বসানো হয়েছে; স্টেটমেন্ট অনুযায়ী বদলান।';
+
+  @override
+  String get creditCardsHelpStatementDay =>
+      'প্রতি মাসের যে দিনে ব্যাংক স্টেটমেন্ট তৈরি করে।';
+
+  @override
+  String get creditCardsInactiveBanner => 'এই কার্ডটি নিষ্ক্রিয়।';
+
+  @override
+  String creditCardsInterest(String rate) {
+    return 'সুদ (APR $rate)';
+  }
+
+  @override
+  String get creditCardsInterestFromStatement =>
+      'পুরো পরিশোধ না হলে স্টেটমেন্টের তারিখ থেকে সুদ';
+
+  @override
+  String get creditCardsInvalidMonth => 'YYYY-MM ফরম্যাটে লিখুন';
+
+  @override
+  String get creditCardsInvalidNumber => 'সঠিক সংখ্যা লিখুন';
+
+  @override
+  String get creditCardsInvalidPercent => '০ থেকে ১০০ এর মধ্যে শতকরা হার লিখুন';
+
+  @override
+  String get creditCardsLastFourInvalid => 'ঠিক ৪টি অঙ্ক লিখুন';
+
+  @override
+  String creditCardsLateFee(String rate) {
+    return 'বিলম্ব ফি ($rate)';
+  }
+
+  @override
+  String get creditCardsLimit => 'ক্রেডিট সীমা';
+
+  @override
+  String creditCardsMaxAmount(String amount) {
+    return 'সর্বোচ্চ $amount';
+  }
+
+  @override
+  String get creditCardsMinimumDue => 'ন্যূনতম বকেয়া';
+
+  @override
+  String creditCardsNextDue(String card, String date) {
+    return 'পরবর্তী পরিশোধ: $card, $date';
+  }
+
+  @override
+  String get creditCardsNoBills =>
+      'এখনও কোনো বিল নেই। ট্র্যাক শুরু করতে মাসিক স্টেটমেন্ট যোগ করুন।';
+
+  @override
+  String get creditCardsNoPayments => 'কোনো পরিশোধ নথিভুক্ত নেই।';
+
+  @override
+  String get creditCardsNotFound => 'কার্ড পাওয়া যায়নি।';
+
+  @override
+  String get creditCardsNothingDue => 'কোনো বকেয়া নেই';
+
+  @override
+  String get creditCardsOutstanding => 'বকেয়া';
+
+  @override
+  String get creditCardsOverdueBadge => 'মেয়াদোত্তীর্ণ';
+
+  @override
+  String creditCardsOverdueBills(int count) {
+    return 'মেয়াদোত্তীর্ণ বিল: $count';
+  }
+
+  @override
+  String get creditCardsPaidSoFar => 'এ পর্যন্ত পরিশোধ';
+
+  @override
+  String get creditCardsPay => 'পরিশোধ করুন';
+
+  @override
+  String get creditCardsPayFull => 'পুরো বাকি';
+
+  @override
+  String get creditCardsPayMinimum => 'ন্যূনতম বকেয়া';
+
+  @override
+  String get creditCardsPaymentTitle => 'পরিশোধ নথিভুক্ত করুন';
+
+  @override
+  String get creditCardsPayments => 'পরিশোধসমূহ';
+
+  @override
+  String get creditCardsPolicy => 'বিলিং নীতি';
+
+  @override
+  String creditCardsProjectionIntro(String date) {
+    return '$date তারিখের মধ্যে (শেষ তারিখের ৩০ দিন পর) এই বিলে সম্ভাব্য সুদ ও ফি:';
+  }
+
+  @override
+  String creditCardsProjectionMin(String amount, String charges) {
+    return 'এখন শুধু ন্যূনতম ($amount) দিলে: $charges';
+  }
+
+  @override
+  String creditCardsProjectionNothing(String charges) {
+    return 'আর কিছু না দিলে: $charges';
+  }
+
+  @override
+  String get creditCardsProjectionTitle => 'দেরি করলে কী হবে?';
+
+  @override
+  String creditCardsRangeInt(int min, int max) {
+    return '$min থেকে $max এর মধ্যে একটি সংখ্যা লিখুন';
+  }
+
+  @override
+  String get creditCardsRemaining => 'বাকি';
+
+  @override
+  String creditCardsRemainingAmount(String amount) {
+    return 'বাকি $amount';
+  }
+
+  @override
+  String creditCardsRemainingNow(String amount) {
+    return 'বাকি: $amount';
+  }
+
+  @override
+  String get creditCardsShowInactive => 'নিষ্ক্রিয় কার্ড দেখান';
+
+  @override
+  String get creditCardsStatusMinPaid => 'ন্যূনতম পরিশোধিত';
+
+  @override
+  String get creditCardsStatusOverdue => 'মেয়াদোত্তীর্ণ';
+
+  @override
+  String get creditCardsStatusPaid => 'পরিশোধিত';
+
+  @override
+  String get creditCardsStatusPartial => 'আংশিক পরিশোধিত';
+
+  @override
+  String get creditCardsStatusUnpaid => 'অপরিশোধিত';
+
+  @override
+  String get creditCardsTitle => 'ক্রেডিট কার্ড';
+
+  @override
+  String get creditCardsTotalLimit => 'মোট সীমা';
+
+  @override
+  String get creditCardsTotalOutstanding => 'মোট বকেয়া';
+
+  @override
+  String get creditCardsTotalPayable => 'মোট পরিশোধযোগ্য';
+
+  @override
+  String creditCardsUsed(String percent) {
+    return 'ব্যবহৃত $percent';
+  }
+
+  @override
+  String get creditCardsVoid => 'বাতিল';
+
+  @override
+  String get creditCardsVoidBill => 'বিল বাতিল করুন';
+
+  @override
+  String get creditCardsVoidBillMessage =>
+      'এই বিল বাতিল করবেন? ইতিহাসে থাকবে, কিন্তু বকেয়ার হিসাবে ধরা হবে না।';
+
+  @override
+  String get creditCardsVoidPayment => 'পরিশোধ বাতিল করুন';
+
+  @override
+  String creditCardsVoidPaymentMessage(String amount) {
+    return '$amount এর পরিশোধ বাতিল করবেন? বকেয়া, সুদ ও ফি নতুন করে হিসাব হবে।';
+  }
+
+  @override
+  String get creditCardsVoided => 'বাতিলকৃত';
+
+  @override
+  String get creditCardsVoidedBanner => 'এই বিলটি বাতিল করা হয়েছে।';
 
   @override
   String get currencyAddRate => 'বিনিময় হার যোগ করুন';
@@ -1778,6 +2170,303 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get ledgerTotal => 'মোট';
+
+  @override
+  String get loansAdd => 'ঋণ যোগ করুন';
+
+  @override
+  String get loansAmount => 'পরিমাণ';
+
+  @override
+  String get loansAmountPositive => 'পরিমাণ শূন্যের বেশি হতে হবে';
+
+  @override
+  String get loansArchived => 'আর্কাইভ করা';
+
+  @override
+  String loansBalanceAfter(String amount) {
+    return 'স্থিতি $amount';
+  }
+
+  @override
+  String get loansClosedMessage => 'ঋণ সম্পূর্ণ পরিশোধিত';
+
+  @override
+  String loansDueOn(String date) {
+    return 'নির্ধারিত তারিখ $date। যেদিন আসলে পরিশোধ করেছেন সেই তারিখ বেছে নিন।';
+  }
+
+  @override
+  String get loansEdit => 'ঋণ সম্পাদনা';
+
+  @override
+  String get loansEmpty => 'এখনও কোনো ঋণ নেই। ব্যাংক ঋণ যোগ করতে + চাপুন।';
+
+  @override
+  String get loansFirstDueDate => 'প্রথম কিস্তির তারিখ';
+
+  @override
+  String get loansFreqMonthly => 'মাসিক';
+
+  @override
+  String get loansFreqWeekly => 'সাপ্তাহিক';
+
+  @override
+  String get loansFreqYearly => 'বার্ষিক';
+
+  @override
+  String get loansFrequency => 'পরিশোধের সময়সূচি';
+
+  @override
+  String get loansInstDue => 'বাকি';
+
+  @override
+  String get loansInstOverdue => 'মেয়াদোত্তীর্ণ';
+
+  @override
+  String get loansInstPaid => 'পরিশোধিত';
+
+  @override
+  String get loansInstPartial => 'আংশিক';
+
+  @override
+  String get loansInstallment => 'প্রতি কিস্তির পরিমাণ';
+
+  @override
+  String loansInstallmentHelper(String amount) {
+    return 'হিসাবকৃত: $amount। এটি ব্যবহার করতে ফাঁকা রাখুন, অথবা ব্যাংকের দেওয়া অঙ্ক লিখুন।';
+  }
+
+  @override
+  String loansInstallmentNo(int no) {
+    return 'কিস্তি $no';
+  }
+
+  @override
+  String get loansInterestMethod => 'সুদ গণনার পদ্ধতি';
+
+  @override
+  String get loansInterestPart => 'সুদ';
+
+  @override
+  String get loansInterestRate => 'বার্ষিক সুদের হার (%)';
+
+  @override
+  String get loansInvalidAmount => 'সঠিক পরিমাণ লিখুন';
+
+  @override
+  String get loansInvalidRate => '০ থেকে ১০০ এর মধ্যে হার লিখুন';
+
+  @override
+  String get loansInvalidTenure => '১ থেকে ১২০০ এর মধ্যে কিস্তির সংখ্যা লিখুন';
+
+  @override
+  String get loansLender => 'ব্যাংক / ঋণদাতার নাম';
+
+  @override
+  String get loansLenderRequired => 'ব্যাংক বা ঋণদাতার নাম লিখুন';
+
+  @override
+  String get loansListTitle => 'ব্যাংক ঋণ';
+
+  @override
+  String loansMarkInstallmentPaid(int no) {
+    return 'কিস্তি $no পরিশোধিত চিহ্নিত করুন';
+  }
+
+  @override
+  String get loansMarkPaid => 'পরিশোধিত চিহ্নিত করুন';
+
+  @override
+  String loansMaxAmount(String max) {
+    return 'সর্বোচ্চ $max';
+  }
+
+  @override
+  String get loansMethodFlat => 'ফ্ল্যাট রেট';
+
+  @override
+  String get loansMethodReducing => 'হ্রাসমান স্থিতি (রিডুসিং ব্যালেন্স)';
+
+  @override
+  String get loansMonthlyCommitment => 'মাসিক কিস্তি';
+
+  @override
+  String loansNextDueRow(String date, String amount) {
+    return 'পরবর্তী কিস্তি $date • $amount';
+  }
+
+  @override
+  String get loansNoPayments => 'এখনও কোনো পরিশোধ লিপিবদ্ধ হয়নি।';
+
+  @override
+  String get loansNotFound => 'ঋণটি পাওয়া যায়নি।';
+
+  @override
+  String get loansNote => 'নোট';
+
+  @override
+  String get loansOverdue => 'মেয়াদোত্তীর্ণ';
+
+  @override
+  String loansOverdueSummary(int count, String amount) {
+    return '$countটি কিস্তি মেয়াদোত্তীর্ণ • $amount';
+  }
+
+  @override
+  String loansPaidOfAmount(String paid, String total) {
+    return '$total এর মধ্যে $paid পরিশোধিত';
+  }
+
+  @override
+  String loansPaidOn(String date) {
+    return 'পরিশোধের তারিখ $date';
+  }
+
+  @override
+  String get loansPaidSoFar => 'এ পর্যন্ত পরিশোধ';
+
+  @override
+  String get loansPaymentDate => 'পরিশোধের তারিখ';
+
+  @override
+  String get loansPayments => 'পরিশোধসমূহ';
+
+  @override
+  String loansPerMonth(String amount) {
+    return '$amount / মাস';
+  }
+
+  @override
+  String loansPerWeek(String amount) {
+    return '$amount / সপ্তাহ';
+  }
+
+  @override
+  String loansPerYear(String amount) {
+    return '$amount / বছর';
+  }
+
+  @override
+  String get loansPrincipal => 'ঋণের পরিমাণ (আসল)';
+
+  @override
+  String get loansPrincipalPart => 'আসল';
+
+  @override
+  String get loansProcessingFee => 'প্রসেসিং ফি (ঐচ্ছিক)';
+
+  @override
+  String loansProgressPercent(int percent) {
+    return '$percent% পরিশোধিত';
+  }
+
+  @override
+  String loansRatePerYear(String rate) {
+    return 'বছরে $rate%';
+  }
+
+  @override
+  String get loansRecordPayment => 'পরিশোধ লিখুন';
+
+  @override
+  String get loansReferenceNo => 'ঋণ হিসাব / রেফারেন্স নম্বর (ঐচ্ছিক)';
+
+  @override
+  String get loansRemaining => 'বাকি';
+
+  @override
+  String loansRemainingAmount(String amount) {
+    return 'বাকি: $amount';
+  }
+
+  @override
+  String get loansSchedule => 'কিস্তির সূচি';
+
+  @override
+  String get loansShowArchived => 'আর্কাইভ করা ঋণ দেখান';
+
+  @override
+  String get loansStartDate => 'ঋণ বিতরণের তারিখ';
+
+  @override
+  String get loansStatusActive => 'চলমান';
+
+  @override
+  String get loansStatusClosed => 'পরিশোধিত';
+
+  @override
+  String get loansStatusOverdue => 'মেয়াদোত্তীর্ণ';
+
+  @override
+  String get loansTenure => 'কিস্তির সংখ্যা';
+
+  @override
+  String loansTenureApprox(int years, int months) {
+    return '≈ $years বছর $months মাস';
+  }
+
+  @override
+  String loansTenureValue(int count, String frequency) {
+    return '$countটি কিস্তি ($frequency)';
+  }
+
+  @override
+  String get loansTermsLocked =>
+      'পরিশোধ লিপিবদ্ধ আছে। সুদের হার ও কিস্তির অঙ্ক (সুদের হার সংশোধনের জন্য) এখনো বদলানো যাবে; অন্য শর্ত বদলানো যাবে না। বদলাতে আগে পরিশোধগুলো বাতিল করুন।';
+
+  @override
+  String get loansTitle => 'ঋণ';
+
+  @override
+  String get loansTotalCost => 'মোট খরচ (ফি সহ)';
+
+  @override
+  String get loansTotalInterest => 'মোট সুদ';
+
+  @override
+  String get loansTotalPayable => 'মোট পরিশোধযোগ্য';
+
+  @override
+  String get loansTotalRemaining => 'বাকি';
+
+  @override
+  String get loansType => 'ঋণের ধরন';
+
+  @override
+  String get loansTypeBusiness => 'ব্যবসায়িক ঋণ';
+
+  @override
+  String get loansTypeEducation => 'শিক্ষা ঋণ';
+
+  @override
+  String get loansTypeHome => 'গৃহ ঋণ';
+
+  @override
+  String get loansTypeOther => 'অন্যান্য ঋণ';
+
+  @override
+  String get loansTypePersonal => 'ব্যক্তিগত ঋণ';
+
+  @override
+  String get loansTypeVehicle => 'যানবাহন ঋণ';
+
+  @override
+  String get loansUnarchive => 'আর্কাইভ থেকে ফিরিয়ে আনুন';
+
+  @override
+  String get loansVoid => 'বাতিল করুন';
+
+  @override
+  String loansVoidMessage(String amount) {
+    return '$amount এর পরিশোধটি বাতিল করবেন? বাকি টাকা নতুন করে হিসাব হবে।';
+  }
+
+  @override
+  String get loansVoidPayment => 'পরিশোধ বাতিল';
+
+  @override
+  String get loansVoided => 'বাতিল';
 
   @override
   String get notificationsBudgetAlerts => 'বাজেট সতর্কতা';
@@ -3165,4 +3854,146 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get transactionsWarningAnd => ' এবং ';
+
+  @override
+  String get walletsAddAccount => 'হিসাব যোগ করুন';
+
+  @override
+  String get walletsAddMoney => 'টাকা যোগ করুন';
+
+  @override
+  String get walletsAmount => 'পরিমাণ';
+
+  @override
+  String walletsBalanceAfter(String amount) {
+    return 'এরপর ব্যালেন্স: $amount';
+  }
+
+  @override
+  String get walletsCardsNote =>
+      'ক্রেডিট কার্ড হিসাব আলাদাভাবে দেখানো হয়েছে, মোটের মধ্যে ধরা হয়নি।';
+
+  @override
+  String get walletsClosing => 'শেষ';
+
+  @override
+  String get walletsCurrentBalance => 'বর্তমান ব্যালেন্স';
+
+  @override
+  String get walletsDate => 'তারিখ';
+
+  @override
+  String get walletsEmpty =>
+      'এখনও কোনো হিসাব নেই। ব্যালেন্স ট্র্যাক করতে নগদ, ব্যাংক বা মোবাইল ওয়ালেট হিসাব যোগ করুন।';
+
+  @override
+  String walletsInOut(String inAmount, String outAmount) {
+    return 'আয় $inAmount · ব্যয় $outAmount';
+  }
+
+  @override
+  String get walletsLedgerTitle => 'খতিয়ান';
+
+  @override
+  String get walletsMoneyAdded => 'টাকা যোগ হয়েছে';
+
+  @override
+  String get walletsMoneyIn => 'যা এসেছে';
+
+  @override
+  String get walletsMoneyOut => 'যা গেছে';
+
+  @override
+  String get walletsNoMovements => 'এই সময়ে কোনো লেনদেন নেই।';
+
+  @override
+  String get walletsNoOtherAccount =>
+      'টাকা ট্রান্সফার করতে আগে আরেকটি হিসাব যোগ করুন।';
+
+  @override
+  String get walletsNotFound => 'হিসাব পাওয়া যায়নি।';
+
+  @override
+  String get walletsNote => 'নোট (ঐচ্ছিক)';
+
+  @override
+  String get walletsOpening => 'শুরু';
+
+  @override
+  String get walletsOpeningBalance => 'প্রারম্ভিক ব্যালেন্স';
+
+  @override
+  String get walletsPeriod3Months => 'গত ৩ মাস';
+
+  @override
+  String get walletsPeriodAll => 'সব';
+
+  @override
+  String get walletsPeriodMonth => 'এই মাস';
+
+  @override
+  String get walletsPeriodYear => 'এই বছর';
+
+  @override
+  String walletsPreviewAdd(String current, String added, String after) {
+    return 'বর্তমান $current + $added = পরে $after';
+  }
+
+  @override
+  String walletsPreviewMove(String name, String before, String after) {
+    return '$name: $before → $after';
+  }
+
+  @override
+  String get walletsSource => 'উৎস';
+
+  @override
+  String get walletsSourceDeposit => 'জমা';
+
+  @override
+  String get walletsSourceGift => 'উপহার';
+
+  @override
+  String get walletsSourceInterest => 'সুদ';
+
+  @override
+  String get walletsSourceOther => 'অন্যান্য';
+
+  @override
+  String get walletsSourceRequired => 'টাকার উৎস লিখুন';
+
+  @override
+  String get walletsSourceSalary => 'বেতন';
+
+  @override
+  String get walletsThisMonth => 'এই মাস';
+
+  @override
+  String get walletsTitle => 'ওয়ালেট ও ব্যালেন্স';
+
+  @override
+  String get walletsTotalBalance => 'মোট ব্যালেন্স';
+
+  @override
+  String get walletsTotalIn => 'মোট আয়';
+
+  @override
+  String get walletsTotalNote =>
+      'নগদ, ব্যাংক, মোবাইল ও সঞ্চয় হিসাব (ক্রেডিট কার্ড বাদে)';
+
+  @override
+  String get walletsTotalOut => 'মোট ব্যয়';
+
+  @override
+  String get walletsTransferHint =>
+      'ব্যাংক থেকে নগদে টাকা নেওয়া মানে উত্তোলন।';
+
+  @override
+  String get walletsTransferSaved => 'ট্রান্সফার সংরক্ষিত হয়েছে';
+
+  @override
+  String get walletsTransferTo => 'যে হিসাবে পাঠাবেন';
+
+  @override
+  String get walletsTransferWithdraw => 'ট্রান্সফার / উত্তোলন';
 }

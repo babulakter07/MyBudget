@@ -83,6 +83,9 @@ void main() {
     for (final label in [
       'Recurring transactions',
       'Savings goals',
+      'Wallets & balances',
+      'Bank loans',
+      'Credit cards',
       'Debts & loans',
       'Security',
       'Notifications',

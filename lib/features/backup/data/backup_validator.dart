@@ -7,7 +7,7 @@ import 'backup_paths.dart';
 import 'backup_schema.dart';
 
 /// Highest database schema version this build can restore.
-const int maxSupportedSchemaVersion = 5;
+const int maxSupportedSchemaVersion = 6;
 
 /// Pure validation of a backup file (no database access). Mirrors every
 /// constraint the database enforces so a bad file is rejected *before* any
@@ -592,6 +592,164 @@ class BackupValidator {
       if (!dateRe(r['payment_date'] as String)) {
         err(
           'debt_payments id ${r['id']}: payment_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+    }
+
+    for (final r in rows['loans']!) {
+      profileRef('loans', r);
+      final id = r['id'];
+      final lender = r['lender_name'] as String;
+      if (lender.isEmpty || lender.length > 80) {
+        err('loans id $id: lender name must be 1-80 characters.');
+      }
+      if (!{
+        'personal',
+        'home',
+        'vehicle',
+        'education',
+        'business',
+        'other',
+      }.contains(r['loan_type'])) {
+        err('loans id $id: unknown loan type "${r['loan_type']}".');
+      }
+      if (!{'reducing', 'flat'}.contains(r['interest_method'])) {
+        err('loans id $id: unknown interest method "${r['interest_method']}".');
+      }
+      if (!{'weekly', 'monthly', 'yearly'}.contains(r['frequency'])) {
+        err('loans id $id: unknown frequency "${r['frequency']}".');
+      }
+      if ((r['principal_minor'] as int) <= 0) {
+        err('loans id $id: principal must be greater than zero.');
+      }
+      final rate = r['interest_rate_bp'] as int;
+      if (rate < 0 || rate > 10000) {
+        err('loans id $id: interest rate must be between 0% and 100%.');
+      }
+      final tenure = r['tenure_count'] as int;
+      if (tenure < 1 || tenure > 1200) {
+        err('loans id $id: tenure must be between 1 and 1200 installments.');
+      }
+      if ((r['installment_minor'] as int) <= 0) {
+        err('loans id $id: installment must be greater than zero.');
+      }
+      if ((r['processing_fee_minor'] as int) < 0) {
+        err('loans id $id: processing fee must not be negative.');
+      }
+      if (!dateRe(r['start_date'] as String)) {
+        err('loans id $id: start_date must be a valid yyyy-MM-dd date.');
+      }
+      if (!dateRe(r['first_due_date'] as String)) {
+        err('loans id $id: first_due_date must be a valid yyyy-MM-dd date.');
+      }
+    }
+
+    for (final r in rows['loan_payments']!) {
+      profileRef('loan_payments', r);
+      ref('loan_payments', r, 'loan_id', 'loans');
+      if ((r['amount_minor'] as int) <= 0) {
+        err('loan_payments id ${r['id']}: amount must be greater than zero.');
+      }
+      if (!dateRe(r['payment_date'] as String)) {
+        err(
+          'loan_payments id ${r['id']}: payment_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+    }
+
+    seen = {};
+    final lastFourRe = RegExp(r'^[0-9]{4}$');
+    for (final r in rows['credit_cards']!) {
+      final id = r['id'];
+      profileRef('credit_cards', r);
+      name('credit_cards', r);
+      final bank = r['bank_name'] as String;
+      if (bank.isEmpty || bank.length > 80) {
+        err('credit_cards id $id: bank name must be 1-80 characters.');
+      }
+      final l4 = r['last_four'];
+      if (l4 != null && !lastFourRe.hasMatch(l4 as String)) {
+        err('credit_cards id $id: last_four must be exactly 4 digits.');
+      }
+      if ((r['credit_limit_minor'] as int) <= 0) {
+        err('credit_cards id $id: credit limit must be greater than zero.');
+      }
+      final sd = r['statement_day'] as int;
+      if (sd < 1 || sd > 28) {
+        err('credit_cards id $id: statement day must be between 1 and 28.');
+      }
+      final dd = r['due_days'] as int;
+      if (dd < 1 || dd > 60) {
+        err('credit_cards id $id: due days must be between 1 and 60.');
+      }
+      for (final col in ['apr_bp', 'min_payment_bp', 'late_fee_bp']) {
+        final v = r[col] as int;
+        if (v < 0 || v > 10000) {
+          err('credit_cards id $id: $col must be between 0 and 10000.');
+        }
+      }
+      for (final col in ['min_payment_floor_minor', 'late_fee_floor_minor']) {
+        if ((r[col] as int) < 0) {
+          err('credit_cards id $id: $col must not be negative.');
+        }
+      }
+      unique(
+        'credit_cards',
+        seen,
+        '${r['profile_id']}|${_nocase(r['name'] as String)}',
+        id!,
+      );
+    }
+
+    seen = {};
+    final monthRe = RegExp(r'^[0-9]{4}-(0[1-9]|1[0-2])$');
+    for (final r in rows['credit_card_bills']!) {
+      final id = r['id'];
+      profileRef('credit_card_bills', r);
+      ref('credit_card_bills', r, 'card_id', 'credit_cards');
+      final month = r['bill_month'] as String;
+      if (!monthRe.hasMatch(month)) {
+        err('credit_card_bills id $id: bill_month must be yyyy-MM.');
+      }
+      if (!dateRe(r['statement_date'] as String)) {
+        err(
+          'credit_card_bills id $id: statement_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+      if (!dateRe(r['due_date'] as String)) {
+        err(
+          'credit_card_bills id $id: due_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+      final amount = r['amount_minor'] as int;
+      if (amount <= 0) {
+        err('credit_card_bills id $id: amount must be greater than zero.');
+      }
+      final minPay = r['min_payment_minor'] as int;
+      if (minPay < 0 || minPay > amount) {
+        err(
+          'credit_card_bills id $id: minimum payment must be between 0 and the bill amount.',
+        );
+      }
+      if (r['is_active'] == true &&
+          !seen.add('${r['profile_id']}|${r['card_id']}|$month')) {
+        err(
+          'credit_card_bills id $id: duplicate active bill for $month on the same card.',
+        );
+      }
+    }
+
+    for (final r in rows['credit_card_payments']!) {
+      profileRef('credit_card_payments', r);
+      ref('credit_card_payments', r, 'bill_id', 'credit_card_bills');
+      if ((r['amount_minor'] as int) <= 0) {
+        err(
+          'credit_card_payments id ${r['id']}: amount must be greater than zero.',
+        );
+      }
+      if (!dateRe(r['payment_date'] as String)) {
+        err(
+          'credit_card_payments id ${r['id']}: payment_date must be a valid yyyy-MM-dd date.',
         );
       }
     }

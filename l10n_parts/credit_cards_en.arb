@@ -1,0 +1,296 @@
+{
+  "creditCardsTitle": "Credit cards",
+  "creditCardsAdd": "Add card",
+  "creditCardsEdit": "Edit card",
+  "creditCardsEmpty": "No credit cards yet. Add one to track bills, interest and late fees.",
+  "creditCardsShowInactive": "Show inactive cards",
+  "creditCardsNotFound": "Card not found.",
+  "creditCardsBillNotFound": "Bill not found.",
+  "creditCardsTotalOutstanding": "Total outstanding",
+  "creditCardsTotalLimit": "Total limit",
+  "creditCardsAvailable": "Available credit",
+  "creditCardsUsed": "Used {percent}",
+  "@creditCardsUsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsOverdueBills": "Overdue bills: {count}",
+  "@creditCardsOverdueBills": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsNextDue": "Next due: {card} on {date}",
+  "@creditCardsNextDue": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsNothingDue": "Nothing due",
+  "creditCardsOutstanding": "Outstanding",
+  "creditCardsLimit": "Credit limit",
+  "creditCardsAvailableShort": "Available",
+  "creditCardsOverdueBadge": "Overdue",
+  "creditCardsDueOn": "Due {date}",
+  "@creditCardsDueOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChargesAdded": "Interest & fees added",
+  "creditCardsDeactivate": "Deactivate card",
+  "creditCardsActivate": "Activate card",
+  "creditCardsInactiveBanner": "This card is inactive.",
+  "creditCardsFieldName": "Card name",
+  "creditCardsFieldBank": "Bank",
+  "creditCardsFieldLastFour": "Last 4 digits (optional)",
+  "creditCardsFieldLimit": "Credit limit",
+  "creditCardsFieldStatementDay": "Statement day (1-28)",
+  "creditCardsHelpStatementDay": "Day of the month your bank generates the statement.",
+  "creditCardsFieldDueDays": "Days to pay after statement",
+  "creditCardsHelpDueDays": "Payment due date = statement date + this many days.",
+  "creditCardsFieldApr": "Interest rate per year (APR %)",
+  "creditCardsHelpApr": "Charged on the unpaid bill after the due date, as a daily rate (APR / 365).",
+  "creditCardsFieldMinPct": "Minimum payment (% of bill)",
+  "creditCardsFieldMinFloor": "Minimum payment floor (amount)",
+  "creditCardsHelpMin": "Minimum due = the larger of the % and this amount, never more than the bill.",
+  "creditCardsFieldLateFeePct": "Late fee (% of unpaid minimum)",
+  "creditCardsFieldLateFeeFloor": "Late fee minimum amount",
+  "creditCardsHelpLateFee": "Charged when the minimum is not paid by the due date: the larger of the % and this amount.",
+  "creditCardsInterestFromStatement": "Interest from statement date if not paid in full",
+  "creditCardsHelpInterestFromStatement": "Many banks remove the interest-free period when the whole bill is not paid by the due date. On: interest runs from the statement date. Off: from the due date.",
+  "creditCardsInvalidNumber": "Enter a valid number",
+  "creditCardsInvalidPercent": "Enter a percentage from 0 to 100",
+  "creditCardsRangeInt": "Enter a number from {min} to {max}",
+  "@creditCardsRangeInt": {
+    "placeholders": {
+      "min": {
+        "type": "int"
+      },
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsLastFourInvalid": "Enter exactly 4 digits",
+  "creditCardsAmountPositive": "Amount must be greater than zero",
+  "creditCardsPolicy": "Billing policy",
+  "creditCardsChipApr": "APR {rate}",
+  "@creditCardsChipApr": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChipMin": "Min {rate}",
+  "@creditCardsChipMin": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChipLateFee": "Late fee {rate}",
+  "@creditCardsChipLateFee": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsChipStatementDay": "Statement day {day}",
+  "@creditCardsChipStatementDay": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsChipDueDays": "Pay within {days} days",
+  "@creditCardsChipDueDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsBills": "Bills",
+  "creditCardsNoBills": "No bills yet. Add a monthly statement to start tracking.",
+  "creditCardsAddBill": "Add bill",
+  "creditCardsEditBill": "Edit bill",
+  "creditCardsBillAmount": "Bill {amount}",
+  "@creditCardsBillAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsRemainingAmount": "Remaining {amount}",
+  "@creditCardsRemainingAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsExtraPct": "+{percent} charges",
+  "@creditCardsExtraPct": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsStatusPaid": "Paid",
+  "creditCardsStatusUnpaid": "Unpaid",
+  "creditCardsStatusPartial": "Partly paid",
+  "creditCardsStatusMinPaid": "Minimum paid",
+  "creditCardsStatusOverdue": "Overdue",
+  "creditCardsFieldMonth": "Statement month (YYYY-MM)",
+  "creditCardsInvalidMonth": "Use the format YYYY-MM",
+  "creditCardsFieldBillAmount": "New charges this month",
+  "creditCardsHelpBillAmount": "Only this month's new charges, not the unpaid balance of earlier bills.",
+  "creditCardsFieldStatementDate": "Statement date",
+  "creditCardsFieldDueDate": "Payment due date",
+  "creditCardsFieldMinDue": "Minimum payment due",
+  "creditCardsHelpMinDue": "Filled from the card policy; change it to match your statement.",
+  "creditCardsFieldNote": "Note",
+  "creditCardsBillTitle": "{month} bill",
+  "@creditCardsBillTitle": {
+    "placeholders": {
+      "month": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsBreakdown": "Bill breakdown",
+  "creditCardsBillAmountLabel": "Bill amount",
+  "creditCardsMinimumDue": "Minimum due",
+  "creditCardsPaidSoFar": "Paid so far",
+  "creditCardsInterest": "Interest ({rate} APR)",
+  "@creditCardsInterest": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsLateFee": "Late fee ({rate})",
+  "@creditCardsLateFee": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsExtraCharges": "Added to this bill",
+  "creditCardsExtraValue": "{amount} (+{percent})",
+  "@creditCardsExtraValue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsTotalPayable": "Total payable",
+  "creditCardsRemaining": "Remaining",
+  "creditCardsEffectiveAnnual": "Effective annual cost so far: {percent}",
+  "@creditCardsEffectiveAnnual": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsDaysOverdue": "{days} days overdue",
+  "@creditCardsDaysOverdue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "creditCardsVoidedBanner": "This bill is voided.",
+  "creditCardsProjectionTitle": "What if you delay?",
+  "creditCardsProjectionIntro": "Estimated interest and fees on this bill by {date} (30 days after the due date):",
+  "@creditCardsProjectionIntro": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsProjectionMin": "Pay only the minimum ({amount}) now: {charges}",
+  "@creditCardsProjectionMin": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "charges": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsProjectionNothing": "Pay nothing more: {charges}",
+  "@creditCardsProjectionNothing": {
+    "placeholders": {
+      "charges": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsPayments": "Payments",
+  "creditCardsNoPayments": "No payments recorded.",
+  "creditCardsPay": "Pay",
+  "creditCardsPaymentTitle": "Record payment",
+  "creditCardsRemainingNow": "Remaining: {amount}",
+  "@creditCardsRemainingNow": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsPayMinimum": "Minimum due",
+  "creditCardsPayFull": "Full remaining",
+  "creditCardsFieldPayAmount": "Amount",
+  "creditCardsFieldPayDate": "Payment date",
+  "creditCardsMaxAmount": "Maximum is {amount}",
+  "@creditCardsMaxAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsVoidPayment": "Void payment",
+  "creditCardsVoidPaymentMessage": "Void the payment of {amount}? The balance, interest and fees will be recalculated.",
+  "@creditCardsVoidPaymentMessage": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "creditCardsVoid": "Void",
+  "creditCardsVoided": "Voided",
+  "creditCardsVoidBill": "Void bill",
+  "creditCardsVoidBillMessage": "Void this bill? It is kept for history but no longer counts toward your outstanding balance."
+}

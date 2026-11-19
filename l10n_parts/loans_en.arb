@@ -1,0 +1,160 @@
+{
+  "loansTitle": "Loan",
+  "loansListTitle": "Loans",
+  "loansAdd": "Add loan",
+  "loansEdit": "Edit loan",
+  "loansEmpty": "No loans yet. Tap + to add a bank loan.",
+  "loansNotFound": "Loan not found.",
+  "loansShowArchived": "Show archived loans",
+  "loansArchived": "Archived",
+  "loansUnarchive": "Unarchive",
+  "loansTotalRemaining": "Remaining",
+  "loansOverdue": "Overdue",
+  "loansMonthlyCommitment": "Per month",
+  "loansNextDueRow": "Next due {date} • {amount}",
+  "@loansNextDueRow": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  },
+  "loansClosedMessage": "Loan fully paid",
+  "loansStatusActive": "Active",
+  "loansStatusOverdue": "Overdue",
+  "loansStatusClosed": "Closed",
+  "loansInstPaid": "Paid",
+  "loansInstPartial": "Partial",
+  "loansInstDue": "Due",
+  "loansInstOverdue": "Overdue",
+  "loansTypePersonal": "Personal loan",
+  "loansTypeHome": "Home loan",
+  "loansTypeVehicle": "Vehicle loan",
+  "loansTypeEducation": "Education loan",
+  "loansTypeBusiness": "Business loan",
+  "loansTypeOther": "Other loan",
+  "loansFreqWeekly": "Weekly",
+  "loansFreqMonthly": "Monthly",
+  "loansFreqYearly": "Yearly",
+  "loansMethodReducing": "Reducing balance",
+  "loansMethodFlat": "Flat rate",
+  "loansPerWeek": "{amount} / week",
+  "@loansPerWeek": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansPerMonth": "{amount} / month",
+  "@loansPerMonth": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansPerYear": "{amount} / year",
+  "@loansPerYear": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansLender": "Bank / lender name",
+  "loansLenderRequired": "Enter the bank or lender name",
+  "loansType": "Loan type",
+  "loansReferenceNo": "Loan account / reference no. (optional)",
+  "loansPrincipal": "Loan amount (principal)",
+  "loansInterestRate": "Annual interest rate (%)",
+  "loansInterestMethod": "Interest method",
+  "loansFrequency": "Repayment frequency",
+  "loansTenure": "Number of installments",
+  "loansTenureApprox": "≈ {years} years {months} months",
+  "@loansTenureApprox": {
+    "placeholders": {
+      "years": { "type": "int" },
+      "months": { "type": "int" }
+    }
+  },
+  "loansTenureValue": "{count} installments ({frequency})",
+  "@loansTenureValue": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "frequency": { "type": "String" }
+    }
+  },
+  "loansInstallment": "Installment per period",
+  "loansInstallmentHelper": "Calculated: {amount}. Leave empty to use it, or type the figure from your bank.",
+  "@loansInstallmentHelper": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansProcessingFee": "Processing fee (optional)",
+  "loansStartDate": "Disbursement date",
+  "loansFirstDueDate": "First installment date",
+  "loansNote": "Note",
+  "loansInvalidAmount": "Enter a valid amount",
+  "loansAmountPositive": "Amount must be greater than zero",
+  "loansInvalidRate": "Enter a rate between 0 and 100",
+  "loansInvalidTenure": "Enter 1 to 1200 installments",
+  "loansTermsLocked": "Payments are recorded. You can still change the interest rate and installment (for a rate revision); other terms are locked. Void the payments to change them.",
+  "loansTotalInterest": "Total interest",
+  "loansTotalPayable": "Total payable",
+  "loansTotalCost": "Total cost (with fee)",
+  "loansPaidSoFar": "Paid so far",
+  "loansRemaining": "Remaining",
+  "loansProgressPercent": "{percent}% repaid",
+  "@loansProgressPercent": {
+    "placeholders": { "percent": { "type": "int" } }
+  },
+  "loansRatePerYear": "{rate}% per year",
+  "@loansRatePerYear": {
+    "placeholders": { "rate": { "type": "String" } }
+  },
+  "loansSchedule": "Schedule",
+  "loansPayments": "Payments",
+  "loansNoPayments": "No payments recorded yet.",
+  "loansInstallmentNo": "Installment {no}",
+  "@loansInstallmentNo": {
+    "placeholders": { "no": { "type": "int" } }
+  },
+  "loansPrincipalPart": "Principal",
+  "loansInterestPart": "Interest",
+  "loansBalanceAfter": "Balance {amount}",
+  "@loansBalanceAfter": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansPaidOfAmount": "{paid} of {total} paid",
+  "@loansPaidOfAmount": {
+    "placeholders": {
+      "paid": { "type": "String" },
+      "total": { "type": "String" }
+    }
+  },
+  "loansOverdueSummary": "{count} overdue installments • {amount}",
+  "@loansOverdueSummary": {
+    "placeholders": {
+      "count": { "type": "int" },
+      "amount": { "type": "String" }
+    }
+  },
+  "loansRecordPayment": "Record payment",
+  "loansMarkPaid": "Mark paid",
+  "loansMarkInstallmentPaid": "Mark installment {no} as paid",
+  "@loansMarkInstallmentPaid": {
+    "placeholders": { "no": { "type": "int" } }
+  },
+  "loansDueOn": "Due on {date}. Pick the date you actually paid.",
+  "@loansDueOn": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "loansPaidOn": "Paid on {date}",
+  "@loansPaidOn": {
+    "placeholders": { "date": { "type": "String" } }
+  },
+  "loansRemainingAmount": "Remaining: {amount}",
+  "@loansRemainingAmount": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansAmount": "Amount",
+  "loansMaxAmount": "Maximum is {max}",
+  "@loansMaxAmount": {
+    "placeholders": { "max": { "type": "String" } }
+  },
+  "loansPaymentDate": "Payment date",
+  "loansVoidPayment": "Void payment",
+  "loansVoidMessage": "Void the payment of {amount}? The remaining balance will be recalculated.",
+  "@loansVoidMessage": {
+    "placeholders": { "amount": { "type": "String" } }
+  },
+  "loansVoid": "Void",
+  "loansVoided": "Voided"
+}

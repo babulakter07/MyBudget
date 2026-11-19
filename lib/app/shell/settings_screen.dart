@@ -81,6 +81,17 @@ class SettingsScreen extends StatelessWidget {
             ),
           ),
           tile(Icons.savings_outlined, l10n.appShellSavingsGoals, '/goals'),
+          tile(
+            Icons.account_balance_wallet_outlined,
+            l10n.appShellWallets,
+            '/wallets',
+          ),
+          tile(
+            Icons.account_balance_outlined,
+            l10n.appShellBankLoans,
+            '/loans',
+          ),
+          tile(Icons.credit_card, l10n.appShellCreditCards, '/cards'),
           tile(Icons.handshake_outlined, l10n.appShellDebtsLoans, '/debts'),
           tile(Icons.insights_outlined, l10n.appShellInsights, '/insights'),
           tile(

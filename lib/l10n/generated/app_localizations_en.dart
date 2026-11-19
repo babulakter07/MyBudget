@@ -120,10 +120,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appShellBackupRestore => 'Backup & Restore';
 
   @override
+  String get appShellBankLoans => 'Bank loans';
+
+  @override
   String get appShellCategories => 'Categories';
 
   @override
   String get appShellCostItems => 'Cost Items';
+
+  @override
+  String get appShellCreditCards => 'Credit cards';
 
   @override
   String get appShellDebtsLoans => 'Debts & loans';
@@ -203,6 +209,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appShellTags => 'Tags';
+
+  @override
+  String get appShellWallets => 'Wallets & balances';
 
   @override
   String get attachmentsAddFailed => 'Could not add the photo.';
@@ -885,6 +894,389 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get costItemsTitle => 'Cost Items';
+
+  @override
+  String get creditCardsActivate => 'Activate card';
+
+  @override
+  String get creditCardsAdd => 'Add card';
+
+  @override
+  String get creditCardsAddBill => 'Add bill';
+
+  @override
+  String get creditCardsAmountPositive => 'Amount must be greater than zero';
+
+  @override
+  String get creditCardsAvailable => 'Available credit';
+
+  @override
+  String get creditCardsAvailableShort => 'Available';
+
+  @override
+  String creditCardsBillAmount(String amount) {
+    return 'Bill $amount';
+  }
+
+  @override
+  String get creditCardsBillAmountLabel => 'Bill amount';
+
+  @override
+  String get creditCardsBillNotFound => 'Bill not found.';
+
+  @override
+  String creditCardsBillTitle(String month) {
+    return '$month bill';
+  }
+
+  @override
+  String get creditCardsBills => 'Bills';
+
+  @override
+  String get creditCardsBreakdown => 'Bill breakdown';
+
+  @override
+  String get creditCardsChargesAdded => 'Interest & fees added';
+
+  @override
+  String creditCardsChipApr(String rate) {
+    return 'APR $rate';
+  }
+
+  @override
+  String creditCardsChipDueDays(int days) {
+    return 'Pay within $days days';
+  }
+
+  @override
+  String creditCardsChipLateFee(String rate) {
+    return 'Late fee $rate';
+  }
+
+  @override
+  String creditCardsChipMin(String rate) {
+    return 'Min $rate';
+  }
+
+  @override
+  String creditCardsChipStatementDay(int day) {
+    return 'Statement day $day';
+  }
+
+  @override
+  String creditCardsDaysOverdue(int days) {
+    return '$days days overdue';
+  }
+
+  @override
+  String get creditCardsDeactivate => 'Deactivate card';
+
+  @override
+  String creditCardsDueOn(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String get creditCardsEdit => 'Edit card';
+
+  @override
+  String get creditCardsEditBill => 'Edit bill';
+
+  @override
+  String creditCardsEffectiveAnnual(String percent) {
+    return 'Effective annual cost so far: $percent';
+  }
+
+  @override
+  String get creditCardsEmpty =>
+      'No credit cards yet. Add one to track bills, interest and late fees.';
+
+  @override
+  String get creditCardsExtraCharges => 'Added to this bill';
+
+  @override
+  String creditCardsExtraPct(String percent) {
+    return '+$percent charges';
+  }
+
+  @override
+  String creditCardsExtraValue(String amount, String percent) {
+    return '$amount (+$percent)';
+  }
+
+  @override
+  String get creditCardsFieldApr => 'Interest rate per year (APR %)';
+
+  @override
+  String get creditCardsFieldBank => 'Bank';
+
+  @override
+  String get creditCardsFieldBillAmount => 'New charges this month';
+
+  @override
+  String get creditCardsFieldDueDate => 'Payment due date';
+
+  @override
+  String get creditCardsFieldDueDays => 'Days to pay after statement';
+
+  @override
+  String get creditCardsFieldLastFour => 'Last 4 digits (optional)';
+
+  @override
+  String get creditCardsFieldLateFeeFloor => 'Late fee minimum amount';
+
+  @override
+  String get creditCardsFieldLateFeePct => 'Late fee (% of unpaid minimum)';
+
+  @override
+  String get creditCardsFieldLimit => 'Credit limit';
+
+  @override
+  String get creditCardsFieldMinDue => 'Minimum payment due';
+
+  @override
+  String get creditCardsFieldMinFloor => 'Minimum payment floor (amount)';
+
+  @override
+  String get creditCardsFieldMinPct => 'Minimum payment (% of bill)';
+
+  @override
+  String get creditCardsFieldMonth => 'Statement month (YYYY-MM)';
+
+  @override
+  String get creditCardsFieldName => 'Card name';
+
+  @override
+  String get creditCardsFieldNote => 'Note';
+
+  @override
+  String get creditCardsFieldPayAmount => 'Amount';
+
+  @override
+  String get creditCardsFieldPayDate => 'Payment date';
+
+  @override
+  String get creditCardsFieldStatementDate => 'Statement date';
+
+  @override
+  String get creditCardsFieldStatementDay => 'Statement day (1-28)';
+
+  @override
+  String get creditCardsHelpApr =>
+      'Charged on the unpaid bill after the due date, as a daily rate (APR / 365).';
+
+  @override
+  String get creditCardsHelpBillAmount =>
+      'Only this month\'s new charges, not the unpaid balance of earlier bills.';
+
+  @override
+  String get creditCardsHelpDueDays =>
+      'Payment due date = statement date + this many days.';
+
+  @override
+  String get creditCardsHelpInterestFromStatement =>
+      'Many banks remove the interest-free period when the whole bill is not paid by the due date. On: interest runs from the statement date. Off: from the due date.';
+
+  @override
+  String get creditCardsHelpLateFee =>
+      'Charged when the minimum is not paid by the due date: the larger of the % and this amount.';
+
+  @override
+  String get creditCardsHelpMin =>
+      'Minimum due = the larger of the % and this amount, never more than the bill.';
+
+  @override
+  String get creditCardsHelpMinDue =>
+      'Filled from the card policy; change it to match your statement.';
+
+  @override
+  String get creditCardsHelpStatementDay =>
+      'Day of the month your bank generates the statement.';
+
+  @override
+  String get creditCardsInactiveBanner => 'This card is inactive.';
+
+  @override
+  String creditCardsInterest(String rate) {
+    return 'Interest ($rate APR)';
+  }
+
+  @override
+  String get creditCardsInterestFromStatement =>
+      'Interest from statement date if not paid in full';
+
+  @override
+  String get creditCardsInvalidMonth => 'Use the format YYYY-MM';
+
+  @override
+  String get creditCardsInvalidNumber => 'Enter a valid number';
+
+  @override
+  String get creditCardsInvalidPercent => 'Enter a percentage from 0 to 100';
+
+  @override
+  String get creditCardsLastFourInvalid => 'Enter exactly 4 digits';
+
+  @override
+  String creditCardsLateFee(String rate) {
+    return 'Late fee ($rate)';
+  }
+
+  @override
+  String get creditCardsLimit => 'Credit limit';
+
+  @override
+  String creditCardsMaxAmount(String amount) {
+    return 'Maximum is $amount';
+  }
+
+  @override
+  String get creditCardsMinimumDue => 'Minimum due';
+
+  @override
+  String creditCardsNextDue(String card, String date) {
+    return 'Next due: $card on $date';
+  }
+
+  @override
+  String get creditCardsNoBills =>
+      'No bills yet. Add a monthly statement to start tracking.';
+
+  @override
+  String get creditCardsNoPayments => 'No payments recorded.';
+
+  @override
+  String get creditCardsNotFound => 'Card not found.';
+
+  @override
+  String get creditCardsNothingDue => 'Nothing due';
+
+  @override
+  String get creditCardsOutstanding => 'Outstanding';
+
+  @override
+  String get creditCardsOverdueBadge => 'Overdue';
+
+  @override
+  String creditCardsOverdueBills(int count) {
+    return 'Overdue bills: $count';
+  }
+
+  @override
+  String get creditCardsPaidSoFar => 'Paid so far';
+
+  @override
+  String get creditCardsPay => 'Pay';
+
+  @override
+  String get creditCardsPayFull => 'Full remaining';
+
+  @override
+  String get creditCardsPayMinimum => 'Minimum due';
+
+  @override
+  String get creditCardsPaymentTitle => 'Record payment';
+
+  @override
+  String get creditCardsPayments => 'Payments';
+
+  @override
+  String get creditCardsPolicy => 'Billing policy';
+
+  @override
+  String creditCardsProjectionIntro(String date) {
+    return 'Estimated interest and fees on this bill by $date (30 days after the due date):';
+  }
+
+  @override
+  String creditCardsProjectionMin(String amount, String charges) {
+    return 'Pay only the minimum ($amount) now: $charges';
+  }
+
+  @override
+  String creditCardsProjectionNothing(String charges) {
+    return 'Pay nothing more: $charges';
+  }
+
+  @override
+  String get creditCardsProjectionTitle => 'What if you delay?';
+
+  @override
+  String creditCardsRangeInt(int min, int max) {
+    return 'Enter a number from $min to $max';
+  }
+
+  @override
+  String get creditCardsRemaining => 'Remaining';
+
+  @override
+  String creditCardsRemainingAmount(String amount) {
+    return 'Remaining $amount';
+  }
+
+  @override
+  String creditCardsRemainingNow(String amount) {
+    return 'Remaining: $amount';
+  }
+
+  @override
+  String get creditCardsShowInactive => 'Show inactive cards';
+
+  @override
+  String get creditCardsStatusMinPaid => 'Minimum paid';
+
+  @override
+  String get creditCardsStatusOverdue => 'Overdue';
+
+  @override
+  String get creditCardsStatusPaid => 'Paid';
+
+  @override
+  String get creditCardsStatusPartial => 'Partly paid';
+
+  @override
+  String get creditCardsStatusUnpaid => 'Unpaid';
+
+  @override
+  String get creditCardsTitle => 'Credit cards';
+
+  @override
+  String get creditCardsTotalLimit => 'Total limit';
+
+  @override
+  String get creditCardsTotalOutstanding => 'Total outstanding';
+
+  @override
+  String get creditCardsTotalPayable => 'Total payable';
+
+  @override
+  String creditCardsUsed(String percent) {
+    return 'Used $percent';
+  }
+
+  @override
+  String get creditCardsVoid => 'Void';
+
+  @override
+  String get creditCardsVoidBill => 'Void bill';
+
+  @override
+  String get creditCardsVoidBillMessage =>
+      'Void this bill? It is kept for history but no longer counts toward your outstanding balance.';
+
+  @override
+  String get creditCardsVoidPayment => 'Void payment';
+
+  @override
+  String creditCardsVoidPaymentMessage(String amount) {
+    return 'Void the payment of $amount? The balance, interest and fees will be recalculated.';
+  }
+
+  @override
+  String get creditCardsVoided => 'Voided';
+
+  @override
+  String get creditCardsVoidedBanner => 'This bill is voided.';
 
   @override
   String get currencyAddRate => 'Add exchange rate';
@@ -1764,6 +2156,303 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ledgerTotal => 'Total';
+
+  @override
+  String get loansAdd => 'Add loan';
+
+  @override
+  String get loansAmount => 'Amount';
+
+  @override
+  String get loansAmountPositive => 'Amount must be greater than zero';
+
+  @override
+  String get loansArchived => 'Archived';
+
+  @override
+  String loansBalanceAfter(String amount) {
+    return 'Balance $amount';
+  }
+
+  @override
+  String get loansClosedMessage => 'Loan fully paid';
+
+  @override
+  String loansDueOn(String date) {
+    return 'Due on $date. Pick the date you actually paid.';
+  }
+
+  @override
+  String get loansEdit => 'Edit loan';
+
+  @override
+  String get loansEmpty => 'No loans yet. Tap + to add a bank loan.';
+
+  @override
+  String get loansFirstDueDate => 'First installment date';
+
+  @override
+  String get loansFreqMonthly => 'Monthly';
+
+  @override
+  String get loansFreqWeekly => 'Weekly';
+
+  @override
+  String get loansFreqYearly => 'Yearly';
+
+  @override
+  String get loansFrequency => 'Repayment frequency';
+
+  @override
+  String get loansInstDue => 'Due';
+
+  @override
+  String get loansInstOverdue => 'Overdue';
+
+  @override
+  String get loansInstPaid => 'Paid';
+
+  @override
+  String get loansInstPartial => 'Partial';
+
+  @override
+  String get loansInstallment => 'Installment per period';
+
+  @override
+  String loansInstallmentHelper(String amount) {
+    return 'Calculated: $amount. Leave empty to use it, or type the figure from your bank.';
+  }
+
+  @override
+  String loansInstallmentNo(int no) {
+    return 'Installment $no';
+  }
+
+  @override
+  String get loansInterestMethod => 'Interest method';
+
+  @override
+  String get loansInterestPart => 'Interest';
+
+  @override
+  String get loansInterestRate => 'Annual interest rate (%)';
+
+  @override
+  String get loansInvalidAmount => 'Enter a valid amount';
+
+  @override
+  String get loansInvalidRate => 'Enter a rate between 0 and 100';
+
+  @override
+  String get loansInvalidTenure => 'Enter 1 to 1200 installments';
+
+  @override
+  String get loansLender => 'Bank / lender name';
+
+  @override
+  String get loansLenderRequired => 'Enter the bank or lender name';
+
+  @override
+  String get loansListTitle => 'Loans';
+
+  @override
+  String loansMarkInstallmentPaid(int no) {
+    return 'Mark installment $no as paid';
+  }
+
+  @override
+  String get loansMarkPaid => 'Mark paid';
+
+  @override
+  String loansMaxAmount(String max) {
+    return 'Maximum is $max';
+  }
+
+  @override
+  String get loansMethodFlat => 'Flat rate';
+
+  @override
+  String get loansMethodReducing => 'Reducing balance';
+
+  @override
+  String get loansMonthlyCommitment => 'Per month';
+
+  @override
+  String loansNextDueRow(String date, String amount) {
+    return 'Next due $date • $amount';
+  }
+
+  @override
+  String get loansNoPayments => 'No payments recorded yet.';
+
+  @override
+  String get loansNotFound => 'Loan not found.';
+
+  @override
+  String get loansNote => 'Note';
+
+  @override
+  String get loansOverdue => 'Overdue';
+
+  @override
+  String loansOverdueSummary(int count, String amount) {
+    return '$count overdue installments • $amount';
+  }
+
+  @override
+  String loansPaidOfAmount(String paid, String total) {
+    return '$paid of $total paid';
+  }
+
+  @override
+  String loansPaidOn(String date) {
+    return 'Paid on $date';
+  }
+
+  @override
+  String get loansPaidSoFar => 'Paid so far';
+
+  @override
+  String get loansPaymentDate => 'Payment date';
+
+  @override
+  String get loansPayments => 'Payments';
+
+  @override
+  String loansPerMonth(String amount) {
+    return '$amount / month';
+  }
+
+  @override
+  String loansPerWeek(String amount) {
+    return '$amount / week';
+  }
+
+  @override
+  String loansPerYear(String amount) {
+    return '$amount / year';
+  }
+
+  @override
+  String get loansPrincipal => 'Loan amount (principal)';
+
+  @override
+  String get loansPrincipalPart => 'Principal';
+
+  @override
+  String get loansProcessingFee => 'Processing fee (optional)';
+
+  @override
+  String loansProgressPercent(int percent) {
+    return '$percent% repaid';
+  }
+
+  @override
+  String loansRatePerYear(String rate) {
+    return '$rate% per year';
+  }
+
+  @override
+  String get loansRecordPayment => 'Record payment';
+
+  @override
+  String get loansReferenceNo => 'Loan account / reference no. (optional)';
+
+  @override
+  String get loansRemaining => 'Remaining';
+
+  @override
+  String loansRemainingAmount(String amount) {
+    return 'Remaining: $amount';
+  }
+
+  @override
+  String get loansSchedule => 'Schedule';
+
+  @override
+  String get loansShowArchived => 'Show archived loans';
+
+  @override
+  String get loansStartDate => 'Disbursement date';
+
+  @override
+  String get loansStatusActive => 'Active';
+
+  @override
+  String get loansStatusClosed => 'Closed';
+
+  @override
+  String get loansStatusOverdue => 'Overdue';
+
+  @override
+  String get loansTenure => 'Number of installments';
+
+  @override
+  String loansTenureApprox(int years, int months) {
+    return '≈ $years years $months months';
+  }
+
+  @override
+  String loansTenureValue(int count, String frequency) {
+    return '$count installments ($frequency)';
+  }
+
+  @override
+  String get loansTermsLocked =>
+      'Payments are recorded. You can still change the interest rate and installment (for a rate revision); other terms are locked. Void the payments to change them.';
+
+  @override
+  String get loansTitle => 'Loan';
+
+  @override
+  String get loansTotalCost => 'Total cost (with fee)';
+
+  @override
+  String get loansTotalInterest => 'Total interest';
+
+  @override
+  String get loansTotalPayable => 'Total payable';
+
+  @override
+  String get loansTotalRemaining => 'Remaining';
+
+  @override
+  String get loansType => 'Loan type';
+
+  @override
+  String get loansTypeBusiness => 'Business loan';
+
+  @override
+  String get loansTypeEducation => 'Education loan';
+
+  @override
+  String get loansTypeHome => 'Home loan';
+
+  @override
+  String get loansTypeOther => 'Other loan';
+
+  @override
+  String get loansTypePersonal => 'Personal loan';
+
+  @override
+  String get loansTypeVehicle => 'Vehicle loan';
+
+  @override
+  String get loansUnarchive => 'Unarchive';
+
+  @override
+  String get loansVoid => 'Void';
+
+  @override
+  String loansVoidMessage(String amount) {
+    return 'Void the payment of $amount? The remaining balance will be recalculated.';
+  }
+
+  @override
+  String get loansVoidPayment => 'Void payment';
+
+  @override
+  String get loansVoided => 'Voided';
 
   @override
   String get notificationsBudgetAlerts => 'Budget alerts';
@@ -3146,4 +3835,146 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transactionsWarningAnd => ' and ';
+
+  @override
+  String get walletsAddAccount => 'Add account';
+
+  @override
+  String get walletsAddMoney => 'Add money';
+
+  @override
+  String get walletsAmount => 'Amount';
+
+  @override
+  String walletsBalanceAfter(String amount) {
+    return 'Balance after: $amount';
+  }
+
+  @override
+  String get walletsCardsNote =>
+      'Credit-card accounts are shown separately and are not part of the total.';
+
+  @override
+  String get walletsClosing => 'Closing';
+
+  @override
+  String get walletsCurrentBalance => 'Current balance';
+
+  @override
+  String get walletsDate => 'Date';
+
+  @override
+  String get walletsEmpty =>
+      'No accounts yet. Add a cash, bank or mobile wallet account to start tracking balances.';
+
+  @override
+  String walletsInOut(String inAmount, String outAmount) {
+    return 'In $inAmount · Out $outAmount';
+  }
+
+  @override
+  String get walletsLedgerTitle => 'Ledger';
+
+  @override
+  String get walletsMoneyAdded => 'Money added';
+
+  @override
+  String get walletsMoneyIn => 'Money in';
+
+  @override
+  String get walletsMoneyOut => 'Money out';
+
+  @override
+  String get walletsNoMovements => 'No movements in this period.';
+
+  @override
+  String get walletsNoOtherAccount =>
+      'Add another account first to transfer money.';
+
+  @override
+  String get walletsNotFound => 'Account not found.';
+
+  @override
+  String get walletsNote => 'Note (optional)';
+
+  @override
+  String get walletsOpening => 'Opening';
+
+  @override
+  String get walletsOpeningBalance => 'Opening balance';
+
+  @override
+  String get walletsPeriod3Months => 'Last 3 months';
+
+  @override
+  String get walletsPeriodAll => 'All';
+
+  @override
+  String get walletsPeriodMonth => 'This month';
+
+  @override
+  String get walletsPeriodYear => 'This year';
+
+  @override
+  String walletsPreviewAdd(String current, String added, String after) {
+    return 'Current $current + $added = $after after';
+  }
+
+  @override
+  String walletsPreviewMove(String name, String before, String after) {
+    return '$name: $before → $after';
+  }
+
+  @override
+  String get walletsSource => 'Source';
+
+  @override
+  String get walletsSourceDeposit => 'Deposit';
+
+  @override
+  String get walletsSourceGift => 'Gift';
+
+  @override
+  String get walletsSourceInterest => 'Interest';
+
+  @override
+  String get walletsSourceOther => 'Other';
+
+  @override
+  String get walletsSourceRequired => 'Enter the source of this money';
+
+  @override
+  String get walletsSourceSalary => 'Salary';
+
+  @override
+  String get walletsThisMonth => 'This month';
+
+  @override
+  String get walletsTitle => 'Wallets & balances';
+
+  @override
+  String get walletsTotalBalance => 'Total balance';
+
+  @override
+  String get walletsTotalIn => 'Total in';
+
+  @override
+  String get walletsTotalNote =>
+      'Cash, bank, mobile and savings accounts (credit cards excluded)';
+
+  @override
+  String get walletsTotalOut => 'Total out';
+
+  @override
+  String get walletsTransferHint =>
+      'Moving money from a bank to cash is a withdrawal.';
+
+  @override
+  String get walletsTransferSaved => 'Transfer saved';
+
+  @override
+  String get walletsTransferTo => 'Transfer to';
+
+  @override
+  String get walletsTransferWithdraw => 'Transfer / Withdraw';
 }

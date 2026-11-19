@@ -239,7 +239,7 @@ void main() {
 
     test('newer schema is rejected', () async {
       final j = jsonDecode(await service.exportJson()) as Map<String, dynamic>;
-      j['schemaVersion'] = 6;
+      j['schemaVersion'] = 7;
       expect(service.validate(jsonEncode(j)).isValid, isFalse);
     });
   });

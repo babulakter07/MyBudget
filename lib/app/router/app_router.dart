@@ -20,10 +20,17 @@ import '../shell/settings_screen.dart';
 import '../../features/sub_categories/presentation/sub_category_list_screen.dart';
 import '../../shared/providers/core_providers.dart';
 import '../../features/currency/presentation/exchange_rates_screen.dart';
+import '../../features/credit_cards/presentation/credit_card_bill_screen.dart';
+import '../../features/credit_cards/presentation/credit_card_detail_screen.dart';
+import '../../features/credit_cards/presentation/credit_card_list_screen.dart';
 import '../../features/debts/presentation/debt_detail_screen.dart';
 import '../../features/debts/presentation/debt_list_screen.dart';
 import '../../features/goals/presentation/goal_list_screen.dart';
 import '../../features/import/presentation/csv_import_screen.dart';
+import '../../features/loans/presentation/loan_detail_screen.dart';
+import '../../features/loans/presentation/loan_list_screen.dart';
+import '../../features/wallets/presentation/wallet_detail_screen.dart';
+import '../../features/wallets/presentation/wallets_screen.dart';
 import '../../features/help/presentation/user_manual_screen.dart';
 import '../../features/onboarding/presentation/setup_guide_screen.dart';
 import '../../features/transactions/presentation/split_expense_screen.dart';
@@ -150,6 +157,52 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: ':id',
             builder: (_, state) => DebtDetailScreen(
               debtId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/loans',
+        builder: (_, _) => const LoanListScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (_, state) => LoanDetailScreen(
+              loanId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/cards',
+        builder: (_, _) => const CreditCardListScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (_, state) => CreditCardDetailScreen(
+              cardId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+            routes: [
+              GoRoute(
+                path: 'bills/:billId',
+                builder: (_, state) => CreditCardBillScreen(
+                  cardId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+                  billId:
+                      int.tryParse(state.pathParameters['billId'] ?? '') ?? -1,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/wallets',
+        builder: (_, _) => const WalletsScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (_, state) => WalletDetailScreen(
+              accountId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
             ),
           ),
         ],

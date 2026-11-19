@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
 import 'database_tables.dart';
+import 'database_tables_v6.dart';
 
 part 'app_database.g.dart';
 
@@ -29,6 +30,11 @@ part 'app_database.g.dart';
     TransactionTags,
     TransactionAttachments,
     ExchangeRates,
+    Loans,
+    LoanPayments,
+    CreditCards,
+    CreditCardBills,
+    CreditCardPayments,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -37,7 +43,7 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   AppDatabase.memory() : super(NativeDatabase.memory());
 
-  static const int currentSchemaVersion = 5;
+  static const int currentSchemaVersion = 6;
 
   @override
   int get schemaVersion => currentSchemaVersion;
@@ -50,6 +56,7 @@ class AppDatabase extends _$AppDatabase {
       await _createV2Indexes();
       await _createV4Indexes();
       await _createV5Indexes();
+      await _createV6Indexes();
     },
     onUpgrade: (m, from, to) async {
       // Stepwise migrations. Never rewrite earlier steps.
@@ -107,6 +114,14 @@ class AppDatabase extends _$AppDatabase {
         }
         await _createV5Indexes();
       }
+      if (from < 6) {
+        await m.createTable(loans);
+        await m.createTable(loanPayments);
+        await m.createTable(creditCards);
+        await m.createTable(creditCardBills);
+        await m.createTable(creditCardPayments);
+        await _createV6Indexes();
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
@@ -154,6 +169,25 @@ class AppDatabase extends _$AppDatabase {
     );
     await customStatement(
       'CREATE INDEX IF NOT EXISTS idx_attachments_txn ON transaction_attachments (profile_id, transaction_id)',
+    );
+  }
+
+  /// v6 indexes (loans, credit cards).
+  Future<void> _createV6Indexes() async {
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_loan_payments_loan ON loan_payments (profile_id, loan_id)',
+    );
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_cards_profile_name ON credit_cards (profile_id, name COLLATE NOCASE)',
+    );
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_card_bills_month ON credit_card_bills (profile_id, card_id, bill_month) WHERE is_active = 1',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_card_bills_card ON credit_card_bills (profile_id, card_id)',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_card_payments_bill ON credit_card_payments (profile_id, bill_id)',
     );
   }
 
