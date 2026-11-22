@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:csv/csv.dart';
+import 'package:my_budget/core/pdf/shaped_text.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:my_budget/features/reports/data/report_exporters.dart';
 import 'package:my_budget/features/reports/data/report_file_service.dart';
@@ -149,5 +150,32 @@ void main() {
       ReportDocumentBuilder.monthly(_report(), pdfMoneyFormatter('BDT')),
     );
     expect(String.fromCharCodes((await p.readAsBytes()).sublist(0, 4)), '%PDF');
+  });
+
+  testWidgets('PDF with Bangla names embeds shaped images, Latin stays text', (
+    tester,
+  ) async {
+    const doc = ReportDocument(
+      title: 'Monthly Report',
+      profileName: 'আমার পরিবার',
+      period: 'May 2026',
+      fileBaseName: 'bn',
+      sections: [
+        ReportSection(
+          title: 'Category-wise expense',
+          headers: ['Category', 'Amount'],
+          rows: [
+            ['বাজার খরচ', 'BDT 1,200.00'],
+            ['Food', 'BDT 5.00'],
+          ],
+        ),
+      ],
+    );
+    final bytes = await tester.runAsync(() => const PdfExporter().build(doc));
+    final raw = String.fromCharCodes(bytes!);
+    expect(raw.substring(0, 5), '%PDF-');
+    expect(raw, contains('/Subtype/Image'));
+    expect(needsShaping('বাজার'), isTrue);
+    expect(needsShaping('Food 12'), isFalse);
   });
 }

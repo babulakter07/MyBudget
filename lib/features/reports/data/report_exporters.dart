@@ -5,6 +5,7 @@ import 'package:csv/csv.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 
+import '../../../core/pdf/shaped_text.dart';
 import '../domain/report_document.dart';
 
 /// Pure CSV encoder (no file IO). Amounts must already be plain decimals
@@ -47,58 +48,94 @@ class CsvExporter {
       Uint8List.fromList([0xEF, 0xBB, 0xBF, ...utf8.encode(encode(doc))]);
 }
 
-/// Pure PDF builder. The default PDF fonts lack the Bengali taka sign and
-/// Bengali glyphs, so callers should format money with a text prefix such as
-/// 'BDT ' (see [pdfMoneyFormatter]); non-Latin names may render as blanks
-/// unless a font is bundled.
+/// PDF builder. Latin text and numbers are real PDF text; any string with
+/// Bengali characters is shaped by Flutter's text engine and embedded as a
+/// high-resolution image (the `pdf` package cannot shape Bengali itself), so
+/// download, share and print all render Bangla names correctly. Money should
+/// still be formatted with a text prefix such as 'BDT ' (see
+/// [pdfMoneyFormatter]) because default PDF fonts lack the taka sign.
 class PdfExporter {
-  const PdfExporter();
+  const PdfExporter({this.rasterizer = const ShapedTextRasterizer()});
+
+  final ShapedTextRasterizer rasterizer;
+
+  static const double _pageWidth = 595.28 - 56; // A4 minus margins
 
   Future<Uint8List> build(ReportDocument doc) async {
+    final tf = PdfTextFactory(rasterizer);
+    final children = <pw.Widget>[
+      await tf.text(doc.title, fontSize: 20, bold: true),
+      pw.SizedBox(height: 4),
+      await tf.text('Profile: ${doc.profileName}'),
+      await tf.text('Period: ${doc.period}'),
+    ];
+    for (final s in doc.sections) {
+      children
+        ..add(pw.SizedBox(height: 14))
+        ..add(await tf.text(s.title, fontSize: 13, bold: true))
+        ..add(pw.SizedBox(height: 4));
+      if (s.rows.isEmpty) {
+        children.add(await tf.text('No data', fontSize: 9));
+      } else {
+        children.add(await _table(tf, s));
+      }
+    }
+
     final pdf = pw.Document(title: doc.title, author: 'MyBudget');
     pdf.addPage(
       pw.MultiPage(
         pageFormat: PdfPageFormat.a4,
         margin: const pw.EdgeInsets.all(28),
-        build: (ctx) => [
-          pw.Text(
-            doc.title,
-            style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold),
-          ),
-          pw.SizedBox(height: 4),
-          pw.Text('Profile: ${doc.profileName}'),
-          pw.Text('Period: ${doc.period}'),
-          for (final s in doc.sections) ...[
-            pw.SizedBox(height: 14),
-            pw.Text(
-              s.title,
-              style: pw.TextStyle(fontSize: 13, fontWeight: pw.FontWeight.bold),
-            ),
-            pw.SizedBox(height: 4),
-            if (s.rows.isEmpty)
-              pw.Text('No data', style: const pw.TextStyle(fontSize: 9))
-            else
-              pw.TableHelper.fromTextArray(
-                headers: s.headers,
-                data: s.rows,
-                headerStyle: pw.TextStyle(
-                  fontSize: 8,
-                  fontWeight: pw.FontWeight.bold,
-                ),
-                cellStyle: const pw.TextStyle(fontSize: 8),
-                headerDecoration: const pw.BoxDecoration(
-                  color: PdfColors.grey300,
-                ),
-                cellAlignments: {
-                  for (var i = 1; i < s.headers.length; i++)
-                    i: pw.Alignment.centerRight,
-                },
-              ),
-          ],
-        ],
+        build: (ctx) => children,
       ),
     );
     return Uint8List.fromList(await pdf.save());
+  }
+
+  Future<pw.Widget> _table(PdfTextFactory tf, ReportSection s) async {
+    final cols = s.headers.length;
+    final maxCell = (_pageWidth / cols - 10).clamp(40.0, 400.0);
+
+    Future<pw.Widget> cell(String v, int i, {bool bold = false}) async {
+      final align = i == 0 ? pw.Alignment.centerLeft : pw.Alignment.centerRight;
+      return pw.Container(
+        padding: const pw.EdgeInsets.all(5),
+        alignment: align,
+        child: await tf.text(
+          v,
+          fontSize: 8,
+          bold: bold,
+          maxWidth: maxCell,
+          alignment: align,
+        ),
+      );
+    }
+
+    final header = pw.TableRow(
+      repeat: true,
+      decoration: const pw.BoxDecoration(color: PdfColors.grey300),
+      children: [
+        for (var i = 0; i < cols; i++) await cell(s.headers[i], i, bold: true),
+      ],
+    );
+    final rows = <pw.TableRow>[];
+    for (final r in s.rows) {
+      rows.add(
+        pw.TableRow(
+          children: [
+            for (var i = 0; i < cols; i++)
+              await cell(i < r.length ? r[i] : '', i),
+          ],
+        ),
+      );
+    }
+    return pw.Table(
+      border: const pw.TableBorder(
+        horizontalInside: pw.BorderSide(color: PdfColors.grey400, width: 0.5),
+        bottom: pw.BorderSide(color: PdfColors.grey400, width: 0.5),
+      ),
+      children: [header, ...rows],
+    );
   }
 }
 
