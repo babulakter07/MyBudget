@@ -27,6 +27,8 @@ import '../../features/debts/presentation/debt_detail_screen.dart';
 import '../../features/debts/presentation/debt_list_screen.dart';
 import '../../features/goals/presentation/goal_list_screen.dart';
 import '../../features/import/presentation/csv_import_screen.dart';
+import '../../features/fixed_deposits/presentation/fd_detail_screen.dart';
+import '../../features/fixed_deposits/presentation/fd_list_screen.dart';
 import '../../features/loans/presentation/loan_detail_screen.dart';
 import '../../features/loans/presentation/loan_list_screen.dart';
 import '../../features/wallets/presentation/wallet_detail_screen.dart';
@@ -35,6 +37,7 @@ import '../../features/help/presentation/user_manual_screen.dart';
 import '../../features/onboarding/presentation/setup_guide_screen.dart';
 import '../../features/transactions/presentation/split_expense_screen.dart';
 import '../../features/insights/presentation/insights_screen.dart';
+import '../../features/notifications/presentation/notification_schedule_screen.dart';
 import '../../features/notifications/presentation/notification_settings_screen.dart';
 import '../../features/preferences/preferences.dart';
 import '../../features/recurring/presentation/recurring_list_screen.dart';
@@ -174,6 +177,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
+        path: '/fd',
+        builder: (_, _) => const FdListScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (_, state) => FdDetailScreen(
+              depositId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
         path: '/cards',
         builder: (_, _) => const CreditCardListScreen(),
         routes: [
@@ -231,6 +246,10 @@ final appRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/settings/preferences',
         builder: (_, _) => const PreferencesScreen(),
+      ),
+      GoRoute(
+        path: '/notifications/schedule',
+        builder: (_, _) => const NotificationScheduleScreen(),
       ),
       GoRoute(
         path: '/settings/notifications',

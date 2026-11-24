@@ -47,5 +47,6 @@
   "recurringOnTheDay": "সেদিনই",
   "recurringDaysBefore": "{count, plural, =1{{count} দিন আগে} other{{count} দিন আগে}}",
   "recurringSaveChanges": "পরিবর্তন সংরক্ষণ করুন",
-  "recurringCreateRule": "নিয়ম তৈরি করুন"
+  "recurringCreateRule": "নিয়ম তৈরি করুন",
+  "recurringReminderDefault": "ডিফল্ট (নোটিফিকেশন সেটিংস অনুযায়ী)"
 }

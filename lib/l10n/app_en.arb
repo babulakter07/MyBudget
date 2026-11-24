@@ -61,8 +61,10 @@
   "appShellCreditCards": "Credit cards",
   "appShellDebtsLoans": "Debts & loans",
   "appShellExchangeRates": "Exchange rates",
+  "appShellFixedDeposits": "Fixed deposits (FDR)",
   "appShellImportCsv": "Import from CSV",
   "appShellInsights": "Insights",
+  "appShellMore": "More",
   "appShellNoErrorsLogged": "No errors have been logged.",
   "appShellNotifications": "Notifications",
   "appShellPreferences": "Preferences",
@@ -72,6 +74,7 @@
   "appShellSectionApp": "App",
   "appShellSectionData": "Data",
   "appShellSectionMaster": "Master Configuration",
+  "appShellSectionOperations": "Operations",
   "appShellSectionPlan": "Plan",
   "appShellSecurity": "Security",
   "appShellSettings": "Settings",
@@ -1074,6 +1077,186 @@
   },
   "debtsVoidPayment": "Void payment",
   "debtsVoided": "Voided",
+  "fixedDepositsAdd": "Add deposit",
+  "fixedDepositsAmountPositive": "Amount must be greater than zero",
+  "fixedDepositsArchived": "Archived",
+  "fixedDepositsBadgeReissued": "Reissued",
+  "fixedDepositsBank": "Bank",
+  "fixedDepositsBankRequired": "Enter the bank name",
+  "fixedDepositsBeneficiary": "Beneficiary name",
+  "fixedDepositsCalculatedNet": "Calculated net: {amount}",
+  "@fixedDepositsCalculatedNet": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsClosedBanner": "This deposit is closed (encashed).",
+  "fixedDepositsClosedOn": "Closed on {date}",
+  "@fixedDepositsClosedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsClosingCharge": "Bank charge",
+  "fixedDepositsClosingDate": "Closing date",
+  "fixedDepositsClosingInterest": "Interest received",
+  "fixedDepositsClosingTax": "Tax deducted",
+  "fixedDepositsDaysLeft": "{days} days left",
+  "@fixedDepositsDaysLeft": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "fixedDepositsEditDetails": "Edit bank details",
+  "fixedDepositsEditInstrument": "Edit instrument",
+  "fixedDepositsEditTitle": "Edit deposit",
+  "fixedDepositsEmpty": "No deposits yet. Tap + to add an FDR, DPS or savings certificate.",
+  "fixedDepositsEncash": "Encash",
+  "fixedDepositsEncashNote": "After encashing, this deposit is closed and its instrument can no longer be edited.",
+  "fixedDepositsEncashTitle": "Encash deposit",
+  "fixedDepositsExpectedInterest": "Expected interest",
+  "fixedDepositsExpectedNote": "An estimate (simple interest on 365 days). You enter the bank figure when you close it.",
+  "fixedDepositsFinalNet": "Final net received (optional)",
+  "fixedDepositsFinalNetHelper": "Fill only if the bank paid a different amount.",
+  "fixedDepositsHistory": "Instrument history",
+  "fixedDepositsInstrumentNo": "Instrument #{no}",
+  "@fixedDepositsInstrumentNo": {
+    "placeholders": {
+      "no": {
+        "type": "int"
+      }
+    }
+  },
+  "fixedDepositsInstrumentNumber": "Instrument number",
+  "fixedDepositsInstrumentRequired": "Enter the instrument number",
+  "fixedDepositsInstrumentRow": "Instrument {number}",
+  "@fixedDepositsInstrumentRow": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsInterestHelper": "Suggested for {days} days. Change it to the amount the bank paid.",
+  "@fixedDepositsInterestHelper": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "fixedDepositsInterestRate": "Interest rate (% per year)",
+  "fixedDepositsInvalidAmount": "Enter a valid amount",
+  "fixedDepositsInvalidRate": "Enter a rate between 0 and 100",
+  "fixedDepositsInvalidTenure": "Enter 1 to 36500 days",
+  "fixedDepositsIssueDate": "Issue date",
+  "fixedDepositsListTitle": "Fixed deposits",
+  "fixedDepositsMaturedAgo": "Matured {days} days ago",
+  "@fixedDepositsMaturedAgo": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "fixedDepositsMaturedAlert": "{count} matured: encash or reissue",
+  "@fixedDepositsMaturedAlert": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "fixedDepositsMaturedBanner": "This deposit has matured. Encash it or reissue it as a new instrument.",
+  "fixedDepositsMaturesToday": "Matures today",
+  "fixedDepositsMaturityDate": "Maturity date",
+  "fixedDepositsNetMustBePositive": "Net received must be greater than zero to reissue",
+  "fixedDepositsNetReceived": "Net received",
+  "fixedDepositsNewInstrument": "New instrument",
+  "fixedDepositsNewInstrumentNumber": "New instrument number",
+  "fixedDepositsNewPrincipal": "New principal = net received: {amount}",
+  "@fixedDepositsNewPrincipal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsNextMaturity": "Next maturity {date} • {amount}",
+  "@fixedDepositsNextMaturity": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsNotFound": "Deposit not found.",
+  "fixedDepositsNote": "Note",
+  "fixedDepositsOutcomeEncashed": "Encashed",
+  "fixedDepositsOutcomeReissued": "Reissued",
+  "fixedDepositsOutcomeRunning": "Running",
+  "fixedDepositsPrincipal": "Principal",
+  "fixedDepositsRatePerYear": "{rate}% per year",
+  "@fixedDepositsRatePerYear": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsReissue": "Reissue",
+  "fixedDepositsReissueDate": "Reissue date",
+  "fixedDepositsReissueTitle": "Reissue deposit",
+  "fixedDepositsReissuedFrom": "Reissued from #{no}",
+  "@fixedDepositsReissuedFrom": {
+    "placeholders": {
+      "no": {
+        "type": "int"
+      }
+    }
+  },
+  "fixedDepositsSchemeDps": "DPS",
+  "fixedDepositsSchemeFdr": "FDR",
+  "fixedDepositsSchemeRequired": "Enter the scheme type",
+  "fixedDepositsSchemeSanchaypatra": "Sanchaypatra",
+  "fixedDepositsSchemeType": "Scheme type",
+  "fixedDepositsShowArchived": "Show archived deposits",
+  "fixedDepositsStatusActive": "Active",
+  "fixedDepositsStatusClosed": "Closed",
+  "fixedDepositsStatusMatured": "Matured",
+  "fixedDepositsSummaryInterest": "Expected interest",
+  "fixedDepositsSummaryOpen": "Open",
+  "fixedDepositsSummaryPlaced": "Placed",
+  "fixedDepositsTenureDays": "Tenure (days)",
+  "fixedDepositsTenureHelper": "≈ {months} months (30 days = 1 month)",
+  "@fixedDepositsTenureHelper": {
+    "placeholders": {
+      "months": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsTenureValue": "{days} days (~{months} months)",
+  "@fixedDepositsTenureValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      },
+      "months": {
+        "type": "String"
+      }
+    }
+  },
+  "fixedDepositsTitle": "Deposit",
   "goalsAccountLine": "Account: {account}",
   "@goalsAccountLine": {
     "placeholders": {
@@ -1553,7 +1736,14 @@
   "ledgerSelect": "Select",
   "ledgerTotal": "Total",
   "loansAdd": "Add loan",
+  "loansAdjust": "Adjust / top-up",
+  "loansAdjustHelper": "The current loan is closed and a new loan replaces it. The amount is prefilled with the principal you still owe; add new money if you are topping up.",
+  "loansAdjustNewLoan": "New loan",
+  "loansAdjustTitle": "Adjust loan",
+  "loansAdjusted": "Adjusted",
+  "loansAdjustedFromBanner": "This loan replaced an earlier loan (adjustment).",
   "loansAmount": "Amount",
+  "loansAmountPaidToClose": "Amount paid to close (optional)",
   "loansAmountPositive": "Amount must be greater than zero",
   "loansArchived": "Archived",
   "loansBalanceAfter": "Balance {amount}",
@@ -1564,7 +1754,45 @@
       }
     }
   },
+  "loansBannerAdjusted": "Adjusted on {date}: replaced by a new loan",
+  "@loansBannerAdjusted": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loansBannerEarly": "Closed early on {date}",
+  "@loansBannerEarly": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "loansBannerPaid": "Paid to close: {amount}",
+  "@loansBannerPaid": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "loansBannerRemarks": "Remarks: {remarks}",
+  "@loansBannerRemarks": {
+    "placeholders": {
+      "remarks": {
+        "type": "String"
+      }
+    }
+  },
+  "loansCloseEarly": "Close early",
+  "loansCloseEarlyNote": "The rest of the schedule is waived and the loan becomes history. An amount you enter is recorded as a payment on the closing date.",
+  "loansCloseEarlyTitle": "Close loan early",
+  "loansClosedEarly": "Early closed",
   "loansClosedMessage": "Loan fully paid",
+  "loansClosingDate": "Closing date",
+  "loansClosingRemarks": "Remarks",
   "loansDueOn": "Due on {date}. Pick the date you actually paid.",
   "@loansDueOn": {
     "placeholders": {
@@ -1732,6 +1960,9 @@
       }
     }
   },
+  "loansRemainingInstallments": "Remaining installments",
+  "loansRemainingInterest": "Remaining interest",
+  "loansRemainingPrincipal": "Remaining principal",
   "loansSchedule": "Schedule",
   "loansShowArchived": "Show archived loans",
   "loansStartDate": "Disbursement date",
@@ -1775,6 +2006,8 @@
   "loansTypePersonal": "Personal loan",
   "loansTypeVehicle": "Vehicle loan",
   "loansUnarchive": "Unarchive",
+  "loansViewPrevious": "View the previous loan",
+  "loansViewReplacement": "View the new loan",
   "loansVoid": "Void",
   "loansVoidMessage": "Void the payment of {amount}? The remaining balance will be recalculated.",
   "@loansVoidMessage": {
@@ -1788,6 +2021,7 @@
   "loansVoided": "Voided",
   "notificationsBudgetAlerts": "Budget alerts",
   "notificationsBudgetAlertsSubtitle": "Warn me at 80% and when I go over a budget",
+  "notificationsBudgetSound": "Budget alert sound",
   "notificationsBudgetWarningBody": "You have used 80% of your budget ({spent} of {budget}).",
   "@notificationsBudgetWarningBody": {
     "placeholders": {
@@ -1807,9 +2041,49 @@
       }
     }
   },
+  "notificationsCardName": "{card} card bill",
+  "@notificationsCardName": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsCategoryFallback": "Category",
   "notificationsCollectTitle": "Money to collect",
+  "notificationsDaysAfter": "{days, plural, =1{1 day after} other{{days} days after}}",
+  "@notificationsDaysAfter": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsDaysBefore": "{days, plural, =1{1 day before} other{{days} days before}}",
+  "@notificationsDaysBefore": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsDebtBorrowedName": "Debt to {person}",
+  "@notificationsDebtBorrowedName": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsDebtDueTitle": "Debt payment due",
+  "notificationsDebtLentName": "{person} (to collect)",
+  "@notificationsDebtLentName": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsDueInDays": "{title} ({amount}) is due in {days} days ({date}).",
   "@notificationsDueInDays": {
     "placeholders": {
@@ -1849,7 +2123,168 @@
       }
     }
   },
+  "notificationsExpireReminder": "Remind once after it expires",
+  "notificationsExpireReminderSubtitle": "One reminder if it is still unpaid after the date",
+  "notificationsFdrBodyToday": "{scheme} {number} of {bank} matures today. Principal {amount}.",
+  "@notificationsFdrBodyToday": {
+    "placeholders": {
+      "scheme": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "bank": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsFdrBodyTomorrow": "{scheme} {number} of {bank} matures tomorrow. Principal {amount}.",
+  "@notificationsFdrBodyTomorrow": {
+    "placeholders": {
+      "scheme": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "bank": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsFdrBodyUpcoming": "{scheme} {number} of {bank} matures in {days} days ({date}). Principal {amount}.",
+  "@notificationsFdrBodyUpcoming": {
+    "placeholders": {
+      "scheme": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "bank": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsFdrTitle": "{scheme} maturing",
+  "@notificationsFdrTitle": {
+    "placeholders": {
+      "scheme": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsFiresAt": "Notifies on {when}",
+  "@notificationsFiresAt": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsFiresAtOff": "Switched off ({when})",
+  "@notificationsFiresAtOff": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemExpiredBody": "{name} ({amount}) was due on {date} and is still unpaid.",
+  "@notificationsItemExpiredBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemExpiredTitle": "Overdue: {name}",
+  "@notificationsItemExpiredTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemTodayBody": "{name} ({amount}) is due today.",
+  "@notificationsItemTodayBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemTodayTitle": "Due today: {name}",
+  "@notificationsItemTodayTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemUpcomingBody": "{name} ({amount}) is due in {days, plural, =1{1 day} other{{days} days}} ({date}). Get ready.",
+  "@notificationsItemUpcomingBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemUpcomingTitle": "Upcoming: {name}",
+  "@notificationsItemUpcomingTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsLoanName": "{lender} installment #{no}",
+  "@notificationsLoanName": {
+    "placeholders": {
+      "lender": {
+        "type": "String"
+      },
+      "no": {
+        "type": "int"
+      }
+    }
+  },
   "notificationsMonthlyBudget": "Monthly budget",
+  "notificationsOff": "Off",
   "notificationsOverBudgetBody": "You have spent {spent} of {budget} this month and are over budget.",
   "@notificationsOverBudgetBody": {
     "placeholders": {
@@ -1892,15 +2327,28 @@
     }
   },
   "notificationsPermissionDenied": "Notification permission was denied. Allow notifications for MyBudget in the system settings, then turn this on again.",
+  "notificationsPhaseExpired": "Expired",
+  "notificationsPhaseToday": "Due day",
+  "notificationsPhaseUpcoming": "Upcoming",
+  "notificationsPickDays": "Number of days",
+  "notificationsReminderSound": "Reminder sound",
   "notificationsReminderTime": "Reminder time",
   "notificationsReminders": "Bill & debt reminders",
   "notificationsRemindersSubtitle": "Remind me before recurring bills and debt due dates",
+  "notificationsScheduleEmpty": "No upcoming reminders. Add a due date to a loan, card bill, debt or recurring task.",
+  "notificationsScheduleOffBanner": "Reminders are switched off, so none of these will be delivered. Turn them on in Notification settings.",
   "notificationsSendTest": "Send test notification",
+  "notificationsSoundCustom": "Custom sound",
+  "notificationsSoundDefault": "Default",
+  "notificationsSoundSilent": "Silent",
   "notificationsTestBody": "Notifications are working.",
   "notificationsTestDenied": "Permission denied - cannot send",
   "notificationsTestSent": "Test notification sent",
   "notificationsTestTitle": "MyBudget test notification",
   "notificationsTitle": "Notifications",
+  "notificationsTodayReminder": "Remind on the due day",
+  "notificationsTodayReminderSubtitle": "A notification on the day an installment, bill or task is due",
+  "notificationsUpcomingReminder": "Remind before the due date",
   "notificationsUpcomingTitle": "Upcoming: {title}",
   "@notificationsUpcomingTitle": {
     "placeholders": {
@@ -1909,6 +2357,8 @@
       }
     }
   },
+  "notificationsViewSchedule": "Notification schedule",
+  "notificationsViewScheduleSubtitle": "See when each reminder will fire and switch single ones off",
   "notificationsYouOweToday": "You owe {person} {amount}, due today.",
   "@notificationsYouOweToday": {
     "placeholders": {
@@ -2026,6 +2476,7 @@
   "recurringNoReminder": "No reminder",
   "recurringOnTheDay": "On the day",
   "recurringPause": "Pause",
+  "recurringReminderDefault": "Default (notification settings)",
   "recurringResume": "Resume",
   "recurringSaveChanges": "Save changes",
   "recurringSelectAccount": "Select an account",
@@ -2153,6 +2604,9 @@
   "reportsSubCategories": "Sub-categories",
   "reportsSubCategory": "Sub-category",
   "reportsTotal": "Total",
+  "reportsTransactions": "Transactions",
+  "reportsTxnComment": "Comment",
+  "reportsTxnTitle": "Title",
   "reportsUtilization": "Utilization",
   "reportsYearlyReport": "Yearly report",
   "reportsYearlyReportSubtitle": "All 12 months, comparison, highest and lowest month",

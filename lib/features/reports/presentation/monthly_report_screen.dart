@@ -170,6 +170,8 @@ class _MonthlyBody extends StatelessWidget {
               ],
           ],
         ),
+        SectionTitle(l.reportsTransactions),
+        TransactionLines(transactions: r.transactions, currencyCode: cur),
         SectionTitle(l.reportsAccountMovements),
         SimpleTable(
           headers: [l.reportsAccount, l.reportsOpening, l.reportsClosing],

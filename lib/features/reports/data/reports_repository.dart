@@ -99,6 +99,9 @@ class ReportsRepository {
       items: agg.items,
       daily: _dailySeries(expenses, start, end),
       accounts: accounts,
+      transactions: _txnLines(
+        rows.where((r) => r.txnDate.compareTo(start) >= 0),
+      ),
     );
   }
 
@@ -272,8 +275,30 @@ class ReportsRepository {
       subCategories: agg.subCategories,
       items: agg.items,
       daily: _dailySeries(expenses, from, to),
+      transactions: _txnLines(rows),
     );
   }
+
+  static String? _blankToNull(String? s) {
+    final t = s?.trim();
+    return (t == null || t.isEmpty) ? null : t;
+  }
+
+  List<ReportTxn> _txnLines(Iterable<TransactionRow> rows) => [
+    for (final r in rows)
+      if (r.type == 'income' || r.type == 'expense')
+        ReportTxn(
+          date: r.txnDate,
+          type: r.type,
+          categoryName: _categoryName(r),
+          itemName: r.costItemId == null
+              ? noItemLabel
+              : (r.costItemNameSnapshot ?? 'Unknown item'),
+          amountMinor: r.amountMinor,
+          title: _blankToNull(r.title),
+          remarks: _blankToNull(r.remarks),
+        ),
+  ];
 
   List<DailyTotal> _dailySeries(
     List<TransactionRow> expenses,

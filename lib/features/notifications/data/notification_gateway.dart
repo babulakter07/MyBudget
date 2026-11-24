@@ -3,7 +3,10 @@ import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:timezone/data/latest_all.dart' as tzdata;
 import 'package:timezone/timezone.dart' as tz;
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 import '../domain/notification_models.dart';
+import '../domain/notification_sound.dart';
 
 /// Thin seam over the notification plugin so logic is testable.
 abstract class NotificationGateway {
@@ -34,10 +37,15 @@ abstract class NotificationGateway {
 
 /// Real implementation backed by flutter_local_notifications.
 class LocalNotificationGateway implements NotificationGateway {
-  LocalNotificationGateway([FlutterLocalNotificationsPlugin? plugin])
-    : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
+  LocalNotificationGateway([
+    FlutterLocalNotificationsPlugin? plugin,
+    this._prefs,
+  ]) : _plugin = plugin ?? FlutterLocalNotificationsPlugin();
 
   final FlutterLocalNotificationsPlugin _plugin;
+
+  /// Source of the user's chosen sounds (default sound when null).
+  final SharedPreferences? _prefs;
   bool _initialised = false;
 
   @override
@@ -60,9 +68,18 @@ class LocalNotificationGateway implements NotificationGateway {
 
   NotificationDetails _details(NotificationKind kind) {
     final budget = kind == NotificationKind.budget;
+    final sounds = _prefs == null
+        ? const NotificationSounds()
+        : NotificationSounds.load(_prefs);
+    final sound = budget ? sounds.budget : sounds.reminders;
+    final baseId = budget
+        ? NotificationChannels.budget
+        : NotificationChannels.reminders;
     return NotificationDetails(
       android: AndroidNotificationDetails(
-        budget ? NotificationChannels.budget : NotificationChannels.reminders,
+        // A channel's sound is fixed once created, so each sound choice
+        // uses its own channel id.
+        '$baseId${sound.channelSuffix}',
         budget
             ? NotificationChannels.budgetName
             : NotificationChannels.remindersName,
@@ -71,6 +88,10 @@ class LocalNotificationGateway implements NotificationGateway {
             : NotificationChannels.remindersDescription,
         importance: Importance.high,
         priority: Priority.high,
+        playSound: !sound.isSilent,
+        sound: (sound.isDefault || sound.isSilent)
+            ? null
+            : UriAndroidNotificationSound(sound.uri!),
       ),
     );
   }

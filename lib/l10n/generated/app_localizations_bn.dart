@@ -140,10 +140,16 @@ class AppLocalizationsBn extends AppLocalizations {
   String get appShellExchangeRates => 'বিনিময় হার';
 
   @override
+  String get appShellFixedDeposits => 'ফিক্সড ডিপোজিট (এফডিআর)';
+
+  @override
   String get appShellImportCsv => 'CSV থেকে আমদানি';
 
   @override
   String get appShellInsights => 'বিশ্লেষণ';
+
+  @override
+  String get appShellMore => 'আরও';
 
   @override
   String get appShellNoErrorsLogged => 'কোনো ত্রুটি লগ করা হয়নি।';
@@ -171,6 +177,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get appShellSectionMaster => 'মূল কনফিগারেশন';
+
+  @override
+  String get appShellSectionOperations => 'অপারেশন';
 
   @override
   String get appShellSectionPlan => 'পরিকল্পনা';
@@ -1667,6 +1676,268 @@ class AppLocalizationsBn extends AppLocalizations {
   String get debtsVoided => 'বাতিল করা';
 
   @override
+  String get fixedDepositsAdd => 'ডিপোজিট যোগ করুন';
+
+  @override
+  String get fixedDepositsAmountPositive => 'অঙ্ক শূন্যের বেশি হতে হবে';
+
+  @override
+  String get fixedDepositsArchived => 'আর্কাইভ করা';
+
+  @override
+  String get fixedDepositsBadgeReissued => 'পুনঃইস্যুকৃত';
+
+  @override
+  String get fixedDepositsBank => 'ব্যাংক';
+
+  @override
+  String get fixedDepositsBankRequired => 'ব্যাংকের নাম লিখুন';
+
+  @override
+  String get fixedDepositsBeneficiary => 'হিতাধিকারীর নাম';
+
+  @override
+  String fixedDepositsCalculatedNet(String amount) {
+    return 'হিসাবকৃত নিট: $amount';
+  }
+
+  @override
+  String get fixedDepositsClosedBanner => 'এই ডিপোজিট বন্ধ (নগদায়িত)।';
+
+  @override
+  String fixedDepositsClosedOn(String date) {
+    return '$date তারিখে বন্ধ';
+  }
+
+  @override
+  String get fixedDepositsClosingCharge => 'ব্যাংক চার্জ';
+
+  @override
+  String get fixedDepositsClosingDate => 'বন্ধের তারিখ';
+
+  @override
+  String get fixedDepositsClosingInterest => 'প্রাপ্ত সুদ';
+
+  @override
+  String get fixedDepositsClosingTax => 'উৎসে কর';
+
+  @override
+  String fixedDepositsDaysLeft(int days) {
+    return 'আর $days দিন বাকি';
+  }
+
+  @override
+  String get fixedDepositsEditDetails => 'ব্যাংকের তথ্য সম্পাদনা';
+
+  @override
+  String get fixedDepositsEditInstrument => 'ইনস্ট্রুমেন্ট সম্পাদনা';
+
+  @override
+  String get fixedDepositsEditTitle => 'ডিপোজিট সম্পাদনা';
+
+  @override
+  String get fixedDepositsEmpty =>
+      'এখনও কোনো ডিপোজিট নেই। এফডিআর, ডিপিএস বা সঞ্চয়পত্র যোগ করতে + চাপুন।';
+
+  @override
+  String get fixedDepositsEncash => 'নগদায়ন';
+
+  @override
+  String get fixedDepositsEncashNote =>
+      'নগদায়নের পর এই ডিপোজিট বন্ধ হয়ে যায় এবং ইনস্ট্রুমেন্টটি আর সম্পাদনা করা যায় না।';
+
+  @override
+  String get fixedDepositsEncashTitle => 'ডিপোজিট নগদায়ন';
+
+  @override
+  String get fixedDepositsExpectedInterest => 'প্রত্যাশিত সুদ';
+
+  @override
+  String get fixedDepositsExpectedNote =>
+      'আনুমানিক হিসাব (৩৬৫ দিনের সরল সুদ)। বন্ধ করার সময় ব্যাংকের আসল অঙ্ক লিখবেন।';
+
+  @override
+  String get fixedDepositsFinalNet => 'চূড়ান্ত প্রাপ্ত নিট অর্থ (ঐচ্ছিক)';
+
+  @override
+  String get fixedDepositsFinalNetHelper =>
+      'ব্যাংক ভিন্ন অঙ্ক দিলে তবেই লিখুন।';
+
+  @override
+  String get fixedDepositsHistory => 'ইনস্ট্রুমেন্টের ইতিহাস';
+
+  @override
+  String fixedDepositsInstrumentNo(int no) {
+    return 'ইনস্ট্রুমেন্ট #$no';
+  }
+
+  @override
+  String get fixedDepositsInstrumentNumber => 'ইনস্ট্রুমেন্ট নম্বর';
+
+  @override
+  String get fixedDepositsInstrumentRequired => 'ইনস্ট্রুমেন্ট নম্বর লিখুন';
+
+  @override
+  String fixedDepositsInstrumentRow(String number) {
+    return 'ইনস্ট্রুমেন্ট $number';
+  }
+
+  @override
+  String fixedDepositsInterestHelper(int days) {
+    return '$days দিনের জন্য প্রস্তাবিত। ব্যাংক যা দিয়েছে তা লিখুন।';
+  }
+
+  @override
+  String get fixedDepositsInterestRate => 'সুদের হার (বছরে %)';
+
+  @override
+  String get fixedDepositsInvalidAmount => 'সঠিক অঙ্ক লিখুন';
+
+  @override
+  String get fixedDepositsInvalidRate => '০ থেকে ১০০-এর মধ্যে হার লিখুন';
+
+  @override
+  String get fixedDepositsInvalidTenure => '১ থেকে ৩৬৫০০ দিন লিখুন';
+
+  @override
+  String get fixedDepositsIssueDate => 'ইস্যুর তারিখ';
+
+  @override
+  String get fixedDepositsListTitle => 'ফিক্সড ডিপোজিট';
+
+  @override
+  String fixedDepositsMaturedAgo(int days) {
+    return '$days দিন আগে মেয়াদ পূর্ণ হয়েছে';
+  }
+
+  @override
+  String fixedDepositsMaturedAlert(int count) {
+    return '$countটির মেয়াদ পূর্ণ: নগদায়ন বা পুনঃইস্যু করুন';
+  }
+
+  @override
+  String get fixedDepositsMaturedBanner =>
+      'এই ডিপোজিটের মেয়াদ পূর্ণ হয়েছে। নগদায়ন করুন অথবা নতুন ইনস্ট্রুমেন্ট হিসেবে পুনঃইস্যু করুন।';
+
+  @override
+  String get fixedDepositsMaturesToday => 'আজ মেয়াদপূর্তি';
+
+  @override
+  String get fixedDepositsMaturityDate => 'মেয়াদপূর্তির তারিখ';
+
+  @override
+  String get fixedDepositsNetMustBePositive =>
+      'পুনঃইস্যুর জন্য প্রাপ্ত নিট অর্থ শূন্যের বেশি হতে হবে';
+
+  @override
+  String get fixedDepositsNetReceived => 'প্রাপ্ত নিট অর্থ';
+
+  @override
+  String get fixedDepositsNewInstrument => 'নতুন ইনস্ট্রুমেন্ট';
+
+  @override
+  String get fixedDepositsNewInstrumentNumber => 'নতুন ইনস্ট্রুমেন্ট নম্বর';
+
+  @override
+  String fixedDepositsNewPrincipal(String amount) {
+    return 'নতুন আসল = প্রাপ্ত নিট অর্থ: $amount';
+  }
+
+  @override
+  String fixedDepositsNextMaturity(String date, String amount) {
+    return 'পরবর্তী মেয়াদপূর্তি $date • $amount';
+  }
+
+  @override
+  String get fixedDepositsNotFound => 'ডিপোজিটটি পাওয়া যায়নি।';
+
+  @override
+  String get fixedDepositsNote => 'নোট';
+
+  @override
+  String get fixedDepositsOutcomeEncashed => 'নগদায়িত';
+
+  @override
+  String get fixedDepositsOutcomeReissued => 'পুনঃইস্যুকৃত';
+
+  @override
+  String get fixedDepositsOutcomeRunning => 'চলমান';
+
+  @override
+  String get fixedDepositsPrincipal => 'আসল (জমার অঙ্ক)';
+
+  @override
+  String fixedDepositsRatePerYear(String rate) {
+    return 'বছরে $rate%';
+  }
+
+  @override
+  String get fixedDepositsReissue => 'পুনঃইস্যু';
+
+  @override
+  String get fixedDepositsReissueDate => 'পুনঃইস্যুর তারিখ';
+
+  @override
+  String get fixedDepositsReissueTitle => 'ডিপোজিট পুনঃইস্যু';
+
+  @override
+  String fixedDepositsReissuedFrom(int no) {
+    return '#$no থেকে পুনঃইস্যু';
+  }
+
+  @override
+  String get fixedDepositsSchemeDps => 'ডিপিএস';
+
+  @override
+  String get fixedDepositsSchemeFdr => 'এফডিআর';
+
+  @override
+  String get fixedDepositsSchemeRequired => 'স্কিমের ধরন লিখুন';
+
+  @override
+  String get fixedDepositsSchemeSanchaypatra => 'সঞ্চয়পত্র';
+
+  @override
+  String get fixedDepositsSchemeType => 'স্কিমের ধরন';
+
+  @override
+  String get fixedDepositsShowArchived => 'আর্কাইভ করা ডিপোজিট দেখান';
+
+  @override
+  String get fixedDepositsStatusActive => 'চলমান';
+
+  @override
+  String get fixedDepositsStatusClosed => 'বন্ধ';
+
+  @override
+  String get fixedDepositsStatusMatured => 'মেয়াদ পূর্ণ';
+
+  @override
+  String get fixedDepositsSummaryInterest => 'প্রত্যাশিত সুদ';
+
+  @override
+  String get fixedDepositsSummaryOpen => 'চলমান';
+
+  @override
+  String get fixedDepositsSummaryPlaced => 'জমা আছে';
+
+  @override
+  String get fixedDepositsTenureDays => 'মেয়াদ (দিন)';
+
+  @override
+  String fixedDepositsTenureHelper(String months) {
+    return '≈ $months মাস (৩০ দিন = ১ মাস)';
+  }
+
+  @override
+  String fixedDepositsTenureValue(int days, String months) {
+    return '$days দিন (প্রায় $months মাস)';
+  }
+
+  @override
+  String get fixedDepositsTitle => 'ডিপোজিট';
+
+  @override
   String goalsAccountLine(String account) {
     return 'হিসাব: $account';
   }
@@ -2175,7 +2446,30 @@ class AppLocalizationsBn extends AppLocalizations {
   String get loansAdd => 'ঋণ যোগ করুন';
 
   @override
+  String get loansAdjust => 'সমন্বয় / টপ-আপ';
+
+  @override
+  String get loansAdjustHelper =>
+      'বর্তমান ঋণ বন্ধ হবে এবং নতুন ঋণ তার জায়গা নেবে। এখনো যে আসল বাকি তা আগে থেকে বসানো আছে; টপ-আপ হলে নতুন টাকা যোগ করুন।';
+
+  @override
+  String get loansAdjustNewLoan => 'নতুন ঋণ';
+
+  @override
+  String get loansAdjustTitle => 'ঋণ সমন্বয়';
+
+  @override
+  String get loansAdjusted => 'সমন্বয়কৃত';
+
+  @override
+  String get loansAdjustedFromBanner =>
+      'এই ঋণ আগের একটি ঋণের জায়গায় নেওয়া হয়েছে (সমন্বয়)।';
+
+  @override
   String get loansAmount => 'পরিমাণ';
+
+  @override
+  String get loansAmountPaidToClose => 'বন্ধ করতে পরিশোধিত অঙ্ক (ঐচ্ছিক)';
 
   @override
   String get loansAmountPositive => 'পরিমাণ শূন্যের বেশি হতে হবে';
@@ -2189,7 +2483,46 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
+  String loansBannerAdjusted(String date) {
+    return '$date তারিখে সমন্বয় করা হয়েছে: নতুন ঋণ দিয়ে প্রতিস্থাপিত';
+  }
+
+  @override
+  String loansBannerEarly(String date) {
+    return '$date তারিখে আগাম বন্ধ করা হয়েছে';
+  }
+
+  @override
+  String loansBannerPaid(String amount) {
+    return 'বন্ধ করতে পরিশোধ: $amount';
+  }
+
+  @override
+  String loansBannerRemarks(String remarks) {
+    return 'মন্তব্য: $remarks';
+  }
+
+  @override
+  String get loansCloseEarly => 'আগাম বন্ধ করুন';
+
+  @override
+  String get loansCloseEarlyNote =>
+      'বাকি কিস্তির তালিকা বাতিল হবে এবং ঋণটি ইতিহাসে চলে যাবে। যে অঙ্ক লিখবেন তা বন্ধের তারিখে একটি পেমেন্ট হিসেবে লেখা হবে।';
+
+  @override
+  String get loansCloseEarlyTitle => 'ঋণ আগাম বন্ধ করুন';
+
+  @override
+  String get loansClosedEarly => 'আগাম বন্ধ';
+
+  @override
   String get loansClosedMessage => 'ঋণ সম্পূর্ণ পরিশোধিত';
+
+  @override
+  String get loansClosingDate => 'বন্ধের তারিখ';
+
+  @override
+  String get loansClosingRemarks => 'মন্তব্য';
 
   @override
   String loansDueOn(String date) {
@@ -2381,6 +2714,15 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
+  String get loansRemainingInstallments => 'বাকি কিস্তি';
+
+  @override
+  String get loansRemainingInterest => 'বাকি সুদ';
+
+  @override
+  String get loansRemainingPrincipal => 'বাকি আসল';
+
+  @override
   String get loansSchedule => 'কিস্তির সূচি';
 
   @override
@@ -2455,6 +2797,12 @@ class AppLocalizationsBn extends AppLocalizations {
   String get loansUnarchive => 'আর্কাইভ থেকে ফিরিয়ে আনুন';
 
   @override
+  String get loansViewPrevious => 'আগের ঋণ দেখুন';
+
+  @override
+  String get loansViewReplacement => 'নতুন ঋণ দেখুন';
+
+  @override
   String get loansVoid => 'বাতিল করুন';
 
   @override
@@ -2476,6 +2824,9 @@ class AppLocalizationsBn extends AppLocalizations {
       '৮০% হলে এবং বাজেট ছাড়ালে সতর্ক করুন';
 
   @override
+  String get notificationsBudgetSound => 'বাজেট সতর্কতার সাউন্ড';
+
+  @override
   String notificationsBudgetWarningBody(String spent, String budget) {
     return 'আপনি বাজেটের ৮০% ব্যবহার করেছেন ($budget-এর মধ্যে $spent)।';
   }
@@ -2486,13 +2837,50 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
+  String notificationsCardName(String card) {
+    return '$card কার্ড বিল';
+  }
+
+  @override
   String get notificationsCategoryFallback => 'ক্যাটাগরি';
 
   @override
   String get notificationsCollectTitle => 'আদায়যোগ্য টাকা';
 
   @override
+  String notificationsDaysAfter(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days দিন পরে',
+      one: '1 দিন পরে',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsDaysBefore(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days দিন আগে',
+      one: '1 দিন আগে',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsDebtBorrowedName(String person) {
+    return '$person-কে দেনা';
+  }
+
+  @override
   String get notificationsDebtDueTitle => 'ঋণ পরিশোধের সময়';
+
+  @override
+  String notificationsDebtLentName(String person) {
+    return '$person (আদায়)';
+  }
 
   @override
   String notificationsDueInDays(
@@ -2515,7 +2903,110 @@ class AppLocalizationsBn extends AppLocalizations {
   }
 
   @override
+  String get notificationsExpireReminder => 'মেয়াদ শেষের পর একবার রিমাইন্ডার';
+
+  @override
+  String get notificationsExpireReminderSubtitle =>
+      'তারিখের পরেও পরিশোধ না হলে একবার জানাবে';
+
+  @override
+  String notificationsFdrBodyToday(
+    String scheme,
+    String number,
+    String bank,
+    String amount,
+  ) {
+    return '$bank-এর $scheme $number আজ মেয়াদপূর্ণ হচ্ছে। আসল $amount।';
+  }
+
+  @override
+  String notificationsFdrBodyTomorrow(
+    String scheme,
+    String number,
+    String bank,
+    String amount,
+  ) {
+    return '$bank-এর $scheme $number আগামীকাল মেয়াদপূর্ণ হবে। আসল $amount।';
+  }
+
+  @override
+  String notificationsFdrBodyUpcoming(
+    String scheme,
+    String number,
+    String bank,
+    int days,
+    String date,
+    String amount,
+  ) {
+    return '$bank-এর $scheme $number $days দিন পর ($date) মেয়াদপূর্ণ হবে। আসল $amount।';
+  }
+
+  @override
+  String notificationsFdrTitle(String scheme) {
+    return '$scheme মেয়াদপূর্তি';
+  }
+
+  @override
+  String notificationsFiresAt(String when) {
+    return 'নোটিফিকেশন: $when';
+  }
+
+  @override
+  String notificationsFiresAtOff(String when) {
+    return 'বন্ধ ($when)';
+  }
+
+  @override
+  String notificationsItemExpiredBody(String name, String amount, String date) {
+    return '$name ($amount) $date তারিখে দেয় ছিল, এখনও পরিশোধ হয়নি।';
+  }
+
+  @override
+  String notificationsItemExpiredTitle(String name) {
+    return 'মেয়াদ শেষ: $name';
+  }
+
+  @override
+  String notificationsItemTodayBody(String name, String amount) {
+    return '$name ($amount) আজ দেয়।';
+  }
+
+  @override
+  String notificationsItemTodayTitle(String name) {
+    return 'আজ দেয়: $name';
+  }
+
+  @override
+  String notificationsItemUpcomingBody(
+    String name,
+    String amount,
+    int days,
+    String date,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days দিন',
+      one: '1 দিন',
+    );
+    return '$name ($amount) $_temp0 পরে ($date) দেয়। প্রস্তুত থাকুন।';
+  }
+
+  @override
+  String notificationsItemUpcomingTitle(String name) {
+    return 'আসছে: $name';
+  }
+
+  @override
+  String notificationsLoanName(String lender, int no) {
+    return '$lender কিস্তি #$no';
+  }
+
+  @override
   String get notificationsMonthlyBudget => 'মাসিক বাজেট';
+
+  @override
+  String get notificationsOff => 'বন্ধ';
 
   @override
   String notificationsOverBudgetBody(String spent, String budget) {
@@ -2542,6 +3033,21 @@ class AppLocalizationsBn extends AppLocalizations {
       'নোটিফিকেশনের অনুমতি দেওয়া হয়নি। সিস্টেম সেটিংসে MyBudget-এর নোটিফিকেশন অনুমতি দিন, তারপর এটি আবার চালু করুন।';
 
   @override
+  String get notificationsPhaseExpired => 'মেয়াদ শেষ';
+
+  @override
+  String get notificationsPhaseToday => 'নির্দিষ্ট দিন';
+
+  @override
+  String get notificationsPhaseUpcoming => 'আসন্ন';
+
+  @override
+  String get notificationsPickDays => 'কত দিন';
+
+  @override
+  String get notificationsReminderSound => 'রিমাইন্ডারের সাউন্ড';
+
+  @override
   String get notificationsReminderTime => 'রিমাইন্ডারের সময়';
 
   @override
@@ -2552,7 +3058,24 @@ class AppLocalizationsBn extends AppLocalizations {
       'পুনরাবৃত্ত বিল ও ঋণের শেষ তারিখের আগে মনে করিয়ে দিন';
 
   @override
+  String get notificationsScheduleEmpty =>
+      'কোনো আসন্ন রিমাইন্ডার নেই। লোন, কার্ড বিল, দেনা বা রিকারিং কাজে তারিখ যোগ করুন।';
+
+  @override
+  String get notificationsScheduleOffBanner =>
+      'রিমাইন্ডার বন্ধ আছে, তাই এগুলো আসবে না। নোটিফিকেশন সেটিংসে চালু করুন।';
+
+  @override
   String get notificationsSendTest => 'টেস্ট নোটিফিকেশন পাঠান';
+
+  @override
+  String get notificationsSoundCustom => 'নির্বাচিত সাউন্ড';
+
+  @override
+  String get notificationsSoundDefault => 'ডিফল্ট';
+
+  @override
+  String get notificationsSoundSilent => 'নিঃশব্দ';
 
   @override
   String get notificationsTestBody => 'নোটিফিকেশন কাজ করছে।';
@@ -2570,9 +3093,26 @@ class AppLocalizationsBn extends AppLocalizations {
   String get notificationsTitle => 'নোটিফিকেশন';
 
   @override
+  String get notificationsTodayReminder => 'নির্দিষ্ট দিনে রিমাইন্ডার';
+
+  @override
+  String get notificationsTodayReminderSubtitle =>
+      'কিস্তি, বিল বা কাজের দিনে নোটিফিকেশন';
+
+  @override
+  String get notificationsUpcomingReminder => 'নির্দিষ্ট দিনের আগে রিমাইন্ডার';
+
+  @override
   String notificationsUpcomingTitle(String title) {
     return 'আসন্ন: $title';
   }
+
+  @override
+  String get notificationsViewSchedule => 'নোটিফিকেশন সময়সূচি';
+
+  @override
+  String get notificationsViewScheduleSubtitle =>
+      'কোন রিমাইন্ডার কখন আসবে দেখুন এবং আলাদাভাবে বন্ধ করুন';
 
   @override
   String notificationsYouOweToday(String person, String amount) {
@@ -2773,6 +3313,9 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get recurringPause => 'বিরতি দিন';
+
+  @override
+  String get recurringReminderDefault => 'ডিফল্ট (নোটিফিকেশন সেটিংস অনুযায়ী)';
 
   @override
   String get recurringResume => 'চালু করুন';
@@ -3040,6 +3583,15 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get reportsTotal => 'মোট';
+
+  @override
+  String get reportsTransactions => 'লেনদেন';
+
+  @override
+  String get reportsTxnComment => 'মন্তব্য';
+
+  @override
+  String get reportsTxnTitle => 'শিরোনাম';
 
   @override
   String get reportsUtilization => 'ব্যবহারের হার';

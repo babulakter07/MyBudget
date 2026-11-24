@@ -7,6 +7,7 @@ import 'package:path_provider/path_provider.dart';
 
 import 'database_tables.dart';
 import 'database_tables_v6.dart';
+import 'database_tables_v7.dart';
 
 part 'app_database.g.dart';
 
@@ -35,6 +36,8 @@ part 'app_database.g.dart';
     CreditCards,
     CreditCardBills,
     CreditCardPayments,
+    FixedDeposits,
+    FixedDepositTerms,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -43,7 +46,7 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   AppDatabase.memory() : super(NativeDatabase.memory());
 
-  static const int currentSchemaVersion = 6;
+  static const int currentSchemaVersion = 7;
 
   @override
   int get schemaVersion => currentSchemaVersion;
@@ -57,6 +60,7 @@ class AppDatabase extends _$AppDatabase {
       await _createV4Indexes();
       await _createV5Indexes();
       await _createV6Indexes();
+      await _createV7Indexes();
     },
     onUpgrade: (m, from, to) async {
       // Stepwise migrations. Never rewrite earlier steps.
@@ -121,6 +125,19 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(creditCardBills);
         await m.createTable(creditCardPayments);
         await _createV6Indexes();
+      }
+      if (from < 7) {
+        // Loans created by the v6 step above already have the v7 columns.
+        if (from >= 6) {
+          await m.addColumn(loans, loans.closingType);
+          await m.addColumn(loans, loans.closedDate);
+          await m.addColumn(loans, loans.closingRemarks);
+          await m.addColumn(loans, loans.closingPaidMinor);
+          await m.addColumn(loans, loans.parentLoanId);
+        }
+        await m.createTable(fixedDeposits);
+        await m.createTable(fixedDepositTerms);
+        await _createV7Indexes();
       }
     },
     beforeOpen: (details) async {
@@ -188,6 +205,16 @@ class AppDatabase extends _$AppDatabase {
     );
     await customStatement(
       'CREATE INDEX IF NOT EXISTS idx_card_payments_bill ON credit_card_payments (profile_id, bill_id)',
+    );
+  }
+
+  /// v7 indexes (fixed deposits).
+  Future<void> _createV7Indexes() async {
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_fd_terms_deposit ON fixed_deposit_terms (profile_id, deposit_id)',
+    );
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_fd_terms_instrument ON fixed_deposit_terms (profile_id, instrument_number COLLATE NOCASE)',
     );
   }
 

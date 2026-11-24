@@ -4,6 +4,7 @@ import 'package:my_budget/core/database/app_database.dart';
 import 'package:my_budget/features/notifications/data/budget_alert_service.dart';
 import 'package:my_budget/features/notifications/data/notification_gateway.dart';
 import 'package:my_budget/features/notifications/data/notification_scheduler.dart';
+import 'package:my_budget/features/notifications/domain/notification_models.dart';
 import 'package:my_budget/features/notifications/domain/notification_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -17,6 +18,7 @@ Future<void> addRule(
   int accountId, {
   int? remind = 1,
   String next = '2026-11-30',
+  String start = '2026-01-30',
   bool active = true,
 }) => db
     .into(db.recurringRules)
@@ -28,7 +30,7 @@ Future<void> addRule(
         amountMinor: 500000,
         title: 'Rent',
         frequency: 'monthly',
-        startDate: '2026-01-30',
+        startDate: start,
         nextDueDate: next,
         remindDaysBefore: Value(remind),
         isActive: Value(active),
@@ -66,12 +68,17 @@ void main() {
   late int pid;
   late int acc;
 
-  Future<void> enable({bool reminders = true, bool budget = true, int h = 9}) =>
-      NotificationSettings(
-        remindersEnabled: reminders,
-        budgetAlertsEnabled: budget,
-        reminderHour: h,
-      ).save(prefs);
+  Future<void> enable({
+    bool reminders = true,
+    bool budget = true,
+    int h = 9,
+    int expire = 0,
+  }) => NotificationSettings(
+    remindersEnabled: reminders,
+    budgetAlertsEnabled: budget,
+    reminderHour: h,
+    expireAfterDays: expire,
+  ).save(prefs);
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
@@ -91,22 +98,142 @@ void main() {
   tearDown(() => db.close());
 
   group('scheduler', () {
+    test('reminder time already passed today is shown now, once', () async {
+      // now = 08:00; the day-before reminder was due at 07:00 today.
+      await enable(h: 7);
+      await addRule(
+        db,
+        pid,
+        acc,
+        next: '2026-11-19',
+        start: '2026-11-19',
+        remind: 1,
+      );
+      await scheduler.resync();
+      expect(gateway.shown.length, 1);
+      expect(gateway.shown.single.body, contains('tomorrow'));
+      // Repeated resyncs (app resume / data change) must not repeat it.
+      await scheduler.resync();
+      await scheduler.resync();
+      expect(gateway.shown.length, 1);
+    });
+
+    test('rule with no explicit reminder follows the global setting', () async {
+      await enable();
+      await addRule(db, pid, acc, remind: null);
+      final plan = await scheduler.buildPlan();
+      expect(plan.any((n) => n.kind == NotificationKind.recurring), isTrue);
+    });
+
+    test('expired reminder fires once, N days after the due date', () async {
+      await enable(expire: 2);
+      await addDebt(db, pid, due: '2026-11-20');
+      await scheduler.resync();
+      final plan = await scheduler.buildPlan();
+      final expired = plan
+          .where((n) => n.phase == NotificationPhase.expired)
+          .toList();
+      expect(expired.length, 1);
+      expect(expired.single.when, DateTime(2026, 11, 22, 9));
+      expect(expired.single.title, contains('Overdue'));
+      expect(gateway.scheduled.length, 3); // day before, due day, expired
+    });
+
+    test('a single reminder can be switched off and back on', () async {
+      await enable();
+      await addDebt(db, pid);
+      final all = await scheduler.buildPlan();
+      expect(all.length, 2);
+      final off = all.first.key;
+      await NotificationSettings.saveDisabledKeys(prefs, {off});
+      await scheduler.resync();
+      expect(gateway.scheduled.length, 1);
+      final again = await scheduler.buildPlan();
+      expect(again.length, 2, reason: 'switched-off ones stay listed');
+      expect(again.where((n) => !n.enabled).single.key, off);
+      await NotificationSettings.saveDisabledKeys(prefs, {});
+      await scheduler.resync();
+      expect(gateway.scheduled.length, 2);
+    });
+
+    test('unpaid loan installments and card bills are planned', () async {
+      await enable();
+      final nowIso = DateTime(2026, 11, 1);
+      final loanId = await db
+          .into(db.loans)
+          .insert(
+            LoansCompanion.insert(
+              profileId: pid,
+              lenderName: 'City Bank',
+              principalMinor: 1200000,
+              interestRateBp: 0,
+              tenureCount: 6,
+              installmentMinor: 200000,
+              startDate: '2026-11-01',
+              firstDueDate: '2026-11-25',
+              createdAt: nowIso,
+              updatedAt: nowIso,
+            ),
+          );
+      expect(loanId, greaterThan(0));
+      final cardId = await db
+          .into(db.creditCards)
+          .insert(
+            CreditCardsCompanion.insert(
+              profileId: pid,
+              name: 'Visa',
+              bankName: 'City Bank',
+              creditLimitMinor: 5000000,
+              statementDay: 5,
+              dueDays: 15,
+              aprBp: 2000,
+              minPaymentBp: 500,
+              createdAt: nowIso,
+              updatedAt: nowIso,
+            ),
+          );
+      await db
+          .into(db.creditCardBills)
+          .insert(
+            CreditCardBillsCompanion.insert(
+              profileId: pid,
+              cardId: cardId,
+              billMonth: '2026-11',
+              statementDate: '2026-11-05',
+              dueDate: '2026-11-21',
+              amountMinor: 300000,
+              minPaymentMinor: 30000,
+              createdAt: nowIso,
+              updatedAt: nowIso,
+            ),
+          );
+      final plan = await scheduler.buildPlan();
+      final loan = plan.where((n) => n.kind == NotificationKind.loan);
+      final card = plan.where((n) => n.kind == NotificationKind.card);
+      expect(loan.map((n) => n.phase).toSet(), {
+        NotificationPhase.upcoming,
+        NotificationPhase.today,
+      });
+      expect(card.length, 2);
+      expect(card.first.body, contains('Visa'));
+    });
+
     test('schedules rules and debts; idempotent on repeat', () async {
       await enable();
       await addRule(db, pid, acc);
       await addDebt(db, pid);
       await scheduler.resync();
       final first = Map.of(gateway.scheduled);
-      // rule: Nov 29, Dec 30 (+ Jan 29 > 60d? no: Jan 17 limit) ; debt: 2
-      expect(first.length, 4);
-      expect(gateway.scheduleCalls, 4);
+      // rule: day-before + due day for Nov 30 and Dec 31 (4); debt: 2
+      expect(first.length, 6);
+      expect(gateway.scheduleCalls, 6);
       expect(gateway.cancelCalls, 0);
 
       await scheduler.resync();
       expect(gateway.scheduled.keys.toSet(), first.keys.toSet());
-      expect(gateway.cancelCalls, 4);
-      expect(gateway.scheduleCalls, 8);
-      expect(gateway.scheduled.length, 4);
+      expect(gateway.cancelCalls, 6);
+      expect(gateway.scheduleCalls, 12);
+      expect(gateway.scheduled.length, 6);
     });
 
     test('partially paid debt still fires; fully paid does not', () async {
@@ -143,10 +270,10 @@ void main() {
     });
 
     test(
-      'ignores rules without reminder, inactive rules, other profile',
+      'ignores rules set to never remind, inactive rules, other profile',
       () async {
         await enable();
-        await addRule(db, pid, acc, remind: null);
+        await addRule(db, pid, acc, remind: -1);
         await addRule(db, pid, acc, active: false);
         final other = await addProfile(db, 'Other');
         final otherAcc = await addAccount(db, other, 'Cash');

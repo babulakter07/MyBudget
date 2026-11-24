@@ -18,6 +18,7 @@
   "appShellSavingsGoals": "Savings goals",
   "appShellDebtsLoans": "Debts & loans",
   "appShellWallets": "Wallets & balances",
+  "appShellFixedDeposits": "Fixed deposits (FDR)",
   "appShellBankLoans": "Bank loans",
   "appShellCreditCards": "Credit cards",
   "appShellInsights": "Insights",
@@ -42,5 +43,13 @@
   "appShellAboutPortfolio": "Portfolio",
   "appShellAboutTapToCopy": "Tap a contact to copy it",
   "appShellAboutCopied": "{label} copied",
-  "@appShellAboutCopied": {"placeholders": {"label": {"type": "String"}}}
+  "@appShellAboutCopied": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "appShellMore": "More",
+  "appShellSectionOperations": "Operations"
 }

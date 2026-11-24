@@ -60,6 +60,31 @@ class LoanStatusChip extends StatelessWidget {
   }
 }
 
+/// Status chip that tells an early-settled or adjusted loan apart from a loan
+/// that was simply paid off.
+class LoanPositionChip extends StatelessWidget {
+  const LoanPositionChip({super.key, required this.position});
+  final LoanPosition position;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    if (position.isEarlyClosed) {
+      return _Chip(
+        label: l.loansClosedEarly,
+        color: Theme.of(context).colorScheme.outline,
+      );
+    }
+    if (position.isAdjusted) {
+      return _Chip(
+        label: l.loansAdjusted,
+        color: Theme.of(context).colorScheme.tertiary,
+      );
+    }
+    return LoanStatusChip(status: position.status);
+  }
+}
+
 class InstallmentStatusChip extends StatelessWidget {
   const InstallmentStatusChip({super.key, required this.status});
   final InstallmentStatus status;

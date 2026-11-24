@@ -81,12 +81,6 @@ void main() {
     expect(find.text('Accounts'), findsOneWidget);
     // The settings list is long; new v4 entries must be reachable.
     for (final label in [
-      'Recurring transactions',
-      'Savings goals',
-      'Wallets & balances',
-      'Bank loans',
-      'Credit cards',
-      'Debts & loans',
       'Security',
       'Notifications',
       'Backup & Restore',

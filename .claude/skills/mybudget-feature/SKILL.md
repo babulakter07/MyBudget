@@ -21,4 +21,13 @@ Lessons from Sprints 3-8 (five parallel agents worked well when these held):
 - After wiring, run the whole suite once plus `test/app_smoke_test.dart`; green per-module tests don't prove the assembled app works.
 - Ask the user before killing a stale `flutter_tester.exe`; otherwise run tests in a scratch copy of the project.
 
+## Domain reference: MegaFeed
+Finance rules for deposits (FDR / "Deposit Scheme") and loans come from the user's MegaFeed solution (`D:\MyProject\MegaFeed\MegaFeed.sln`): read `MegaFeed.Service/DepositService/DepositSchemeService.cs`, `MegaFeed.Models/Models/Deposit/DepositModels.cs` and `HumanResource/HumanResource/Service/LoanService/LoanService.cs` before designing or changing FDR/loan behaviour, and mirror its rules (instrument chain, tenure in days, manual interest/tax/charge at closing, reissue = new linked instrument, loan early closure and adjustment). Fiscal years and branch scoping are intentionally NOT needed in MyBudget. See "Sprint 13" in `CLAUDE.md`.
+
+## Lessons from Sprint 13
+- When the contract (tables) changes after agents started, stop the agents, finish the data layer and tests first, regenerate with build_runner, then relaunch the UI agent against the final contract.
+- Write helper scripts with the Write tool and run them; bash heredocs containing apostrophes are mangled. Python scripts that edit Dart files: keep `\'` escapes intact and preserve CRLF.
+- Old tests that use "schema/format N+1 is too new" must be bumped whenever `currentSchemaVersion`, `maxSupportedSchemaVersion` or `backupFormatVersion` change.
+- Hand-written old-schema test databases (migration tests) must contain every table a later migration step touches.
+
 Checklist before finishing: every query filters `profile_id`; no doubles for money; soft-delete only; duplicate/cross-profile/FK tests exist; migration test if schema changed; loading/empty/error states in UI; `material_ui` imports only; `flutter analyze` clean; smoke test passes.

@@ -82,6 +82,27 @@ List<List<String>> _catRows(
 
 /// Builds [ReportDocument]s with the supplied money formatter (plain decimals
 /// for CSV, currency-prefixed text for PDF).
+List<List<String>> _txnRows(List<ReportTxn> txns, MoneyFormatter f) => [
+  for (final t in txns)
+    [
+      t.date,
+      t.type == 'income' ? 'Income' : 'Expense',
+      '${t.categoryName} / ${t.itemName}',
+      t.title ?? '-',
+      t.remarks ?? '-',
+      f(t.amountMinor),
+    ],
+];
+
+const _txnHeaders = [
+  'Date',
+  'Type',
+  'Category / Item',
+  'Title',
+  'Comment',
+  'Amount',
+];
+
 class ReportDocumentBuilder {
   ReportDocumentBuilder._();
 
@@ -128,6 +149,11 @@ class ReportDocumentBuilder {
             for (final i in r.items)
               [i.categoryName, i.subCategoryName, i.name, f(i.amountMinor)],
           ],
+        ),
+        ReportSection(
+          title: 'Transactions',
+          headers: _txnHeaders,
+          rows: _txnRows(r.transactions, f),
         ),
         ReportSection(
           title: 'Daily expenditure',
@@ -247,6 +273,11 @@ class ReportDocumentBuilder {
             for (final i in r.items)
               [i.categoryName, i.subCategoryName, i.name, f(i.amountMinor)],
           ],
+        ),
+        ReportSection(
+          title: 'Transactions',
+          headers: _txnHeaders,
+          rows: _txnRows(r.transactions, f),
         ),
         ReportSection(
           title: 'Daily expenditure',

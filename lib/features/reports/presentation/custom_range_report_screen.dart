@@ -144,6 +144,11 @@ class _RangeBody extends StatelessWidget {
               ],
           ],
         ),
+        SectionTitle(l.reportsTransactions),
+        TransactionLines(
+          transactions: r.transactions,
+          currencyCode: r.currencyCode,
+        ),
       ],
     );
   }

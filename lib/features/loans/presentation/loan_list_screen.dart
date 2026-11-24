@@ -148,7 +148,7 @@ class LoanTile extends StatelessWidget {
             child: Text(loan.lenderName, overflow: TextOverflow.ellipsis),
           ),
           const SizedBox(width: 8),
-          LoanStatusChip(status: position.status),
+          LoanPositionChip(position: position),
         ],
       ),
       subtitle: Padding(
@@ -171,7 +171,11 @@ class LoanTile extends StatelessWidget {
             LinearProgressIndicator(value: position.progress),
             const SizedBox(height: 4),
             Text(
-              next == null
+              position.isEarlyClosed
+                  ? l.loansBannerEarly(loan.closedDate ?? '')
+                  : position.isAdjusted
+                  ? l.loansBannerAdjusted(loan.closedDate ?? '')
+                  : next == null
                   ? l.loansClosedMessage
                   : l.loansNextDueRow(
                       next.dueDate,
@@ -188,7 +192,7 @@ class LoanTile extends StatelessWidget {
         children: [
           Text(l.loansRemaining, style: theme.textTheme.labelSmall),
           Text(
-            formatMinor(position.remainingMinor),
+            formatMinor(loan.isClosedByUser ? 0 : position.remainingMinor),
             style: theme.textTheme.titleSmall,
           ),
         ],

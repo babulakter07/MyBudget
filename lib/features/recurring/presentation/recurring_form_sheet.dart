@@ -413,6 +413,8 @@ class _RecurringFormSheetState extends ConsumerState<RecurringFormSheet> {
                       value: d,
                       child: Text(
                         d == null
+                            ? context.l10n.recurringReminderDefault
+                            : d < 0
                             ? context.l10n.recurringNoReminder
                             : d == 0
                             ? context.l10n.recurringOnTheDay

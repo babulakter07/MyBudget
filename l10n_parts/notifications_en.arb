@@ -12,31 +12,323 @@
   "notificationsTestTitle": "MyBudget test notification",
   "notificationsTestBody": "Notifications are working.",
   "notificationsUpcomingTitle": "Upcoming: {title}",
-  "@notificationsUpcomingTitle": {"placeholders": {"title": {"type": "String"}}},
+  "@notificationsUpcomingTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsDueToday": "{title} ({amount}) is due today.",
-  "@notificationsDueToday": {"placeholders": {"title": {"type": "String"}, "amount": {"type": "String"}}},
+  "@notificationsDueToday": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsDueTomorrow": "{title} ({amount}) is due tomorrow.",
-  "@notificationsDueTomorrow": {"placeholders": {"title": {"type": "String"}, "amount": {"type": "String"}}},
+  "@notificationsDueTomorrow": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsDueInDays": "{title} ({amount}) is due in {days} days ({date}).",
-  "@notificationsDueInDays": {"placeholders": {"title": {"type": "String"}, "amount": {"type": "String"}, "days": {"type": "int"}, "date": {"type": "String"}}},
+  "@notificationsDueInDays": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsCollectTitle": "Money to collect",
   "notificationsDebtDueTitle": "Debt payment due",
   "notificationsOwesYouToday": "{person} owes you {amount}, due today.",
-  "@notificationsOwesYouToday": {"placeholders": {"person": {"type": "String"}, "amount": {"type": "String"}}},
+  "@notificationsOwesYouToday": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsOwesYouTomorrow": "{person} owes you {amount}, due tomorrow.",
-  "@notificationsOwesYouTomorrow": {"placeholders": {"person": {"type": "String"}, "amount": {"type": "String"}}},
+  "@notificationsOwesYouTomorrow": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsYouOweToday": "You owe {person} {amount}, due today.",
-  "@notificationsYouOweToday": {"placeholders": {"person": {"type": "String"}, "amount": {"type": "String"}}},
+  "@notificationsYouOweToday": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsYouOweTomorrow": "You owe {person} {amount}, due tomorrow.",
-  "@notificationsYouOweTomorrow": {"placeholders": {"person": {"type": "String"}, "amount": {"type": "String"}}},
+  "@notificationsYouOweTomorrow": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsMonthlyBudget": "Monthly budget",
   "notificationsCategoryFallback": "Category",
   "notificationsOverBudgetTitle": "Over budget: {label}",
-  "@notificationsOverBudgetTitle": {"placeholders": {"label": {"type": "String"}}},
+  "@notificationsOverBudgetTitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsBudgetWarningTitle": "Budget warning: {label}",
-  "@notificationsBudgetWarningTitle": {"placeholders": {"label": {"type": "String"}}},
+  "@notificationsBudgetWarningTitle": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsOverBudgetBody": "You have spent {spent} of {budget} this month and are over budget.",
-  "@notificationsOverBudgetBody": {"placeholders": {"spent": {"type": "String"}, "budget": {"type": "String"}}},
+  "@notificationsOverBudgetBody": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "budget": {
+        "type": "String"
+      }
+    }
+  },
   "notificationsBudgetWarningBody": "You have used 80% of your budget ({spent} of {budget}).",
-  "@notificationsBudgetWarningBody": {"placeholders": {"spent": {"type": "String"}, "budget": {"type": "String"}}}
+  "@notificationsBudgetWarningBody": {
+    "placeholders": {
+      "spent": {
+        "type": "String"
+      },
+      "budget": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemTodayTitle": "Due today: {name}",
+  "@notificationsItemTodayTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemTodayBody": "{name} ({amount}) is due today.",
+  "@notificationsItemTodayBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemUpcomingTitle": "Upcoming: {name}",
+  "@notificationsItemUpcomingTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemUpcomingBody": "{name} ({amount}) is due in {days, plural, =1{1 day} other{{days} days}} ({date}). Get ready.",
+  "@notificationsItemUpcomingBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemExpiredTitle": "Overdue: {name}",
+  "@notificationsItemExpiredTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsItemExpiredBody": "{name} ({amount}) was due on {date} and is still unpaid.",
+  "@notificationsItemExpiredBody": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsLoanName": "{lender} installment #{no}",
+  "@notificationsLoanName": {
+    "placeholders": {
+      "lender": {
+        "type": "String"
+      },
+      "no": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsCardName": "{card} card bill",
+  "@notificationsCardName": {
+    "placeholders": {
+      "card": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsDebtLentName": "{person} (to collect)",
+  "@notificationsDebtLentName": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsDebtBorrowedName": "Debt to {person}",
+  "@notificationsDebtBorrowedName": {
+    "placeholders": {
+      "person": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsOff": "Off",
+  "notificationsTodayReminder": "Remind on the due day",
+  "notificationsTodayReminderSubtitle": "A notification on the day an installment, bill or task is due",
+  "notificationsUpcomingReminder": "Remind before the due date",
+  "notificationsExpireReminder": "Remind once after it expires",
+  "notificationsExpireReminderSubtitle": "One reminder if it is still unpaid after the date",
+  "notificationsDaysBefore": "{days, plural, =1{1 day before} other{{days} days before}}",
+  "@notificationsDaysBefore": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsDaysAfter": "{days, plural, =1{1 day after} other{{days} days after}}",
+  "@notificationsDaysAfter": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationsPickDays": "Number of days",
+  "notificationsViewSchedule": "Notification schedule",
+  "notificationsViewScheduleSubtitle": "See when each reminder will fire and switch single ones off",
+  "notificationsScheduleEmpty": "No upcoming reminders. Add a due date to a loan, card bill, debt or recurring task.",
+  "notificationsScheduleOffBanner": "Reminders are switched off, so none of these will be delivered. Turn them on in Notification settings.",
+  "notificationsPhaseUpcoming": "Upcoming",
+  "notificationsPhaseToday": "Due day",
+  "notificationsPhaseExpired": "Expired",
+  "notificationsFiresAt": "Notifies on {when}",
+  "@notificationsFiresAt": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsFiresAtOff": "Switched off ({when})",
+  "@notificationsFiresAtOff": {
+    "placeholders": {
+      "when": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsReminderSound": "Reminder sound",
+  "notificationsBudgetSound": "Budget alert sound",
+  "notificationsSoundDefault": "Default",
+  "notificationsSoundSilent": "Silent",
+  "notificationsSoundCustom": "Custom sound",
+  "notificationsFdrTitle": "{scheme} maturing",
+  "@notificationsFdrTitle": {
+    "placeholders": {
+      "scheme": { "type": "String" }
+    }
+  },
+  "notificationsFdrBodyUpcoming": "{scheme} {number} of {bank} matures in {days} days ({date}). Principal {amount}.",
+  "@notificationsFdrBodyUpcoming": {
+    "placeholders": {
+      "scheme": { "type": "String" },
+      "number": { "type": "String" },
+      "bank": { "type": "String" },
+      "days": { "type": "int" },
+      "date": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  },
+  "notificationsFdrBodyTomorrow": "{scheme} {number} of {bank} matures tomorrow. Principal {amount}.",
+  "@notificationsFdrBodyTomorrow": {
+    "placeholders": {
+      "scheme": { "type": "String" },
+      "number": { "type": "String" },
+      "bank": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  },
+  "notificationsFdrBodyToday": "{scheme} {number} of {bank} matures today. Principal {amount}.",
+  "@notificationsFdrBodyToday": {
+    "placeholders": {
+      "scheme": { "type": "String" },
+      "number": { "type": "String" },
+      "bank": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  }
 }

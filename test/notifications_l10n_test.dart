@@ -15,6 +15,9 @@ import 'ledger_test_helpers.dart';
 
 void main() {
   testWidgets('notification settings render in Bangla', (tester) async {
+    tester.view.devicePixelRatio = 1.0;
+    tester.view.physicalSize = const Size(800, 2400);
+    addTearDown(tester.view.reset);
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final db = AppDatabase.memory();

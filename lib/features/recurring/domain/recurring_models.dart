@@ -1,5 +1,6 @@
 /// Reminder lead-time choices offered by the UI (null = no reminder).
-const recurringReminderChoices = <int?>[null, 0, 1, 2, 3, 7];
+/// null = follow the notification settings, -1 = never remind, N = days before.
+const recurringReminderChoices = <int?>[null, -1, 0, 1, 2, 3, 7];
 
 class RecurringRule {
   const RecurringRule({

@@ -463,3 +463,76 @@ class PeriodNavigator extends StatelessWidget {
     );
   }
 }
+
+/// Transaction list for reports: date, category / item, amount, plus the
+/// optional Title and Comment the user typed (shown only when present).
+class TransactionLines extends StatelessWidget {
+  const TransactionLines({
+    super.key,
+    required this.transactions,
+    required this.currencyCode,
+  });
+  final List<ReportTxn> transactions;
+  final String currencyCode;
+
+  @override
+  Widget build(BuildContext context) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    if (transactions.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8),
+        child: Text(l.reportsNoData, style: theme.textTheme.bodyMedium),
+      );
+    }
+    return Card(
+      child: Column(
+        children: [
+          for (var i = 0; i < transactions.length; i++) ...[
+            if (i > 0) const Divider(height: 1),
+            _line(context, transactions[i]),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _line(BuildContext context, ReportTxn t) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final income = t.type == 'income';
+    final detail = <String>[
+      if (t.title != null) '${l.reportsTxnTitle}: ${t.title}',
+      if (t.remarks != null) '${l.reportsTxnComment}: ${t.remarks}',
+    ];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${t.date}  ${t.categoryName} / ${t.itemName}',
+                  style: theme.textTheme.bodySmall,
+                ),
+                for (final d in detail)
+                  Text(d, style: theme.textTheme.bodyMedium),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Text(
+            moneyText(t.amountMinor, currencyCode),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: income ? AppColors.income : AppColors.expense,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}

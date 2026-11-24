@@ -10730,6 +10730,61 @@ class $LoansTable extends Loans with TableInfo<$LoansTable, LoanRow> {
     type: DriftSqlType.string,
     requiredDuringInsert: false,
   );
+  static const VerificationMeta _closingTypeMeta = const VerificationMeta(
+    'closingType',
+  );
+  @override
+  late final GeneratedColumn<String> closingType = GeneratedColumn<String>(
+    'closing_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _closedDateMeta = const VerificationMeta(
+    'closedDate',
+  );
+  @override
+  late final GeneratedColumn<String> closedDate = GeneratedColumn<String>(
+    'closed_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _closingRemarksMeta = const VerificationMeta(
+    'closingRemarks',
+  );
+  @override
+  late final GeneratedColumn<String> closingRemarks = GeneratedColumn<String>(
+    'closing_remarks',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _closingPaidMinorMeta = const VerificationMeta(
+    'closingPaidMinor',
+  );
+  @override
+  late final GeneratedColumn<int> closingPaidMinor = GeneratedColumn<int>(
+    'closing_paid_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _parentLoanIdMeta = const VerificationMeta(
+    'parentLoanId',
+  );
+  @override
+  late final GeneratedColumn<int> parentLoanId = GeneratedColumn<int>(
+    'parent_loan_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
   static const VerificationMeta _isActiveMeta = const VerificationMeta(
     'isActive',
   );
@@ -10784,6 +10839,11 @@ class $LoansTable extends Loans with TableInfo<$LoansTable, LoanRow> {
     startDate,
     firstDueDate,
     note,
+    closingType,
+    closedDate,
+    closingRemarks,
+    closingPaidMinor,
+    parentLoanId,
     isActive,
     createdAt,
     updatedAt,
@@ -10927,6 +10987,48 @@ class $LoansTable extends Loans with TableInfo<$LoansTable, LoanRow> {
         note.isAcceptableOrUnknown(data['note']!, _noteMeta),
       );
     }
+    if (data.containsKey('closing_type')) {
+      context.handle(
+        _closingTypeMeta,
+        closingType.isAcceptableOrUnknown(
+          data['closing_type']!,
+          _closingTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('closed_date')) {
+      context.handle(
+        _closedDateMeta,
+        closedDate.isAcceptableOrUnknown(data['closed_date']!, _closedDateMeta),
+      );
+    }
+    if (data.containsKey('closing_remarks')) {
+      context.handle(
+        _closingRemarksMeta,
+        closingRemarks.isAcceptableOrUnknown(
+          data['closing_remarks']!,
+          _closingRemarksMeta,
+        ),
+      );
+    }
+    if (data.containsKey('closing_paid_minor')) {
+      context.handle(
+        _closingPaidMinorMeta,
+        closingPaidMinor.isAcceptableOrUnknown(
+          data['closing_paid_minor']!,
+          _closingPaidMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('parent_loan_id')) {
+      context.handle(
+        _parentLoanIdMeta,
+        parentLoanId.isAcceptableOrUnknown(
+          data['parent_loan_id']!,
+          _parentLoanIdMeta,
+        ),
+      );
+    }
     if (data.containsKey('is_active')) {
       context.handle(
         _isActiveMeta,
@@ -11022,6 +11124,26 @@ class $LoansTable extends Loans with TableInfo<$LoansTable, LoanRow> {
         DriftSqlType.string,
         data['${effectivePrefix}note'],
       ),
+      closingType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}closing_type'],
+      ),
+      closedDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}closed_date'],
+      ),
+      closingRemarks: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}closing_remarks'],
+      ),
+      closingPaidMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}closing_paid_minor'],
+      ),
+      parentLoanId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}parent_loan_id'],
+      ),
       isActive: attachedDatabase.typeMapping.read(
         DriftSqlType.bool,
         data['${effectivePrefix}is_active'],
@@ -11085,6 +11207,21 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
   /// Due date of the first installment 'yyyy-MM-dd'.
   final String firstDueDate;
   final String? note;
+
+  /// Schema v7: how the loan was closed before its schedule ran out.
+  /// 'early' (settled early) | 'adjusted' (rolled into a newer loan); null
+  /// while the loan runs or when it was simply paid off.
+  final String? closingType;
+
+  /// Closing date 'yyyy-MM-dd' and the user's remarks (v7).
+  final String? closedDate;
+  final String? closingRemarks;
+
+  /// Amount paid to settle an early closure (also recorded as a payment).
+  final int? closingPaidMinor;
+
+  /// The loan this one replaced (adjustment / top-up), null otherwise (v7).
+  final int? parentLoanId;
   final bool isActive;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -11104,6 +11241,11 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
     required this.startDate,
     required this.firstDueDate,
     this.note,
+    this.closingType,
+    this.closedDate,
+    this.closingRemarks,
+    this.closingPaidMinor,
+    this.parentLoanId,
     required this.isActive,
     required this.createdAt,
     required this.updatedAt,
@@ -11130,6 +11272,21 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
     if (!nullToAbsent || note != null) {
       map['note'] = Variable<String>(note);
     }
+    if (!nullToAbsent || closingType != null) {
+      map['closing_type'] = Variable<String>(closingType);
+    }
+    if (!nullToAbsent || closedDate != null) {
+      map['closed_date'] = Variable<String>(closedDate);
+    }
+    if (!nullToAbsent || closingRemarks != null) {
+      map['closing_remarks'] = Variable<String>(closingRemarks);
+    }
+    if (!nullToAbsent || closingPaidMinor != null) {
+      map['closing_paid_minor'] = Variable<int>(closingPaidMinor);
+    }
+    if (!nullToAbsent || parentLoanId != null) {
+      map['parent_loan_id'] = Variable<int>(parentLoanId);
+    }
     map['is_active'] = Variable<bool>(isActive);
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -11155,6 +11312,21 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
       startDate: Value(startDate),
       firstDueDate: Value(firstDueDate),
       note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      closingType: closingType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closingType),
+      closedDate: closedDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closedDate),
+      closingRemarks: closingRemarks == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closingRemarks),
+      closingPaidMinor: closingPaidMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closingPaidMinor),
+      parentLoanId: parentLoanId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentLoanId),
       isActive: Value(isActive),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
@@ -11182,6 +11354,11 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
       startDate: serializer.fromJson<String>(json['startDate']),
       firstDueDate: serializer.fromJson<String>(json['firstDueDate']),
       note: serializer.fromJson<String?>(json['note']),
+      closingType: serializer.fromJson<String?>(json['closingType']),
+      closedDate: serializer.fromJson<String?>(json['closedDate']),
+      closingRemarks: serializer.fromJson<String?>(json['closingRemarks']),
+      closingPaidMinor: serializer.fromJson<int?>(json['closingPaidMinor']),
+      parentLoanId: serializer.fromJson<int?>(json['parentLoanId']),
       isActive: serializer.fromJson<bool>(json['isActive']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
@@ -11206,6 +11383,11 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
       'startDate': serializer.toJson<String>(startDate),
       'firstDueDate': serializer.toJson<String>(firstDueDate),
       'note': serializer.toJson<String?>(note),
+      'closingType': serializer.toJson<String?>(closingType),
+      'closedDate': serializer.toJson<String?>(closedDate),
+      'closingRemarks': serializer.toJson<String?>(closingRemarks),
+      'closingPaidMinor': serializer.toJson<int?>(closingPaidMinor),
+      'parentLoanId': serializer.toJson<int?>(parentLoanId),
       'isActive': serializer.toJson<bool>(isActive),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime>(updatedAt),
@@ -11228,6 +11410,11 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
     String? startDate,
     String? firstDueDate,
     Value<String?> note = const Value.absent(),
+    Value<String?> closingType = const Value.absent(),
+    Value<String?> closedDate = const Value.absent(),
+    Value<String?> closingRemarks = const Value.absent(),
+    Value<int?> closingPaidMinor = const Value.absent(),
+    Value<int?> parentLoanId = const Value.absent(),
     bool? isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
@@ -11247,6 +11434,15 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
     startDate: startDate ?? this.startDate,
     firstDueDate: firstDueDate ?? this.firstDueDate,
     note: note.present ? note.value : this.note,
+    closingType: closingType.present ? closingType.value : this.closingType,
+    closedDate: closedDate.present ? closedDate.value : this.closedDate,
+    closingRemarks: closingRemarks.present
+        ? closingRemarks.value
+        : this.closingRemarks,
+    closingPaidMinor: closingPaidMinor.present
+        ? closingPaidMinor.value
+        : this.closingPaidMinor,
+    parentLoanId: parentLoanId.present ? parentLoanId.value : this.parentLoanId,
     isActive: isActive ?? this.isActive,
     createdAt: createdAt ?? this.createdAt,
     updatedAt: updatedAt ?? this.updatedAt,
@@ -11286,6 +11482,21 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
           ? data.firstDueDate.value
           : this.firstDueDate,
       note: data.note.present ? data.note.value : this.note,
+      closingType: data.closingType.present
+          ? data.closingType.value
+          : this.closingType,
+      closedDate: data.closedDate.present
+          ? data.closedDate.value
+          : this.closedDate,
+      closingRemarks: data.closingRemarks.present
+          ? data.closingRemarks.value
+          : this.closingRemarks,
+      closingPaidMinor: data.closingPaidMinor.present
+          ? data.closingPaidMinor.value
+          : this.closingPaidMinor,
+      parentLoanId: data.parentLoanId.present
+          ? data.parentLoanId.value
+          : this.parentLoanId,
       isActive: data.isActive.present ? data.isActive.value : this.isActive,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
@@ -11310,6 +11521,11 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
           ..write('startDate: $startDate, ')
           ..write('firstDueDate: $firstDueDate, ')
           ..write('note: $note, ')
+          ..write('closingType: $closingType, ')
+          ..write('closedDate: $closedDate, ')
+          ..write('closingRemarks: $closingRemarks, ')
+          ..write('closingPaidMinor: $closingPaidMinor, ')
+          ..write('parentLoanId: $parentLoanId, ')
           ..write('isActive: $isActive, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -11318,7 +11534,7 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
   }
 
   @override
-  int get hashCode => Object.hash(
+  int get hashCode => Object.hashAll([
     id,
     profileId,
     lenderName,
@@ -11334,10 +11550,15 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
     startDate,
     firstDueDate,
     note,
+    closingType,
+    closedDate,
+    closingRemarks,
+    closingPaidMinor,
+    parentLoanId,
     isActive,
     createdAt,
     updatedAt,
-  );
+  ]);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -11357,6 +11578,11 @@ class LoanRow extends DataClass implements Insertable<LoanRow> {
           other.startDate == this.startDate &&
           other.firstDueDate == this.firstDueDate &&
           other.note == this.note &&
+          other.closingType == this.closingType &&
+          other.closedDate == this.closedDate &&
+          other.closingRemarks == this.closingRemarks &&
+          other.closingPaidMinor == this.closingPaidMinor &&
+          other.parentLoanId == this.parentLoanId &&
           other.isActive == this.isActive &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -11378,6 +11604,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
   final Value<String> startDate;
   final Value<String> firstDueDate;
   final Value<String?> note;
+  final Value<String?> closingType;
+  final Value<String?> closedDate;
+  final Value<String?> closingRemarks;
+  final Value<int?> closingPaidMinor;
+  final Value<int?> parentLoanId;
   final Value<bool> isActive;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
@@ -11397,6 +11628,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
     this.startDate = const Value.absent(),
     this.firstDueDate = const Value.absent(),
     this.note = const Value.absent(),
+    this.closingType = const Value.absent(),
+    this.closedDate = const Value.absent(),
+    this.closingRemarks = const Value.absent(),
+    this.closingPaidMinor = const Value.absent(),
+    this.parentLoanId = const Value.absent(),
     this.isActive = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -11417,6 +11653,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
     required String startDate,
     required String firstDueDate,
     this.note = const Value.absent(),
+    this.closingType = const Value.absent(),
+    this.closedDate = const Value.absent(),
+    this.closingRemarks = const Value.absent(),
+    this.closingPaidMinor = const Value.absent(),
+    this.parentLoanId = const Value.absent(),
     this.isActive = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -11446,6 +11687,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
     Expression<String>? startDate,
     Expression<String>? firstDueDate,
     Expression<String>? note,
+    Expression<String>? closingType,
+    Expression<String>? closedDate,
+    Expression<String>? closingRemarks,
+    Expression<int>? closingPaidMinor,
+    Expression<int>? parentLoanId,
     Expression<bool>? isActive,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
@@ -11467,6 +11713,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
       if (startDate != null) 'start_date': startDate,
       if (firstDueDate != null) 'first_due_date': firstDueDate,
       if (note != null) 'note': note,
+      if (closingType != null) 'closing_type': closingType,
+      if (closedDate != null) 'closed_date': closedDate,
+      if (closingRemarks != null) 'closing_remarks': closingRemarks,
+      if (closingPaidMinor != null) 'closing_paid_minor': closingPaidMinor,
+      if (parentLoanId != null) 'parent_loan_id': parentLoanId,
       if (isActive != null) 'is_active': isActive,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -11489,6 +11740,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
     Value<String>? startDate,
     Value<String>? firstDueDate,
     Value<String?>? note,
+    Value<String?>? closingType,
+    Value<String?>? closedDate,
+    Value<String?>? closingRemarks,
+    Value<int?>? closingPaidMinor,
+    Value<int?>? parentLoanId,
     Value<bool>? isActive,
     Value<DateTime>? createdAt,
     Value<DateTime>? updatedAt,
@@ -11509,6 +11765,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
       startDate: startDate ?? this.startDate,
       firstDueDate: firstDueDate ?? this.firstDueDate,
       note: note ?? this.note,
+      closingType: closingType ?? this.closingType,
+      closedDate: closedDate ?? this.closedDate,
+      closingRemarks: closingRemarks ?? this.closingRemarks,
+      closingPaidMinor: closingPaidMinor ?? this.closingPaidMinor,
+      parentLoanId: parentLoanId ?? this.parentLoanId,
       isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -11563,6 +11824,21 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
     if (note.present) {
       map['note'] = Variable<String>(note.value);
     }
+    if (closingType.present) {
+      map['closing_type'] = Variable<String>(closingType.value);
+    }
+    if (closedDate.present) {
+      map['closed_date'] = Variable<String>(closedDate.value);
+    }
+    if (closingRemarks.present) {
+      map['closing_remarks'] = Variable<String>(closingRemarks.value);
+    }
+    if (closingPaidMinor.present) {
+      map['closing_paid_minor'] = Variable<int>(closingPaidMinor.value);
+    }
+    if (parentLoanId.present) {
+      map['parent_loan_id'] = Variable<int>(parentLoanId.value);
+    }
     if (isActive.present) {
       map['is_active'] = Variable<bool>(isActive.value);
     }
@@ -11593,6 +11869,11 @@ class LoansCompanion extends UpdateCompanion<LoanRow> {
           ..write('startDate: $startDate, ')
           ..write('firstDueDate: $firstDueDate, ')
           ..write('note: $note, ')
+          ..write('closingType: $closingType, ')
+          ..write('closedDate: $closedDate, ')
+          ..write('closingRemarks: $closingRemarks, ')
+          ..write('closingPaidMinor: $closingPaidMinor, ')
+          ..write('parentLoanId: $parentLoanId, ')
           ..write('isActive: $isActive, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -14341,6 +14622,1674 @@ class CreditCardPaymentsCompanion
   }
 }
 
+class $FixedDepositsTable extends FixedDeposits
+    with TableInfo<$FixedDepositsTable, FixedDepositRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FixedDepositsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<int> profileId = GeneratedColumn<int>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _schemeTypeMeta = const VerificationMeta(
+    'schemeType',
+  );
+  @override
+  late final GeneratedColumn<String> schemeType = GeneratedColumn<String>(
+    'scheme_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('FDR'),
+  );
+  static const VerificationMeta _bankNameMeta = const VerificationMeta(
+    'bankName',
+  );
+  @override
+  late final GeneratedColumn<String> bankName = GeneratedColumn<String>(
+    'bank_name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 80,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _beneficiaryNameMeta = const VerificationMeta(
+    'beneficiaryName',
+  );
+  @override
+  late final GeneratedColumn<String> beneficiaryName = GeneratedColumn<String>(
+    'beneficiary_name',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    schemeType,
+    bankName,
+    beneficiaryName,
+    note,
+    isActive,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'fixed_deposits';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FixedDepositRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('scheme_type')) {
+      context.handle(
+        _schemeTypeMeta,
+        schemeType.isAcceptableOrUnknown(data['scheme_type']!, _schemeTypeMeta),
+      );
+    }
+    if (data.containsKey('bank_name')) {
+      context.handle(
+        _bankNameMeta,
+        bankName.isAcceptableOrUnknown(data['bank_name']!, _bankNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bankNameMeta);
+    }
+    if (data.containsKey('beneficiary_name')) {
+      context.handle(
+        _beneficiaryNameMeta,
+        beneficiaryName.isAcceptableOrUnknown(
+          data['beneficiary_name']!,
+          _beneficiaryNameMeta,
+        ),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {profileId, id},
+  ];
+  @override
+  FixedDepositRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FixedDepositRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      schemeType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}scheme_type'],
+      )!,
+      bankName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bank_name'],
+      )!,
+      beneficiaryName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}beneficiary_name'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $FixedDepositsTable createAlias(String alias) {
+    return $FixedDepositsTable(attachedDatabase, alias);
+  }
+}
+
+class FixedDepositRow extends DataClass implements Insertable<FixedDepositRow> {
+  final int id;
+  final int profileId;
+
+  /// Scheme type label: 'FDR', 'DPS', 'Sanchaypatra', ... (free text).
+  final String schemeType;
+
+  /// Bank / institution name.
+  final String bankName;
+
+  /// Name on the instrument.
+  final String? beneficiaryName;
+  final String? note;
+  final bool isActive;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const FixedDepositRow({
+    required this.id,
+    required this.profileId,
+    required this.schemeType,
+    required this.bankName,
+    this.beneficiaryName,
+    this.note,
+    required this.isActive,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['profile_id'] = Variable<int>(profileId);
+    map['scheme_type'] = Variable<String>(schemeType);
+    map['bank_name'] = Variable<String>(bankName);
+    if (!nullToAbsent || beneficiaryName != null) {
+      map['beneficiary_name'] = Variable<String>(beneficiaryName);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['is_active'] = Variable<bool>(isActive);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  FixedDepositsCompanion toCompanion(bool nullToAbsent) {
+    return FixedDepositsCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      schemeType: Value(schemeType),
+      bankName: Value(bankName),
+      beneficiaryName: beneficiaryName == null && nullToAbsent
+          ? const Value.absent()
+          : Value(beneficiaryName),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      isActive: Value(isActive),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory FixedDepositRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FixedDepositRow(
+      id: serializer.fromJson<int>(json['id']),
+      profileId: serializer.fromJson<int>(json['profileId']),
+      schemeType: serializer.fromJson<String>(json['schemeType']),
+      bankName: serializer.fromJson<String>(json['bankName']),
+      beneficiaryName: serializer.fromJson<String?>(json['beneficiaryName']),
+      note: serializer.fromJson<String?>(json['note']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'profileId': serializer.toJson<int>(profileId),
+      'schemeType': serializer.toJson<String>(schemeType),
+      'bankName': serializer.toJson<String>(bankName),
+      'beneficiaryName': serializer.toJson<String?>(beneficiaryName),
+      'note': serializer.toJson<String?>(note),
+      'isActive': serializer.toJson<bool>(isActive),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  FixedDepositRow copyWith({
+    int? id,
+    int? profileId,
+    String? schemeType,
+    String? bankName,
+    Value<String?> beneficiaryName = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    bool? isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => FixedDepositRow(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    schemeType: schemeType ?? this.schemeType,
+    bankName: bankName ?? this.bankName,
+    beneficiaryName: beneficiaryName.present
+        ? beneficiaryName.value
+        : this.beneficiaryName,
+    note: note.present ? note.value : this.note,
+    isActive: isActive ?? this.isActive,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  FixedDepositRow copyWithCompanion(FixedDepositsCompanion data) {
+    return FixedDepositRow(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      schemeType: data.schemeType.present
+          ? data.schemeType.value
+          : this.schemeType,
+      bankName: data.bankName.present ? data.bankName.value : this.bankName,
+      beneficiaryName: data.beneficiaryName.present
+          ? data.beneficiaryName.value
+          : this.beneficiaryName,
+      note: data.note.present ? data.note.value : this.note,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FixedDepositRow(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('schemeType: $schemeType, ')
+          ..write('bankName: $bankName, ')
+          ..write('beneficiaryName: $beneficiaryName, ')
+          ..write('note: $note, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    profileId,
+    schemeType,
+    bankName,
+    beneficiaryName,
+    note,
+    isActive,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FixedDepositRow &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.schemeType == this.schemeType &&
+          other.bankName == this.bankName &&
+          other.beneficiaryName == this.beneficiaryName &&
+          other.note == this.note &&
+          other.isActive == this.isActive &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class FixedDepositsCompanion extends UpdateCompanion<FixedDepositRow> {
+  final Value<int> id;
+  final Value<int> profileId;
+  final Value<String> schemeType;
+  final Value<String> bankName;
+  final Value<String?> beneficiaryName;
+  final Value<String?> note;
+  final Value<bool> isActive;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const FixedDepositsCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.schemeType = const Value.absent(),
+    this.bankName = const Value.absent(),
+    this.beneficiaryName = const Value.absent(),
+    this.note = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  FixedDepositsCompanion.insert({
+    this.id = const Value.absent(),
+    required int profileId,
+    this.schemeType = const Value.absent(),
+    required String bankName,
+    this.beneficiaryName = const Value.absent(),
+    this.note = const Value.absent(),
+    this.isActive = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  }) : profileId = Value(profileId),
+       bankName = Value(bankName),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<FixedDepositRow> custom({
+    Expression<int>? id,
+    Expression<int>? profileId,
+    Expression<String>? schemeType,
+    Expression<String>? bankName,
+    Expression<String>? beneficiaryName,
+    Expression<String>? note,
+    Expression<bool>? isActive,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (schemeType != null) 'scheme_type': schemeType,
+      if (bankName != null) 'bank_name': bankName,
+      if (beneficiaryName != null) 'beneficiary_name': beneficiaryName,
+      if (note != null) 'note': note,
+      if (isActive != null) 'is_active': isActive,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  FixedDepositsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? profileId,
+    Value<String>? schemeType,
+    Value<String>? bankName,
+    Value<String?>? beneficiaryName,
+    Value<String?>? note,
+    Value<bool>? isActive,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+  }) {
+    return FixedDepositsCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      schemeType: schemeType ?? this.schemeType,
+      bankName: bankName ?? this.bankName,
+      beneficiaryName: beneficiaryName ?? this.beneficiaryName,
+      note: note ?? this.note,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<int>(profileId.value);
+    }
+    if (schemeType.present) {
+      map['scheme_type'] = Variable<String>(schemeType.value);
+    }
+    if (bankName.present) {
+      map['bank_name'] = Variable<String>(bankName.value);
+    }
+    if (beneficiaryName.present) {
+      map['beneficiary_name'] = Variable<String>(beneficiaryName.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FixedDepositsCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('schemeType: $schemeType, ')
+          ..write('bankName: $bankName, ')
+          ..write('beneficiaryName: $beneficiaryName, ')
+          ..write('note: $note, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $FixedDepositTermsTable extends FixedDepositTerms
+    with TableInfo<$FixedDepositTermsTable, FixedDepositTermRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $FixedDepositTermsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<int> profileId = GeneratedColumn<int>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _depositIdMeta = const VerificationMeta(
+    'depositId',
+  );
+  @override
+  late final GeneratedColumn<int> depositId = GeneratedColumn<int>(
+    'deposit_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _termNoMeta = const VerificationMeta('termNo');
+  @override
+  late final GeneratedColumn<int> termNo = GeneratedColumn<int>(
+    'term_no',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _instrumentNumberMeta = const VerificationMeta(
+    'instrumentNumber',
+  );
+  @override
+  late final GeneratedColumn<String> instrumentNumber = GeneratedColumn<String>(
+    'instrument_number',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 100,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _startDateMeta = const VerificationMeta(
+    'startDate',
+  );
+  @override
+  late final GeneratedColumn<String> startDate = GeneratedColumn<String>(
+    'start_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tenureDaysMeta = const VerificationMeta(
+    'tenureDays',
+  );
+  @override
+  late final GeneratedColumn<int> tenureDays = GeneratedColumn<int>(
+    'tenure_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rateBpMeta = const VerificationMeta('rateBp');
+  @override
+  late final GeneratedColumn<int> rateBp = GeneratedColumn<int>(
+    'rate_bp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _principalMinorMeta = const VerificationMeta(
+    'principalMinor',
+  );
+  @override
+  late final GeneratedColumn<int> principalMinor = GeneratedColumn<int>(
+    'principal_minor',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _outcomeMeta = const VerificationMeta(
+    'outcome',
+  );
+  @override
+  late final GeneratedColumn<String> outcome = GeneratedColumn<String>(
+    'outcome',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('active'),
+  );
+  static const VerificationMeta _settledDateMeta = const VerificationMeta(
+    'settledDate',
+  );
+  @override
+  late final GeneratedColumn<String> settledDate = GeneratedColumn<String>(
+    'settled_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _interestMinorMeta = const VerificationMeta(
+    'interestMinor',
+  );
+  @override
+  late final GeneratedColumn<int> interestMinor = GeneratedColumn<int>(
+    'interest_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taxMinorMeta = const VerificationMeta(
+    'taxMinor',
+  );
+  @override
+  late final GeneratedColumn<int> taxMinor = GeneratedColumn<int>(
+    'tax_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bankChargeMinorMeta = const VerificationMeta(
+    'bankChargeMinor',
+  );
+  @override
+  late final GeneratedColumn<int> bankChargeMinor = GeneratedColumn<int>(
+    'bank_charge_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _netReceivedMinorMeta = const VerificationMeta(
+    'netReceivedMinor',
+  );
+  @override
+  late final GeneratedColumn<int> netReceivedMinor = GeneratedColumn<int>(
+    'net_received_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _renewedFromTermIdMeta = const VerificationMeta(
+    'renewedFromTermId',
+  );
+  @override
+  late final GeneratedColumn<int> renewedFromTermId = GeneratedColumn<int>(
+    'renewed_from_term_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    depositId,
+    termNo,
+    instrumentNumber,
+    startDate,
+    tenureDays,
+    rateBp,
+    principalMinor,
+    outcome,
+    settledDate,
+    interestMinor,
+    taxMinor,
+    bankChargeMinor,
+    netReceivedMinor,
+    renewedFromTermId,
+    note,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'fixed_deposit_terms';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<FixedDepositTermRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('deposit_id')) {
+      context.handle(
+        _depositIdMeta,
+        depositId.isAcceptableOrUnknown(data['deposit_id']!, _depositIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_depositIdMeta);
+    }
+    if (data.containsKey('term_no')) {
+      context.handle(
+        _termNoMeta,
+        termNo.isAcceptableOrUnknown(data['term_no']!, _termNoMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_termNoMeta);
+    }
+    if (data.containsKey('instrument_number')) {
+      context.handle(
+        _instrumentNumberMeta,
+        instrumentNumber.isAcceptableOrUnknown(
+          data['instrument_number']!,
+          _instrumentNumberMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_instrumentNumberMeta);
+    }
+    if (data.containsKey('start_date')) {
+      context.handle(
+        _startDateMeta,
+        startDate.isAcceptableOrUnknown(data['start_date']!, _startDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startDateMeta);
+    }
+    if (data.containsKey('tenure_days')) {
+      context.handle(
+        _tenureDaysMeta,
+        tenureDays.isAcceptableOrUnknown(data['tenure_days']!, _tenureDaysMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_tenureDaysMeta);
+    }
+    if (data.containsKey('rate_bp')) {
+      context.handle(
+        _rateBpMeta,
+        rateBp.isAcceptableOrUnknown(data['rate_bp']!, _rateBpMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rateBpMeta);
+    }
+    if (data.containsKey('principal_minor')) {
+      context.handle(
+        _principalMinorMeta,
+        principalMinor.isAcceptableOrUnknown(
+          data['principal_minor']!,
+          _principalMinorMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_principalMinorMeta);
+    }
+    if (data.containsKey('outcome')) {
+      context.handle(
+        _outcomeMeta,
+        outcome.isAcceptableOrUnknown(data['outcome']!, _outcomeMeta),
+      );
+    }
+    if (data.containsKey('settled_date')) {
+      context.handle(
+        _settledDateMeta,
+        settledDate.isAcceptableOrUnknown(
+          data['settled_date']!,
+          _settledDateMeta,
+        ),
+      );
+    }
+    if (data.containsKey('interest_minor')) {
+      context.handle(
+        _interestMinorMeta,
+        interestMinor.isAcceptableOrUnknown(
+          data['interest_minor']!,
+          _interestMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tax_minor')) {
+      context.handle(
+        _taxMinorMeta,
+        taxMinor.isAcceptableOrUnknown(data['tax_minor']!, _taxMinorMeta),
+      );
+    }
+    if (data.containsKey('bank_charge_minor')) {
+      context.handle(
+        _bankChargeMinorMeta,
+        bankChargeMinor.isAcceptableOrUnknown(
+          data['bank_charge_minor']!,
+          _bankChargeMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('net_received_minor')) {
+      context.handle(
+        _netReceivedMinorMeta,
+        netReceivedMinor.isAcceptableOrUnknown(
+          data['net_received_minor']!,
+          _netReceivedMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('renewed_from_term_id')) {
+      context.handle(
+        _renewedFromTermIdMeta,
+        renewedFromTermId.isAcceptableOrUnknown(
+          data['renewed_from_term_id']!,
+          _renewedFromTermIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {profileId, id},
+    {depositId, termNo},
+  ];
+  @override
+  FixedDepositTermRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return FixedDepositTermRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      depositId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}deposit_id'],
+      )!,
+      termNo: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}term_no'],
+      )!,
+      instrumentNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}instrument_number'],
+      )!,
+      startDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}start_date'],
+      )!,
+      tenureDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tenure_days'],
+      )!,
+      rateBp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rate_bp'],
+      )!,
+      principalMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}principal_minor'],
+      )!,
+      outcome: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}outcome'],
+      )!,
+      settledDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}settled_date'],
+      ),
+      interestMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}interest_minor'],
+      ),
+      taxMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tax_minor'],
+      ),
+      bankChargeMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bank_charge_minor'],
+      ),
+      netReceivedMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}net_received_minor'],
+      ),
+      renewedFromTermId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}renewed_from_term_id'],
+      ),
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $FixedDepositTermsTable createAlias(String alias) {
+    return $FixedDepositTermsTable(attachedDatabase, alias);
+  }
+}
+
+class FixedDepositTermRow extends DataClass
+    implements Insertable<FixedDepositTermRow> {
+  final int id;
+  final int profileId;
+  final int depositId;
+
+  /// 1 for the first issue, 2 for the first reissue, ...
+  final int termNo;
+
+  /// Certificate / instrument number, unique per profile (case-insensitive).
+  final String instrumentNumber;
+  final String startDate;
+  final int tenureDays;
+
+  /// Annual rate in basis points (1050 = 10.50 %).
+  final int rateBp;
+  final int principalMinor;
+
+  /// 'active' | 'encashed' | 'reissued'. Closed instruments are history.
+  final String outcome;
+
+  /// Closing date, null while active.
+  final String? settledDate;
+
+  /// Closing figures (null while active): interest earned, tax deducted at
+  /// source, bank charge, and net received = principal + interest - tax -
+  /// charge (or the user's final figure).
+  final int? interestMinor;
+  final int? taxMinor;
+  final int? bankChargeMinor;
+  final int? netReceivedMinor;
+
+  /// The instrument this one reissued, null for the first issue.
+  final int? renewedFromTermId;
+  final String? note;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const FixedDepositTermRow({
+    required this.id,
+    required this.profileId,
+    required this.depositId,
+    required this.termNo,
+    required this.instrumentNumber,
+    required this.startDate,
+    required this.tenureDays,
+    required this.rateBp,
+    required this.principalMinor,
+    required this.outcome,
+    this.settledDate,
+    this.interestMinor,
+    this.taxMinor,
+    this.bankChargeMinor,
+    this.netReceivedMinor,
+    this.renewedFromTermId,
+    this.note,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['profile_id'] = Variable<int>(profileId);
+    map['deposit_id'] = Variable<int>(depositId);
+    map['term_no'] = Variable<int>(termNo);
+    map['instrument_number'] = Variable<String>(instrumentNumber);
+    map['start_date'] = Variable<String>(startDate);
+    map['tenure_days'] = Variable<int>(tenureDays);
+    map['rate_bp'] = Variable<int>(rateBp);
+    map['principal_minor'] = Variable<int>(principalMinor);
+    map['outcome'] = Variable<String>(outcome);
+    if (!nullToAbsent || settledDate != null) {
+      map['settled_date'] = Variable<String>(settledDate);
+    }
+    if (!nullToAbsent || interestMinor != null) {
+      map['interest_minor'] = Variable<int>(interestMinor);
+    }
+    if (!nullToAbsent || taxMinor != null) {
+      map['tax_minor'] = Variable<int>(taxMinor);
+    }
+    if (!nullToAbsent || bankChargeMinor != null) {
+      map['bank_charge_minor'] = Variable<int>(bankChargeMinor);
+    }
+    if (!nullToAbsent || netReceivedMinor != null) {
+      map['net_received_minor'] = Variable<int>(netReceivedMinor);
+    }
+    if (!nullToAbsent || renewedFromTermId != null) {
+      map['renewed_from_term_id'] = Variable<int>(renewedFromTermId);
+    }
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  FixedDepositTermsCompanion toCompanion(bool nullToAbsent) {
+    return FixedDepositTermsCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      depositId: Value(depositId),
+      termNo: Value(termNo),
+      instrumentNumber: Value(instrumentNumber),
+      startDate: Value(startDate),
+      tenureDays: Value(tenureDays),
+      rateBp: Value(rateBp),
+      principalMinor: Value(principalMinor),
+      outcome: Value(outcome),
+      settledDate: settledDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(settledDate),
+      interestMinor: interestMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(interestMinor),
+      taxMinor: taxMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxMinor),
+      bankChargeMinor: bankChargeMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bankChargeMinor),
+      netReceivedMinor: netReceivedMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(netReceivedMinor),
+      renewedFromTermId: renewedFromTermId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(renewedFromTermId),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory FixedDepositTermRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return FixedDepositTermRow(
+      id: serializer.fromJson<int>(json['id']),
+      profileId: serializer.fromJson<int>(json['profileId']),
+      depositId: serializer.fromJson<int>(json['depositId']),
+      termNo: serializer.fromJson<int>(json['termNo']),
+      instrumentNumber: serializer.fromJson<String>(json['instrumentNumber']),
+      startDate: serializer.fromJson<String>(json['startDate']),
+      tenureDays: serializer.fromJson<int>(json['tenureDays']),
+      rateBp: serializer.fromJson<int>(json['rateBp']),
+      principalMinor: serializer.fromJson<int>(json['principalMinor']),
+      outcome: serializer.fromJson<String>(json['outcome']),
+      settledDate: serializer.fromJson<String?>(json['settledDate']),
+      interestMinor: serializer.fromJson<int?>(json['interestMinor']),
+      taxMinor: serializer.fromJson<int?>(json['taxMinor']),
+      bankChargeMinor: serializer.fromJson<int?>(json['bankChargeMinor']),
+      netReceivedMinor: serializer.fromJson<int?>(json['netReceivedMinor']),
+      renewedFromTermId: serializer.fromJson<int?>(json['renewedFromTermId']),
+      note: serializer.fromJson<String?>(json['note']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'profileId': serializer.toJson<int>(profileId),
+      'depositId': serializer.toJson<int>(depositId),
+      'termNo': serializer.toJson<int>(termNo),
+      'instrumentNumber': serializer.toJson<String>(instrumentNumber),
+      'startDate': serializer.toJson<String>(startDate),
+      'tenureDays': serializer.toJson<int>(tenureDays),
+      'rateBp': serializer.toJson<int>(rateBp),
+      'principalMinor': serializer.toJson<int>(principalMinor),
+      'outcome': serializer.toJson<String>(outcome),
+      'settledDate': serializer.toJson<String?>(settledDate),
+      'interestMinor': serializer.toJson<int?>(interestMinor),
+      'taxMinor': serializer.toJson<int?>(taxMinor),
+      'bankChargeMinor': serializer.toJson<int?>(bankChargeMinor),
+      'netReceivedMinor': serializer.toJson<int?>(netReceivedMinor),
+      'renewedFromTermId': serializer.toJson<int?>(renewedFromTermId),
+      'note': serializer.toJson<String?>(note),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  FixedDepositTermRow copyWith({
+    int? id,
+    int? profileId,
+    int? depositId,
+    int? termNo,
+    String? instrumentNumber,
+    String? startDate,
+    int? tenureDays,
+    int? rateBp,
+    int? principalMinor,
+    String? outcome,
+    Value<String?> settledDate = const Value.absent(),
+    Value<int?> interestMinor = const Value.absent(),
+    Value<int?> taxMinor = const Value.absent(),
+    Value<int?> bankChargeMinor = const Value.absent(),
+    Value<int?> netReceivedMinor = const Value.absent(),
+    Value<int?> renewedFromTermId = const Value.absent(),
+    Value<String?> note = const Value.absent(),
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => FixedDepositTermRow(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    depositId: depositId ?? this.depositId,
+    termNo: termNo ?? this.termNo,
+    instrumentNumber: instrumentNumber ?? this.instrumentNumber,
+    startDate: startDate ?? this.startDate,
+    tenureDays: tenureDays ?? this.tenureDays,
+    rateBp: rateBp ?? this.rateBp,
+    principalMinor: principalMinor ?? this.principalMinor,
+    outcome: outcome ?? this.outcome,
+    settledDate: settledDate.present ? settledDate.value : this.settledDate,
+    interestMinor: interestMinor.present
+        ? interestMinor.value
+        : this.interestMinor,
+    taxMinor: taxMinor.present ? taxMinor.value : this.taxMinor,
+    bankChargeMinor: bankChargeMinor.present
+        ? bankChargeMinor.value
+        : this.bankChargeMinor,
+    netReceivedMinor: netReceivedMinor.present
+        ? netReceivedMinor.value
+        : this.netReceivedMinor,
+    renewedFromTermId: renewedFromTermId.present
+        ? renewedFromTermId.value
+        : this.renewedFromTermId,
+    note: note.present ? note.value : this.note,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  FixedDepositTermRow copyWithCompanion(FixedDepositTermsCompanion data) {
+    return FixedDepositTermRow(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      depositId: data.depositId.present ? data.depositId.value : this.depositId,
+      termNo: data.termNo.present ? data.termNo.value : this.termNo,
+      instrumentNumber: data.instrumentNumber.present
+          ? data.instrumentNumber.value
+          : this.instrumentNumber,
+      startDate: data.startDate.present ? data.startDate.value : this.startDate,
+      tenureDays: data.tenureDays.present
+          ? data.tenureDays.value
+          : this.tenureDays,
+      rateBp: data.rateBp.present ? data.rateBp.value : this.rateBp,
+      principalMinor: data.principalMinor.present
+          ? data.principalMinor.value
+          : this.principalMinor,
+      outcome: data.outcome.present ? data.outcome.value : this.outcome,
+      settledDate: data.settledDate.present
+          ? data.settledDate.value
+          : this.settledDate,
+      interestMinor: data.interestMinor.present
+          ? data.interestMinor.value
+          : this.interestMinor,
+      taxMinor: data.taxMinor.present ? data.taxMinor.value : this.taxMinor,
+      bankChargeMinor: data.bankChargeMinor.present
+          ? data.bankChargeMinor.value
+          : this.bankChargeMinor,
+      netReceivedMinor: data.netReceivedMinor.present
+          ? data.netReceivedMinor.value
+          : this.netReceivedMinor,
+      renewedFromTermId: data.renewedFromTermId.present
+          ? data.renewedFromTermId.value
+          : this.renewedFromTermId,
+      note: data.note.present ? data.note.value : this.note,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FixedDepositTermRow(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('depositId: $depositId, ')
+          ..write('termNo: $termNo, ')
+          ..write('instrumentNumber: $instrumentNumber, ')
+          ..write('startDate: $startDate, ')
+          ..write('tenureDays: $tenureDays, ')
+          ..write('rateBp: $rateBp, ')
+          ..write('principalMinor: $principalMinor, ')
+          ..write('outcome: $outcome, ')
+          ..write('settledDate: $settledDate, ')
+          ..write('interestMinor: $interestMinor, ')
+          ..write('taxMinor: $taxMinor, ')
+          ..write('bankChargeMinor: $bankChargeMinor, ')
+          ..write('netReceivedMinor: $netReceivedMinor, ')
+          ..write('renewedFromTermId: $renewedFromTermId, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    profileId,
+    depositId,
+    termNo,
+    instrumentNumber,
+    startDate,
+    tenureDays,
+    rateBp,
+    principalMinor,
+    outcome,
+    settledDate,
+    interestMinor,
+    taxMinor,
+    bankChargeMinor,
+    netReceivedMinor,
+    renewedFromTermId,
+    note,
+    createdAt,
+    updatedAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is FixedDepositTermRow &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.depositId == this.depositId &&
+          other.termNo == this.termNo &&
+          other.instrumentNumber == this.instrumentNumber &&
+          other.startDate == this.startDate &&
+          other.tenureDays == this.tenureDays &&
+          other.rateBp == this.rateBp &&
+          other.principalMinor == this.principalMinor &&
+          other.outcome == this.outcome &&
+          other.settledDate == this.settledDate &&
+          other.interestMinor == this.interestMinor &&
+          other.taxMinor == this.taxMinor &&
+          other.bankChargeMinor == this.bankChargeMinor &&
+          other.netReceivedMinor == this.netReceivedMinor &&
+          other.renewedFromTermId == this.renewedFromTermId &&
+          other.note == this.note &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class FixedDepositTermsCompanion extends UpdateCompanion<FixedDepositTermRow> {
+  final Value<int> id;
+  final Value<int> profileId;
+  final Value<int> depositId;
+  final Value<int> termNo;
+  final Value<String> instrumentNumber;
+  final Value<String> startDate;
+  final Value<int> tenureDays;
+  final Value<int> rateBp;
+  final Value<int> principalMinor;
+  final Value<String> outcome;
+  final Value<String?> settledDate;
+  final Value<int?> interestMinor;
+  final Value<int?> taxMinor;
+  final Value<int?> bankChargeMinor;
+  final Value<int?> netReceivedMinor;
+  final Value<int?> renewedFromTermId;
+  final Value<String?> note;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const FixedDepositTermsCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.depositId = const Value.absent(),
+    this.termNo = const Value.absent(),
+    this.instrumentNumber = const Value.absent(),
+    this.startDate = const Value.absent(),
+    this.tenureDays = const Value.absent(),
+    this.rateBp = const Value.absent(),
+    this.principalMinor = const Value.absent(),
+    this.outcome = const Value.absent(),
+    this.settledDate = const Value.absent(),
+    this.interestMinor = const Value.absent(),
+    this.taxMinor = const Value.absent(),
+    this.bankChargeMinor = const Value.absent(),
+    this.netReceivedMinor = const Value.absent(),
+    this.renewedFromTermId = const Value.absent(),
+    this.note = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  FixedDepositTermsCompanion.insert({
+    this.id = const Value.absent(),
+    required int profileId,
+    required int depositId,
+    required int termNo,
+    required String instrumentNumber,
+    required String startDate,
+    required int tenureDays,
+    required int rateBp,
+    required int principalMinor,
+    this.outcome = const Value.absent(),
+    this.settledDate = const Value.absent(),
+    this.interestMinor = const Value.absent(),
+    this.taxMinor = const Value.absent(),
+    this.bankChargeMinor = const Value.absent(),
+    this.netReceivedMinor = const Value.absent(),
+    this.renewedFromTermId = const Value.absent(),
+    this.note = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  }) : profileId = Value(profileId),
+       depositId = Value(depositId),
+       termNo = Value(termNo),
+       instrumentNumber = Value(instrumentNumber),
+       startDate = Value(startDate),
+       tenureDays = Value(tenureDays),
+       rateBp = Value(rateBp),
+       principalMinor = Value(principalMinor),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<FixedDepositTermRow> custom({
+    Expression<int>? id,
+    Expression<int>? profileId,
+    Expression<int>? depositId,
+    Expression<int>? termNo,
+    Expression<String>? instrumentNumber,
+    Expression<String>? startDate,
+    Expression<int>? tenureDays,
+    Expression<int>? rateBp,
+    Expression<int>? principalMinor,
+    Expression<String>? outcome,
+    Expression<String>? settledDate,
+    Expression<int>? interestMinor,
+    Expression<int>? taxMinor,
+    Expression<int>? bankChargeMinor,
+    Expression<int>? netReceivedMinor,
+    Expression<int>? renewedFromTermId,
+    Expression<String>? note,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (depositId != null) 'deposit_id': depositId,
+      if (termNo != null) 'term_no': termNo,
+      if (instrumentNumber != null) 'instrument_number': instrumentNumber,
+      if (startDate != null) 'start_date': startDate,
+      if (tenureDays != null) 'tenure_days': tenureDays,
+      if (rateBp != null) 'rate_bp': rateBp,
+      if (principalMinor != null) 'principal_minor': principalMinor,
+      if (outcome != null) 'outcome': outcome,
+      if (settledDate != null) 'settled_date': settledDate,
+      if (interestMinor != null) 'interest_minor': interestMinor,
+      if (taxMinor != null) 'tax_minor': taxMinor,
+      if (bankChargeMinor != null) 'bank_charge_minor': bankChargeMinor,
+      if (netReceivedMinor != null) 'net_received_minor': netReceivedMinor,
+      if (renewedFromTermId != null) 'renewed_from_term_id': renewedFromTermId,
+      if (note != null) 'note': note,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  FixedDepositTermsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? profileId,
+    Value<int>? depositId,
+    Value<int>? termNo,
+    Value<String>? instrumentNumber,
+    Value<String>? startDate,
+    Value<int>? tenureDays,
+    Value<int>? rateBp,
+    Value<int>? principalMinor,
+    Value<String>? outcome,
+    Value<String?>? settledDate,
+    Value<int?>? interestMinor,
+    Value<int?>? taxMinor,
+    Value<int?>? bankChargeMinor,
+    Value<int?>? netReceivedMinor,
+    Value<int?>? renewedFromTermId,
+    Value<String?>? note,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+  }) {
+    return FixedDepositTermsCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      depositId: depositId ?? this.depositId,
+      termNo: termNo ?? this.termNo,
+      instrumentNumber: instrumentNumber ?? this.instrumentNumber,
+      startDate: startDate ?? this.startDate,
+      tenureDays: tenureDays ?? this.tenureDays,
+      rateBp: rateBp ?? this.rateBp,
+      principalMinor: principalMinor ?? this.principalMinor,
+      outcome: outcome ?? this.outcome,
+      settledDate: settledDate ?? this.settledDate,
+      interestMinor: interestMinor ?? this.interestMinor,
+      taxMinor: taxMinor ?? this.taxMinor,
+      bankChargeMinor: bankChargeMinor ?? this.bankChargeMinor,
+      netReceivedMinor: netReceivedMinor ?? this.netReceivedMinor,
+      renewedFromTermId: renewedFromTermId ?? this.renewedFromTermId,
+      note: note ?? this.note,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<int>(profileId.value);
+    }
+    if (depositId.present) {
+      map['deposit_id'] = Variable<int>(depositId.value);
+    }
+    if (termNo.present) {
+      map['term_no'] = Variable<int>(termNo.value);
+    }
+    if (instrumentNumber.present) {
+      map['instrument_number'] = Variable<String>(instrumentNumber.value);
+    }
+    if (startDate.present) {
+      map['start_date'] = Variable<String>(startDate.value);
+    }
+    if (tenureDays.present) {
+      map['tenure_days'] = Variable<int>(tenureDays.value);
+    }
+    if (rateBp.present) {
+      map['rate_bp'] = Variable<int>(rateBp.value);
+    }
+    if (principalMinor.present) {
+      map['principal_minor'] = Variable<int>(principalMinor.value);
+    }
+    if (outcome.present) {
+      map['outcome'] = Variable<String>(outcome.value);
+    }
+    if (settledDate.present) {
+      map['settled_date'] = Variable<String>(settledDate.value);
+    }
+    if (interestMinor.present) {
+      map['interest_minor'] = Variable<int>(interestMinor.value);
+    }
+    if (taxMinor.present) {
+      map['tax_minor'] = Variable<int>(taxMinor.value);
+    }
+    if (bankChargeMinor.present) {
+      map['bank_charge_minor'] = Variable<int>(bankChargeMinor.value);
+    }
+    if (netReceivedMinor.present) {
+      map['net_received_minor'] = Variable<int>(netReceivedMinor.value);
+    }
+    if (renewedFromTermId.present) {
+      map['renewed_from_term_id'] = Variable<int>(renewedFromTermId.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('FixedDepositTermsCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('depositId: $depositId, ')
+          ..write('termNo: $termNo, ')
+          ..write('instrumentNumber: $instrumentNumber, ')
+          ..write('startDate: $startDate, ')
+          ..write('tenureDays: $tenureDays, ')
+          ..write('rateBp: $rateBp, ')
+          ..write('principalMinor: $principalMinor, ')
+          ..write('outcome: $outcome, ')
+          ..write('settledDate: $settledDate, ')
+          ..write('interestMinor: $interestMinor, ')
+          ..write('taxMinor: $taxMinor, ')
+          ..write('bankChargeMinor: $bankChargeMinor, ')
+          ..write('netReceivedMinor: $netReceivedMinor, ')
+          ..write('renewedFromTermId: $renewedFromTermId, ')
+          ..write('note: $note, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -14379,6 +16328,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   );
   late final $CreditCardPaymentsTable creditCardPayments =
       $CreditCardPaymentsTable(this);
+  late final $FixedDepositsTable fixedDeposits = $FixedDepositsTable(this);
+  late final $FixedDepositTermsTable fixedDepositTerms =
+      $FixedDepositTermsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -14407,6 +16359,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     creditCards,
     creditCardBills,
     creditCardPayments,
+    fixedDeposits,
+    fixedDepositTerms,
   ];
 }
 
@@ -19925,6 +21879,11 @@ typedef $$LoansTableCreateCompanionBuilder = LoansCompanion Function({
   required String startDate,
   required String firstDueDate,
   Value<String?> note,
+  Value<String?> closingType,
+  Value<String?> closedDate,
+  Value<String?> closingRemarks,
+  Value<int?> closingPaidMinor,
+  Value<int?> parentLoanId,
   Value<bool> isActive,
   required DateTime createdAt,
   required DateTime updatedAt,
@@ -19945,6 +21904,11 @@ typedef $$LoansTableUpdateCompanionBuilder = LoansCompanion Function({
   Value<String> startDate,
   Value<String> firstDueDate,
   Value<String?> note,
+  Value<String?> closingType,
+  Value<String?> closedDate,
+  Value<String?> closingRemarks,
+  Value<int?> closingPaidMinor,
+  Value<int?> parentLoanId,
   Value<bool> isActive,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
@@ -20030,6 +21994,31 @@ class $$LoansTableFilterComposer extends Composer<_$AppDatabase, $LoansTable> {
 
   ColumnFilters<String> get note => $composableBuilder(
     column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get closingType => $composableBuilder(
+    column: $table.closingType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get closedDate => $composableBuilder(
+    column: $table.closedDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get closingRemarks => $composableBuilder(
+    column: $table.closingRemarks,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get closingPaidMinor => $composableBuilder(
+    column: $table.closingPaidMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get parentLoanId => $composableBuilder(
+    column: $table.parentLoanId,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -20133,6 +22122,31 @@ class $$LoansTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get closingType => $composableBuilder(
+    column: $table.closingType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get closedDate => $composableBuilder(
+    column: $table.closedDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get closingRemarks => $composableBuilder(
+    column: $table.closingRemarks,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get closingPaidMinor => $composableBuilder(
+    column: $table.closingPaidMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get parentLoanId => $composableBuilder(
+    column: $table.parentLoanId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   ColumnOrderings<bool> get isActive => $composableBuilder(
     column: $table.isActive,
     builder: (column) => ColumnOrderings(column),
@@ -20221,6 +22235,31 @@ class $$LoansTableAnnotationComposer
   GeneratedColumn<String> get note =>
       $composableBuilder(column: $table.note, builder: (column) => column);
 
+  GeneratedColumn<String> get closingType => $composableBuilder(
+    column: $table.closingType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get closedDate => $composableBuilder(
+    column: $table.closedDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get closingRemarks => $composableBuilder(
+    column: $table.closingRemarks,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get closingPaidMinor => $composableBuilder(
+    column: $table.closingPaidMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get parentLoanId => $composableBuilder(
+    column: $table.parentLoanId,
+    builder: (column) => column,
+  );
+
   GeneratedColumn<bool> get isActive =>
       $composableBuilder(column: $table.isActive, builder: (column) => column);
 
@@ -20274,6 +22313,11 @@ class $$LoansTableTableManager
                 Value<String> startDate = const Value.absent(),
                 Value<String> firstDueDate = const Value.absent(),
                 Value<String?> note = const Value.absent(),
+                Value<String?> closingType = const Value.absent(),
+                Value<String?> closedDate = const Value.absent(),
+                Value<String?> closingRemarks = const Value.absent(),
+                Value<int?> closingPaidMinor = const Value.absent(),
+                Value<int?> parentLoanId = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 Value<DateTime> createdAt = const Value.absent(),
                 Value<DateTime> updatedAt = const Value.absent(),
@@ -20293,6 +22337,11 @@ class $$LoansTableTableManager
                 startDate: startDate,
                 firstDueDate: firstDueDate,
                 note: note,
+                closingType: closingType,
+                closedDate: closedDate,
+                closingRemarks: closingRemarks,
+                closingPaidMinor: closingPaidMinor,
+                parentLoanId: parentLoanId,
                 isActive: isActive,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -20314,6 +22363,11 @@ class $$LoansTableTableManager
                 required String startDate,
                 required String firstDueDate,
                 Value<String?> note = const Value.absent(),
+                Value<String?> closingType = const Value.absent(),
+                Value<String?> closedDate = const Value.absent(),
+                Value<String?> closingRemarks = const Value.absent(),
+                Value<int?> closingPaidMinor = const Value.absent(),
+                Value<int?> parentLoanId = const Value.absent(),
                 Value<bool> isActive = const Value.absent(),
                 required DateTime createdAt,
                 required DateTime updatedAt,
@@ -20333,6 +22387,11 @@ class $$LoansTableTableManager
                 startDate: startDate,
                 firstDueDate: firstDueDate,
                 note: note,
+                closingType: closingType,
+                closedDate: closedDate,
+                closingRemarks: closingRemarks,
+                closingPaidMinor: closingPaidMinor,
+                parentLoanId: parentLoanId,
                 isActive: isActive,
                 createdAt: createdAt,
                 updatedAt: updatedAt,
@@ -21702,6 +23761,789 @@ typedef $$CreditCardPaymentsTableProcessedTableManager =
       CreditCardPaymentRow,
       PrefetchHooks Function()
     >;
+typedef $$FixedDepositsTableCreateCompanionBuilder =
+    FixedDepositsCompanion Function({
+      Value<int> id,
+      required int profileId,
+      Value<String> schemeType,
+      required String bankName,
+      Value<String?> beneficiaryName,
+      Value<String?> note,
+      Value<bool> isActive,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+    });
+typedef $$FixedDepositsTableUpdateCompanionBuilder =
+    FixedDepositsCompanion Function({
+      Value<int> id,
+      Value<int> profileId,
+      Value<String> schemeType,
+      Value<String> bankName,
+      Value<String?> beneficiaryName,
+      Value<String?> note,
+      Value<bool> isActive,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
+
+class $$FixedDepositsTableFilterComposer
+    extends Composer<_$AppDatabase, $FixedDepositsTable> {
+  $$FixedDepositsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get schemeType => $composableBuilder(
+    column: $table.schemeType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bankName => $composableBuilder(
+    column: $table.bankName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get beneficiaryName => $composableBuilder(
+    column: $table.beneficiaryName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$FixedDepositsTableOrderingComposer
+    extends Composer<_$AppDatabase, $FixedDepositsTable> {
+  $$FixedDepositsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get schemeType => $composableBuilder(
+    column: $table.schemeType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bankName => $composableBuilder(
+    column: $table.bankName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get beneficiaryName => $composableBuilder(
+    column: $table.beneficiaryName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FixedDepositsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FixedDepositsTable> {
+  $$FixedDepositsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get schemeType => $composableBuilder(
+    column: $table.schemeType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get bankName =>
+      $composableBuilder(column: $table.bankName, builder: (column) => column);
+
+  GeneratedColumn<String> get beneficiaryName => $composableBuilder(
+    column: $table.beneficiaryName,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$FixedDepositsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FixedDepositsTable,
+          FixedDepositRow,
+          $$FixedDepositsTableFilterComposer,
+          $$FixedDepositsTableOrderingComposer,
+          $$FixedDepositsTableAnnotationComposer,
+          $$FixedDepositsTableCreateCompanionBuilder,
+          $$FixedDepositsTableUpdateCompanionBuilder,
+          (
+            FixedDepositRow,
+            BaseReferences<_$AppDatabase, $FixedDepositsTable, FixedDepositRow>,
+          ),
+          FixedDepositRow,
+          PrefetchHooks Function()
+        > {
+  $$FixedDepositsTableTableManager(_$AppDatabase db, $FixedDepositsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FixedDepositsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FixedDepositsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FixedDepositsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> profileId = const Value.absent(),
+                Value<String> schemeType = const Value.absent(),
+                Value<String> bankName = const Value.absent(),
+                Value<String?> beneficiaryName = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => FixedDepositsCompanion(
+                id: id,
+                profileId: profileId,
+                schemeType: schemeType,
+                bankName: bankName,
+                beneficiaryName: beneficiaryName,
+                note: note,
+                isActive: isActive,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int profileId,
+                Value<String> schemeType = const Value.absent(),
+                required String bankName,
+                Value<String?> beneficiaryName = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+              }) => FixedDepositsCompanion.insert(
+                id: id,
+                profileId: profileId,
+                schemeType: schemeType,
+                bankName: bankName,
+                beneficiaryName: beneficiaryName,
+                note: note,
+                isActive: isActive,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$FixedDepositsTable, FixedDepositRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $FixedDepositsTable,
+                    FixedDepositRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$FixedDepositsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FixedDepositsTable,
+      FixedDepositRow,
+      $$FixedDepositsTableFilterComposer,
+      $$FixedDepositsTableOrderingComposer,
+      $$FixedDepositsTableAnnotationComposer,
+      $$FixedDepositsTableCreateCompanionBuilder,
+      $$FixedDepositsTableUpdateCompanionBuilder,
+      (
+        FixedDepositRow,
+        BaseReferences<_$AppDatabase, $FixedDepositsTable, FixedDepositRow>,
+      ),
+      FixedDepositRow,
+      PrefetchHooks Function()
+    >;
+typedef $$FixedDepositTermsTableCreateCompanionBuilder =
+    FixedDepositTermsCompanion Function({
+      Value<int> id,
+      required int profileId,
+      required int depositId,
+      required int termNo,
+      required String instrumentNumber,
+      required String startDate,
+      required int tenureDays,
+      required int rateBp,
+      required int principalMinor,
+      Value<String> outcome,
+      Value<String?> settledDate,
+      Value<int?> interestMinor,
+      Value<int?> taxMinor,
+      Value<int?> bankChargeMinor,
+      Value<int?> netReceivedMinor,
+      Value<int?> renewedFromTermId,
+      Value<String?> note,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+    });
+typedef $$FixedDepositTermsTableUpdateCompanionBuilder =
+    FixedDepositTermsCompanion Function({
+      Value<int> id,
+      Value<int> profileId,
+      Value<int> depositId,
+      Value<int> termNo,
+      Value<String> instrumentNumber,
+      Value<String> startDate,
+      Value<int> tenureDays,
+      Value<int> rateBp,
+      Value<int> principalMinor,
+      Value<String> outcome,
+      Value<String?> settledDate,
+      Value<int?> interestMinor,
+      Value<int?> taxMinor,
+      Value<int?> bankChargeMinor,
+      Value<int?> netReceivedMinor,
+      Value<int?> renewedFromTermId,
+      Value<String?> note,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
+
+class $$FixedDepositTermsTableFilterComposer
+    extends Composer<_$AppDatabase, $FixedDepositTermsTable> {
+  $$FixedDepositTermsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get depositId => $composableBuilder(
+    column: $table.depositId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get termNo => $composableBuilder(
+    column: $table.termNo,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get instrumentNumber => $composableBuilder(
+    column: $table.instrumentNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tenureDays => $composableBuilder(
+    column: $table.tenureDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rateBp => $composableBuilder(
+    column: $table.rateBp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get principalMinor => $composableBuilder(
+    column: $table.principalMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get outcome => $composableBuilder(
+    column: $table.outcome,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get settledDate => $composableBuilder(
+    column: $table.settledDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get interestMinor => $composableBuilder(
+    column: $table.interestMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taxMinor => $composableBuilder(
+    column: $table.taxMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get bankChargeMinor => $composableBuilder(
+    column: $table.bankChargeMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get netReceivedMinor => $composableBuilder(
+    column: $table.netReceivedMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get renewedFromTermId => $composableBuilder(
+    column: $table.renewedFromTermId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$FixedDepositTermsTableOrderingComposer
+    extends Composer<_$AppDatabase, $FixedDepositTermsTable> {
+  $$FixedDepositTermsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get depositId => $composableBuilder(
+    column: $table.depositId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get termNo => $composableBuilder(
+    column: $table.termNo,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get instrumentNumber => $composableBuilder(
+    column: $table.instrumentNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get startDate => $composableBuilder(
+    column: $table.startDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tenureDays => $composableBuilder(
+    column: $table.tenureDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rateBp => $composableBuilder(
+    column: $table.rateBp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get principalMinor => $composableBuilder(
+    column: $table.principalMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get outcome => $composableBuilder(
+    column: $table.outcome,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get settledDate => $composableBuilder(
+    column: $table.settledDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get interestMinor => $composableBuilder(
+    column: $table.interestMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taxMinor => $composableBuilder(
+    column: $table.taxMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get bankChargeMinor => $composableBuilder(
+    column: $table.bankChargeMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get netReceivedMinor => $composableBuilder(
+    column: $table.netReceivedMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get renewedFromTermId => $composableBuilder(
+    column: $table.renewedFromTermId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$FixedDepositTermsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $FixedDepositTermsTable> {
+  $$FixedDepositTermsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<int> get depositId =>
+      $composableBuilder(column: $table.depositId, builder: (column) => column);
+
+  GeneratedColumn<int> get termNo =>
+      $composableBuilder(column: $table.termNo, builder: (column) => column);
+
+  GeneratedColumn<String> get instrumentNumber => $composableBuilder(
+    column: $table.instrumentNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get startDate =>
+      $composableBuilder(column: $table.startDate, builder: (column) => column);
+
+  GeneratedColumn<int> get tenureDays => $composableBuilder(
+    column: $table.tenureDays,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get rateBp =>
+      $composableBuilder(column: $table.rateBp, builder: (column) => column);
+
+  GeneratedColumn<int> get principalMinor => $composableBuilder(
+    column: $table.principalMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get outcome =>
+      $composableBuilder(column: $table.outcome, builder: (column) => column);
+
+  GeneratedColumn<String> get settledDate => $composableBuilder(
+    column: $table.settledDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get interestMinor => $composableBuilder(
+    column: $table.interestMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get taxMinor =>
+      $composableBuilder(column: $table.taxMinor, builder: (column) => column);
+
+  GeneratedColumn<int> get bankChargeMinor => $composableBuilder(
+    column: $table.bankChargeMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get netReceivedMinor => $composableBuilder(
+    column: $table.netReceivedMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get renewedFromTermId => $composableBuilder(
+    column: $table.renewedFromTermId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$FixedDepositTermsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $FixedDepositTermsTable,
+          FixedDepositTermRow,
+          $$FixedDepositTermsTableFilterComposer,
+          $$FixedDepositTermsTableOrderingComposer,
+          $$FixedDepositTermsTableAnnotationComposer,
+          $$FixedDepositTermsTableCreateCompanionBuilder,
+          $$FixedDepositTermsTableUpdateCompanionBuilder,
+          (
+            FixedDepositTermRow,
+            BaseReferences<
+              _$AppDatabase,
+              $FixedDepositTermsTable,
+              FixedDepositTermRow
+            >,
+          ),
+          FixedDepositTermRow,
+          PrefetchHooks Function()
+        > {
+  $$FixedDepositTermsTableTableManager(
+    _$AppDatabase db,
+    $FixedDepositTermsTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$FixedDepositTermsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$FixedDepositTermsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$FixedDepositTermsTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> profileId = const Value.absent(),
+                Value<int> depositId = const Value.absent(),
+                Value<int> termNo = const Value.absent(),
+                Value<String> instrumentNumber = const Value.absent(),
+                Value<String> startDate = const Value.absent(),
+                Value<int> tenureDays = const Value.absent(),
+                Value<int> rateBp = const Value.absent(),
+                Value<int> principalMinor = const Value.absent(),
+                Value<String> outcome = const Value.absent(),
+                Value<String?> settledDate = const Value.absent(),
+                Value<int?> interestMinor = const Value.absent(),
+                Value<int?> taxMinor = const Value.absent(),
+                Value<int?> bankChargeMinor = const Value.absent(),
+                Value<int?> netReceivedMinor = const Value.absent(),
+                Value<int?> renewedFromTermId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => FixedDepositTermsCompanion(
+                id: id,
+                profileId: profileId,
+                depositId: depositId,
+                termNo: termNo,
+                instrumentNumber: instrumentNumber,
+                startDate: startDate,
+                tenureDays: tenureDays,
+                rateBp: rateBp,
+                principalMinor: principalMinor,
+                outcome: outcome,
+                settledDate: settledDate,
+                interestMinor: interestMinor,
+                taxMinor: taxMinor,
+                bankChargeMinor: bankChargeMinor,
+                netReceivedMinor: netReceivedMinor,
+                renewedFromTermId: renewedFromTermId,
+                note: note,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int profileId,
+                required int depositId,
+                required int termNo,
+                required String instrumentNumber,
+                required String startDate,
+                required int tenureDays,
+                required int rateBp,
+                required int principalMinor,
+                Value<String> outcome = const Value.absent(),
+                Value<String?> settledDate = const Value.absent(),
+                Value<int?> interestMinor = const Value.absent(),
+                Value<int?> taxMinor = const Value.absent(),
+                Value<int?> bankChargeMinor = const Value.absent(),
+                Value<int?> netReceivedMinor = const Value.absent(),
+                Value<int?> renewedFromTermId = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+              }) => FixedDepositTermsCompanion.insert(
+                id: id,
+                profileId: profileId,
+                depositId: depositId,
+                termNo: termNo,
+                instrumentNumber: instrumentNumber,
+                startDate: startDate,
+                tenureDays: tenureDays,
+                rateBp: rateBp,
+                principalMinor: principalMinor,
+                outcome: outcome,
+                settledDate: settledDate,
+                interestMinor: interestMinor,
+                taxMinor: taxMinor,
+                bankChargeMinor: bankChargeMinor,
+                netReceivedMinor: netReceivedMinor,
+                renewedFromTermId: renewedFromTermId,
+                note: note,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$FixedDepositTermsTable, FixedDepositTermRow>(
+                    table,
+                  ),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $FixedDepositTermsTable,
+                    FixedDepositTermRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$FixedDepositTermsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $FixedDepositTermsTable,
+      FixedDepositTermRow,
+      $$FixedDepositTermsTableFilterComposer,
+      $$FixedDepositTermsTableOrderingComposer,
+      $$FixedDepositTermsTableAnnotationComposer,
+      $$FixedDepositTermsTableCreateCompanionBuilder,
+      $$FixedDepositTermsTableUpdateCompanionBuilder,
+      (
+        FixedDepositTermRow,
+        BaseReferences<
+          _$AppDatabase,
+          $FixedDepositTermsTable,
+          FixedDepositTermRow
+        >,
+      ),
+      FixedDepositTermRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -21754,4 +24596,8 @@ class $AppDatabaseManager {
       $$CreditCardBillsTableTableManager(_db, _db.creditCardBills);
   $$CreditCardPaymentsTableTableManager get creditCardPayments =>
       $$CreditCardPaymentsTableTableManager(_db, _db.creditCardPayments);
+  $$FixedDepositsTableTableManager get fixedDeposits =>
+      $$FixedDepositsTableTableManager(_db, _db.fixedDeposits);
+  $$FixedDepositTermsTableTableManager get fixedDepositTerms =>
+      $$FixedDepositTermsTableTableManager(_db, _db.fixedDepositTerms);
 }

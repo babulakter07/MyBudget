@@ -4,14 +4,46 @@ import '../../../shared/providers/core_providers.dart';
 import '../../preferences/data/app_l10n_resolver.dart';
 import '../domain/notification_models.dart';
 import '../domain/notification_settings.dart';
+import '../domain/notification_sound.dart';
+import 'ringtone_picker.dart';
 import 'budget_alert_service.dart';
 import 'notification_gateway.dart';
 import 'notification_scheduler.dart';
 
 /// Override with [FakeNotificationGateway] in tests.
 final notificationGatewayProvider = Provider<NotificationGateway>(
-  (ref) => LocalNotificationGateway(),
+  (ref) => LocalNotificationGateway(null, ref.watch(sharedPreferencesProvider)),
 );
+
+/// Override with [FakeRingtonePicker] in tests.
+final ringtonePickerProvider = Provider<RingtonePicker>(
+  (ref) => PlatformRingtonePicker(),
+);
+
+class NotificationSoundsNotifier extends Notifier<NotificationSounds> {
+  @override
+  NotificationSounds build() =>
+      NotificationSounds.load(ref.watch(sharedPreferencesProvider));
+
+  /// Opens the phone's sound picker for reminders ([budget] false) or budget
+  /// alerts, stores the choice and reschedules so it applies right away.
+  Future<void> choose({required bool budget}) async {
+    final current = budget ? state.budget : state.reminders;
+    final picked = await ref.read(ringtonePickerProvider).pick(current);
+    if (picked == null) return;
+    final next = budget
+        ? state.copyWith(budget: picked)
+        : state.copyWith(reminders: picked);
+    await next.save(ref.read(sharedPreferencesProvider));
+    state = next;
+    await ref.read(notificationSchedulerProvider).resync();
+  }
+}
+
+final notificationSoundsProvider =
+    NotifierProvider<NotificationSoundsNotifier, NotificationSounds>(
+      NotificationSoundsNotifier.new,
+    );
 
 final notificationSchedulerProvider = Provider<NotificationScheduler>((ref) {
   return NotificationScheduler(
@@ -28,6 +60,15 @@ final budgetAlertServiceProvider = Provider<BudgetAlertService>((ref) {
     prefs: ref.watch(sharedPreferencesProvider),
     gateway: ref.watch(notificationGatewayProvider),
   );
+});
+
+/// All reminders in the planning window (enabled and switched off), by time.
+final reminderScheduleProvider = FutureProvider<List<PlannedNotification>>((
+  ref,
+) {
+  ref.watch(notificationSettingsProvider);
+  ref.watch(activeProfileIdProvider);
+  return ref.watch(notificationSchedulerProvider).buildPlan();
 });
 
 class NotificationSettingsState {
@@ -82,6 +123,35 @@ class NotificationSettingsNotifier extends Notifier<NotificationSettingsState> {
       return;
     }
     await _apply(cur.copyWith(budgetAlertsEnabled: on));
+  }
+
+  Future<void> setTodayEnabled(bool on) =>
+      _apply(state.settings.copyWith(todayEnabled: on));
+
+  /// Days before the due date (0 = no upcoming reminder).
+  Future<void> setUpcomingDays(int days) async {
+    if (days < 0 || days > NotificationSettings.maxLeadDays) return;
+    await _apply(state.settings.copyWith(upcomingDays: days));
+  }
+
+  /// Days after the due date for the single expiry reminder (0 = off).
+  Future<void> setExpireAfterDays(int days) async {
+    if (days < 0 || days > NotificationSettings.maxLeadDays) return;
+    await _apply(state.settings.copyWith(expireAfterDays: days));
+  }
+
+  /// Switches ONE reminder (identified by its key) on or off.
+  Future<void> setReminderKeyEnabled(String key, bool enabled) async {
+    final prefs = ref.read(sharedPreferencesProvider);
+    final keys = NotificationSettings.loadDisabledKeys(prefs);
+    if (enabled) {
+      keys.remove(key);
+    } else {
+      keys.add(key);
+    }
+    await NotificationSettings.saveDisabledKeys(prefs, keys);
+    ref.invalidate(reminderScheduleProvider);
+    await ref.read(notificationSchedulerProvider).resync();
   }
 
   Future<void> setReminderHour(int hour) async {

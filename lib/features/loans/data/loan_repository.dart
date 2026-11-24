@@ -49,6 +49,11 @@ class LoanRepository {
       isActive: r.read<bool>('is_active'),
       createdAt: r.read<DateTime>('created_at'),
       updatedAt: r.read<DateTime>('updated_at'),
+      closingType: r.read<String?>('closing_type'),
+      closedDate: r.read<String?>('closed_date'),
+      closingRemarks: r.read<String?>('closing_remarks'),
+      closingPaidMinor: r.read<int?>('closing_paid_minor'),
+      parentLoanId: r.read<int?>('parent_loan_id'),
     );
     return LoanCalculator.evaluate(
       loan,
@@ -175,6 +180,7 @@ class LoanRepository {
     required String startDate,
     required String firstDueDate,
     String? note,
+    int? parentLoanId,
   }) async {
     final installment =
         installmentMinor ??
@@ -221,12 +227,157 @@ class LoanRepository {
             startDate: startDate,
             firstDueDate: firstDueDate,
             note: Value(_clean(note)),
+            parentLoanId: Value(parentLoanId),
             createdAt: now,
             updatedAt: now,
           ),
         );
     return (await getById(profileId, id))!;
   }
+
+  // ---- closing (v7) ----
+
+  /// Settles a running loan before its schedule ends. [paidMinor] is what the
+  /// borrower actually paid to close it (recorded as a payment on
+  /// [closedDate]); the rest of the schedule is waived. The loan becomes
+  /// history: no more edits or payments.
+  Future<LoanPosition> closeEarly({
+    required int profileId,
+    required int loanId,
+    required String closedDate,
+    String? remarks,
+    int paidMinor = 0,
+  }) => _db.transaction(() async {
+    final pos = await _requireOpen(profileId, loanId, closedDate);
+    if (paidMinor < 0) {
+      throw ValidationException('Amount paid cannot be negative.');
+    }
+    if (paidMinor > pos.remainingMinor) {
+      throw ValidationException(
+        'Amount paid exceeds the remaining balance. Maximum is '
+        '${formatMinor(pos.remainingMinor)}.',
+      );
+    }
+    if (paidMinor > 0) {
+      await _db
+          .into(_db.loanPayments)
+          .insert(
+            LoanPaymentsCompanion.insert(
+              profileId: profileId,
+              loanId: loanId,
+              amountMinor: paidMinor,
+              paymentDate: closedDate,
+              note: const Value('Early closure'),
+              createdAt: DateTime.now(),
+            ),
+          );
+    }
+    await _markClosed(
+      profileId,
+      loanId,
+      type: 'early',
+      closedDate: closedDate,
+      remarks: remarks,
+      paidMinor: paidMinor > 0 ? paidMinor : null,
+    );
+    return (await getById(profileId, loanId))!;
+  });
+
+  /// Adjusts (tops up / refinances) a running loan: the old loan is closed as
+  /// 'adjusted' and a NEW loan, linked to it, takes over. [principalMinor] is
+  /// the new loan amount (typically the old remaining principal plus any new
+  /// money). Returns the new loan.
+  Future<LoanPosition> adjust({
+    required int profileId,
+    required int loanId,
+    required String closedDate,
+    String? remarks,
+    required String lenderName,
+    String loanType = 'personal',
+    String? referenceNo,
+    required int principalMinor,
+    required int interestRateBp,
+    String interestMethod = 'reducing',
+    String frequency = 'monthly',
+    required int tenureCount,
+    int? installmentMinor,
+    int processingFeeMinor = 0,
+    required String startDate,
+    required String firstDueDate,
+    String? note,
+  }) => _db.transaction(() async {
+    await _requireOpen(profileId, loanId, closedDate);
+    final created = await create(
+      profileId: profileId,
+      lenderName: lenderName,
+      loanType: loanType,
+      referenceNo: referenceNo,
+      principalMinor: principalMinor,
+      interestRateBp: interestRateBp,
+      interestMethod: interestMethod,
+      frequency: frequency,
+      tenureCount: tenureCount,
+      installmentMinor: installmentMinor,
+      processingFeeMinor: processingFeeMinor,
+      startDate: startDate,
+      firstDueDate: firstDueDate,
+      note: note,
+      parentLoanId: loanId,
+    );
+    await _markClosed(
+      profileId,
+      loanId,
+      type: 'adjusted',
+      closedDate: closedDate,
+      remarks: remarks,
+      paidMinor: null,
+    );
+    return created;
+  });
+
+  Future<LoanPosition> _requireOpen(
+    int profileId,
+    int loanId,
+    String closedDate,
+  ) async {
+    final pos = await getById(profileId, loanId);
+    if (pos == null) throw NotFoundException('Loan not found.');
+    if (!pos.loan.isActive) {
+      throw ValidationException('This loan is archived. Restore it first.');
+    }
+    if (pos.isClosed) {
+      throw ValidationException('This loan is already closed.');
+    }
+    if (!isValidDateKey(closedDate)) {
+      throw ValidationException('Closing date is invalid.');
+    }
+    if (closedDate.compareTo(pos.loan.startDate) < 0) {
+      throw ValidationException(
+        'Closing date cannot be before the disbursement date '
+        '(${pos.loan.startDate}).',
+      );
+    }
+    return pos;
+  }
+
+  Future<void> _markClosed(
+    int profileId,
+    int loanId, {
+    required String type,
+    required String closedDate,
+    required String? remarks,
+    required int? paidMinor,
+  }) => (_db.update(
+    _db.loans,
+  )..where((l) => l.profileId.equals(profileId) & l.id.equals(loanId))).write(
+    LoansCompanion(
+      closingType: Value(type),
+      closedDate: Value(closedDate),
+      closingRemarks: Value(_clean(remarks)),
+      closingPaidMinor: Value(paidMinor),
+      updatedAt: Value(DateTime.now()),
+    ),
+  );
 
   /// Lender, type, reference, fee and note are always editable. The financial
   /// terms (principal, rate, method, frequency, tenure, installment, dates)
@@ -273,6 +424,11 @@ class LoanRepository {
     return _db.transaction(() async {
       final existing = await getById(profileId, id);
       if (existing == null) throw NotFoundException('Loan not found.');
+      if (existing.loan.isClosedByUser) {
+        throw ValidationException(
+          'A closed (early settled / adjusted) loan cannot be edited.',
+        );
+      }
       final o = existing.loan;
       final termsChanged =
           o.principalMinor != principalMinor ||
@@ -426,6 +582,11 @@ class LoanRepository {
       if (!pos.loan.isActive) {
         throw ValidationException('This loan is archived.');
       }
+      if (pos.loan.isClosedByUser) {
+        throw ValidationException(
+          'This loan is closed (early settled / adjusted).',
+        );
+      }
       if (paymentDate.compareTo(pos.loan.startDate) < 0) {
         throw ValidationException(
           'Payment date cannot be before the disbursement date '
@@ -471,6 +632,17 @@ class LoanRepository {
       if (p == null) throw NotFoundException('Payment not found.');
       if (p.isDeleted) {
         throw ValidationException('This payment is already voided.');
+      }
+      final loan =
+          await (_db.select(_db.loans)..where(
+                (l) => l.profileId.equals(profileId) & l.id.equals(p.loanId),
+              ))
+              .getSingle();
+      if (loan.closingType != null) {
+        throw ValidationException(
+          'Payments of a closed (early settled / adjusted) loan cannot be '
+          'voided.',
+        );
       }
       await (_db.update(_db.loanPayments)..where(
             (x) => x.profileId.equals(profileId) & x.id.equals(paymentId),

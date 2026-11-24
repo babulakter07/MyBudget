@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_ui/material_ui.dart';
 
 import '../../../app/theme/app_colors.dart';
@@ -11,6 +12,7 @@ import '../../help/presentation/help_button.dart';
 import '../domain/loan.dart';
 import '../domain/loan_calculator.dart';
 import '../providers/loan_providers.dart';
+import 'loan_close_sheet.dart';
 import 'loan_form_sheet.dart';
 import 'loan_payment_sheet.dart';
 import 'loan_widgets.dart';
@@ -71,17 +73,19 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
     final theme = Theme.of(context);
     final loan = pos.loan;
     final profileId = ref.read(activeProfileIdProvider);
-    final canPay = loan.isActive && pos.remainingMinor > 0;
+    final canPay =
+        loan.isActive && pos.remainingMinor > 0 && !loan.isClosedByUser;
     return Scaffold(
       appBar: AppBar(
         title: Text(loan.lenderName),
         actions: [
           const HelpButton(topicId: 'loans'),
-          IconButton(
-            tooltip: l.commonEdit,
-            icon: const Icon(Icons.edit_outlined),
-            onPressed: () => showLoanForm(context, existing: pos),
-          ),
+          if (!loan.isClosedByUser)
+            IconButton(
+              tooltip: l.commonEdit,
+              icon: const Icon(Icons.edit_outlined),
+              onPressed: () => showLoanForm(context, existing: pos),
+            ),
           IconButton(
             tooltip: loan.isActive ? l.commonArchive : l.loansUnarchive,
             icon: Icon(
@@ -108,6 +112,7 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
         padding: const EdgeInsets.only(bottom: 96),
         children: [
           _overview(context, pos),
+          ..._closingSection(context, pos),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
             child: SegmentedButton<bool>(
@@ -123,7 +128,7 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
           if (_showSchedule)
             ..._scheduleRows(context, pos)
           else
-            _payments(context, profileId),
+            _payments(context, profileId, pos.loan.isClosedByUser),
           const SizedBox(height: 4),
           if (!_showSchedule && pos.overdueCount > 0)
             Padding(
@@ -143,6 +148,107 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
     );
   }
 
+  /// Close-early / adjust actions for an open loan, or the closing banner for
+  /// a loan that was settled early or adjusted. Also links to the replacing /
+  /// replaced loan.
+  List<Widget> _closingSection(BuildContext context, LoanPosition pos) {
+    final l = context.l10n;
+    final theme = Theme.of(context);
+    final loan = pos.loan;
+    final all = ref.watch(loansProvider).value ?? const <LoanPosition>[];
+    LoanPosition? replacement;
+    for (final p in all) {
+      if (p.loan.parentLoanId == loan.id) replacement = p;
+    }
+    final widgets = <Widget>[];
+    if (loan.isClosedByUser) {
+      widgets.add(
+        Card(
+          key: const ValueKey('closing-banner'),
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  pos.isEarlyClosed
+                      ? l.loansBannerEarly(loan.closedDate ?? '')
+                      : l.loansBannerAdjusted(loan.closedDate ?? ''),
+                  style: theme.textTheme.titleSmall,
+                ),
+                if (loan.closingPaidMinor != null)
+                  Text(l.loansBannerPaid(formatMinor(loan.closingPaidMinor!))),
+                if (loan.closingRemarks != null)
+                  Text(l.loansBannerRemarks(loan.closingRemarks!)),
+                if (replacement != null)
+                  TextButton(
+                    key: const ValueKey('view-replacement'),
+                    onPressed: () =>
+                        context.push('/loans/${replacement!.loan.id}'),
+                    child: Text(l.loansViewReplacement),
+                  ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    if (loan.parentLoanId != null) {
+      widgets.add(
+        Card(
+          key: const ValueKey('adjusted-from-banner'),
+          margin: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l.loansAdjustedFromBanner),
+                TextButton(
+                  key: const ValueKey('view-previous'),
+                  onPressed: () => context.push('/loans/${loan.parentLoanId}'),
+                  child: Text(l.loansViewPrevious),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+    if (!pos.isClosed && loan.isActive) {
+      widgets.add(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Wrap(
+            spacing: 8,
+            runSpacing: 4,
+            children: [
+              OutlinedButton.icon(
+                key: const ValueKey('btn-close-early'),
+                onPressed: () => showLoanCloseSheet(context, pos),
+                icon: const Icon(Icons.event_busy_outlined),
+                label: Text(l.loansCloseEarly),
+              ),
+              OutlinedButton.icon(
+                key: const ValueKey('btn-adjust'),
+                onPressed: () async {
+                  final id = await showLoanAdjustForm(context, pos);
+                  if (id != null && context.mounted) {
+                    context.pushReplacement('/loans/$id');
+                  }
+                },
+                icon: const Icon(Icons.swap_horiz),
+                label: Text(l.loansAdjust),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+    return widgets;
+  }
+
   Widget _overview(BuildContext context, LoanPosition pos) {
     final l = context.l10n;
     final theme = Theme.of(context);
@@ -159,7 +265,7 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
                 style: theme.textTheme.labelLarge,
               ),
               const SizedBox(width: 8),
-              LoanStatusChip(status: pos.status),
+              LoanPositionChip(position: pos),
               if (!loan.isActive) ...[
                 const SizedBox(width: 8),
                 Text(l.loansArchived),
@@ -175,7 +281,7 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
           ),
           _row(
             l.loansRemaining,
-            formatMinor(pos.remainingMinor),
+            formatMinor(loan.isClosedByUser ? 0 : pos.remainingMinor),
             theme,
             bold: true,
           ),
@@ -283,7 +389,7 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
     ];
   }
 
-  Widget _payments(BuildContext context, int? profileId) {
+  Widget _payments(BuildContext context, int? profileId, bool closed) {
     final l = context.l10n;
     final payments = ref.watch(loanPaymentsProvider(widget.loanId));
     return payments.when(
@@ -314,7 +420,7 @@ class _LoanDetailScreenState extends ConsumerState<LoanDetailScreen> {
                     if (p.isDeleted) l.loansVoided,
                   ].join('  •  '),
                 ),
-                trailing: p.isDeleted
+                trailing: (p.isDeleted || closed)
                     ? null
                     : IconButton(
                         tooltip: l.loansVoidPayment,

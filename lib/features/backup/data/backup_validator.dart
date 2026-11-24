@@ -7,7 +7,7 @@ import 'backup_paths.dart';
 import 'backup_schema.dart';
 
 /// Highest database schema version this build can restore.
-const int maxSupportedSchemaVersion = 6;
+const int maxSupportedSchemaVersion = 7;
 
 /// Pure validation of a backup file (no database access). Mirrors every
 /// constraint the database enforces so a bad file is rejected *before* any
@@ -642,6 +642,24 @@ class BackupValidator {
       if (!dateRe(r['first_due_date'] as String)) {
         err('loans id $id: first_due_date must be a valid yyyy-MM-dd date.');
       }
+      final closing = r['closing_type'];
+      if (closing != null && !{'early', 'adjusted'}.contains(closing)) {
+        err('loans id $id: unknown closing type "$closing".');
+      }
+      if (closing != null &&
+          (r['closed_date'] == null || !dateRe(r['closed_date'] as String))) {
+        err('loans id $id: a closed loan needs a valid closed_date.');
+      }
+      final paid = r['closing_paid_minor'];
+      if (paid != null && (paid as int) < 0) {
+        err('loans id $id: closing paid amount must not be negative.');
+      }
+      if (r['parent_loan_id'] != null) {
+        ref('loans', r, 'parent_loan_id', 'loans');
+        if (r['parent_loan_id'] == r['id']) {
+          err('loans id $id: a loan cannot replace itself.');
+        }
+      }
     }
 
     for (final r in rows['loan_payments']!) {
@@ -751,6 +769,89 @@ class BackupValidator {
         err(
           'credit_card_payments id ${r['id']}: payment_date must be a valid yyyy-MM-dd date.',
         );
+      }
+    }
+
+    for (final r in rows['fixed_deposits']!) {
+      profileRef('fixed_deposits', r);
+      final id = r['id'];
+      final type = r['scheme_type'] as String;
+      if (type.isEmpty || type.length > 40) {
+        err('fixed_deposits id $id: scheme type must be 1-40 characters.');
+      }
+      final bank = r['bank_name'] as String;
+      if (bank.isEmpty || bank.length > 80) {
+        err('fixed_deposits id $id: bank name must be 1-80 characters.');
+      }
+    }
+
+    final fdTermKeys = <String>{};
+    final fdInstruments = <String>{};
+    final fdActive = <Object?, int>{};
+    for (final r in rows['fixed_deposit_terms']!) {
+      final id = r['id'];
+      profileRef('fixed_deposit_terms', r);
+      ref('fixed_deposit_terms', r, 'deposit_id', 'fixed_deposits');
+      if (!fdTermKeys.add('${r['deposit_id']}|${r['term_no']}')) {
+        err('fixed_deposit_terms id $id: duplicate term number.');
+      }
+      if ((r['term_no'] as int) < 1) {
+        err('fixed_deposit_terms id $id: term number must be at least 1.');
+      }
+      final number = r['instrument_number'] as String;
+      if (number.isEmpty || number.length > 100) {
+        err(
+          'fixed_deposit_terms id $id: instrument number must be 1-100 characters.',
+        );
+      } else if (!fdInstruments.add(
+        '${r['profile_id']}|${_nocase(number)}',
+      )) {
+        err('fixed_deposit_terms id $id: duplicate instrument number.');
+      }
+      if (!dateRe(r['start_date'] as String)) {
+        err(
+          'fixed_deposit_terms id $id: start_date must be a valid yyyy-MM-dd date.',
+        );
+      }
+      final tenure = r['tenure_days'] as int;
+      if (tenure < 1 || tenure > 36500) {
+        err('fixed_deposit_terms id $id: tenure must be 1-36500 days.');
+      }
+      final rate = r['rate_bp'] as int;
+      if (rate < 0 || rate > 10000) {
+        err('fixed_deposit_terms id $id: rate must be between 0% and 100%.');
+      }
+      if ((r['principal_minor'] as int) <= 0) {
+        err('fixed_deposit_terms id $id: principal must be greater than zero.');
+      }
+      final outcome = r['outcome'];
+      if (!{'active', 'encashed', 'reissued'}.contains(outcome)) {
+        err('fixed_deposit_terms id $id: unknown outcome "$outcome".');
+      }
+      if (outcome == 'active') {
+        fdActive[r['deposit_id']] = (fdActive[r['deposit_id']] ?? 0) + 1;
+      } else {
+        if (r['settled_date'] == null || !dateRe(r['settled_date'] as String)) {
+          err(
+            'fixed_deposit_terms id $id: a closed instrument needs a valid settled_date.',
+          );
+        }
+        for (final c in [
+          'interest_minor',
+          'tax_minor',
+          'bank_charge_minor',
+          'net_received_minor',
+        ]) {
+          final v = r[c];
+          if (v == null || (v as int) < 0) {
+            err('fixed_deposit_terms id $id: $c is required and not negative.');
+          }
+        }
+      }
+    }
+    for (final e in fdActive.entries) {
+      if (e.value > 1) {
+        err('fixed_deposits id ${e.key}: more than one running instrument.');
       }
     }
 

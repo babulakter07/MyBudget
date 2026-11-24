@@ -2,8 +2,12 @@ import 'package:drift/drift.dart' show Variable;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/database/app_database.dart';
+import '../../fixed_deposits/domain/fixed_deposit_calculator.dart';
+import '../../loans/data/loan_repository.dart';
+import '../../loans/domain/loan_calculator.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../preferences/data/app_l10n_resolver.dart';
+import '../domain/notification_models.dart';
 import '../domain/notification_settings.dart';
 import '../domain/reminder_planner.dart';
 import 'notification_gateway.dart';
@@ -20,7 +24,7 @@ class ReminderDataSource {
 SELECT id, title, amount_minor, frequency, interval_count, start_date,
        end_date, next_due_date, remind_days_before
 FROM recurring_rules
-WHERE profile_id = ?1 AND is_active = 1 AND remind_days_before IS NOT NULL
+WHERE profile_id = ?1 AND is_active = 1
 ''',
           variables: [Variable.withInt(profileId)],
         )
@@ -36,7 +40,7 @@ WHERE profile_id = ?1 AND is_active = 1 AND remind_days_before IS NOT NULL
           startDate: r.read<String>('start_date'),
           endDate: r.readNullable<String>('end_date'),
           nextDueDate: r.read<String>('next_due_date'),
-          remindDaysBefore: r.read<int>('remind_days_before'),
+          remindDaysBefore: r.readNullable<int>('remind_days_before'),
         ),
     ];
   }
@@ -67,6 +71,93 @@ WHERE d.profile_id = ?1 AND d.is_active = 1 AND d.due_date IS NOT NULL
           dueDate: r.read<String>('due_date'),
         ),
     ];
+  }
+}
+
+extension on ReminderDataSource {
+  /// Running (not encashed / reissued) instruments of non-archived deposits.
+  Future<List<MaturityReminderInput>> maturities(int profileId) async {
+    final rows = await _db
+        .customSelect(
+          '''
+SELECT t.id AS id, d.scheme_type AS scheme_type,
+       t.instrument_number AS instrument_number, d.bank_name AS bank_name,
+       t.principal_minor AS principal_minor, t.start_date AS start_date,
+       t.tenure_days AS tenure_days
+FROM fixed_deposit_terms t
+JOIN fixed_deposits d ON d.profile_id = t.profile_id AND d.id = t.deposit_id
+WHERE t.profile_id = ?1 AND t.outcome = 'active' AND d.is_active = 1
+''',
+          variables: [Variable.withInt(profileId)],
+        )
+        .get();
+    return [
+      for (final r in rows)
+        MaturityReminderInput(
+          id: r.read<int>('id'),
+          schemeType: r.read<String>('scheme_type'),
+          instrumentNumber: r.read<String>('instrument_number'),
+          bankName: r.read<String>('bank_name'),
+          principalMinor: r.read<int>('principal_minor'),
+          maturityDate: FixedDepositCalculator.maturityDate(
+            r.read<String>('start_date'),
+            r.read<int>('tenure_days'),
+          ),
+        ),
+    ];
+  }
+
+  /// Unpaid loan installments and unpaid credit-card bills.
+  Future<List<DueItemInput>> dueItems(
+    int profileId,
+    AppLocalizations l10n,
+  ) async {
+    final out = <DueItemInput>[];
+    final loans = await LoanRepository(_db).watchAll(profileId).first;
+    for (final p in loans) {
+      if (p.isClosed) continue;
+      for (final i in p.schedule) {
+        if (i.status == InstallmentStatus.paid) continue;
+        out.add(
+          DueItemInput(
+            source: 'loan',
+            id: p.loan.id,
+            name: l10n.notificationsLoanName(p.loan.lenderName, i.no),
+            amountMinor: i.unpaidMinor,
+            dueDate: i.dueDate,
+          ),
+        );
+      }
+    }
+    final bills = await _db
+        .customSelect(
+          '''
+SELECT b.id AS id, b.due_date AS due_date, c.name AS card_name,
+       b.amount_minor - COALESCE((
+         SELECT SUM(p.amount_minor) FROM credit_card_payments p
+         WHERE p.profile_id = b.profile_id AND p.bill_id = b.id
+           AND p.is_deleted = 0), 0) AS remaining
+FROM credit_card_bills b
+JOIN credit_cards c ON c.profile_id = b.profile_id AND c.id = b.card_id
+WHERE b.profile_id = ?1 AND b.is_active = 1 AND c.is_active = 1
+''',
+          variables: [Variable.withInt(profileId)],
+        )
+        .get();
+    for (final r in bills) {
+      final remaining = r.read<int>('remaining');
+      if (remaining <= 0) continue;
+      out.add(
+        DueItemInput(
+          source: 'card',
+          id: r.read<int>('id'),
+          name: l10n.notificationsCardName(r.read<String>('card_name')),
+          amountMinor: remaining,
+          dueDate: r.read<String>('due_date'),
+        ),
+      );
+    }
+    return out;
   }
 }
 
@@ -102,6 +193,46 @@ class NotificationScheduler {
 
   Future<void> _chain = Future.value();
 
+  /// Every reminder that would fire in the planning window, each flagged
+  /// enabled / switched off by the user. Independent of the master switch so
+  /// the schedule screen can always show what is coming.
+  Future<List<PlannedNotification>> buildPlan({int? profileId}) async {
+    final pid = profileId ?? _activeProfileId();
+    if (pid == null) return const [];
+    final settings = NotificationSettings.load(_prefs);
+    final disabled = NotificationSettings.loadDisabledKeys(_prefs);
+    final l10n = _l10n();
+    final plan = _planner.plan(
+      l10n: l10n,
+      now: _clock(),
+      rules: await _source.recurring(pid),
+      debts: await _source.debts(pid),
+      dueItems: await _source.dueItems(pid, l10n),
+      maturities: await _source.maturities(pid),
+      hour: settings.reminderHour,
+      todayEnabled: settings.todayEnabled,
+      recurringToday: true,
+      upcomingDays: settings.upcomingDays,
+      expireAfterDays: settings.expireAfterDays,
+      catchUpDone: NotificationSettings.loadCatchUpDone(_prefs),
+    );
+    return [
+      for (final n in plan)
+        PlannedNotification(
+          id: n.id,
+          when: n.when,
+          title: n.title,
+          body: n.body,
+          kind: n.kind,
+          key: n.key,
+          phase: n.phase,
+          dueDate: n.dueDate,
+          enabled: !disabled.contains(n.key),
+          catchUp: n.catchUp,
+        ),
+    ];
+  }
+
   /// Rebuilds all scheduled reminders for [profileId] (default: active
   /// profile). Calls are serialised so concurrent resyncs cannot interleave.
   Future<void> resync({int? profileId}) {
@@ -123,14 +254,22 @@ class NotificationScheduler {
     final pid = profileId ?? _activeProfileId();
     if (!settings.remindersEnabled || pid == null) return;
 
-    final plan = _planner.plan(
-      l10n: _l10n(),
-      now: _clock(),
-      rules: await _source.recurring(pid),
-      debts: await _source.debts(pid),
-      hour: settings.reminderHour,
-    );
+    final plan = (await buildPlan(profileId: pid))
+        .where((n) => n.enabled)
+        .toList();
+    final shownNow = NotificationSettings.loadCatchUpDone(_prefs);
     for (final n in plan) {
+      if (n.catchUp) {
+        // Its time already passed today: show it now, once.
+        await _gateway.show(
+          id: n.id,
+          title: n.title,
+          body: n.body,
+          kind: n.kind,
+        );
+        shownNow.add(n.key);
+        continue;
+      }
       await _gateway.schedule(
         id: n.id,
         when: n.when,
@@ -139,8 +278,10 @@ class NotificationScheduler {
         kind: n.kind,
       );
     }
+    await NotificationSettings.saveCatchUpDone(_prefs, shownNow);
     await _prefs.setStringList(trackedIdsKey, [
-      for (final n in plan) n.id.toString(),
+      for (final n in plan)
+        if (!n.catchUp) n.id.toString(),
     ]);
   }
 }

@@ -71,34 +71,6 @@ class SettingsScreen extends StatelessWidget {
             l10n.appShellExchangeRates,
             '/config/currencies',
           ),
-          tile(Icons.repeat, l10n.appShellRecurring, '/config/recurring'),
-          const Divider(),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-            child: Text(
-              l10n.appShellSectionPlan,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-          ),
-          tile(Icons.savings_outlined, l10n.appShellSavingsGoals, '/goals'),
-          tile(
-            Icons.account_balance_wallet_outlined,
-            l10n.appShellWallets,
-            '/wallets',
-          ),
-          tile(
-            Icons.account_balance_outlined,
-            l10n.appShellBankLoans,
-            '/loans',
-          ),
-          tile(Icons.credit_card, l10n.appShellCreditCards, '/cards'),
-          tile(Icons.handshake_outlined, l10n.appShellDebtsLoans, '/debts'),
-          tile(Icons.insights_outlined, l10n.appShellInsights, '/insights'),
-          tile(
-            Icons.local_offer_outlined,
-            l10n.appShellTagReport,
-            '/tags/report',
-          ),
           const Divider(),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),

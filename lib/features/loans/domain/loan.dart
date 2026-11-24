@@ -59,6 +59,11 @@ class Loan {
     required this.isActive,
     required this.createdAt,
     required this.updatedAt,
+    this.closingType,
+    this.closedDate,
+    this.closingRemarks,
+    this.closingPaidMinor,
+    this.parentLoanId,
   });
 
   final int id;
@@ -81,6 +86,20 @@ class Loan {
   final bool isActive;
   final DateTime createdAt;
   final DateTime updatedAt;
+
+  /// 'early' (settled before the schedule ended) | 'adjusted' (rolled into a
+  /// newer loan) | null. A closed loan is history: no edits, no payments.
+  final String? closingType;
+  final String? closedDate;
+  final String? closingRemarks;
+
+  /// Amount paid to settle an early closure (recorded as a payment too).
+  final int? closingPaidMinor;
+
+  /// The loan this one replaced (adjustment / top-up).
+  final int? parentLoanId;
+
+  bool get isClosedByUser => closingType != null;
 }
 
 class LoanPayment {

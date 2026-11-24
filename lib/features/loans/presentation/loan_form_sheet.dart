@@ -22,11 +22,26 @@ Future<void> showLoanForm(BuildContext context, {LoanPosition? existing}) {
   );
 }
 
+/// Opens the adjust / top-up sheet for an open loan. Resolves with the id of
+/// the NEW loan when the adjustment was saved, otherwise null.
+Future<int?> showLoanAdjustForm(BuildContext context, LoanPosition loan) {
+  return showModalBottomSheet<int>(
+    context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
+    builder: (_) => LoanFormSheet(adjustFrom: loan),
+  );
+}
+
 String _majorText(int minor) => (minor / 100).toStringAsFixed(2);
 
 class LoanFormSheet extends ConsumerStatefulWidget {
-  const LoanFormSheet({super.key, this.existing});
+  const LoanFormSheet({super.key, this.existing, this.adjustFrom});
   final LoanPosition? existing;
+
+  /// Set for the adjust / top-up flow: the open loan being replaced. The form
+  /// is prefilled from it and saving calls `LoanRepository.adjust`.
+  final LoanPosition? adjustFrom;
 
   @override
   ConsumerState<LoanFormSheet> createState() => _LoanFormSheetState();
@@ -51,21 +66,43 @@ class _LoanFormSheetState extends ConsumerState<LoanFormSheet> {
   String? _error;
   bool _saving = false;
 
+  /// Closing date / remarks of the loan being replaced (adjust mode only).
+  final _remarks = TextEditingController();
+  late String _closingDate;
+
+  bool get _adjusting => widget.adjustFrom != null;
   bool get _locked => (widget.existing?.paidMinor ?? 0) > 0;
 
   @override
   void initState() {
     super.initState();
     final e = widget.existing?.loan;
-    _lender = TextEditingController(text: e?.lenderName ?? '');
+    final old = widget.adjustFrom;
+    _lender = TextEditingController(
+      text: e?.lenderName ?? old?.loan.lenderName ?? '',
+    );
     _reference = TextEditingController(text: e?.referenceNo ?? '');
     _principal = TextEditingController(
-      text: e == null ? '' : _majorText(e.principalMinor),
+      text: e != null
+          ? _majorText(e.principalMinor)
+          : old != null
+          ? _majorText(old.remainingPrincipalMinor)
+          : '',
     );
     _rate = TextEditingController(
-      text: e == null ? '' : formatRateBp(e.interestRateBp),
+      text: e != null
+          ? formatRateBp(e.interestRateBp)
+          : old != null
+          ? formatRateBp(old.loan.interestRateBp)
+          : '',
     );
-    _tenure = TextEditingController(text: e == null ? '' : '${e.tenureCount}');
+    _tenure = TextEditingController(
+      text: e != null
+          ? '${e.tenureCount}'
+          : old != null
+          ? '${old.remainingInstallments < 1 ? 1 : old.remainingInstallments}'
+          : '',
+    );
     _installment = TextEditingController(
       text: e == null ? '' : _majorText(e.installmentMinor),
     );
@@ -75,12 +112,13 @@ class _LoanFormSheetState extends ConsumerState<LoanFormSheet> {
           : _majorText(e.processingFeeMinor),
     );
     _note = TextEditingController(text: e?.note ?? '');
-    _type = e?.loanType ?? 'personal';
-    _method = e?.interestMethod ?? 'reducing';
-    _frequency = e?.frequency ?? 'monthly';
-    _start = e?.startDate ?? dateKey(DateTime.now());
+    _type = e?.loanType ?? old?.loan.loanType ?? 'personal';
+    _method = e?.interestMethod ?? old?.loan.interestMethod ?? 'reducing';
+    _frequency = e?.frequency ?? old?.loan.frequency ?? 'monthly';
+    _start = e?.startDate ?? _todayOrAfter(old?.loan.startDate);
+    _closingDate = _start;
     _firstDue =
-        e?.firstDueDate ?? LoanCalculator.dueDateAt(_start, 'monthly', 1);
+        e?.firstDueDate ?? LoanCalculator.dueDateAt(_start, _frequency, 1);
     _firstDueTouched = e != null;
     for (final c in [_principal, _rate, _tenure, _installment]) {
       c.addListener(_refresh);
@@ -89,8 +127,15 @@ class _LoanFormSheetState extends ConsumerState<LoanFormSheet> {
 
   void _refresh() => setState(() {});
 
+  /// Today, but never before [floor] (the old loan's disbursement date).
+  static String _todayOrAfter(String? floor) {
+    final today = dateKey(DateTime.now());
+    return (floor != null && today.compareTo(floor) < 0) ? floor : today;
+  }
+
   @override
   void dispose() {
+    _remarks.dispose();
     for (final c in [
       _lender,
       _reference,
@@ -205,6 +250,29 @@ class _LoanFormSheetState extends ConsumerState<LoanFormSheet> {
     });
     final repo = ref.read(loanRepositoryProvider);
     try {
+      if (_adjusting) {
+        final created = await repo.adjust(
+          profileId: profileId,
+          loanId: widget.adjustFrom!.loan.id,
+          closedDate: _closingDate,
+          remarks: _remarks.text,
+          lenderName: _lender.text,
+          loanType: _type,
+          referenceNo: _reference.text,
+          principalMinor: principal,
+          interestRateBp: rateBp,
+          interestMethod: _method,
+          frequency: _frequency,
+          tenureCount: count,
+          installmentMinor: installment,
+          processingFeeMinor: fee,
+          startDate: _start,
+          firstDueDate: _firstDue,
+          note: _note.text,
+        );
+        if (mounted) Navigator.pop(context, created.loan.id);
+        return;
+      }
       if (widget.existing == null) {
         await repo.create(
           profileId: profileId,
@@ -273,9 +341,33 @@ class _LoanFormSheetState extends ConsumerState<LoanFormSheet> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.existing == null ? l.loansAdd : l.loansEdit,
+                _adjusting
+                    ? l.loansAdjustTitle
+                    : widget.existing == null
+                    ? l.loansAdd
+                    : l.loansEdit,
                 style: theme.textTheme.titleLarge,
               ),
+              if (_adjusting) ...[
+                const SizedBox(height: 4),
+                Text(l.loansAdjustHelper, style: theme.textTheme.bodySmall),
+                LoanDateTile(
+                  label: l.loansClosingDate,
+                  value: _closingDate,
+                  onTap: () async {
+                    final d = await _pick(_closingDate);
+                    if (d != null) setState(() => _closingDate = d);
+                  },
+                ),
+                TextFormField(
+                  key: const ValueKey('adjust-remarks'),
+                  controller: _remarks,
+                  maxLines: 2,
+                  decoration: InputDecoration(labelText: l.loansClosingRemarks),
+                ),
+                const Divider(height: 24),
+                Text(l.loansAdjustNewLoan, style: theme.textTheme.titleMedium),
+              ],
               const SizedBox(height: 12),
               TextFormField(
                 controller: _lender,

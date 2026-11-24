@@ -80,6 +80,25 @@ class LoanPosition {
   int get totalCostMinor => totalPayableMinor + loan.processingFeeMinor;
   int get remainingMinor => totalPayableMinor - paidMinor;
 
+  /// Interest still to be paid in the unpaid installments. What an early
+  /// settlement really costs is the lender quote, entered by hand.
+  int get remainingInterestMinor {
+    var interest = 0;
+    for (final i in schedule) {
+      if (i.status != InstallmentStatus.paid) interest += i.interestMinor;
+    }
+    return interest > remainingMinor ? remainingMinor : interest;
+  }
+
+  /// Principal still outstanding = remaining - remaining interest.
+  int get remainingPrincipalMinor => remainingMinor - remainingInterestMinor;
+
+  int get remainingInstallments =>
+      schedule.where((i) => i.status != InstallmentStatus.paid).length;
+
+  bool get isEarlyClosed => loan.closingType == 'early';
+  bool get isAdjusted => loan.closingType == 'adjusted';
+
   /// 0.0 .. 1.0
   double get progress =>
       totalPayableMinor <= 0 ? 0 : (paidMinor / totalPayableMinor).clamp(0, 1);
@@ -274,7 +293,7 @@ class LoanCalculator {
     );
     final schedule = allocate(base, paidMinor, today, payments: payments);
     final total = schedule.fold<int>(0, (s, i) => s + i.installmentMinor);
-    final status = paidMinor >= total
+    final status = (paidMinor >= total || loan.closingType != null)
         ? LoanStatus.closed
         : schedule.any((i) => i.status == InstallmentStatus.overdue)
         ? LoanStatus.overdue

@@ -11,6 +11,7 @@ import '../../features/onboarding/presentation/backup_reminder_card.dart';
 import '../../features/onboarding/presentation/setup_guide_card.dart';
 import '../../l10n/l10n.dart';
 import 'home_tab_provider.dart';
+import 'more_sheet.dart';
 
 /// Bottom-nav shell: Home, Budget, Add, Ledger, Reports.
 class HomeShell extends ConsumerStatefulWidget {
@@ -43,6 +44,11 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       appBar: AppBar(
         title: Text(titles[index]),
         actions: [
+          IconButton(
+            tooltip: l10n.appShellMore,
+            icon: const Icon(Icons.apps),
+            onPressed: () => showMoreSheet(context),
+          ),
           IconButton(
             tooltip: l10n.commonSearch,
             icon: const Icon(Icons.search),

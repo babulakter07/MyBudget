@@ -109,5 +109,8 @@
   "reportsMonth11Full": "November",
   "reportsMonth11Short": "Nov",
   "reportsMonth12Full": "December",
+  "reportsTransactions": "Transactions",
+  "reportsTxnTitle": "Title",
+  "reportsTxnComment": "Comment",
   "reportsMonth12Short": "Dec"
 }

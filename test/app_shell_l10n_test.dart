@@ -19,9 +19,6 @@ void main() {
       'সেটিংস',
       'মূল কনফিগারেশন',
       'বিনিময় হার',
-      'পুনরাবৃত্ত লেনদেন',
-      'সঞ্চয়ের লক্ষ্য',
-      'ঋণ ও ধার',
       'নিরাপত্তা',
       'ব্যাকআপ ও রিস্টোর',
       'ত্রুটির লগ শেয়ার করুন',
@@ -29,6 +26,9 @@ void main() {
     ]) {
       expect(find.text(t), findsOneWidget, reason: t);
     }
+    // Operations live in the Home More sheet, not in Settings.
+    expect(find.text('পুনরাবৃত্ত লেনদেন'), findsNothing);
+    expect(find.text('ঋণ ও ধার'), findsNothing);
     expect(find.text('Security'), findsNothing);
     expect(tester.takeException(), isNull);
   });

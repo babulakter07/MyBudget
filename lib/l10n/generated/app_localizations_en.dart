@@ -138,10 +138,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appShellExchangeRates => 'Exchange rates';
 
   @override
+  String get appShellFixedDeposits => 'Fixed deposits (FDR)';
+
+  @override
   String get appShellImportCsv => 'Import from CSV';
 
   @override
   String get appShellInsights => 'Insights';
+
+  @override
+  String get appShellMore => 'More';
 
   @override
   String get appShellNoErrorsLogged => 'No errors have been logged.';
@@ -169,6 +175,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appShellSectionMaster => 'Master Configuration';
+
+  @override
+  String get appShellSectionOperations => 'Operations';
 
   @override
   String get appShellSectionPlan => 'Plan';
@@ -1658,6 +1667,268 @@ class AppLocalizationsEn extends AppLocalizations {
   String get debtsVoided => 'Voided';
 
   @override
+  String get fixedDepositsAdd => 'Add deposit';
+
+  @override
+  String get fixedDepositsAmountPositive => 'Amount must be greater than zero';
+
+  @override
+  String get fixedDepositsArchived => 'Archived';
+
+  @override
+  String get fixedDepositsBadgeReissued => 'Reissued';
+
+  @override
+  String get fixedDepositsBank => 'Bank';
+
+  @override
+  String get fixedDepositsBankRequired => 'Enter the bank name';
+
+  @override
+  String get fixedDepositsBeneficiary => 'Beneficiary name';
+
+  @override
+  String fixedDepositsCalculatedNet(String amount) {
+    return 'Calculated net: $amount';
+  }
+
+  @override
+  String get fixedDepositsClosedBanner => 'This deposit is closed (encashed).';
+
+  @override
+  String fixedDepositsClosedOn(String date) {
+    return 'Closed on $date';
+  }
+
+  @override
+  String get fixedDepositsClosingCharge => 'Bank charge';
+
+  @override
+  String get fixedDepositsClosingDate => 'Closing date';
+
+  @override
+  String get fixedDepositsClosingInterest => 'Interest received';
+
+  @override
+  String get fixedDepositsClosingTax => 'Tax deducted';
+
+  @override
+  String fixedDepositsDaysLeft(int days) {
+    return '$days days left';
+  }
+
+  @override
+  String get fixedDepositsEditDetails => 'Edit bank details';
+
+  @override
+  String get fixedDepositsEditInstrument => 'Edit instrument';
+
+  @override
+  String get fixedDepositsEditTitle => 'Edit deposit';
+
+  @override
+  String get fixedDepositsEmpty =>
+      'No deposits yet. Tap + to add an FDR, DPS or savings certificate.';
+
+  @override
+  String get fixedDepositsEncash => 'Encash';
+
+  @override
+  String get fixedDepositsEncashNote =>
+      'After encashing, this deposit is closed and its instrument can no longer be edited.';
+
+  @override
+  String get fixedDepositsEncashTitle => 'Encash deposit';
+
+  @override
+  String get fixedDepositsExpectedInterest => 'Expected interest';
+
+  @override
+  String get fixedDepositsExpectedNote =>
+      'An estimate (simple interest on 365 days). You enter the bank figure when you close it.';
+
+  @override
+  String get fixedDepositsFinalNet => 'Final net received (optional)';
+
+  @override
+  String get fixedDepositsFinalNetHelper =>
+      'Fill only if the bank paid a different amount.';
+
+  @override
+  String get fixedDepositsHistory => 'Instrument history';
+
+  @override
+  String fixedDepositsInstrumentNo(int no) {
+    return 'Instrument #$no';
+  }
+
+  @override
+  String get fixedDepositsInstrumentNumber => 'Instrument number';
+
+  @override
+  String get fixedDepositsInstrumentRequired => 'Enter the instrument number';
+
+  @override
+  String fixedDepositsInstrumentRow(String number) {
+    return 'Instrument $number';
+  }
+
+  @override
+  String fixedDepositsInterestHelper(int days) {
+    return 'Suggested for $days days. Change it to the amount the bank paid.';
+  }
+
+  @override
+  String get fixedDepositsInterestRate => 'Interest rate (% per year)';
+
+  @override
+  String get fixedDepositsInvalidAmount => 'Enter a valid amount';
+
+  @override
+  String get fixedDepositsInvalidRate => 'Enter a rate between 0 and 100';
+
+  @override
+  String get fixedDepositsInvalidTenure => 'Enter 1 to 36500 days';
+
+  @override
+  String get fixedDepositsIssueDate => 'Issue date';
+
+  @override
+  String get fixedDepositsListTitle => 'Fixed deposits';
+
+  @override
+  String fixedDepositsMaturedAgo(int days) {
+    return 'Matured $days days ago';
+  }
+
+  @override
+  String fixedDepositsMaturedAlert(int count) {
+    return '$count matured: encash or reissue';
+  }
+
+  @override
+  String get fixedDepositsMaturedBanner =>
+      'This deposit has matured. Encash it or reissue it as a new instrument.';
+
+  @override
+  String get fixedDepositsMaturesToday => 'Matures today';
+
+  @override
+  String get fixedDepositsMaturityDate => 'Maturity date';
+
+  @override
+  String get fixedDepositsNetMustBePositive =>
+      'Net received must be greater than zero to reissue';
+
+  @override
+  String get fixedDepositsNetReceived => 'Net received';
+
+  @override
+  String get fixedDepositsNewInstrument => 'New instrument';
+
+  @override
+  String get fixedDepositsNewInstrumentNumber => 'New instrument number';
+
+  @override
+  String fixedDepositsNewPrincipal(String amount) {
+    return 'New principal = net received: $amount';
+  }
+
+  @override
+  String fixedDepositsNextMaturity(String date, String amount) {
+    return 'Next maturity $date • $amount';
+  }
+
+  @override
+  String get fixedDepositsNotFound => 'Deposit not found.';
+
+  @override
+  String get fixedDepositsNote => 'Note';
+
+  @override
+  String get fixedDepositsOutcomeEncashed => 'Encashed';
+
+  @override
+  String get fixedDepositsOutcomeReissued => 'Reissued';
+
+  @override
+  String get fixedDepositsOutcomeRunning => 'Running';
+
+  @override
+  String get fixedDepositsPrincipal => 'Principal';
+
+  @override
+  String fixedDepositsRatePerYear(String rate) {
+    return '$rate% per year';
+  }
+
+  @override
+  String get fixedDepositsReissue => 'Reissue';
+
+  @override
+  String get fixedDepositsReissueDate => 'Reissue date';
+
+  @override
+  String get fixedDepositsReissueTitle => 'Reissue deposit';
+
+  @override
+  String fixedDepositsReissuedFrom(int no) {
+    return 'Reissued from #$no';
+  }
+
+  @override
+  String get fixedDepositsSchemeDps => 'DPS';
+
+  @override
+  String get fixedDepositsSchemeFdr => 'FDR';
+
+  @override
+  String get fixedDepositsSchemeRequired => 'Enter the scheme type';
+
+  @override
+  String get fixedDepositsSchemeSanchaypatra => 'Sanchaypatra';
+
+  @override
+  String get fixedDepositsSchemeType => 'Scheme type';
+
+  @override
+  String get fixedDepositsShowArchived => 'Show archived deposits';
+
+  @override
+  String get fixedDepositsStatusActive => 'Active';
+
+  @override
+  String get fixedDepositsStatusClosed => 'Closed';
+
+  @override
+  String get fixedDepositsStatusMatured => 'Matured';
+
+  @override
+  String get fixedDepositsSummaryInterest => 'Expected interest';
+
+  @override
+  String get fixedDepositsSummaryOpen => 'Open';
+
+  @override
+  String get fixedDepositsSummaryPlaced => 'Placed';
+
+  @override
+  String get fixedDepositsTenureDays => 'Tenure (days)';
+
+  @override
+  String fixedDepositsTenureHelper(String months) {
+    return '≈ $months months (30 days = 1 month)';
+  }
+
+  @override
+  String fixedDepositsTenureValue(int days, String months) {
+    return '$days days (~$months months)';
+  }
+
+  @override
+  String get fixedDepositsTitle => 'Deposit';
+
+  @override
   String goalsAccountLine(String account) {
     return 'Account: $account';
   }
@@ -2161,7 +2432,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loansAdd => 'Add loan';
 
   @override
+  String get loansAdjust => 'Adjust / top-up';
+
+  @override
+  String get loansAdjustHelper =>
+      'The current loan is closed and a new loan replaces it. The amount is prefilled with the principal you still owe; add new money if you are topping up.';
+
+  @override
+  String get loansAdjustNewLoan => 'New loan';
+
+  @override
+  String get loansAdjustTitle => 'Adjust loan';
+
+  @override
+  String get loansAdjusted => 'Adjusted';
+
+  @override
+  String get loansAdjustedFromBanner =>
+      'This loan replaced an earlier loan (adjustment).';
+
+  @override
   String get loansAmount => 'Amount';
+
+  @override
+  String get loansAmountPaidToClose => 'Amount paid to close (optional)';
 
   @override
   String get loansAmountPositive => 'Amount must be greater than zero';
@@ -2175,7 +2469,46 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String loansBannerAdjusted(String date) {
+    return 'Adjusted on $date: replaced by a new loan';
+  }
+
+  @override
+  String loansBannerEarly(String date) {
+    return 'Closed early on $date';
+  }
+
+  @override
+  String loansBannerPaid(String amount) {
+    return 'Paid to close: $amount';
+  }
+
+  @override
+  String loansBannerRemarks(String remarks) {
+    return 'Remarks: $remarks';
+  }
+
+  @override
+  String get loansCloseEarly => 'Close early';
+
+  @override
+  String get loansCloseEarlyNote =>
+      'The rest of the schedule is waived and the loan becomes history. An amount you enter is recorded as a payment on the closing date.';
+
+  @override
+  String get loansCloseEarlyTitle => 'Close loan early';
+
+  @override
+  String get loansClosedEarly => 'Early closed';
+
+  @override
   String get loansClosedMessage => 'Loan fully paid';
+
+  @override
+  String get loansClosingDate => 'Closing date';
+
+  @override
+  String get loansClosingRemarks => 'Remarks';
 
   @override
   String loansDueOn(String date) {
@@ -2367,6 +2700,15 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get loansRemainingInstallments => 'Remaining installments';
+
+  @override
+  String get loansRemainingInterest => 'Remaining interest';
+
+  @override
+  String get loansRemainingPrincipal => 'Remaining principal';
+
+  @override
   String get loansSchedule => 'Schedule';
 
   @override
@@ -2441,6 +2783,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get loansUnarchive => 'Unarchive';
 
   @override
+  String get loansViewPrevious => 'View the previous loan';
+
+  @override
+  String get loansViewReplacement => 'View the new loan';
+
+  @override
   String get loansVoid => 'Void';
 
   @override
@@ -2462,6 +2810,9 @@ class AppLocalizationsEn extends AppLocalizations {
       'Warn me at 80% and when I go over a budget';
 
   @override
+  String get notificationsBudgetSound => 'Budget alert sound';
+
+  @override
   String notificationsBudgetWarningBody(String spent, String budget) {
     return 'You have used 80% of your budget ($spent of $budget).';
   }
@@ -2472,13 +2823,50 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String notificationsCardName(String card) {
+    return '$card card bill';
+  }
+
+  @override
   String get notificationsCategoryFallback => 'Category';
 
   @override
   String get notificationsCollectTitle => 'Money to collect';
 
   @override
+  String notificationsDaysAfter(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days after',
+      one: '1 day after',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsDaysBefore(int days) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days before',
+      one: '1 day before',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String notificationsDebtBorrowedName(String person) {
+    return 'Debt to $person';
+  }
+
+  @override
   String get notificationsDebtDueTitle => 'Debt payment due';
+
+  @override
+  String notificationsDebtLentName(String person) {
+    return '$person (to collect)';
+  }
 
   @override
   String notificationsDueInDays(
@@ -2501,7 +2889,110 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notificationsExpireReminder => 'Remind once after it expires';
+
+  @override
+  String get notificationsExpireReminderSubtitle =>
+      'One reminder if it is still unpaid after the date';
+
+  @override
+  String notificationsFdrBodyToday(
+    String scheme,
+    String number,
+    String bank,
+    String amount,
+  ) {
+    return '$scheme $number of $bank matures today. Principal $amount.';
+  }
+
+  @override
+  String notificationsFdrBodyTomorrow(
+    String scheme,
+    String number,
+    String bank,
+    String amount,
+  ) {
+    return '$scheme $number of $bank matures tomorrow. Principal $amount.';
+  }
+
+  @override
+  String notificationsFdrBodyUpcoming(
+    String scheme,
+    String number,
+    String bank,
+    int days,
+    String date,
+    String amount,
+  ) {
+    return '$scheme $number of $bank matures in $days days ($date). Principal $amount.';
+  }
+
+  @override
+  String notificationsFdrTitle(String scheme) {
+    return '$scheme maturing';
+  }
+
+  @override
+  String notificationsFiresAt(String when) {
+    return 'Notifies on $when';
+  }
+
+  @override
+  String notificationsFiresAtOff(String when) {
+    return 'Switched off ($when)';
+  }
+
+  @override
+  String notificationsItemExpiredBody(String name, String amount, String date) {
+    return '$name ($amount) was due on $date and is still unpaid.';
+  }
+
+  @override
+  String notificationsItemExpiredTitle(String name) {
+    return 'Overdue: $name';
+  }
+
+  @override
+  String notificationsItemTodayBody(String name, String amount) {
+    return '$name ($amount) is due today.';
+  }
+
+  @override
+  String notificationsItemTodayTitle(String name) {
+    return 'Due today: $name';
+  }
+
+  @override
+  String notificationsItemUpcomingBody(
+    String name,
+    String amount,
+    int days,
+    String date,
+  ) {
+    String _temp0 = intl.Intl.pluralLogic(
+      days,
+      locale: localeName,
+      other: '$days days',
+      one: '1 day',
+    );
+    return '$name ($amount) is due in $_temp0 ($date). Get ready.';
+  }
+
+  @override
+  String notificationsItemUpcomingTitle(String name) {
+    return 'Upcoming: $name';
+  }
+
+  @override
+  String notificationsLoanName(String lender, int no) {
+    return '$lender installment #$no';
+  }
+
+  @override
   String get notificationsMonthlyBudget => 'Monthly budget';
+
+  @override
+  String get notificationsOff => 'Off';
 
   @override
   String notificationsOverBudgetBody(String spent, String budget) {
@@ -2528,6 +3019,21 @@ class AppLocalizationsEn extends AppLocalizations {
       'Notification permission was denied. Allow notifications for MyBudget in the system settings, then turn this on again.';
 
   @override
+  String get notificationsPhaseExpired => 'Expired';
+
+  @override
+  String get notificationsPhaseToday => 'Due day';
+
+  @override
+  String get notificationsPhaseUpcoming => 'Upcoming';
+
+  @override
+  String get notificationsPickDays => 'Number of days';
+
+  @override
+  String get notificationsReminderSound => 'Reminder sound';
+
+  @override
   String get notificationsReminderTime => 'Reminder time';
 
   @override
@@ -2538,7 +3044,24 @@ class AppLocalizationsEn extends AppLocalizations {
       'Remind me before recurring bills and debt due dates';
 
   @override
+  String get notificationsScheduleEmpty =>
+      'No upcoming reminders. Add a due date to a loan, card bill, debt or recurring task.';
+
+  @override
+  String get notificationsScheduleOffBanner =>
+      'Reminders are switched off, so none of these will be delivered. Turn them on in Notification settings.';
+
+  @override
   String get notificationsSendTest => 'Send test notification';
+
+  @override
+  String get notificationsSoundCustom => 'Custom sound';
+
+  @override
+  String get notificationsSoundDefault => 'Default';
+
+  @override
+  String get notificationsSoundSilent => 'Silent';
 
   @override
   String get notificationsTestBody => 'Notifications are working.';
@@ -2556,9 +3079,26 @@ class AppLocalizationsEn extends AppLocalizations {
   String get notificationsTitle => 'Notifications';
 
   @override
+  String get notificationsTodayReminder => 'Remind on the due day';
+
+  @override
+  String get notificationsTodayReminderSubtitle =>
+      'A notification on the day an installment, bill or task is due';
+
+  @override
+  String get notificationsUpcomingReminder => 'Remind before the due date';
+
+  @override
   String notificationsUpcomingTitle(String title) {
     return 'Upcoming: $title';
   }
+
+  @override
+  String get notificationsViewSchedule => 'Notification schedule';
+
+  @override
+  String get notificationsViewScheduleSubtitle =>
+      'See when each reminder will fire and switch single ones off';
 
   @override
   String notificationsYouOweToday(String person, String amount) {
@@ -2757,6 +3297,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recurringPause => 'Pause';
+
+  @override
+  String get recurringReminderDefault => 'Default (notification settings)';
 
   @override
   String get recurringResume => 'Resume';
@@ -3024,6 +3567,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reportsTotal => 'Total';
+
+  @override
+  String get reportsTransactions => 'Transactions';
+
+  @override
+  String get reportsTxnComment => 'Comment';
+
+  @override
+  String get reportsTxnTitle => 'Title';
 
   @override
   String get reportsUtilization => 'Utilization';

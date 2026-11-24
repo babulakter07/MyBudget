@@ -56,6 +56,21 @@ class Loans extends Table {
   /// Due date of the first installment 'yyyy-MM-dd'.
   TextColumn get firstDueDate => text()();
   TextColumn get note => text().nullable()();
+
+  /// Schema v7: how the loan was closed before its schedule ran out.
+  /// 'early' (settled early) | 'adjusted' (rolled into a newer loan); null
+  /// while the loan runs or when it was simply paid off.
+  TextColumn get closingType => text().nullable()();
+
+  /// Closing date 'yyyy-MM-dd' and the user's remarks (v7).
+  TextColumn get closedDate => text().nullable()();
+  TextColumn get closingRemarks => text().nullable()();
+
+  /// Amount paid to settle an early closure (also recorded as a payment).
+  IntColumn get closingPaidMinor => integer().nullable()();
+
+  /// The loan this one replaced (adjustment / top-up), null otherwise (v7).
+  IntColumn get parentLoanId => integer().nullable()();
   BoolColumn get isActive => boolean().withDefault(const Constant(true))();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime()();
@@ -68,6 +83,7 @@ class Loans extends Table {
   @override
   List<String> get customConstraints => [
     'FOREIGN KEY (profile_id) REFERENCES financial_profiles (id)',
+    "CHECK (closing_type IS NULL OR closing_type IN ('early','adjusted'))",
     "CHECK (loan_type IN ('personal','home','vehicle','education','business','other'))",
     "CHECK (interest_method IN ('reducing','flat'))",
     "CHECK (frequency IN ('weekly','monthly','yearly'))",

@@ -103,6 +103,32 @@ int? permille(int part, int whole) {
   return (part * 1000 + whole ~/ 2) ~/ whole;
 }
 
+/// One income/expense transaction line for the report's transaction list.
+class ReportTxn {
+  const ReportTxn({
+    required this.date,
+    required this.type,
+    required this.categoryName,
+    required this.itemName,
+    required this.amountMinor,
+    this.title,
+    this.remarks,
+  });
+
+  /// 'yyyy-MM-dd'.
+  final String date;
+
+  /// 'income' or 'expense'.
+  final String type;
+  final String categoryName;
+  final String itemName;
+  final int amountMinor;
+
+  /// Optional user input; null when blank.
+  final String? title;
+  final String? remarks;
+}
+
 class MonthlyReport {
   const MonthlyReport({
     required this.profileId,
@@ -118,6 +144,7 @@ class MonthlyReport {
     required this.items,
     required this.daily,
     required this.accounts,
+    this.transactions = const [],
   });
 
   final int profileId;
@@ -137,6 +164,9 @@ class MonthlyReport {
   /// One entry per calendar day of the month (zeros included).
   final List<DailyTotal> daily;
   final List<AccountMovement> accounts;
+
+  /// Income and expense lines (with optional title / comment), by date.
+  final List<ReportTxn> transactions;
 
   int get netMinor => incomeMinor - expenseMinor;
 
@@ -268,6 +298,7 @@ class RangeReport {
     required this.subCategories,
     required this.items,
     required this.daily,
+    this.transactions = const [],
   });
 
   final int profileId;
@@ -285,6 +316,9 @@ class RangeReport {
 
   /// Expense per day for every day in the range (zeros included).
   final List<DailyTotal> daily;
+
+  /// Income and expense lines (with optional title / comment), by date.
+  final List<ReportTxn> transactions;
 
   int get netMinor => incomeMinor - expenseMinor;
   bool get isEmpty => incomeMinor == 0 && expenseMinor == 0;

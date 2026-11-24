@@ -71,5 +71,6 @@
     }
   },
   "recurringSaveChanges": "Save changes",
-  "recurringCreateRule": "Create rule"
+  "recurringCreateRule": "Create rule",
+  "recurringReminderDefault": "Default (notification settings)"
 }

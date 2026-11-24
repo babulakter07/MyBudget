@@ -86,7 +86,7 @@ class RecurringRepository {
       }
     }
     final r = i.remindDaysBefore;
-    if (r != null && (r < 0 || r > 30)) {
+    if (r != null && (r < -1 || r > 30)) {
       throw ValidationException('Reminder must be between 0 and 30 days.');
     }
 

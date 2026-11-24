@@ -156,5 +156,47 @@
     "placeholders": { "amount": { "type": "String" } }
   },
   "loansVoid": "Void",
-  "loansVoided": "Voided"
+  "loansVoided": "Voided",
+  "loansClosedEarly": "Early closed",
+  "loansAdjusted": "Adjusted",
+  "loansCloseEarly": "Close early",
+  "loansAdjust": "Adjust / top-up",
+  "loansCloseEarlyTitle": "Close loan early",
+  "loansClosingDate": "Closing date",
+  "loansClosingRemarks": "Remarks",
+  "loansAmountPaidToClose": "Amount paid to close (optional)",
+  "loansRemainingPrincipal": "Remaining principal",
+  "loansRemainingInterest": "Remaining interest",
+  "loansRemainingInstallments": "Remaining installments",
+  "loansCloseEarlyNote": "The rest of the schedule is waived and the loan becomes history. An amount you enter is recorded as a payment on the closing date.",
+  "loansBannerEarly": "Closed early on {date}",
+  "@loansBannerEarly": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "loansBannerAdjusted": "Adjusted on {date}: replaced by a new loan",
+  "@loansBannerAdjusted": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "loansBannerPaid": "Paid to close: {amount}",
+  "@loansBannerPaid": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "loansBannerRemarks": "Remarks: {remarks}",
+  "@loansBannerRemarks": {
+    "placeholders": {
+      "remarks": { "type": "String" }
+    }
+  },
+  "loansViewReplacement": "View the new loan",
+  "loansViewPrevious": "View the previous loan",
+  "loansAdjustedFromBanner": "This loan replaced an earlier loan (adjustment).",
+  "loansAdjustTitle": "Adjust loan",
+  "loansAdjustHelper": "The current loan is closed and a new loan replaces it. The amount is prefilled with the principal you still owe; add new money if you are topping up.",
+  "loansAdjustNewLoan": "New loan"
 }

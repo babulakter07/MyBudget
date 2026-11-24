@@ -9,8 +9,10 @@ const String backupFormatName = 'mybudget-backup';
 /// columns; older files restore with an empty table and NULL columns);
 /// 4 = adds schema v6 (`loans`, `loan_payments`, `credit_cards`,
 /// `credit_card_bills`, `credit_card_payments`; older files restore with
-/// empty tables).
-const int backupFormatVersion = 4;
+/// empty tables);
+/// 5 = adds schema v7 (`fixed_deposits`, `fixed_deposit_terms`; older files
+/// restore with empty tables).
+const int backupFormatVersion = 5;
 
 /// Origin of a backup file. Encoded in the file name prefix.
 enum BackupKind {

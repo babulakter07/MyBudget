@@ -36,6 +36,9 @@ Future<void> _teardown(WidgetTester tester, AppDatabase db) async {
 
 void main() {
   testWidgets('toggle on requests permission and persists', (tester) async {
+    tester.view.devicePixelRatio = 1.0;
+    tester.view.physicalSize = const Size(800, 2400);
+    addTearDown(tester.view.reset);
     SharedPreferences.setMockInitialValues({});
     final prefs = await SharedPreferences.getInstance();
     final db = AppDatabase.memory();

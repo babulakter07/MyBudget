@@ -338,6 +338,12 @@ abstract class AppLocalizations {
   /// **'Exchange rates'**
   String get appShellExchangeRates;
 
+  /// No description provided for @appShellFixedDeposits.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed deposits (FDR)'**
+  String get appShellFixedDeposits;
+
   /// No description provided for @appShellImportCsv.
   ///
   /// In en, this message translates to:
@@ -349,6 +355,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Insights'**
   String get appShellInsights;
+
+  /// No description provided for @appShellMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get appShellMore;
 
   /// No description provided for @appShellNoErrorsLogged.
   ///
@@ -403,6 +415,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Master Configuration'**
   String get appShellSectionMaster;
+
+  /// No description provided for @appShellSectionOperations.
+  ///
+  /// In en, this message translates to:
+  /// **'Operations'**
+  String get appShellSectionOperations;
 
   /// No description provided for @appShellSectionPlan.
   ///
@@ -3016,6 +3034,462 @@ abstract class AppLocalizations {
   /// **'Voided'**
   String get debtsVoided;
 
+  /// No description provided for @fixedDepositsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add deposit'**
+  String get fixedDepositsAdd;
+
+  /// No description provided for @fixedDepositsAmountPositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount must be greater than zero'**
+  String get fixedDepositsAmountPositive;
+
+  /// No description provided for @fixedDepositsArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get fixedDepositsArchived;
+
+  /// No description provided for @fixedDepositsBadgeReissued.
+  ///
+  /// In en, this message translates to:
+  /// **'Reissued'**
+  String get fixedDepositsBadgeReissued;
+
+  /// No description provided for @fixedDepositsBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank'**
+  String get fixedDepositsBank;
+
+  /// No description provided for @fixedDepositsBankRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the bank name'**
+  String get fixedDepositsBankRequired;
+
+  /// No description provided for @fixedDepositsBeneficiary.
+  ///
+  /// In en, this message translates to:
+  /// **'Beneficiary name'**
+  String get fixedDepositsBeneficiary;
+
+  /// No description provided for @fixedDepositsCalculatedNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated net: {amount}'**
+  String fixedDepositsCalculatedNet(String amount);
+
+  /// No description provided for @fixedDepositsClosedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This deposit is closed (encashed).'**
+  String get fixedDepositsClosedBanner;
+
+  /// No description provided for @fixedDepositsClosedOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed on {date}'**
+  String fixedDepositsClosedOn(String date);
+
+  /// No description provided for @fixedDepositsClosingCharge.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank charge'**
+  String get fixedDepositsClosingCharge;
+
+  /// No description provided for @fixedDepositsClosingDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing date'**
+  String get fixedDepositsClosingDate;
+
+  /// No description provided for @fixedDepositsClosingInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest received'**
+  String get fixedDepositsClosingInterest;
+
+  /// No description provided for @fixedDepositsClosingTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax deducted'**
+  String get fixedDepositsClosingTax;
+
+  /// No description provided for @fixedDepositsDaysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days left'**
+  String fixedDepositsDaysLeft(int days);
+
+  /// No description provided for @fixedDepositsEditDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit bank details'**
+  String get fixedDepositsEditDetails;
+
+  /// No description provided for @fixedDepositsEditInstrument.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit instrument'**
+  String get fixedDepositsEditInstrument;
+
+  /// No description provided for @fixedDepositsEditTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit deposit'**
+  String get fixedDepositsEditTitle;
+
+  /// No description provided for @fixedDepositsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No deposits yet. Tap + to add an FDR, DPS or savings certificate.'**
+  String get fixedDepositsEmpty;
+
+  /// No description provided for @fixedDepositsEncash.
+  ///
+  /// In en, this message translates to:
+  /// **'Encash'**
+  String get fixedDepositsEncash;
+
+  /// No description provided for @fixedDepositsEncashNote.
+  ///
+  /// In en, this message translates to:
+  /// **'After encashing, this deposit is closed and its instrument can no longer be edited.'**
+  String get fixedDepositsEncashNote;
+
+  /// No description provided for @fixedDepositsEncashTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Encash deposit'**
+  String get fixedDepositsEncashTitle;
+
+  /// No description provided for @fixedDepositsExpectedInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected interest'**
+  String get fixedDepositsExpectedInterest;
+
+  /// No description provided for @fixedDepositsExpectedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'An estimate (simple interest on 365 days). You enter the bank figure when you close it.'**
+  String get fixedDepositsExpectedNote;
+
+  /// No description provided for @fixedDepositsFinalNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Final net received (optional)'**
+  String get fixedDepositsFinalNet;
+
+  /// No description provided for @fixedDepositsFinalNetHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill only if the bank paid a different amount.'**
+  String get fixedDepositsFinalNetHelper;
+
+  /// No description provided for @fixedDepositsHistory.
+  ///
+  /// In en, this message translates to:
+  /// **'Instrument history'**
+  String get fixedDepositsHistory;
+
+  /// No description provided for @fixedDepositsInstrumentNo.
+  ///
+  /// In en, this message translates to:
+  /// **'Instrument #{no}'**
+  String fixedDepositsInstrumentNo(int no);
+
+  /// No description provided for @fixedDepositsInstrumentNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Instrument number'**
+  String get fixedDepositsInstrumentNumber;
+
+  /// No description provided for @fixedDepositsInstrumentRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the instrument number'**
+  String get fixedDepositsInstrumentRequired;
+
+  /// No description provided for @fixedDepositsInstrumentRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Instrument {number}'**
+  String fixedDepositsInstrumentRow(String number);
+
+  /// No description provided for @fixedDepositsInterestHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested for {days} days. Change it to the amount the bank paid.'**
+  String fixedDepositsInterestHelper(int days);
+
+  /// No description provided for @fixedDepositsInterestRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Interest rate (% per year)'**
+  String get fixedDepositsInterestRate;
+
+  /// No description provided for @fixedDepositsInvalidAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid amount'**
+  String get fixedDepositsInvalidAmount;
+
+  /// No description provided for @fixedDepositsInvalidRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a rate between 0 and 100'**
+  String get fixedDepositsInvalidRate;
+
+  /// No description provided for @fixedDepositsInvalidTenure.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter 1 to 36500 days'**
+  String get fixedDepositsInvalidTenure;
+
+  /// No description provided for @fixedDepositsIssueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue date'**
+  String get fixedDepositsIssueDate;
+
+  /// No description provided for @fixedDepositsListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed deposits'**
+  String get fixedDepositsListTitle;
+
+  /// No description provided for @fixedDepositsMaturedAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'Matured {days} days ago'**
+  String fixedDepositsMaturedAgo(int days);
+
+  /// No description provided for @fixedDepositsMaturedAlert.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} matured: encash or reissue'**
+  String fixedDepositsMaturedAlert(int count);
+
+  /// No description provided for @fixedDepositsMaturedBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This deposit has matured. Encash it or reissue it as a new instrument.'**
+  String get fixedDepositsMaturedBanner;
+
+  /// No description provided for @fixedDepositsMaturesToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Matures today'**
+  String get fixedDepositsMaturesToday;
+
+  /// No description provided for @fixedDepositsMaturityDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Maturity date'**
+  String get fixedDepositsMaturityDate;
+
+  /// No description provided for @fixedDepositsNetMustBePositive.
+  ///
+  /// In en, this message translates to:
+  /// **'Net received must be greater than zero to reissue'**
+  String get fixedDepositsNetMustBePositive;
+
+  /// No description provided for @fixedDepositsNetReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Net received'**
+  String get fixedDepositsNetReceived;
+
+  /// No description provided for @fixedDepositsNewInstrument.
+  ///
+  /// In en, this message translates to:
+  /// **'New instrument'**
+  String get fixedDepositsNewInstrument;
+
+  /// No description provided for @fixedDepositsNewInstrumentNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'New instrument number'**
+  String get fixedDepositsNewInstrumentNumber;
+
+  /// No description provided for @fixedDepositsNewPrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'New principal = net received: {amount}'**
+  String fixedDepositsNewPrincipal(String amount);
+
+  /// No description provided for @fixedDepositsNextMaturity.
+  ///
+  /// In en, this message translates to:
+  /// **'Next maturity {date} • {amount}'**
+  String fixedDepositsNextMaturity(String date, String amount);
+
+  /// No description provided for @fixedDepositsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit not found.'**
+  String get fixedDepositsNotFound;
+
+  /// No description provided for @fixedDepositsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note'**
+  String get fixedDepositsNote;
+
+  /// No description provided for @fixedDepositsOutcomeEncashed.
+  ///
+  /// In en, this message translates to:
+  /// **'Encashed'**
+  String get fixedDepositsOutcomeEncashed;
+
+  /// No description provided for @fixedDepositsOutcomeReissued.
+  ///
+  /// In en, this message translates to:
+  /// **'Reissued'**
+  String get fixedDepositsOutcomeReissued;
+
+  /// No description provided for @fixedDepositsOutcomeRunning.
+  ///
+  /// In en, this message translates to:
+  /// **'Running'**
+  String get fixedDepositsOutcomeRunning;
+
+  /// No description provided for @fixedDepositsPrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'Principal'**
+  String get fixedDepositsPrincipal;
+
+  /// No description provided for @fixedDepositsRatePerYear.
+  ///
+  /// In en, this message translates to:
+  /// **'{rate}% per year'**
+  String fixedDepositsRatePerYear(String rate);
+
+  /// No description provided for @fixedDepositsReissue.
+  ///
+  /// In en, this message translates to:
+  /// **'Reissue'**
+  String get fixedDepositsReissue;
+
+  /// No description provided for @fixedDepositsReissueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Reissue date'**
+  String get fixedDepositsReissueDate;
+
+  /// No description provided for @fixedDepositsReissueTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reissue deposit'**
+  String get fixedDepositsReissueTitle;
+
+  /// No description provided for @fixedDepositsReissuedFrom.
+  ///
+  /// In en, this message translates to:
+  /// **'Reissued from #{no}'**
+  String fixedDepositsReissuedFrom(int no);
+
+  /// No description provided for @fixedDepositsSchemeDps.
+  ///
+  /// In en, this message translates to:
+  /// **'DPS'**
+  String get fixedDepositsSchemeDps;
+
+  /// No description provided for @fixedDepositsSchemeFdr.
+  ///
+  /// In en, this message translates to:
+  /// **'FDR'**
+  String get fixedDepositsSchemeFdr;
+
+  /// No description provided for @fixedDepositsSchemeRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter the scheme type'**
+  String get fixedDepositsSchemeRequired;
+
+  /// No description provided for @fixedDepositsSchemeSanchaypatra.
+  ///
+  /// In en, this message translates to:
+  /// **'Sanchaypatra'**
+  String get fixedDepositsSchemeSanchaypatra;
+
+  /// No description provided for @fixedDepositsSchemeType.
+  ///
+  /// In en, this message translates to:
+  /// **'Scheme type'**
+  String get fixedDepositsSchemeType;
+
+  /// No description provided for @fixedDepositsShowArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Show archived deposits'**
+  String get fixedDepositsShowArchived;
+
+  /// No description provided for @fixedDepositsStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get fixedDepositsStatusActive;
+
+  /// No description provided for @fixedDepositsStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get fixedDepositsStatusClosed;
+
+  /// No description provided for @fixedDepositsStatusMatured.
+  ///
+  /// In en, this message translates to:
+  /// **'Matured'**
+  String get fixedDepositsStatusMatured;
+
+  /// No description provided for @fixedDepositsSummaryInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected interest'**
+  String get fixedDepositsSummaryInterest;
+
+  /// No description provided for @fixedDepositsSummaryOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get fixedDepositsSummaryOpen;
+
+  /// No description provided for @fixedDepositsSummaryPlaced.
+  ///
+  /// In en, this message translates to:
+  /// **'Placed'**
+  String get fixedDepositsSummaryPlaced;
+
+  /// No description provided for @fixedDepositsTenureDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Tenure (days)'**
+  String get fixedDepositsTenureDays;
+
+  /// No description provided for @fixedDepositsTenureHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {months} months (30 days = 1 month)'**
+  String fixedDepositsTenureHelper(String months);
+
+  /// No description provided for @fixedDepositsTenureValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} days (~{months} months)'**
+  String fixedDepositsTenureValue(int days, String months);
+
+  /// No description provided for @fixedDepositsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit'**
+  String get fixedDepositsTitle;
+
   /// No description provided for @goalsAccountLine.
   ///
   /// In en, this message translates to:
@@ -3831,11 +4305,53 @@ abstract class AppLocalizations {
   /// **'Add loan'**
   String get loansAdd;
 
+  /// No description provided for @loansAdjust.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust / top-up'**
+  String get loansAdjust;
+
+  /// No description provided for @loansAdjustHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'The current loan is closed and a new loan replaces it. The amount is prefilled with the principal you still owe; add new money if you are topping up.'**
+  String get loansAdjustHelper;
+
+  /// No description provided for @loansAdjustNewLoan.
+  ///
+  /// In en, this message translates to:
+  /// **'New loan'**
+  String get loansAdjustNewLoan;
+
+  /// No description provided for @loansAdjustTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust loan'**
+  String get loansAdjustTitle;
+
+  /// No description provided for @loansAdjusted.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjusted'**
+  String get loansAdjusted;
+
+  /// No description provided for @loansAdjustedFromBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'This loan replaced an earlier loan (adjustment).'**
+  String get loansAdjustedFromBanner;
+
   /// No description provided for @loansAmount.
   ///
   /// In en, this message translates to:
   /// **'Amount'**
   String get loansAmount;
+
+  /// No description provided for @loansAmountPaidToClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount paid to close (optional)'**
+  String get loansAmountPaidToClose;
 
   /// No description provided for @loansAmountPositive.
   ///
@@ -3855,11 +4371,71 @@ abstract class AppLocalizations {
   /// **'Balance {amount}'**
   String loansBalanceAfter(String amount);
 
+  /// No description provided for @loansBannerAdjusted.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjusted on {date}: replaced by a new loan'**
+  String loansBannerAdjusted(String date);
+
+  /// No description provided for @loansBannerEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed early on {date}'**
+  String loansBannerEarly(String date);
+
+  /// No description provided for @loansBannerPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid to close: {amount}'**
+  String loansBannerPaid(String amount);
+
+  /// No description provided for @loansBannerRemarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Remarks: {remarks}'**
+  String loansBannerRemarks(String remarks);
+
+  /// No description provided for @loansCloseEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Close early'**
+  String get loansCloseEarly;
+
+  /// No description provided for @loansCloseEarlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The rest of the schedule is waived and the loan becomes history. An amount you enter is recorded as a payment on the closing date.'**
+  String get loansCloseEarlyNote;
+
+  /// No description provided for @loansCloseEarlyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Close loan early'**
+  String get loansCloseEarlyTitle;
+
+  /// No description provided for @loansClosedEarly.
+  ///
+  /// In en, this message translates to:
+  /// **'Early closed'**
+  String get loansClosedEarly;
+
   /// No description provided for @loansClosedMessage.
   ///
   /// In en, this message translates to:
   /// **'Loan fully paid'**
   String get loansClosedMessage;
+
+  /// No description provided for @loansClosingDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing date'**
+  String get loansClosingDate;
+
+  /// No description provided for @loansClosingRemarks.
+  ///
+  /// In en, this message translates to:
+  /// **'Remarks'**
+  String get loansClosingRemarks;
 
   /// No description provided for @loansDueOn.
   ///
@@ -4179,6 +4755,24 @@ abstract class AppLocalizations {
   /// **'Remaining: {amount}'**
   String loansRemainingAmount(String amount);
 
+  /// No description provided for @loansRemainingInstallments.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining installments'**
+  String get loansRemainingInstallments;
+
+  /// No description provided for @loansRemainingInterest.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining interest'**
+  String get loansRemainingInterest;
+
+  /// No description provided for @loansRemainingPrincipal.
+  ///
+  /// In en, this message translates to:
+  /// **'Remaining principal'**
+  String get loansRemainingPrincipal;
+
   /// No description provided for @loansSchedule.
   ///
   /// In en, this message translates to:
@@ -4317,6 +4911,18 @@ abstract class AppLocalizations {
   /// **'Unarchive'**
   String get loansUnarchive;
 
+  /// No description provided for @loansViewPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'View the previous loan'**
+  String get loansViewPrevious;
+
+  /// No description provided for @loansViewReplacement.
+  ///
+  /// In en, this message translates to:
+  /// **'View the new loan'**
+  String get loansViewReplacement;
+
   /// No description provided for @loansVoid.
   ///
   /// In en, this message translates to:
@@ -4353,6 +4959,12 @@ abstract class AppLocalizations {
   /// **'Warn me at 80% and when I go over a budget'**
   String get notificationsBudgetAlertsSubtitle;
 
+  /// No description provided for @notificationsBudgetSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Budget alert sound'**
+  String get notificationsBudgetSound;
+
   /// No description provided for @notificationsBudgetWarningBody.
   ///
   /// In en, this message translates to:
@@ -4364,6 +4976,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Budget warning: {label}'**
   String notificationsBudgetWarningTitle(String label);
+
+  /// No description provided for @notificationsCardName.
+  ///
+  /// In en, this message translates to:
+  /// **'{card} card bill'**
+  String notificationsCardName(String card);
 
   /// No description provided for @notificationsCategoryFallback.
   ///
@@ -4377,11 +4995,35 @@ abstract class AppLocalizations {
   /// **'Money to collect'**
   String get notificationsCollectTitle;
 
+  /// No description provided for @notificationsDaysAfter.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day after} other{{days} days after}}'**
+  String notificationsDaysAfter(int days);
+
+  /// No description provided for @notificationsDaysBefore.
+  ///
+  /// In en, this message translates to:
+  /// **'{days, plural, =1{1 day before} other{{days} days before}}'**
+  String notificationsDaysBefore(int days);
+
+  /// No description provided for @notificationsDebtBorrowedName.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt to {person}'**
+  String notificationsDebtBorrowedName(String person);
+
   /// No description provided for @notificationsDebtDueTitle.
   ///
   /// In en, this message translates to:
   /// **'Debt payment due'**
   String get notificationsDebtDueTitle;
+
+  /// No description provided for @notificationsDebtLentName.
+  ///
+  /// In en, this message translates to:
+  /// **'{person} (to collect)'**
+  String notificationsDebtLentName(String person);
 
   /// No description provided for @notificationsDueInDays.
   ///
@@ -4406,11 +5048,129 @@ abstract class AppLocalizations {
   /// **'{title} ({amount}) is due tomorrow.'**
   String notificationsDueTomorrow(String title, String amount);
 
+  /// No description provided for @notificationsExpireReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind once after it expires'**
+  String get notificationsExpireReminder;
+
+  /// No description provided for @notificationsExpireReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'One reminder if it is still unpaid after the date'**
+  String get notificationsExpireReminderSubtitle;
+
+  /// No description provided for @notificationsFdrBodyToday.
+  ///
+  /// In en, this message translates to:
+  /// **'{scheme} {number} of {bank} matures today. Principal {amount}.'**
+  String notificationsFdrBodyToday(
+    String scheme,
+    String number,
+    String bank,
+    String amount,
+  );
+
+  /// No description provided for @notificationsFdrBodyTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'{scheme} {number} of {bank} matures tomorrow. Principal {amount}.'**
+  String notificationsFdrBodyTomorrow(
+    String scheme,
+    String number,
+    String bank,
+    String amount,
+  );
+
+  /// No description provided for @notificationsFdrBodyUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'{scheme} {number} of {bank} matures in {days} days ({date}). Principal {amount}.'**
+  String notificationsFdrBodyUpcoming(
+    String scheme,
+    String number,
+    String bank,
+    int days,
+    String date,
+    String amount,
+  );
+
+  /// No description provided for @notificationsFdrTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{scheme} maturing'**
+  String notificationsFdrTitle(String scheme);
+
+  /// No description provided for @notificationsFiresAt.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifies on {when}'**
+  String notificationsFiresAt(String when);
+
+  /// No description provided for @notificationsFiresAtOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Switched off ({when})'**
+  String notificationsFiresAtOff(String when);
+
+  /// No description provided for @notificationsItemExpiredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({amount}) was due on {date} and is still unpaid.'**
+  String notificationsItemExpiredBody(String name, String amount, String date);
+
+  /// No description provided for @notificationsItemExpiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue: {name}'**
+  String notificationsItemExpiredTitle(String name);
+
+  /// No description provided for @notificationsItemTodayBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({amount}) is due today.'**
+  String notificationsItemTodayBody(String name, String amount);
+
+  /// No description provided for @notificationsItemTodayTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today: {name}'**
+  String notificationsItemTodayTitle(String name);
+
+  /// No description provided for @notificationsItemUpcomingBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({amount}) is due in {days, plural, =1{1 day} other{{days} days}} ({date}). Get ready.'**
+  String notificationsItemUpcomingBody(
+    String name,
+    String amount,
+    int days,
+    String date,
+  );
+
+  /// No description provided for @notificationsItemUpcomingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming: {name}'**
+  String notificationsItemUpcomingTitle(String name);
+
+  /// No description provided for @notificationsLoanName.
+  ///
+  /// In en, this message translates to:
+  /// **'{lender} installment #{no}'**
+  String notificationsLoanName(String lender, int no);
+
   /// No description provided for @notificationsMonthlyBudget.
   ///
   /// In en, this message translates to:
   /// **'Monthly budget'**
   String get notificationsMonthlyBudget;
+
+  /// No description provided for @notificationsOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Off'**
+  String get notificationsOff;
 
   /// No description provided for @notificationsOverBudgetBody.
   ///
@@ -4442,6 +5202,36 @@ abstract class AppLocalizations {
   /// **'Notification permission was denied. Allow notifications for MyBudget in the system settings, then turn this on again.'**
   String get notificationsPermissionDenied;
 
+  /// No description provided for @notificationsPhaseExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get notificationsPhaseExpired;
+
+  /// No description provided for @notificationsPhaseToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due day'**
+  String get notificationsPhaseToday;
+
+  /// No description provided for @notificationsPhaseUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get notificationsPhaseUpcoming;
+
+  /// No description provided for @notificationsPickDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of days'**
+  String get notificationsPickDays;
+
+  /// No description provided for @notificationsReminderSound.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminder sound'**
+  String get notificationsReminderSound;
+
   /// No description provided for @notificationsReminderTime.
   ///
   /// In en, this message translates to:
@@ -4460,11 +5250,41 @@ abstract class AppLocalizations {
   /// **'Remind me before recurring bills and debt due dates'**
   String get notificationsRemindersSubtitle;
 
+  /// No description provided for @notificationsScheduleEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No upcoming reminders. Add a due date to a loan, card bill, debt or recurring task.'**
+  String get notificationsScheduleEmpty;
+
+  /// No description provided for @notificationsScheduleOffBanner.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders are switched off, so none of these will be delivered. Turn them on in Notification settings.'**
+  String get notificationsScheduleOffBanner;
+
   /// No description provided for @notificationsSendTest.
   ///
   /// In en, this message translates to:
   /// **'Send test notification'**
   String get notificationsSendTest;
+
+  /// No description provided for @notificationsSoundCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'Custom sound'**
+  String get notificationsSoundCustom;
+
+  /// No description provided for @notificationsSoundDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default'**
+  String get notificationsSoundDefault;
+
+  /// No description provided for @notificationsSoundSilent.
+  ///
+  /// In en, this message translates to:
+  /// **'Silent'**
+  String get notificationsSoundSilent;
 
   /// No description provided for @notificationsTestBody.
   ///
@@ -4496,11 +5316,41 @@ abstract class AppLocalizations {
   /// **'Notifications'**
   String get notificationsTitle;
 
+  /// No description provided for @notificationsTodayReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind on the due day'**
+  String get notificationsTodayReminder;
+
+  /// No description provided for @notificationsTodayReminderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A notification on the day an installment, bill or task is due'**
+  String get notificationsTodayReminderSubtitle;
+
+  /// No description provided for @notificationsUpcomingReminder.
+  ///
+  /// In en, this message translates to:
+  /// **'Remind before the due date'**
+  String get notificationsUpcomingReminder;
+
   /// No description provided for @notificationsUpcomingTitle.
   ///
   /// In en, this message translates to:
   /// **'Upcoming: {title}'**
   String notificationsUpcomingTitle(String title);
+
+  /// No description provided for @notificationsViewSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification schedule'**
+  String get notificationsViewSchedule;
+
+  /// No description provided for @notificationsViewScheduleSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'See when each reminder will fire and switch single ones off'**
+  String get notificationsViewScheduleSubtitle;
 
   /// No description provided for @notificationsYouOweToday.
   ///
@@ -4855,6 +5705,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Pause'**
   String get recurringPause;
+
+  /// No description provided for @recurringReminderDefault.
+  ///
+  /// In en, this message translates to:
+  /// **'Default (notification settings)'**
+  String get recurringReminderDefault;
 
   /// No description provided for @recurringResume.
   ///
@@ -5365,6 +6221,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Total'**
   String get reportsTotal;
+
+  /// No description provided for @reportsTransactions.
+  ///
+  /// In en, this message translates to:
+  /// **'Transactions'**
+  String get reportsTransactions;
+
+  /// No description provided for @reportsTxnComment.
+  ///
+  /// In en, this message translates to:
+  /// **'Comment'**
+  String get reportsTxnComment;
+
+  /// No description provided for @reportsTxnTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get reportsTxnTitle;
 
   /// No description provided for @reportsUtilization.
   ///

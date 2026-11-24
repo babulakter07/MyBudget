@@ -25,20 +25,33 @@ final dataChangeFingerprintProvider = StreamProvider<String>((ref) {
         '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM financial_transactions WHERE profile_id = ?1) AS t, '
         '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM recurring_rules WHERE profile_id = ?1) AS r, '
         '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM debts WHERE profile_id = ?1) AS d, '
-        '(SELECT COUNT(*) FROM debt_payments WHERE profile_id = ?1) AS dp',
+        '(SELECT COUNT(*) FROM debt_payments WHERE profile_id = ?1) AS dp, '
+        '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM loans WHERE profile_id = ?1) AS l, '
+        '(SELECT COUNT(*) FROM loan_payments WHERE profile_id = ?1 AND is_deleted = 0) AS lp, '
+        '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM credit_card_bills WHERE profile_id = ?1) AS b, '
+        '(SELECT COUNT(*) FROM credit_card_payments WHERE profile_id = ?1 AND is_deleted = 0) AS cp, '
+        '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM fixed_deposit_terms WHERE profile_id = ?1) AS fd',
         variables: [Variable.withInt(profileId)],
         readsFrom: {
           db.financialTransactions,
           db.recurringRules,
           db.debts,
           db.debtPayments,
+          db.loans,
+          db.loanPayments,
+          db.creditCardBills,
+          db.creditCardPayments,
+          db.fixedDepositTerms,
         },
       )
       .watchSingle()
       .map(
         (r) =>
             '${r.read<String>('t')}|${r.read<String>('r')}|'
-            '${r.read<String>('d')}|${r.read<int>('dp')}',
+            '${r.read<String>('d')}|${r.read<int>('dp')}|'
+            '${r.read<String>('l')}|${r.read<int>('lp')}|'
+            '${r.read<String>('b')}|${r.read<int>('cp')}|'
+            '${r.read<String>('fd')}',
       );
 });
 

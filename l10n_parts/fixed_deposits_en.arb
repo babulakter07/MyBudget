@@ -1,0 +1,150 @@
+{
+  "fixedDepositsTitle": "Deposit",
+  "fixedDepositsListTitle": "Fixed deposits",
+  "fixedDepositsAdd": "Add deposit",
+  "fixedDepositsEditTitle": "Edit deposit",
+  "fixedDepositsEmpty": "No deposits yet. Tap + to add an FDR, DPS or savings certificate.",
+  "fixedDepositsNotFound": "Deposit not found.",
+  "fixedDepositsShowArchived": "Show archived deposits",
+  "fixedDepositsArchived": "Archived",
+  "fixedDepositsSummaryOpen": "Open",
+  "fixedDepositsSummaryPlaced": "Placed",
+  "fixedDepositsSummaryInterest": "Expected interest",
+  "fixedDepositsNextMaturity": "Next maturity {date} • {amount}",
+  "@fixedDepositsNextMaturity": {
+    "placeholders": {
+      "date": { "type": "String" },
+      "amount": { "type": "String" }
+    }
+  },
+  "fixedDepositsMaturedAlert": "{count} matured: encash or reissue",
+  "@fixedDepositsMaturedAlert": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "fixedDepositsStatusActive": "Active",
+  "fixedDepositsStatusMatured": "Matured",
+  "fixedDepositsStatusClosed": "Closed",
+  "fixedDepositsBadgeReissued": "Reissued",
+  "fixedDepositsOutcomeRunning": "Running",
+  "fixedDepositsOutcomeEncashed": "Encashed",
+  "fixedDepositsOutcomeReissued": "Reissued",
+  "fixedDepositsRatePerYear": "{rate}% per year",
+  "@fixedDepositsRatePerYear": {
+    "placeholders": {
+      "rate": { "type": "String" }
+    }
+  },
+  "fixedDepositsDaysLeft": "{days} days left",
+  "@fixedDepositsDaysLeft": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "fixedDepositsMaturesToday": "Matures today",
+  "fixedDepositsMaturedAgo": "Matured {days} days ago",
+  "@fixedDepositsMaturedAgo": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "fixedDepositsInstrumentRow": "Instrument {number}",
+  "@fixedDepositsInstrumentRow": {
+    "placeholders": {
+      "number": { "type": "String" }
+    }
+  },
+  "fixedDepositsSchemeType": "Scheme type",
+  "fixedDepositsSchemeFdr": "FDR",
+  "fixedDepositsSchemeDps": "DPS",
+  "fixedDepositsSchemeSanchaypatra": "Sanchaypatra",
+  "fixedDepositsBank": "Bank",
+  "fixedDepositsBeneficiary": "Beneficiary name",
+  "fixedDepositsInstrumentNumber": "Instrument number",
+  "fixedDepositsIssueDate": "Issue date",
+  "fixedDepositsMaturityDate": "Maturity date",
+  "fixedDepositsTenureDays": "Tenure (days)",
+  "fixedDepositsTenureValue": "{days} days (~{months} months)",
+  "@fixedDepositsTenureValue": {
+    "placeholders": {
+      "days": { "type": "int" },
+      "months": { "type": "String" }
+    }
+  },
+  "fixedDepositsTenureHelper": "≈ {months} months (30 days = 1 month)",
+  "@fixedDepositsTenureHelper": {
+    "placeholders": {
+      "months": { "type": "String" }
+    }
+  },
+  "fixedDepositsInterestRate": "Interest rate (% per year)",
+  "fixedDepositsPrincipal": "Principal",
+  "fixedDepositsExpectedInterest": "Expected interest",
+  "fixedDepositsExpectedNote": "An estimate (simple interest on 365 days). You enter the bank figure when you close it.",
+  "fixedDepositsNote": "Note",
+  "fixedDepositsHistory": "Instrument history",
+  "fixedDepositsInstrumentNo": "Instrument #{no}",
+  "@fixedDepositsInstrumentNo": {
+    "placeholders": {
+      "no": { "type": "int" }
+    }
+  },
+  "fixedDepositsReissuedFrom": "Reissued from #{no}",
+  "@fixedDepositsReissuedFrom": {
+    "placeholders": {
+      "no": { "type": "int" }
+    }
+  },
+  "fixedDepositsClosedOn": "Closed on {date}",
+  "@fixedDepositsClosedOn": {
+    "placeholders": {
+      "date": { "type": "String" }
+    }
+  },
+  "fixedDepositsClosingInterest": "Interest received",
+  "fixedDepositsClosingTax": "Tax deducted",
+  "fixedDepositsClosingCharge": "Bank charge",
+  "fixedDepositsNetReceived": "Net received",
+  "fixedDepositsMaturedBanner": "This deposit has matured. Encash it or reissue it as a new instrument.",
+  "fixedDepositsClosedBanner": "This deposit is closed (encashed).",
+  "fixedDepositsReissue": "Reissue",
+  "fixedDepositsEncash": "Encash",
+  "fixedDepositsEditInstrument": "Edit instrument",
+  "fixedDepositsEditDetails": "Edit bank details",
+  "fixedDepositsBankRequired": "Enter the bank name",
+  "fixedDepositsSchemeRequired": "Enter the scheme type",
+  "fixedDepositsInstrumentRequired": "Enter the instrument number",
+  "fixedDepositsInvalidAmount": "Enter a valid amount",
+  "fixedDepositsAmountPositive": "Amount must be greater than zero",
+  "fixedDepositsInvalidRate": "Enter a rate between 0 and 100",
+  "fixedDepositsInvalidTenure": "Enter 1 to 36500 days",
+  "fixedDepositsEncashTitle": "Encash deposit",
+  "fixedDepositsReissueTitle": "Reissue deposit",
+  "fixedDepositsEncashNote": "After encashing, this deposit is closed and its instrument can no longer be edited.",
+  "fixedDepositsClosingDate": "Closing date",
+  "fixedDepositsInterestHelper": "Suggested for {days} days. Change it to the amount the bank paid.",
+  "@fixedDepositsInterestHelper": {
+    "placeholders": {
+      "days": { "type": "int" }
+    }
+  },
+  "fixedDepositsCalculatedNet": "Calculated net: {amount}",
+  "@fixedDepositsCalculatedNet": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "fixedDepositsFinalNet": "Final net received (optional)",
+  "fixedDepositsFinalNetHelper": "Fill only if the bank paid a different amount.",
+  "fixedDepositsNewInstrument": "New instrument",
+  "fixedDepositsNewInstrumentNumber": "New instrument number",
+  "fixedDepositsReissueDate": "Reissue date",
+  "fixedDepositsNewPrincipal": "New principal = net received: {amount}",
+  "@fixedDepositsNewPrincipal": {
+    "placeholders": {
+      "amount": { "type": "String" }
+    }
+  },
+  "fixedDepositsNetMustBePositive": "Net received must be greater than zero to reissue"
+}

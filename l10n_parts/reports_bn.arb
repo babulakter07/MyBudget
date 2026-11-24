@@ -73,5 +73,8 @@
   "reportsMonth11Full": "নভেম্বর",
   "reportsMonth11Short": "নভেম্বর",
   "reportsMonth12Full": "ডিসেম্বর",
+  "reportsTransactions": "লেনদেন",
+  "reportsTxnTitle": "শিরোনাম",
+  "reportsTxnComment": "মন্তব্য",
   "reportsMonth12Short": "ডিসেম্বর"
 }

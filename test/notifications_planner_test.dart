@@ -85,14 +85,27 @@ void main() {
     expect(plan.map((p) => p.when), [DateTime(2026, 11, 20, 9)]);
   });
 
-  test('past fire times are skipped', () {
+  test('a fire time that passed today is shown now; earlier days skipped', () {
+    final at = DateTime(2026, 11, 18, 10);
     final plan = planner.plan(
       l10n: en,
-      now: DateTime(2026, 11, 18, 10),
+      now: at,
       rules: [rule(next: '2026-11-18', start: '2026-11-18', remind: 0)],
       debts: const [],
     );
-    expect(plan.map((p) => p.when), [DateTime(2026, 12, 18, 9)]);
+    expect(plan.map((p) => p.when), [at, DateTime(2026, 12, 18, 9)]);
+    expect(plan.first.catchUp, isTrue);
+    expect(plan.last.catchUp, isFalse);
+
+    // Already delivered once: never repeated.
+    final again = planner.plan(
+      l10n: en,
+      now: at,
+      rules: [rule(next: '2026-11-18', start: '2026-11-18', remind: 0)],
+      debts: const [],
+      catchUpDone: {plan.first.key},
+    );
+    expect(again.map((p) => p.when), [DateTime(2026, 12, 18, 9)]);
   });
 
   test('60-day horizon on a daily rule', () {

@@ -18,6 +18,7 @@
   "appShellSavingsGoals": "সঞ্চয়ের লক্ষ্য",
   "appShellDebtsLoans": "ঋণ ও ধার",
   "appShellWallets": "ওয়ালেট ও ব্যালেন্স",
+  "appShellFixedDeposits": "ফিক্সড ডিপোজিট (এফডিআর)",
   "appShellBankLoans": "ব্যাংক লোন",
   "appShellCreditCards": "ক্রেডিট কার্ড",
   "appShellInsights": "বিশ্লেষণ",
@@ -41,5 +42,7 @@
   "appShellAboutEmail": "ইমেইল",
   "appShellAboutPortfolio": "পোর্টফোলিও",
   "appShellAboutTapToCopy": "কপি করতে একটি যোগাযোগে ট্যাপ করুন",
-  "appShellAboutCopied": "{label} কপি হয়েছে"
+  "appShellAboutCopied": "{label} কপি হয়েছে",
+  "appShellMore": "আরও",
+  "appShellSectionOperations": "অপারেশন"
 }

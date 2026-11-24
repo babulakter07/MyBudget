@@ -45,8 +45,8 @@ const _bill =
     "VALUES (1,1,1,'2026-03','2026-03-05','2026-03-25',100000,5000,1,$_ts,$_ts)";
 
 void main() {
-  test('schema version is 6', () {
-    expect(AppDatabase.currentSchemaVersion, 6);
+  test('schema version is 7', () {
+    expect(AppDatabase.currentSchemaVersion, 7);
   });
 
   test('v5 -> v6 creates loan and credit card tables, keeps data', () async {
