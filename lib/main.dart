@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -77,7 +78,8 @@ class _StartupError extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   'Please restart the app. If this keeps happening, free up '
-                  'storage space or reinstall from a backup.\n\n$error',
+                  'storage space or reinstall from a backup.'
+                  '${kDebugMode ? '\n\n$error' : ''}',
                   textAlign: TextAlign.center,
                 ),
               ],

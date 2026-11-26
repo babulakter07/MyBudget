@@ -8,7 +8,8 @@ plugins {
 
 // Release signing: create android/key.properties (never commit it) with
 // storePassword, keyPassword, keyAlias, storeFile. Without it, release builds
-// fall back to the debug key (fine for local testing, NOT accepted by Play).
+// fall back to the debug key (fine for local testing, NOT accepted by Play),
+// and app bundle (Play upload) builds fail.
 val keystoreProperties = Properties()
 val keystorePropertiesFile = rootProject.file("key.properties")
 if (keystorePropertiesFile.exists()) {
@@ -29,7 +30,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Permanent once published on Google Play.
         applicationId = "com.mybudget.my_budget"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
@@ -61,6 +62,17 @@ android {
             } else {
                 signingConfigs.getByName("debug")
             }
+        }
+    }
+}
+
+tasks.matching { it.name == "bundleRelease" }.configureEach {
+    val hasKeystore = keystorePropertiesFile.exists()
+    doFirst {
+        if (!hasKeystore) {
+            throw GradleException(
+                "android/key.properties is missing: refusing to build a debug-signed app bundle.",
+            )
         }
     }
 }

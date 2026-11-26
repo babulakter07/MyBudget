@@ -148,6 +148,47 @@
   "backupEncryptNote": "AES-256. If you forget the password the backup cannot be opened by anyone, including us.",
   "backupEncryptedPrompt": "This backup is encrypted. Enter its password.",
   "backupEncryptedSuffix": " (encrypted)",
+  "backupFolderChange": "Change folder",
+  "backupFolderChoose": "Choose folder",
+  "backupFolderCurrent": "Folder: {name}",
+  "@backupFolderCurrent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFolderError": "Last attempt failed: {message}",
+  "@backupFolderError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFolderFailed": "Could not save the copy.",
+  "backupFolderIntro": "Keep password-protected copies in a folder you choose. They stay there even if the app is uninstalled.",
+  "backupFolderLastCopy": "Last copy: {time}",
+  "@backupFolderLastCopy": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFolderNewPassword": "New password",
+  "backupFolderNoCopy": "No copy saved yet.",
+  "backupFolderNote": "A new copy is saved when you open or leave the app after your data changes. One copy per day is kept, using the 'Keep last automatic backups' number as the number of days. A folder on this phone does not help if the phone is lost: copy the files elsewhere, or use a folder that is synced or on an SD card. To restore, tap 'Restore from file'.",
+  "backupFolderNothing": "Folder set. A copy will be saved once you add an account or a record.",
+  "backupFolderOffMessage": "No new copies will be saved. Files already in the folder are kept.",
+  "backupFolderOffTitle": "Turn off folder backup?",
+  "backupFolderPasswordTitle": "Backup password",
+  "backupFolderPasswordWarning": "Write this password down. Without it the copies cannot be restored, and nobody can recover it.",
+  "backupFolderSaveNow": "Save now",
+  "backupFolderSavePassword": "Save",
+  "backupFolderSaved": "Copy saved to the backup folder.",
+  "backupFolderTitle": "Backup folder",
+  "backupFolderTurnOff": "Turn off",
   "backupFreqDaily": "Daily",
   "backupFreqOff": "Off",
   "backupFreqWeekly": "Weekly",
@@ -212,7 +253,7 @@
   },
   "backupReminderAction": "Back up",
   "backupReminderLater": "Later",
-  "backupReminderNone": "You have no backup yet. Your data exists only on this phone.",
+  "backupReminderNone": "Automatic backups are lost if the app is removed. Create and share a backup, or set a backup folder.",
   "backupReminderOld": "Your last backup was {days} days ago.",
   "@backupReminderOld": {
     "placeholders": {

@@ -6,6 +6,9 @@ import 'package:quick_actions/quick_actions.dart';
 
 import '../../core/logging/app_logger.dart';
 import '../../features/attachments/providers/attachment_providers.dart';
+import '../../features/backup/data/backup_providers.dart';
+import '../../features/backup/data/folder_backup_service.dart';
+import '../../features/onboarding/data/backup_reminder.dart';
 import '../../features/notifications/data/notification_providers.dart';
 import '../../features/recurring/providers/recurring_providers.dart';
 import '../../shared/providers/core_providers.dart';
@@ -114,6 +117,24 @@ class _AppTasksState extends ConsumerState<AppTasks>
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.resumed) _runAll();
+    // Leaving the app is the best moment to copy what was just entered.
+    if (state == AppLifecycleState.paused) _folderBackup();
+  }
+
+  /// Copies changed data to the user's backup folder, if one is set.
+  Future<void> _folderBackup() async {
+    if (!mounted) return;
+    // Cheap check first: nothing else is touched while the feature is off.
+    if (readFolderBackupConfig(ref.read(sharedPreferencesProvider)) == null) {
+      return;
+    }
+    await _guard('folderBackup', () async {
+      final service = await ref.read(folderBackupServiceProvider.future);
+      await service.sync();
+      if (!mounted) return;
+      ref.invalidate(folderBackupConfigProvider);
+      ref.invalidate(backupReminderProvider);
+    });
   }
 
   Future<void> _guard(String what, Future<void> Function() body) async {
@@ -142,6 +163,7 @@ class _AppTasksState extends ConsumerState<AppTasks>
       await ref.read(recurringGenerationProvider.notifier).run();
     });
     await _resync();
+    await _folderBackup();
   }
 
   Future<void> _resync() async {

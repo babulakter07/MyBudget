@@ -252,5 +252,12 @@ class AppDatabase extends _$AppDatabase {
 Future<AppDatabase> openAppDatabase() async {
   final dir = await getApplicationSupportDirectory();
   final file = File(p.join(dir.path, 'mybudget.sqlite'));
-  return AppDatabase(NativeDatabase.createInBackground(file));
+  return AppDatabase(
+    NativeDatabase.createInBackground(
+      file,
+      // The auto-backup isolate opens its own connection: wait for a lock
+      // to clear instead of failing with "database is locked".
+      setup: (raw) => raw.execute('PRAGMA busy_timeout = 5000'),
+    ),
+  );
 }

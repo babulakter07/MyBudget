@@ -14,6 +14,7 @@ import '../data/backup_crypto.dart';
 import '../data/backup_providers.dart';
 import '../data/backup_service.dart';
 import '../domain/backup_models.dart';
+import 'folder_backup_section.dart';
 
 String _fmtSize(int bytes) {
   if (bytes < 1024) return '$bytes B';
@@ -329,6 +330,10 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                     onRetention: _setRetention,
                   ),
                 ),
+                const SizedBox(height: 24),
+                Text(l.backupFolderTitle, style: theme.textTheme.titleMedium),
+                const SizedBox(height: 8),
+                const FolderBackupSection(),
                 const SizedBox(height: 24),
                 Text(l.backupSavedBackups, style: theme.textTheme.titleMedium),
                 const SizedBox(height: 4),

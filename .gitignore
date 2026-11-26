@@ -48,6 +48,9 @@ app.*.map.json
 .widget_preview/
 .tool_lock/
 
+# Gradle reports
+/android/build/
+
 # Release signing secrets
 android/key.properties
 *.jks

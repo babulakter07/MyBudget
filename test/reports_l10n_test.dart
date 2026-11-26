@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:my_budget/core/database/app_database.dart';
 import 'package:my_budget/features/backup/data/backup_providers.dart';
 import 'package:my_budget/features/backup/data/backup_service.dart';
@@ -105,6 +106,8 @@ void main() {
   });
 
   testWidgets('backup screen renders in Bangla', (tester) async {
+    SharedPreferences.setMockInitialValues({});
+    final prefs = await SharedPreferences.getInstance();
     final db = AppDatabase.memory();
     final dir = Directory.systemTemp.createTempSync('mybudget_backup_l10n_');
     final service = BackupService(
@@ -113,7 +116,10 @@ void main() {
     );
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [backupServiceProvider.overrideWith((ref) async => service)],
+        overrides: [
+          backupServiceProvider.overrideWith((ref) async => service),
+          sharedPreferencesProvider.overrideWithValue(prefs),
+        ],
         child: localizedApp(home: const BackupScreen()),
       ),
     );

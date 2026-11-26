@@ -161,7 +161,7 @@
   "backupTableTags": "tags",
   "backupTableTransactionAttachments": "transaction attachments",
   "backupReminderTitle": "Back up your data",
-  "backupReminderNone": "You have no backup yet. Your data exists only on this phone.",
+  "backupReminderNone": "Automatic backups are lost if the app is removed. Create and share a backup, or set a backup folder.",
   "backupReminderOld": "Your last backup was {days} days ago.",
   "@backupReminderOld": {
     "placeholders": {
@@ -171,5 +171,46 @@
     }
   },
   "backupReminderAction": "Back up",
-  "backupReminderLater": "Later"
+  "backupReminderLater": "Later",
+  "backupFolderTitle": "Backup folder",
+  "backupFolderIntro": "Keep password-protected copies in a folder you choose. They stay there even if the app is uninstalled.",
+  "backupFolderChoose": "Choose folder",
+  "backupFolderCurrent": "Folder: {name}",
+  "@backupFolderCurrent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFolderNoCopy": "No copy saved yet.",
+  "backupFolderLastCopy": "Last copy: {time}",
+  "@backupFolderLastCopy": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFolderError": "Last attempt failed: {message}",
+  "@backupFolderError": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "backupFolderSaveNow": "Save now",
+  "backupFolderChange": "Change folder",
+  "backupFolderNewPassword": "New password",
+  "backupFolderTurnOff": "Turn off",
+  "backupFolderOffTitle": "Turn off folder backup?",
+  "backupFolderOffMessage": "No new copies will be saved. Files already in the folder are kept.",
+  "backupFolderNote": "A new copy is saved when you open or leave the app after your data changes. One copy per day is kept, using the 'Keep last automatic backups' number as the number of days. A folder on this phone does not help if the phone is lost: copy the files elsewhere, or use a folder that is synced or on an SD card. To restore, tap 'Restore from file'.",
+  "backupFolderPasswordTitle": "Backup password",
+  "backupFolderPasswordWarning": "Write this password down. Without it the copies cannot be restored, and nobody can recover it.",
+  "backupFolderSavePassword": "Save",
+  "backupFolderSaved": "Copy saved to the backup folder.",
+  "backupFolderNothing": "Folder set. A copy will be saved once you add an account or a record.",
+  "backupFolderFailed": "Could not save the copy."
 }

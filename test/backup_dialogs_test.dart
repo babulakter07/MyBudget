@@ -10,6 +10,8 @@ import 'package:my_budget/features/backup/data/backup_providers.dart';
 import 'package:my_budget/features/backup/data/backup_service.dart';
 import 'package:my_budget/features/backup/domain/backup_models.dart';
 import 'package:my_budget/features/backup/presentation/backup_screen.dart';
+import 'package:my_budget/shared/providers/core_providers.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> _settle(WidgetTester tester) async {
   for (var i = 0; i < 3; i++) {
@@ -33,8 +35,11 @@ void main() {
   late AppDatabase db;
   late Directory dir;
   late BackupService service;
+  late SharedPreferences prefs;
 
-  setUp(() {
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    prefs = await SharedPreferences.getInstance();
     db = AppDatabase.memory();
     dir = Directory.systemTemp.createTempSync('mybudget_backup_dlg_');
     attachmentsDirectoryOverride = Directory('${dir.path}/att');
@@ -51,7 +56,10 @@ void main() {
     addTearDown(tester.view.resetPhysicalSize);
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [backupServiceProvider.overrideWith((ref) async => service)],
+        overrides: [
+          backupServiceProvider.overrideWith((ref) async => service),
+          sharedPreferencesProvider.overrideWithValue(prefs),
+        ],
         child: const MaterialApp(home: BackupScreen()),
       ),
     );

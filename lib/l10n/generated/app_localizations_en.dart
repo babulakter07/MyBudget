@@ -309,6 +309,77 @@ class AppLocalizationsEn extends AppLocalizations {
   String get backupEncryptedSuffix => ' (encrypted)';
 
   @override
+  String get backupFolderChange => 'Change folder';
+
+  @override
+  String get backupFolderChoose => 'Choose folder';
+
+  @override
+  String backupFolderCurrent(String name) {
+    return 'Folder: $name';
+  }
+
+  @override
+  String backupFolderError(String message) {
+    return 'Last attempt failed: $message';
+  }
+
+  @override
+  String get backupFolderFailed => 'Could not save the copy.';
+
+  @override
+  String get backupFolderIntro =>
+      'Keep password-protected copies in a folder you choose. They stay there even if the app is uninstalled.';
+
+  @override
+  String backupFolderLastCopy(String time) {
+    return 'Last copy: $time';
+  }
+
+  @override
+  String get backupFolderNewPassword => 'New password';
+
+  @override
+  String get backupFolderNoCopy => 'No copy saved yet.';
+
+  @override
+  String get backupFolderNote =>
+      'A new copy is saved when you open or leave the app after your data changes. One copy per day is kept, using the \'Keep last automatic backups\' number as the number of days. A folder on this phone does not help if the phone is lost: copy the files elsewhere, or use a folder that is synced or on an SD card. To restore, tap \'Restore from file\'.';
+
+  @override
+  String get backupFolderNothing =>
+      'Folder set. A copy will be saved once you add an account or a record.';
+
+  @override
+  String get backupFolderOffMessage =>
+      'No new copies will be saved. Files already in the folder are kept.';
+
+  @override
+  String get backupFolderOffTitle => 'Turn off folder backup?';
+
+  @override
+  String get backupFolderPasswordTitle => 'Backup password';
+
+  @override
+  String get backupFolderPasswordWarning =>
+      'Write this password down. Without it the copies cannot be restored, and nobody can recover it.';
+
+  @override
+  String get backupFolderSaveNow => 'Save now';
+
+  @override
+  String get backupFolderSavePassword => 'Save';
+
+  @override
+  String get backupFolderSaved => 'Copy saved to the backup folder.';
+
+  @override
+  String get backupFolderTitle => 'Backup folder';
+
+  @override
+  String get backupFolderTurnOff => 'Turn off';
+
+  @override
   String get backupFreqDaily => 'Daily';
 
   @override
@@ -399,7 +470,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get backupReminderNone =>
-      'You have no backup yet. Your data exists only on this phone.';
+      'Automatic backups are lost if the app is removed. Create and share a backup, or set a backup folder.';
 
   @override
   String backupReminderOld(int days) {

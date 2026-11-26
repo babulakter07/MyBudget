@@ -83,7 +83,10 @@ void main() {
         db,
         "SELECT name FROM sqlite_master WHERE type='index'",
       )).map((r) => r['name']).toSet();
-      expect(indexes, containsAll(['idx_fd_terms_deposit', 'uq_fd_terms_instrument']));
+      expect(
+        indexes,
+        containsAll(['idx_fd_terms_deposit', 'uq_fd_terms_instrument']),
+      );
 
       await _sql(db, _deposit);
       await _sql(db, _term(1, 1));
@@ -135,10 +138,7 @@ void main() {
         "INSERT INTO financial_profiles (id,name,currency_code,is_active,created_at,updated_at) VALUES (1,'Home','BDT',1,$_ts,$_ts)",
       );
       await _sql(db, _deposit);
-      await _sql(
-        db,
-        _term(1, 1, outcome: 'reissued', settled: '2027-01-15'),
-      );
+      await _sql(db, _term(1, 1, outcome: 'reissued', settled: '2027-01-15'));
       await _sql(db, _term(2, 2, from: 1, start: '2027-01-15'));
     });
 

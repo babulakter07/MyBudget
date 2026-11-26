@@ -75,5 +75,8 @@ Schema changes must bump `AppDatabase.currentSchemaVersion`, add a stepwise migr
 2. `flutter build appbundle --release`
 3. Upload `build/app/outputs/bundle/release/app-release.aab` to Google Play.
 
-Without `key.properties` release builds fall back to the debug key (local testing only).
+Without `key.properties`, release APKs fall back to the debug key (local testing only) and
+`flutter build appbundle` fails on purpose.
+
+Icons: edit `tool/make_icon.py`, then run `python tool/make_icon.py` (needs Pillow).
 Privacy policy: [`docs/PRIVACY_POLICY.md`](docs/PRIVACY_POLICY.md).

@@ -92,7 +92,10 @@ void main() {
     test('validates input', () async {
       await expectLater(make(bank: '  '), throwsA(isA<ValidationException>()));
       await expectLater(make(number: ' '), throwsA(isA<ValidationException>()));
-      await expectLater(make(principal: 0), throwsA(isA<ValidationException>()));
+      await expectLater(
+        make(principal: 0),
+        throwsA(isA<ValidationException>()),
+      );
       await expectLater(make(days: 0), throwsA(isA<ValidationException>()));
       await expectLater(make(rate: 10001), throwsA(isA<ValidationException>()));
     });
@@ -137,26 +140,29 @@ void main() {
   });
 
   group('reissue', () {
-    test('net received becomes the new principal, linked to the old one', () async {
-      final p = await make();
-      final r = await reissue(p);
-      expect(r.terms.length, 2);
-      final old = r.terms.first;
-      expect(old.outcome, fdOutcomeReissued);
-      expect(old.settledDate, '2027-01-15');
-      expect(old.interestMinor, 10000000);
-      expect(old.taxMinor, 1000000);
-      // 10,00,000 + 1,00,000 - 10,000 = 10,90,000.00
-      expect(old.netReceivedMinor, 109000000);
-      expect(r.current.principalMinor, 109000000);
-      expect(r.current.termNo, 2);
-      expect(r.current.instrumentNumber, 'FDR-002');
-      expect(r.current.renewedFromTermId, old.id);
-      expect(r.current.tenureDays, 180);
-      expect(r.current.rateBp, 900);
-      expect(r.reissueCount, 1);
-      expect(r.status, FdStatus.active);
-    });
+    test(
+      'net received becomes the new principal, linked to the old one',
+      () async {
+        final p = await make();
+        final r = await reissue(p);
+        expect(r.terms.length, 2);
+        final old = r.terms.first;
+        expect(old.outcome, fdOutcomeReissued);
+        expect(old.settledDate, '2027-01-15');
+        expect(old.interestMinor, 10000000);
+        expect(old.taxMinor, 1000000);
+        // 10,00,000 + 1,00,000 - 10,000 = 10,90,000.00
+        expect(old.netReceivedMinor, 109000000);
+        expect(r.current.principalMinor, 109000000);
+        expect(r.current.termNo, 2);
+        expect(r.current.instrumentNumber, 'FDR-002');
+        expect(r.current.renewedFromTermId, old.id);
+        expect(r.current.tenureDays, 180);
+        expect(r.current.rateBp, 900);
+        expect(r.reissueCount, 1);
+        expect(r.status, FdStatus.active);
+      },
+    );
 
     test('bank charge is deducted from the net', () async {
       final r = await reissue(await make(), charge: 50000);

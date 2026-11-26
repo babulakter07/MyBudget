@@ -367,17 +367,18 @@ class LoanRepository {
     required String closedDate,
     required String? remarks,
     required int? paidMinor,
-  }) => (_db.update(
-    _db.loans,
-  )..where((l) => l.profileId.equals(profileId) & l.id.equals(loanId))).write(
-    LoansCompanion(
-      closingType: Value(type),
-      closedDate: Value(closedDate),
-      closingRemarks: Value(_clean(remarks)),
-      closingPaidMinor: Value(paidMinor),
-      updatedAt: Value(DateTime.now()),
-    ),
-  );
+  }) =>
+      (_db.update(_db.loans)
+            ..where((l) => l.profileId.equals(profileId) & l.id.equals(loanId)))
+          .write(
+            LoansCompanion(
+              closingType: Value(type),
+              closedDate: Value(closedDate),
+              closingRemarks: Value(_clean(remarks)),
+              closingPaidMinor: Value(paidMinor),
+              updatedAt: Value(DateTime.now()),
+            ),
+          );
 
   /// Lender, type, reference, fee and note are always editable. The financial
   /// terms (principal, rate, method, frequency, tenure, installment, dates)

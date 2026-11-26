@@ -803,9 +803,7 @@ class BackupValidator {
         err(
           'fixed_deposit_terms id $id: instrument number must be 1-100 characters.',
         );
-      } else if (!fdInstruments.add(
-        '${r['profile_id']}|${_nocase(number)}',
-      )) {
+      } else if (!fdInstruments.add('${r['profile_id']}|${_nocase(number)}')) {
         err('fixed_deposit_terms id $id: duplicate instrument number.');
       }
       if (!dateRe(r['start_date'] as String)) {

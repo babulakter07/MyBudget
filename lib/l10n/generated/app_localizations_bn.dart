@@ -311,6 +311,77 @@ class AppLocalizationsBn extends AppLocalizations {
   String get backupEncryptedSuffix => ' (এনক্রিপ্টেড)';
 
   @override
+  String get backupFolderChange => 'ফোল্ডার বদলান';
+
+  @override
+  String get backupFolderChoose => 'ফোল্ডার বেছে নিন';
+
+  @override
+  String backupFolderCurrent(String name) {
+    return 'ফোল্ডার: $name';
+  }
+
+  @override
+  String backupFolderError(String message) {
+    return 'শেষ চেষ্টা ব্যর্থ হয়েছে: $message';
+  }
+
+  @override
+  String get backupFolderFailed => 'কপি সেভ করা যায়নি।';
+
+  @override
+  String get backupFolderIntro =>
+      'আপনার বেছে নেওয়া ফোল্ডারে পাসওয়ার্ড-সুরক্ষিত কপি রাখুন। অ্যাপ আনইনস্টল করলেও সেগুলো থেকে যাবে।';
+
+  @override
+  String backupFolderLastCopy(String time) {
+    return 'সর্বশেষ কপি: $time';
+  }
+
+  @override
+  String get backupFolderNewPassword => 'নতুন পাসওয়ার্ড';
+
+  @override
+  String get backupFolderNoCopy => 'এখনও কোনো কপি সেভ হয়নি।';
+
+  @override
+  String get backupFolderNote =>
+      'তথ্য বদলানোর পর অ্যাপ খুললে বা অ্যাপ থেকে বের হলে নতুন কপি সেভ হয়। প্রতিদিনের একটি করে কপি রাখা হয়; কত দিনেরটা থাকবে তা \'শেষ কয়টি স্বয়ংক্রিয় ব্যাকআপ রাখবেন\' সংখ্যা থেকে ঠিক হয়। ফোন হারালে ফোনের ভেতরের ফোল্ডার কোনো কাজে আসবে না: ফাইলগুলো অন্য কোথাও কপি করুন, অথবা সিঙ্ক হয় এমন বা SD কার্ডের ফোল্ডার ব্যবহার করুন। রিস্টোর করতে \'ফাইল থেকে রিস্টোর\' চাপুন।';
+
+  @override
+  String get backupFolderNothing =>
+      'ফোল্ডার সেট হয়েছে। অ্যাকাউন্ট বা কোনো হিসাব যোগ করলে কপি সেভ হবে।';
+
+  @override
+  String get backupFolderOffMessage =>
+      'নতুন কোনো কপি সেভ হবে না। ফোল্ডারে থাকা ফাইলগুলো থেকে যাবে।';
+
+  @override
+  String get backupFolderOffTitle => 'ফোল্ডার ব্যাকআপ বন্ধ করবেন?';
+
+  @override
+  String get backupFolderPasswordTitle => 'ব্যাকআপ পাসওয়ার্ড';
+
+  @override
+  String get backupFolderPasswordWarning =>
+      'পাসওয়ার্ডটি লিখে রাখুন। এটি ছাড়া কপিগুলো রিস্টোর করা যাবে না, এবং কেউ এটি উদ্ধার করতে পারবে না।';
+
+  @override
+  String get backupFolderSaveNow => 'এখনই সেভ করুন';
+
+  @override
+  String get backupFolderSavePassword => 'সেভ করুন';
+
+  @override
+  String get backupFolderSaved => 'ব্যাকআপ ফোল্ডারে কপি সেভ হয়েছে।';
+
+  @override
+  String get backupFolderTitle => 'ব্যাকআপ ফোল্ডার';
+
+  @override
+  String get backupFolderTurnOff => 'বন্ধ করুন';
+
+  @override
   String get backupFreqDaily => 'প্রতিদিন';
 
   @override
@@ -402,7 +473,7 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get backupReminderNone =>
-      'এখনো কোনো ব্যাকআপ নেই। আপনার তথ্য শুধু এই ফোনেই আছে।';
+      'অ্যাপ মুছে ফেললে স্বয়ংক্রিয় ব্যাকআপও হারিয়ে যায়। ব্যাকআপ তৈরি করে শেয়ার করুন, অথবা ব্যাকআপ ফোল্ডার সেট করুন।';
 
   @override
   String backupReminderOld(int days) {

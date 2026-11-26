@@ -15,6 +15,7 @@ import io.flutter.plugin.common.MethodChannel
 // FlutterFragmentActivity is required by local_auth (biometric prompt).
 class MainActivity : FlutterFragmentActivity() {
     private var pendingResult: MethodChannel.Result? = null
+    private var backupFolder: BackupFolderChannel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,7 @@ class MainActivity : FlutterFragmentActivity() {
     // null when the user cancelled.
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
+        backupFolder = BackupFolderChannel(this, flutterEngine.dartExecutor.binaryMessenger)
         MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL)
             .setMethodCallHandler { call, result ->
                 if (call.method != "pick") {
@@ -69,6 +71,7 @@ class MainActivity : FlutterFragmentActivity() {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (backupFolder?.onActivityResult(requestCode, resultCode, data) == true) return
         if (requestCode != REQUEST_RINGTONE) {
             @Suppress("DEPRECATION")
             super.onActivityResult(requestCode, resultCode, data)

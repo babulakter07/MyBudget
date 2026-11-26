@@ -60,7 +60,10 @@ void main() {
         FixedDepositCalculator.maturityDate('2028-02-28', 2),
         '2028-03-01',
       );
-      expect(FixedDepositCalculator.maturityDate('2026-12-31', 1), '2027-01-01');
+      expect(
+        FixedDepositCalculator.maturityDate('2026-12-31', 1),
+        '2027-01-01',
+      );
     });
 
     test('30 days = 1 month', () {

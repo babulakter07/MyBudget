@@ -375,10 +375,12 @@ const manualTopics = <ManualTopic>[
       'Settings > Backup & Restore > Create backup to save a file, and share it to keep a copy off the phone.',
       'You can include receipt photos in a shared backup.',
       'Automatic backup: choose how often. Android may delay it by hours. These stay on the phone and are not password protected.',
+      'Backup folder: choose a folder and a password to keep encrypted copies outside the app. A copy is saved when you open or leave the app after your data changes.',
       'Restore: choose a backup file. The app validates it, asks you to confirm, makes a safety backup first, and rolls back if anything fails.',
     ],
     tips: [
       'Make a manual backup before changing phones or reinstalling the app.',
+      'A folder on the phone does not protect you if the phone is lost. Keep a copy somewhere else, and remember the password.',
     ],
   ),
   ManualTopic(

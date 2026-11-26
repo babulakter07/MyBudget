@@ -656,6 +656,126 @@ abstract class AppLocalizations {
   /// **' (encrypted)'**
   String get backupEncryptedSuffix;
 
+  /// No description provided for @backupFolderChange.
+  ///
+  /// In en, this message translates to:
+  /// **'Change folder'**
+  String get backupFolderChange;
+
+  /// No description provided for @backupFolderChoose.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose folder'**
+  String get backupFolderChoose;
+
+  /// No description provided for @backupFolderCurrent.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder: {name}'**
+  String backupFolderCurrent(String name);
+
+  /// No description provided for @backupFolderError.
+  ///
+  /// In en, this message translates to:
+  /// **'Last attempt failed: {message}'**
+  String backupFolderError(String message);
+
+  /// No description provided for @backupFolderFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save the copy.'**
+  String get backupFolderFailed;
+
+  /// No description provided for @backupFolderIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep password-protected copies in a folder you choose. They stay there even if the app is uninstalled.'**
+  String get backupFolderIntro;
+
+  /// No description provided for @backupFolderLastCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Last copy: {time}'**
+  String backupFolderLastCopy(String time);
+
+  /// No description provided for @backupFolderNewPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get backupFolderNewPassword;
+
+  /// No description provided for @backupFolderNoCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'No copy saved yet.'**
+  String get backupFolderNoCopy;
+
+  /// No description provided for @backupFolderNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A new copy is saved when you open or leave the app after your data changes. One copy per day is kept, using the \'Keep last automatic backups\' number as the number of days. A folder on this phone does not help if the phone is lost: copy the files elsewhere, or use a folder that is synced or on an SD card. To restore, tap \'Restore from file\'.'**
+  String get backupFolderNote;
+
+  /// No description provided for @backupFolderNothing.
+  ///
+  /// In en, this message translates to:
+  /// **'Folder set. A copy will be saved once you add an account or a record.'**
+  String get backupFolderNothing;
+
+  /// No description provided for @backupFolderOffMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No new copies will be saved. Files already in the folder are kept.'**
+  String get backupFolderOffMessage;
+
+  /// No description provided for @backupFolderOffTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off folder backup?'**
+  String get backupFolderOffTitle;
+
+  /// No description provided for @backupFolderPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup password'**
+  String get backupFolderPasswordTitle;
+
+  /// No description provided for @backupFolderPasswordWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'Write this password down. Without it the copies cannot be restored, and nobody can recover it.'**
+  String get backupFolderPasswordWarning;
+
+  /// No description provided for @backupFolderSaveNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Save now'**
+  String get backupFolderSaveNow;
+
+  /// No description provided for @backupFolderSavePassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get backupFolderSavePassword;
+
+  /// No description provided for @backupFolderSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy saved to the backup folder.'**
+  String get backupFolderSaved;
+
+  /// No description provided for @backupFolderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Backup folder'**
+  String get backupFolderTitle;
+
+  /// No description provided for @backupFolderTurnOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Turn off'**
+  String get backupFolderTurnOff;
+
   /// No description provided for @backupFreqDaily.
   ///
   /// In en, this message translates to:
@@ -815,7 +935,7 @@ abstract class AppLocalizations {
   /// No description provided for @backupReminderNone.
   ///
   /// In en, this message translates to:
-  /// **'You have no backup yet. Your data exists only on this phone.'**
+  /// **'Automatic backups are lost if the app is removed. Create and share a backup, or set a backup folder.'**
   String get backupReminderNone;
 
   /// No description provided for @backupReminderOld.

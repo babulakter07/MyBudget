@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../shared/providers/core_providers.dart';
 import '../../backup/data/backup_providers.dart';
+import '../../backup/data/folder_backup_service.dart';
 import '../../backup/domain/backup_models.dart';
 import 'setup_progress.dart';
 
@@ -31,8 +32,7 @@ BackupReminder? evaluateBackupReminder({
   return days >= afterDays ? BackupReminder(daysSince: days) : null;
 }
 
-/// Whether the home screen should nudge the user to back up. Safety backups
-/// (made automatically before a restore) do not count.
+/// Whether the home screen should nudge the user to back up.
 final backupReminderProvider = FutureProvider.autoDispose<BackupReminder?>((
   ref,
 ) async {
@@ -41,9 +41,11 @@ final backupReminderProvider = FutureProvider.autoDispose<BackupReminder?>((
   final prefs = ref.watch(sharedPreferencesProvider);
   final snoozeMs = prefs.getInt(_snoozeKey);
   final List<BackupFileInfo> files = await ref.watch(backupListProvider.future);
-  DateTime? newest;
+  // A working backup folder counts. Automatic and safety backups do not: they
+  // stay inside the app and are lost when it is uninstalled.
+  DateTime? newest = readFolderBackupConfig(prefs)?.lastCopyAt;
   for (final f in files) {
-    if (f.kind == BackupKind.safety) continue;
+    if (f.kind != BackupKind.manual) continue;
     if (newest == null || f.createdAt.isAfter(newest)) newest = f.createdAt;
   }
   return evaluateBackupReminder(

@@ -120,58 +120,61 @@ void main() {
       expect((await repo.summary(p1)).remainingMinor, 0);
     });
 
-    test('a closed loan cannot be edited, paid, voided or closed again', () async {
-      final l = await make();
-      final pay = await repo.addPayment(
-        profileId: p1,
-        loanId: l.loan.id,
-        amountMinor: 100000,
-        paymentDate: '2026-02-01',
-      );
-      await repo.closeEarly(
-        profileId: p1,
-        loanId: l.loan.id,
-        closedDate: '2026-03-15',
-      );
-      await expectLater(
-        repo.addPayment(
+    test(
+      'a closed loan cannot be edited, paid, voided or closed again',
+      () async {
+        final l = await make();
+        final pay = await repo.addPayment(
           profileId: p1,
           loanId: l.loan.id,
-          amountMinor: 100,
-          paymentDate: '2026-03-16',
-        ),
-        throwsA(isA<ValidationException>()),
-      );
-      await expectLater(
-        repo.voidPayment(p1, pay.id),
-        throwsA(isA<ValidationException>()),
-      );
-      await expectLater(
-        repo.closeEarly(
+          amountMinor: 100000,
+          paymentDate: '2026-02-01',
+        );
+        await repo.closeEarly(
           profileId: p1,
           loanId: l.loan.id,
-          closedDate: '2026-03-16',
-        ),
-        throwsA(isA<ValidationException>()),
-      );
-      await expectLater(
-        repo.update(
-          profileId: p1,
-          id: l.loan.id,
-          lenderName: 'Other',
-          loanType: 'personal',
-          principalMinor: 1200000,
-          interestRateBp: 0,
-          interestMethod: 'reducing',
-          frequency: 'monthly',
-          tenureCount: 12,
-          processingFeeMinor: 0,
-          startDate: '2026-01-01',
-          firstDueDate: '2026-02-01',
-        ),
-        throwsA(isA<ValidationException>()),
-      );
-    });
+          closedDate: '2026-03-15',
+        );
+        await expectLater(
+          repo.addPayment(
+            profileId: p1,
+            loanId: l.loan.id,
+            amountMinor: 100,
+            paymentDate: '2026-03-16',
+          ),
+          throwsA(isA<ValidationException>()),
+        );
+        await expectLater(
+          repo.voidPayment(p1, pay.id),
+          throwsA(isA<ValidationException>()),
+        );
+        await expectLater(
+          repo.closeEarly(
+            profileId: p1,
+            loanId: l.loan.id,
+            closedDate: '2026-03-16',
+          ),
+          throwsA(isA<ValidationException>()),
+        );
+        await expectLater(
+          repo.update(
+            profileId: p1,
+            id: l.loan.id,
+            lenderName: 'Other',
+            loanType: 'personal',
+            principalMinor: 1200000,
+            interestRateBp: 0,
+            interestMethod: 'reducing',
+            frequency: 'monthly',
+            tenureCount: 12,
+            processingFeeMinor: 0,
+            startDate: '2026-01-01',
+            firstDueDate: '2026-02-01',
+          ),
+          throwsA(isA<ValidationException>()),
+        );
+      },
+    );
 
     test('validation and isolation', () async {
       final l = await make();
@@ -193,11 +196,7 @@ void main() {
         throwsA(isA<ValidationException>()),
       );
       await expectLater(
-        repo.closeEarly(
-          profileId: p1,
-          loanId: l.loan.id,
-          closedDate: 'bad',
-        ),
+        repo.closeEarly(profileId: p1, loanId: l.loan.id, closedDate: 'bad'),
         throwsA(isA<ValidationException>()),
       );
       await expectLater(
@@ -326,12 +325,15 @@ CREATE TABLE loan_payments (
         ),
       );
       addTearDown(db.close);
-      final rows = (await db
-          .customSelect(
-            'SELECT lender_name, closing_type, closed_date, closing_remarks, '
-            'closing_paid_minor, parent_loan_id FROM loans',
-          )
-          .get()).map((r) => r.data).toList();
+      final rows =
+          (await db
+                  .customSelect(
+                    'SELECT lender_name, closing_type, closed_date, closing_remarks, '
+                    'closing_paid_minor, parent_loan_id FROM loans',
+                  )
+                  .get())
+              .map((r) => r.data)
+              .toList();
       expect(rows, [
         {
           'lender_name': 'City Bank',
@@ -397,9 +399,10 @@ CREATE TABLE loan_payments (
 
     test('round trip keeps closing data and the parent link', () async {
       final text = await service.exportJson();
-      Future<List<Map<String, Object?>>> dump() async => (await db
-          .customSelect('SELECT * FROM loans ORDER BY id')
-          .get()).map((r) => r.data).toList();
+      Future<List<Map<String, Object?>>> dump() async =>
+          (await db.customSelect('SELECT * FROM loans ORDER BY id').get())
+              .map((r) => r.data)
+              .toList();
       final before = await dump();
       await db.customStatement('DELETE FROM loan_payments');
       await db.customStatement('DELETE FROM loans');
