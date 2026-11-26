@@ -1738,6 +1738,348 @@ class AppLocalizationsEn extends AppLocalizations {
   String get debtsVoided => 'Voided';
 
   @override
+  String get dpsAccountNumber => 'DPS account number (optional)';
+
+  @override
+  String dpsAccountNumberValue(String number) {
+    return 'Account: $number';
+  }
+
+  @override
+  String get dpsAdd => 'Add DPS';
+
+  @override
+  String get dpsAlreadyPaid => 'Installments already paid (optional)';
+
+  @override
+  String dpsAlreadyPaidHelper(int count) {
+    return 'For a DPS you already have. $count due dates have passed. Check your statement.';
+  }
+
+  @override
+  String get dpsArchive => 'Archive';
+
+  @override
+  String get dpsArchived => 'Archived';
+
+  @override
+  String dpsAtRiskWarning(int count) {
+    return '$count installments are overdue. Your bank may close this DPS. Contact the bank.';
+  }
+
+  @override
+  String get dpsBankMaturity => 'Maturity amount quoted by bank (optional)';
+
+  @override
+  String get dpsBankMaturityHelper =>
+      'Before tax. Use the figure from your bank if you have it.';
+
+  @override
+  String get dpsBankName => 'Bank or institution';
+
+  @override
+  String get dpsBankRequired => 'Enter a name (up to 80 characters)';
+
+  @override
+  String get dpsBankRules => 'Your bank\'s rules';
+
+  @override
+  String get dpsBankRulesNote =>
+      'These differ between banks. Copy them from your DPS terms.';
+
+  @override
+  String dpsCalculatedNet(String amount) {
+    return 'Calculated amount received: $amount';
+  }
+
+  @override
+  String get dpsCharges => 'Excise duty and other charges';
+
+  @override
+  String get dpsChargesHelper => 'Enter what the bank deducted.';
+
+  @override
+  String get dpsClose => 'Close DPS';
+
+  @override
+  String get dpsCloseBank => 'Closed by bank';
+
+  @override
+  String dpsCloseConfirm(String amount) {
+    return 'Close this DPS with $amount received? A closed DPS cannot be changed.';
+  }
+
+  @override
+  String get dpsCloseMatured => 'Matured';
+
+  @override
+  String get dpsClosePremature => 'Closed early';
+
+  @override
+  String get dpsCloseTitle => 'Close or encash';
+
+  @override
+  String get dpsClosingDate => 'Closing date';
+
+  @override
+  String get dpsDepositDate => 'Deposit date';
+
+  @override
+  String dpsDepositTotal(String amount) {
+    return 'Total paid: $amount';
+  }
+
+  @override
+  String dpsDepositedAmount(String amount) {
+    return 'Deposited $amount';
+  }
+
+  @override
+  String get dpsDeposits => 'Deposits';
+
+  @override
+  String get dpsEarlyNote =>
+      'Rules for early closure differ between banks. Some do not allow it in the first months and many pay a lower rate. Enter the figures from your bank.';
+
+  @override
+  String get dpsEdit => 'Edit DPS';
+
+  @override
+  String get dpsEmpty => 'No DPS yet. Tap + to add one.';
+
+  @override
+  String dpsEstimateHelper(String amount) {
+    return 'Before tax. App estimate: $amount. Your bank\'s figure may differ.';
+  }
+
+  @override
+  String get dpsExpectedNet => 'Expected after tax';
+
+  @override
+  String dpsExpectedTax(String rate) {
+    return 'Tax on profit at $rate%';
+  }
+
+  @override
+  String get dpsFinalNet => 'Amount actually received (optional)';
+
+  @override
+  String get dpsFinalNetHelper =>
+      'Fill only if it differs from the calculated amount.';
+
+  @override
+  String get dpsFirstDueDate => 'First installment due date';
+
+  @override
+  String get dpsGraceDays => 'Grace days after the due date';
+
+  @override
+  String get dpsInstallment => 'Monthly installment';
+
+  @override
+  String get dpsInstallmentCount => 'Number of installments';
+
+  @override
+  String dpsInstallmentCountHelper(int remaining, int overdue) {
+    return '$remaining left, $overdue overdue';
+  }
+
+  @override
+  String get dpsInstallmentDue => 'Due';
+
+  @override
+  String get dpsInstallmentPaid => 'Paid';
+
+  @override
+  String get dpsInstallmentUpcoming => 'Upcoming';
+
+  @override
+  String dpsInstallmentsCount(int count) {
+    return '$count installment(s)';
+  }
+
+  @override
+  String get dpsInvalid => 'Check this value';
+
+  @override
+  String get dpsLateFee => 'Late fee per installment (0 if none)';
+
+  @override
+  String get dpsLateFeeCharged => 'Late fee charged';
+
+  @override
+  String dpsLateFeeValue(String amount) {
+    return 'Late fee $amount';
+  }
+
+  @override
+  String get dpsLateFeesPaid => 'Late fees paid';
+
+  @override
+  String get dpsLockedNote =>
+      'The installment, term and dates are locked because deposits are recorded.';
+
+  @override
+  String dpsMaturesOn(String date) {
+    return 'All paid. Matures $date';
+  }
+
+  @override
+  String get dpsMaturityDate => 'Maturity date';
+
+  @override
+  String get dpsMaturityEstimate => 'Maturity value (app estimate)';
+
+  @override
+  String get dpsMaturityFromBank => 'Maturity value (from bank)';
+
+  @override
+  String get dpsMaturityNote =>
+      'Assumes every installment is paid on time. Excise duty and bank charges are not included.';
+
+  @override
+  String get dpsMissedLimit => 'Missed installments in a row before closure';
+
+  @override
+  String get dpsMissedLimitHelper =>
+      'Some banks use 3. Enter 0 if yours has no such rule.';
+
+  @override
+  String get dpsNetReceived => 'Amount received';
+
+  @override
+  String dpsNextDue(String date) {
+    return 'Next installment: $date';
+  }
+
+  @override
+  String get dpsNextInstallment => 'Next installment';
+
+  @override
+  String get dpsNoDeposits => 'No deposits recorded yet.';
+
+  @override
+  String get dpsNotFound => 'This DPS was not found.';
+
+  @override
+  String get dpsNote => 'Note (optional)';
+
+  @override
+  String dpsOneMoreWarning(int limit) {
+    return 'One more missed installment reaches your bank\'s limit of $limit.';
+  }
+
+  @override
+  String get dpsOpenDate => 'Opening date';
+
+  @override
+  String dpsOverdueWarning(int count, String amount) {
+    return '$count installment(s) overdue: $amount';
+  }
+
+  @override
+  String dpsPaidOf(int paid, int total) {
+    return '$paid of $total installments paid';
+  }
+
+  @override
+  String dpsPaidOn(String date) {
+    return 'Paid $date';
+  }
+
+  @override
+  String dpsPerMonth(String amount) {
+    return '$amount per month';
+  }
+
+  @override
+  String get dpsProfit => 'Profit';
+
+  @override
+  String get dpsProfitHelper => 'Before tax, from the bank\'s statement.';
+
+  @override
+  String get dpsRate => 'Yearly profit rate %';
+
+  @override
+  String get dpsRecordDeposit => 'Record deposit';
+
+  @override
+  String get dpsSchedule => 'Installment schedule';
+
+  @override
+  String get dpsSeparateLedgerNote =>
+      'This does not change your account balances or budgets.';
+
+  @override
+  String get dpsShowArchived => 'Show archived';
+
+  @override
+  String get dpsStatusActive => 'Active';
+
+  @override
+  String get dpsStatusAtRisk => 'At risk';
+
+  @override
+  String get dpsStatusClosed => 'Closed';
+
+  @override
+  String get dpsStatusMatured => 'Matured';
+
+  @override
+  String get dpsStatusOverdue => 'Overdue';
+
+  @override
+  String get dpsSummaryDeposited => 'Deposited';
+
+  @override
+  String get dpsSummaryMonthly => 'Per month';
+
+  @override
+  String get dpsSummaryOpen => 'Open';
+
+  @override
+  String dpsSummaryOverdue(String amount) {
+    return 'Overdue installments: $amount';
+  }
+
+  @override
+  String get dpsTax => 'Tax deducted';
+
+  @override
+  String get dpsTaxHelper =>
+      'Often 10% with a TIN and 15% without. Rules change, so confirm with your bank.';
+
+  @override
+  String get dpsTaxRate => 'Tax deducted from profit %';
+
+  @override
+  String get dpsTenureMonths => 'Term in months';
+
+  @override
+  String get dpsTitle => 'DPS (monthly savings)';
+
+  @override
+  String get dpsUnarchive => 'Unarchive';
+
+  @override
+  String get dpsVoid => 'Void';
+
+  @override
+  String get dpsVoidMessage => 'It stays in the history but no longer counts.';
+
+  @override
+  String get dpsVoidTitle => 'Void this deposit?';
+
+  @override
+  String get dpsVoided => 'Voided';
+
+  @override
+  String dpsYears(int years) {
+    return '$years years';
+  }
+
+  @override
   String get fixedDepositsAdd => 'Add deposit';
 
   @override
@@ -2937,6 +3279,11 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String notificationsDebtLentName(String person) {
     return '$person (to collect)';
+  }
+
+  @override
+  String notificationsDpsName(String bank, int number) {
+    return '$bank DPS installment #$number';
   }
 
   @override
@@ -4458,6 +4805,73 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get transactionsWarningAnd => ' and ';
+
+  @override
+  String get upcomingCard => 'Card bill';
+
+  @override
+  String upcomingCount(int count) {
+    return '$count payments';
+  }
+
+  @override
+  String get upcomingDebt => 'Debt';
+
+  @override
+  String get upcomingDps => 'DPS installment';
+
+  @override
+  String upcomingDueOn(String date) {
+    return 'Due $date';
+  }
+
+  @override
+  String get upcomingDueToday => 'Due today';
+
+  @override
+  String get upcomingDueTomorrow => 'Due tomorrow';
+
+  @override
+  String upcomingDueTotal(String amount, int days) {
+    return 'Due in $days days: $amount';
+  }
+
+  @override
+  String get upcomingLoan => 'Loan';
+
+  @override
+  String upcomingNextDays(int days) {
+    return 'Next $days days';
+  }
+
+  @override
+  String upcomingNothingDue(int days) {
+    return 'Nothing due in the next $days days.';
+  }
+
+  @override
+  String upcomingOverdueSince(String date) {
+    return 'Overdue since $date';
+  }
+
+  @override
+  String upcomingOverdueTotal(String amount) {
+    return 'Overdue: $amount';
+  }
+
+  @override
+  String get upcomingRecurring => 'Recurring';
+
+  @override
+  String upcomingShowAll(int count) {
+    return 'Show all ($count)';
+  }
+
+  @override
+  String get upcomingShowLess => 'Show less';
+
+  @override
+  String get upcomingTitle => 'Upcoming payments';
 
   @override
   String get walletsAddAccount => 'Add account';

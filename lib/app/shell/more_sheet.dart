@@ -16,6 +16,7 @@ Future<void> showMoreSheet(BuildContext context) {
     ),
     (Icons.repeat, l.appShellRecurring, '/config/recurring'),
     (Icons.account_balance_outlined, l.appShellBankLoans, '/loans'),
+    (Icons.savings, l.dpsTitle, '/dps'),
     (Icons.lock_clock_outlined, l.appShellFixedDeposits, '/fd'),
     (Icons.credit_card, l.appShellCreditCards, '/cards'),
     (Icons.handshake_outlined, l.appShellDebtsLoans, '/debts'),

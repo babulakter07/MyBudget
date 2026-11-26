@@ -30,6 +30,7 @@ const _userDataTables = [
   'loans',
   'credit_cards',
   'fixed_deposits',
+  'dps_accounts',
   'savings_goals',
 ];
 

@@ -49,7 +49,7 @@ class DebtReminderInput {
   final String dueDate;
 }
 
-/// One unpaid loan installment or credit-card bill to remind about.
+/// One unpaid loan or DPS installment, or credit-card bill, to remind about.
 class DueItemInput {
   const DueItemInput({
     required this.source,
@@ -59,7 +59,7 @@ class DueItemInput {
     required this.dueDate,
   });
 
-  /// 'loan' | 'card'
+  /// 'loan' | 'card' | 'dps'
   final String source;
 
   /// Loan id / card-bill id (with [dueDate] this identifies the reminder).
@@ -318,9 +318,11 @@ class ReminderPlanner {
               item.dueDate,
             ),
           },
-          kind: item.source == 'loan'
-              ? NotificationKind.loan
-              : NotificationKind.card,
+          kind: switch (item.source) {
+            'loan' => NotificationKind.loan,
+            'dps' => NotificationKind.dps,
+            _ => NotificationKind.card,
+          },
           key: k,
           phase: phase,
           dueDate: item.dueDate,

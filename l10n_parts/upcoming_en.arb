@@ -1,0 +1,78 @@
+{
+  "upcomingTitle": "Upcoming payments",
+  "upcomingNextDays": "Next {days} days",
+  "@upcomingNextDays": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "upcomingOverdueTotal": "Overdue: {amount}",
+  "@upcomingOverdueTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "upcomingDueTotal": "Due in {days} days: {amount}",
+  "@upcomingDueTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "upcomingNothingDue": "Nothing due in the next {days} days.",
+  "@upcomingNothingDue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "upcomingOverdueSince": "Overdue since {date}",
+  "@upcomingOverdueSince": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "upcomingDueToday": "Due today",
+  "upcomingDueTomorrow": "Due tomorrow",
+  "upcomingDueOn": "Due {date}",
+  "@upcomingDueOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "upcomingCount": "{count} payments",
+  "@upcomingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "upcomingShowAll": "Show all ({count})",
+  "@upcomingShowAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "upcomingShowLess": "Show less",
+  "upcomingLoan": "Loan",
+  "upcomingCard": "Card bill",
+  "upcomingDebt": "Debt",
+  "upcomingRecurring": "Recurring",
+  "upcomingDps": "DPS installment"
+}

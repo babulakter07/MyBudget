@@ -16290,6 +16290,1931 @@ class FixedDepositTermsCompanion extends UpdateCompanion<FixedDepositTermRow> {
   }
 }
 
+class $DpsAccountsTable extends DpsAccounts
+    with TableInfo<$DpsAccountsTable, DpsAccountRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DpsAccountsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<int> profileId = GeneratedColumn<int>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bankNameMeta = const VerificationMeta(
+    'bankName',
+  );
+  @override
+  late final GeneratedColumn<String> bankName = GeneratedColumn<String>(
+    'bank_name',
+    aliasedName,
+    false,
+    additionalChecks: GeneratedColumn.checkTextLength(
+      minTextLength: 1,
+      maxTextLength: 80,
+    ),
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _accountNumberMeta = const VerificationMeta(
+    'accountNumber',
+  );
+  @override
+  late final GeneratedColumn<String> accountNumber = GeneratedColumn<String>(
+    'account_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _installmentMinorMeta = const VerificationMeta(
+    'installmentMinor',
+  );
+  @override
+  late final GeneratedColumn<int> installmentMinor = GeneratedColumn<int>(
+    'installment_minor',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _tenureMonthsMeta = const VerificationMeta(
+    'tenureMonths',
+  );
+  @override
+  late final GeneratedColumn<int> tenureMonths = GeneratedColumn<int>(
+    'tenure_months',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _openDateMeta = const VerificationMeta(
+    'openDate',
+  );
+  @override
+  late final GeneratedColumn<String> openDate = GeneratedColumn<String>(
+    'open_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _firstDueDateMeta = const VerificationMeta(
+    'firstDueDate',
+  );
+  @override
+  late final GeneratedColumn<String> firstDueDate = GeneratedColumn<String>(
+    'first_due_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _rateBpMeta = const VerificationMeta('rateBp');
+  @override
+  late final GeneratedColumn<int> rateBp = GeneratedColumn<int>(
+    'rate_bp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _bankMaturityMinorMeta = const VerificationMeta(
+    'bankMaturityMinor',
+  );
+  @override
+  late final GeneratedColumn<int> bankMaturityMinor = GeneratedColumn<int>(
+    'bank_maturity_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taxRateBpMeta = const VerificationMeta(
+    'taxRateBp',
+  );
+  @override
+  late final GeneratedColumn<int> taxRateBp = GeneratedColumn<int>(
+    'tax_rate_bp',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(1000),
+  );
+  static const VerificationMeta _lateFeeMinorMeta = const VerificationMeta(
+    'lateFeeMinor',
+  );
+  @override
+  late final GeneratedColumn<int> lateFeeMinor = GeneratedColumn<int>(
+    'late_fee_minor',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _graceDaysMeta = const VerificationMeta(
+    'graceDays',
+  );
+  @override
+  late final GeneratedColumn<int> graceDays = GeneratedColumn<int>(
+    'grace_days',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _missedLimitMeta = const VerificationMeta(
+    'missedLimit',
+  );
+  @override
+  late final GeneratedColumn<int> missedLimit = GeneratedColumn<int>(
+    'missed_limit',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(3),
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _closingTypeMeta = const VerificationMeta(
+    'closingType',
+  );
+  @override
+  late final GeneratedColumn<String> closingType = GeneratedColumn<String>(
+    'closing_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _closedDateMeta = const VerificationMeta(
+    'closedDate',
+  );
+  @override
+  late final GeneratedColumn<String> closedDate = GeneratedColumn<String>(
+    'closed_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _profitMinorMeta = const VerificationMeta(
+    'profitMinor',
+  );
+  @override
+  late final GeneratedColumn<int> profitMinor = GeneratedColumn<int>(
+    'profit_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _taxMinorMeta = const VerificationMeta(
+    'taxMinor',
+  );
+  @override
+  late final GeneratedColumn<int> taxMinor = GeneratedColumn<int>(
+    'tax_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _chargeMinorMeta = const VerificationMeta(
+    'chargeMinor',
+  );
+  @override
+  late final GeneratedColumn<int> chargeMinor = GeneratedColumn<int>(
+    'charge_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _netReceivedMinorMeta = const VerificationMeta(
+    'netReceivedMinor',
+  );
+  @override
+  late final GeneratedColumn<int> netReceivedMinor = GeneratedColumn<int>(
+    'net_received_minor',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isActiveMeta = const VerificationMeta(
+    'isActive',
+  );
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+    'is_active',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_active" IN (0, 1))',
+    ),
+    defaultValue: const Constant(true),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _updatedAtMeta = const VerificationMeta(
+    'updatedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+    'updated_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    bankName,
+    accountNumber,
+    installmentMinor,
+    tenureMonths,
+    openDate,
+    firstDueDate,
+    rateBp,
+    bankMaturityMinor,
+    taxRateBp,
+    lateFeeMinor,
+    graceDays,
+    missedLimit,
+    note,
+    closingType,
+    closedDate,
+    profitMinor,
+    taxMinor,
+    chargeMinor,
+    netReceivedMinor,
+    isActive,
+    createdAt,
+    updatedAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dps_accounts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DpsAccountRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('bank_name')) {
+      context.handle(
+        _bankNameMeta,
+        bankName.isAcceptableOrUnknown(data['bank_name']!, _bankNameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_bankNameMeta);
+    }
+    if (data.containsKey('account_number')) {
+      context.handle(
+        _accountNumberMeta,
+        accountNumber.isAcceptableOrUnknown(
+          data['account_number']!,
+          _accountNumberMeta,
+        ),
+      );
+    }
+    if (data.containsKey('installment_minor')) {
+      context.handle(
+        _installmentMinorMeta,
+        installmentMinor.isAcceptableOrUnknown(
+          data['installment_minor']!,
+          _installmentMinorMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_installmentMinorMeta);
+    }
+    if (data.containsKey('tenure_months')) {
+      context.handle(
+        _tenureMonthsMeta,
+        tenureMonths.isAcceptableOrUnknown(
+          data['tenure_months']!,
+          _tenureMonthsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_tenureMonthsMeta);
+    }
+    if (data.containsKey('open_date')) {
+      context.handle(
+        _openDateMeta,
+        openDate.isAcceptableOrUnknown(data['open_date']!, _openDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_openDateMeta);
+    }
+    if (data.containsKey('first_due_date')) {
+      context.handle(
+        _firstDueDateMeta,
+        firstDueDate.isAcceptableOrUnknown(
+          data['first_due_date']!,
+          _firstDueDateMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_firstDueDateMeta);
+    }
+    if (data.containsKey('rate_bp')) {
+      context.handle(
+        _rateBpMeta,
+        rateBp.isAcceptableOrUnknown(data['rate_bp']!, _rateBpMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_rateBpMeta);
+    }
+    if (data.containsKey('bank_maturity_minor')) {
+      context.handle(
+        _bankMaturityMinorMeta,
+        bankMaturityMinor.isAcceptableOrUnknown(
+          data['bank_maturity_minor']!,
+          _bankMaturityMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tax_rate_bp')) {
+      context.handle(
+        _taxRateBpMeta,
+        taxRateBp.isAcceptableOrUnknown(data['tax_rate_bp']!, _taxRateBpMeta),
+      );
+    }
+    if (data.containsKey('late_fee_minor')) {
+      context.handle(
+        _lateFeeMinorMeta,
+        lateFeeMinor.isAcceptableOrUnknown(
+          data['late_fee_minor']!,
+          _lateFeeMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('grace_days')) {
+      context.handle(
+        _graceDaysMeta,
+        graceDays.isAcceptableOrUnknown(data['grace_days']!, _graceDaysMeta),
+      );
+    }
+    if (data.containsKey('missed_limit')) {
+      context.handle(
+        _missedLimitMeta,
+        missedLimit.isAcceptableOrUnknown(
+          data['missed_limit']!,
+          _missedLimitMeta,
+        ),
+      );
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('closing_type')) {
+      context.handle(
+        _closingTypeMeta,
+        closingType.isAcceptableOrUnknown(
+          data['closing_type']!,
+          _closingTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('closed_date')) {
+      context.handle(
+        _closedDateMeta,
+        closedDate.isAcceptableOrUnknown(data['closed_date']!, _closedDateMeta),
+      );
+    }
+    if (data.containsKey('profit_minor')) {
+      context.handle(
+        _profitMinorMeta,
+        profitMinor.isAcceptableOrUnknown(
+          data['profit_minor']!,
+          _profitMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tax_minor')) {
+      context.handle(
+        _taxMinorMeta,
+        taxMinor.isAcceptableOrUnknown(data['tax_minor']!, _taxMinorMeta),
+      );
+    }
+    if (data.containsKey('charge_minor')) {
+      context.handle(
+        _chargeMinorMeta,
+        chargeMinor.isAcceptableOrUnknown(
+          data['charge_minor']!,
+          _chargeMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('net_received_minor')) {
+      context.handle(
+        _netReceivedMinorMeta,
+        netReceivedMinor.isAcceptableOrUnknown(
+          data['net_received_minor']!,
+          _netReceivedMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(
+        _isActiveMeta,
+        isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(
+        _updatedAtMeta,
+        updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {profileId, id},
+  ];
+  @override
+  DpsAccountRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DpsAccountRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      bankName: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}bank_name'],
+      )!,
+      accountNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}account_number'],
+      ),
+      installmentMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}installment_minor'],
+      )!,
+      tenureMonths: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tenure_months'],
+      )!,
+      openDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}open_date'],
+      )!,
+      firstDueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}first_due_date'],
+      )!,
+      rateBp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}rate_bp'],
+      )!,
+      bankMaturityMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}bank_maturity_minor'],
+      ),
+      taxRateBp: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tax_rate_bp'],
+      )!,
+      lateFeeMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}late_fee_minor'],
+      )!,
+      graceDays: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}grace_days'],
+      )!,
+      missedLimit: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}missed_limit'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      closingType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}closing_type'],
+      ),
+      closedDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}closed_date'],
+      ),
+      profitMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profit_minor'],
+      ),
+      taxMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}tax_minor'],
+      ),
+      chargeMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}charge_minor'],
+      ),
+      netReceivedMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}net_received_minor'],
+      ),
+      isActive: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_active'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+      updatedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}updated_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DpsAccountsTable createAlias(String alias) {
+    return $DpsAccountsTable(attachedDatabase, alias);
+  }
+}
+
+class DpsAccountRow extends DataClass implements Insertable<DpsAccountRow> {
+  final int id;
+  final int profileId;
+  final String bankName;
+
+  /// Unique per profile (case-insensitive) when given.
+  final String? accountNumber;
+  final int installmentMinor;
+  final int tenureMonths;
+
+  /// 'yyyy-MM-dd'.
+  final String openDate;
+
+  /// Due date of installment 1; later ones follow monthly on the same day.
+  final String firstDueDate;
+
+  /// Indicative annual profit rate in basis points.
+  final int rateBp;
+
+  /// Maturity value quoted by the bank (before tax); null = use the estimate.
+  final int? bankMaturityMinor;
+
+  /// Tax deducted from profit, in basis points (1000 = 10 %).
+  final int taxRateBp;
+
+  /// Late fee per installment paid after the grace period.
+  final int lateFeeMinor;
+  final int graceDays;
+
+  /// Missed installments in a row after which the bank may close the account;
+  /// 0 = no such rule.
+  final int missedLimit;
+  final String? note;
+
+  /// Null while open: 'matured' | 'premature' | 'bank_closed'.
+  final String? closingType;
+  final String? closedDate;
+
+  /// Closing figures as given by the bank (null while open).
+  final int? profitMinor;
+  final int? taxMinor;
+  final int? chargeMinor;
+  final int? netReceivedMinor;
+  final bool isActive;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const DpsAccountRow({
+    required this.id,
+    required this.profileId,
+    required this.bankName,
+    this.accountNumber,
+    required this.installmentMinor,
+    required this.tenureMonths,
+    required this.openDate,
+    required this.firstDueDate,
+    required this.rateBp,
+    this.bankMaturityMinor,
+    required this.taxRateBp,
+    required this.lateFeeMinor,
+    required this.graceDays,
+    required this.missedLimit,
+    this.note,
+    this.closingType,
+    this.closedDate,
+    this.profitMinor,
+    this.taxMinor,
+    this.chargeMinor,
+    this.netReceivedMinor,
+    required this.isActive,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['profile_id'] = Variable<int>(profileId);
+    map['bank_name'] = Variable<String>(bankName);
+    if (!nullToAbsent || accountNumber != null) {
+      map['account_number'] = Variable<String>(accountNumber);
+    }
+    map['installment_minor'] = Variable<int>(installmentMinor);
+    map['tenure_months'] = Variable<int>(tenureMonths);
+    map['open_date'] = Variable<String>(openDate);
+    map['first_due_date'] = Variable<String>(firstDueDate);
+    map['rate_bp'] = Variable<int>(rateBp);
+    if (!nullToAbsent || bankMaturityMinor != null) {
+      map['bank_maturity_minor'] = Variable<int>(bankMaturityMinor);
+    }
+    map['tax_rate_bp'] = Variable<int>(taxRateBp);
+    map['late_fee_minor'] = Variable<int>(lateFeeMinor);
+    map['grace_days'] = Variable<int>(graceDays);
+    map['missed_limit'] = Variable<int>(missedLimit);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    if (!nullToAbsent || closingType != null) {
+      map['closing_type'] = Variable<String>(closingType);
+    }
+    if (!nullToAbsent || closedDate != null) {
+      map['closed_date'] = Variable<String>(closedDate);
+    }
+    if (!nullToAbsent || profitMinor != null) {
+      map['profit_minor'] = Variable<int>(profitMinor);
+    }
+    if (!nullToAbsent || taxMinor != null) {
+      map['tax_minor'] = Variable<int>(taxMinor);
+    }
+    if (!nullToAbsent || chargeMinor != null) {
+      map['charge_minor'] = Variable<int>(chargeMinor);
+    }
+    if (!nullToAbsent || netReceivedMinor != null) {
+      map['net_received_minor'] = Variable<int>(netReceivedMinor);
+    }
+    map['is_active'] = Variable<bool>(isActive);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  DpsAccountsCompanion toCompanion(bool nullToAbsent) {
+    return DpsAccountsCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      bankName: Value(bankName),
+      accountNumber: accountNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(accountNumber),
+      installmentMinor: Value(installmentMinor),
+      tenureMonths: Value(tenureMonths),
+      openDate: Value(openDate),
+      firstDueDate: Value(firstDueDate),
+      rateBp: Value(rateBp),
+      bankMaturityMinor: bankMaturityMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(bankMaturityMinor),
+      taxRateBp: Value(taxRateBp),
+      lateFeeMinor: Value(lateFeeMinor),
+      graceDays: Value(graceDays),
+      missedLimit: Value(missedLimit),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      closingType: closingType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closingType),
+      closedDate: closedDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(closedDate),
+      profitMinor: profitMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(profitMinor),
+      taxMinor: taxMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(taxMinor),
+      chargeMinor: chargeMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(chargeMinor),
+      netReceivedMinor: netReceivedMinor == null && nullToAbsent
+          ? const Value.absent()
+          : Value(netReceivedMinor),
+      isActive: Value(isActive),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory DpsAccountRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DpsAccountRow(
+      id: serializer.fromJson<int>(json['id']),
+      profileId: serializer.fromJson<int>(json['profileId']),
+      bankName: serializer.fromJson<String>(json['bankName']),
+      accountNumber: serializer.fromJson<String?>(json['accountNumber']),
+      installmentMinor: serializer.fromJson<int>(json['installmentMinor']),
+      tenureMonths: serializer.fromJson<int>(json['tenureMonths']),
+      openDate: serializer.fromJson<String>(json['openDate']),
+      firstDueDate: serializer.fromJson<String>(json['firstDueDate']),
+      rateBp: serializer.fromJson<int>(json['rateBp']),
+      bankMaturityMinor: serializer.fromJson<int?>(json['bankMaturityMinor']),
+      taxRateBp: serializer.fromJson<int>(json['taxRateBp']),
+      lateFeeMinor: serializer.fromJson<int>(json['lateFeeMinor']),
+      graceDays: serializer.fromJson<int>(json['graceDays']),
+      missedLimit: serializer.fromJson<int>(json['missedLimit']),
+      note: serializer.fromJson<String?>(json['note']),
+      closingType: serializer.fromJson<String?>(json['closingType']),
+      closedDate: serializer.fromJson<String?>(json['closedDate']),
+      profitMinor: serializer.fromJson<int?>(json['profitMinor']),
+      taxMinor: serializer.fromJson<int?>(json['taxMinor']),
+      chargeMinor: serializer.fromJson<int?>(json['chargeMinor']),
+      netReceivedMinor: serializer.fromJson<int?>(json['netReceivedMinor']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'profileId': serializer.toJson<int>(profileId),
+      'bankName': serializer.toJson<String>(bankName),
+      'accountNumber': serializer.toJson<String?>(accountNumber),
+      'installmentMinor': serializer.toJson<int>(installmentMinor),
+      'tenureMonths': serializer.toJson<int>(tenureMonths),
+      'openDate': serializer.toJson<String>(openDate),
+      'firstDueDate': serializer.toJson<String>(firstDueDate),
+      'rateBp': serializer.toJson<int>(rateBp),
+      'bankMaturityMinor': serializer.toJson<int?>(bankMaturityMinor),
+      'taxRateBp': serializer.toJson<int>(taxRateBp),
+      'lateFeeMinor': serializer.toJson<int>(lateFeeMinor),
+      'graceDays': serializer.toJson<int>(graceDays),
+      'missedLimit': serializer.toJson<int>(missedLimit),
+      'note': serializer.toJson<String?>(note),
+      'closingType': serializer.toJson<String?>(closingType),
+      'closedDate': serializer.toJson<String?>(closedDate),
+      'profitMinor': serializer.toJson<int?>(profitMinor),
+      'taxMinor': serializer.toJson<int?>(taxMinor),
+      'chargeMinor': serializer.toJson<int?>(chargeMinor),
+      'netReceivedMinor': serializer.toJson<int?>(netReceivedMinor),
+      'isActive': serializer.toJson<bool>(isActive),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  DpsAccountRow copyWith({
+    int? id,
+    int? profileId,
+    String? bankName,
+    Value<String?> accountNumber = const Value.absent(),
+    int? installmentMinor,
+    int? tenureMonths,
+    String? openDate,
+    String? firstDueDate,
+    int? rateBp,
+    Value<int?> bankMaturityMinor = const Value.absent(),
+    int? taxRateBp,
+    int? lateFeeMinor,
+    int? graceDays,
+    int? missedLimit,
+    Value<String?> note = const Value.absent(),
+    Value<String?> closingType = const Value.absent(),
+    Value<String?> closedDate = const Value.absent(),
+    Value<int?> profitMinor = const Value.absent(),
+    Value<int?> taxMinor = const Value.absent(),
+    Value<int?> chargeMinor = const Value.absent(),
+    Value<int?> netReceivedMinor = const Value.absent(),
+    bool? isActive,
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) => DpsAccountRow(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    bankName: bankName ?? this.bankName,
+    accountNumber: accountNumber.present
+        ? accountNumber.value
+        : this.accountNumber,
+    installmentMinor: installmentMinor ?? this.installmentMinor,
+    tenureMonths: tenureMonths ?? this.tenureMonths,
+    openDate: openDate ?? this.openDate,
+    firstDueDate: firstDueDate ?? this.firstDueDate,
+    rateBp: rateBp ?? this.rateBp,
+    bankMaturityMinor: bankMaturityMinor.present
+        ? bankMaturityMinor.value
+        : this.bankMaturityMinor,
+    taxRateBp: taxRateBp ?? this.taxRateBp,
+    lateFeeMinor: lateFeeMinor ?? this.lateFeeMinor,
+    graceDays: graceDays ?? this.graceDays,
+    missedLimit: missedLimit ?? this.missedLimit,
+    note: note.present ? note.value : this.note,
+    closingType: closingType.present ? closingType.value : this.closingType,
+    closedDate: closedDate.present ? closedDate.value : this.closedDate,
+    profitMinor: profitMinor.present ? profitMinor.value : this.profitMinor,
+    taxMinor: taxMinor.present ? taxMinor.value : this.taxMinor,
+    chargeMinor: chargeMinor.present ? chargeMinor.value : this.chargeMinor,
+    netReceivedMinor: netReceivedMinor.present
+        ? netReceivedMinor.value
+        : this.netReceivedMinor,
+    isActive: isActive ?? this.isActive,
+    createdAt: createdAt ?? this.createdAt,
+    updatedAt: updatedAt ?? this.updatedAt,
+  );
+  DpsAccountRow copyWithCompanion(DpsAccountsCompanion data) {
+    return DpsAccountRow(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      bankName: data.bankName.present ? data.bankName.value : this.bankName,
+      accountNumber: data.accountNumber.present
+          ? data.accountNumber.value
+          : this.accountNumber,
+      installmentMinor: data.installmentMinor.present
+          ? data.installmentMinor.value
+          : this.installmentMinor,
+      tenureMonths: data.tenureMonths.present
+          ? data.tenureMonths.value
+          : this.tenureMonths,
+      openDate: data.openDate.present ? data.openDate.value : this.openDate,
+      firstDueDate: data.firstDueDate.present
+          ? data.firstDueDate.value
+          : this.firstDueDate,
+      rateBp: data.rateBp.present ? data.rateBp.value : this.rateBp,
+      bankMaturityMinor: data.bankMaturityMinor.present
+          ? data.bankMaturityMinor.value
+          : this.bankMaturityMinor,
+      taxRateBp: data.taxRateBp.present ? data.taxRateBp.value : this.taxRateBp,
+      lateFeeMinor: data.lateFeeMinor.present
+          ? data.lateFeeMinor.value
+          : this.lateFeeMinor,
+      graceDays: data.graceDays.present ? data.graceDays.value : this.graceDays,
+      missedLimit: data.missedLimit.present
+          ? data.missedLimit.value
+          : this.missedLimit,
+      note: data.note.present ? data.note.value : this.note,
+      closingType: data.closingType.present
+          ? data.closingType.value
+          : this.closingType,
+      closedDate: data.closedDate.present
+          ? data.closedDate.value
+          : this.closedDate,
+      profitMinor: data.profitMinor.present
+          ? data.profitMinor.value
+          : this.profitMinor,
+      taxMinor: data.taxMinor.present ? data.taxMinor.value : this.taxMinor,
+      chargeMinor: data.chargeMinor.present
+          ? data.chargeMinor.value
+          : this.chargeMinor,
+      netReceivedMinor: data.netReceivedMinor.present
+          ? data.netReceivedMinor.value
+          : this.netReceivedMinor,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DpsAccountRow(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('bankName: $bankName, ')
+          ..write('accountNumber: $accountNumber, ')
+          ..write('installmentMinor: $installmentMinor, ')
+          ..write('tenureMonths: $tenureMonths, ')
+          ..write('openDate: $openDate, ')
+          ..write('firstDueDate: $firstDueDate, ')
+          ..write('rateBp: $rateBp, ')
+          ..write('bankMaturityMinor: $bankMaturityMinor, ')
+          ..write('taxRateBp: $taxRateBp, ')
+          ..write('lateFeeMinor: $lateFeeMinor, ')
+          ..write('graceDays: $graceDays, ')
+          ..write('missedLimit: $missedLimit, ')
+          ..write('note: $note, ')
+          ..write('closingType: $closingType, ')
+          ..write('closedDate: $closedDate, ')
+          ..write('profitMinor: $profitMinor, ')
+          ..write('taxMinor: $taxMinor, ')
+          ..write('chargeMinor: $chargeMinor, ')
+          ..write('netReceivedMinor: $netReceivedMinor, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hashAll([
+    id,
+    profileId,
+    bankName,
+    accountNumber,
+    installmentMinor,
+    tenureMonths,
+    openDate,
+    firstDueDate,
+    rateBp,
+    bankMaturityMinor,
+    taxRateBp,
+    lateFeeMinor,
+    graceDays,
+    missedLimit,
+    note,
+    closingType,
+    closedDate,
+    profitMinor,
+    taxMinor,
+    chargeMinor,
+    netReceivedMinor,
+    isActive,
+    createdAt,
+    updatedAt,
+  ]);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DpsAccountRow &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.bankName == this.bankName &&
+          other.accountNumber == this.accountNumber &&
+          other.installmentMinor == this.installmentMinor &&
+          other.tenureMonths == this.tenureMonths &&
+          other.openDate == this.openDate &&
+          other.firstDueDate == this.firstDueDate &&
+          other.rateBp == this.rateBp &&
+          other.bankMaturityMinor == this.bankMaturityMinor &&
+          other.taxRateBp == this.taxRateBp &&
+          other.lateFeeMinor == this.lateFeeMinor &&
+          other.graceDays == this.graceDays &&
+          other.missedLimit == this.missedLimit &&
+          other.note == this.note &&
+          other.closingType == this.closingType &&
+          other.closedDate == this.closedDate &&
+          other.profitMinor == this.profitMinor &&
+          other.taxMinor == this.taxMinor &&
+          other.chargeMinor == this.chargeMinor &&
+          other.netReceivedMinor == this.netReceivedMinor &&
+          other.isActive == this.isActive &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class DpsAccountsCompanion extends UpdateCompanion<DpsAccountRow> {
+  final Value<int> id;
+  final Value<int> profileId;
+  final Value<String> bankName;
+  final Value<String?> accountNumber;
+  final Value<int> installmentMinor;
+  final Value<int> tenureMonths;
+  final Value<String> openDate;
+  final Value<String> firstDueDate;
+  final Value<int> rateBp;
+  final Value<int?> bankMaturityMinor;
+  final Value<int> taxRateBp;
+  final Value<int> lateFeeMinor;
+  final Value<int> graceDays;
+  final Value<int> missedLimit;
+  final Value<String?> note;
+  final Value<String?> closingType;
+  final Value<String?> closedDate;
+  final Value<int?> profitMinor;
+  final Value<int?> taxMinor;
+  final Value<int?> chargeMinor;
+  final Value<int?> netReceivedMinor;
+  final Value<bool> isActive;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const DpsAccountsCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.bankName = const Value.absent(),
+    this.accountNumber = const Value.absent(),
+    this.installmentMinor = const Value.absent(),
+    this.tenureMonths = const Value.absent(),
+    this.openDate = const Value.absent(),
+    this.firstDueDate = const Value.absent(),
+    this.rateBp = const Value.absent(),
+    this.bankMaturityMinor = const Value.absent(),
+    this.taxRateBp = const Value.absent(),
+    this.lateFeeMinor = const Value.absent(),
+    this.graceDays = const Value.absent(),
+    this.missedLimit = const Value.absent(),
+    this.note = const Value.absent(),
+    this.closingType = const Value.absent(),
+    this.closedDate = const Value.absent(),
+    this.profitMinor = const Value.absent(),
+    this.taxMinor = const Value.absent(),
+    this.chargeMinor = const Value.absent(),
+    this.netReceivedMinor = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  DpsAccountsCompanion.insert({
+    this.id = const Value.absent(),
+    required int profileId,
+    required String bankName,
+    this.accountNumber = const Value.absent(),
+    required int installmentMinor,
+    required int tenureMonths,
+    required String openDate,
+    required String firstDueDate,
+    required int rateBp,
+    this.bankMaturityMinor = const Value.absent(),
+    this.taxRateBp = const Value.absent(),
+    this.lateFeeMinor = const Value.absent(),
+    this.graceDays = const Value.absent(),
+    this.missedLimit = const Value.absent(),
+    this.note = const Value.absent(),
+    this.closingType = const Value.absent(),
+    this.closedDate = const Value.absent(),
+    this.profitMinor = const Value.absent(),
+    this.taxMinor = const Value.absent(),
+    this.chargeMinor = const Value.absent(),
+    this.netReceivedMinor = const Value.absent(),
+    this.isActive = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  }) : profileId = Value(profileId),
+       bankName = Value(bankName),
+       installmentMinor = Value(installmentMinor),
+       tenureMonths = Value(tenureMonths),
+       openDate = Value(openDate),
+       firstDueDate = Value(firstDueDate),
+       rateBp = Value(rateBp),
+       createdAt = Value(createdAt),
+       updatedAt = Value(updatedAt);
+  static Insertable<DpsAccountRow> custom({
+    Expression<int>? id,
+    Expression<int>? profileId,
+    Expression<String>? bankName,
+    Expression<String>? accountNumber,
+    Expression<int>? installmentMinor,
+    Expression<int>? tenureMonths,
+    Expression<String>? openDate,
+    Expression<String>? firstDueDate,
+    Expression<int>? rateBp,
+    Expression<int>? bankMaturityMinor,
+    Expression<int>? taxRateBp,
+    Expression<int>? lateFeeMinor,
+    Expression<int>? graceDays,
+    Expression<int>? missedLimit,
+    Expression<String>? note,
+    Expression<String>? closingType,
+    Expression<String>? closedDate,
+    Expression<int>? profitMinor,
+    Expression<int>? taxMinor,
+    Expression<int>? chargeMinor,
+    Expression<int>? netReceivedMinor,
+    Expression<bool>? isActive,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (bankName != null) 'bank_name': bankName,
+      if (accountNumber != null) 'account_number': accountNumber,
+      if (installmentMinor != null) 'installment_minor': installmentMinor,
+      if (tenureMonths != null) 'tenure_months': tenureMonths,
+      if (openDate != null) 'open_date': openDate,
+      if (firstDueDate != null) 'first_due_date': firstDueDate,
+      if (rateBp != null) 'rate_bp': rateBp,
+      if (bankMaturityMinor != null) 'bank_maturity_minor': bankMaturityMinor,
+      if (taxRateBp != null) 'tax_rate_bp': taxRateBp,
+      if (lateFeeMinor != null) 'late_fee_minor': lateFeeMinor,
+      if (graceDays != null) 'grace_days': graceDays,
+      if (missedLimit != null) 'missed_limit': missedLimit,
+      if (note != null) 'note': note,
+      if (closingType != null) 'closing_type': closingType,
+      if (closedDate != null) 'closed_date': closedDate,
+      if (profitMinor != null) 'profit_minor': profitMinor,
+      if (taxMinor != null) 'tax_minor': taxMinor,
+      if (chargeMinor != null) 'charge_minor': chargeMinor,
+      if (netReceivedMinor != null) 'net_received_minor': netReceivedMinor,
+      if (isActive != null) 'is_active': isActive,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  DpsAccountsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? profileId,
+    Value<String>? bankName,
+    Value<String?>? accountNumber,
+    Value<int>? installmentMinor,
+    Value<int>? tenureMonths,
+    Value<String>? openDate,
+    Value<String>? firstDueDate,
+    Value<int>? rateBp,
+    Value<int?>? bankMaturityMinor,
+    Value<int>? taxRateBp,
+    Value<int>? lateFeeMinor,
+    Value<int>? graceDays,
+    Value<int>? missedLimit,
+    Value<String?>? note,
+    Value<String?>? closingType,
+    Value<String?>? closedDate,
+    Value<int?>? profitMinor,
+    Value<int?>? taxMinor,
+    Value<int?>? chargeMinor,
+    Value<int?>? netReceivedMinor,
+    Value<bool>? isActive,
+    Value<DateTime>? createdAt,
+    Value<DateTime>? updatedAt,
+  }) {
+    return DpsAccountsCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      bankName: bankName ?? this.bankName,
+      accountNumber: accountNumber ?? this.accountNumber,
+      installmentMinor: installmentMinor ?? this.installmentMinor,
+      tenureMonths: tenureMonths ?? this.tenureMonths,
+      openDate: openDate ?? this.openDate,
+      firstDueDate: firstDueDate ?? this.firstDueDate,
+      rateBp: rateBp ?? this.rateBp,
+      bankMaturityMinor: bankMaturityMinor ?? this.bankMaturityMinor,
+      taxRateBp: taxRateBp ?? this.taxRateBp,
+      lateFeeMinor: lateFeeMinor ?? this.lateFeeMinor,
+      graceDays: graceDays ?? this.graceDays,
+      missedLimit: missedLimit ?? this.missedLimit,
+      note: note ?? this.note,
+      closingType: closingType ?? this.closingType,
+      closedDate: closedDate ?? this.closedDate,
+      profitMinor: profitMinor ?? this.profitMinor,
+      taxMinor: taxMinor ?? this.taxMinor,
+      chargeMinor: chargeMinor ?? this.chargeMinor,
+      netReceivedMinor: netReceivedMinor ?? this.netReceivedMinor,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<int>(profileId.value);
+    }
+    if (bankName.present) {
+      map['bank_name'] = Variable<String>(bankName.value);
+    }
+    if (accountNumber.present) {
+      map['account_number'] = Variable<String>(accountNumber.value);
+    }
+    if (installmentMinor.present) {
+      map['installment_minor'] = Variable<int>(installmentMinor.value);
+    }
+    if (tenureMonths.present) {
+      map['tenure_months'] = Variable<int>(tenureMonths.value);
+    }
+    if (openDate.present) {
+      map['open_date'] = Variable<String>(openDate.value);
+    }
+    if (firstDueDate.present) {
+      map['first_due_date'] = Variable<String>(firstDueDate.value);
+    }
+    if (rateBp.present) {
+      map['rate_bp'] = Variable<int>(rateBp.value);
+    }
+    if (bankMaturityMinor.present) {
+      map['bank_maturity_minor'] = Variable<int>(bankMaturityMinor.value);
+    }
+    if (taxRateBp.present) {
+      map['tax_rate_bp'] = Variable<int>(taxRateBp.value);
+    }
+    if (lateFeeMinor.present) {
+      map['late_fee_minor'] = Variable<int>(lateFeeMinor.value);
+    }
+    if (graceDays.present) {
+      map['grace_days'] = Variable<int>(graceDays.value);
+    }
+    if (missedLimit.present) {
+      map['missed_limit'] = Variable<int>(missedLimit.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (closingType.present) {
+      map['closing_type'] = Variable<String>(closingType.value);
+    }
+    if (closedDate.present) {
+      map['closed_date'] = Variable<String>(closedDate.value);
+    }
+    if (profitMinor.present) {
+      map['profit_minor'] = Variable<int>(profitMinor.value);
+    }
+    if (taxMinor.present) {
+      map['tax_minor'] = Variable<int>(taxMinor.value);
+    }
+    if (chargeMinor.present) {
+      map['charge_minor'] = Variable<int>(chargeMinor.value);
+    }
+    if (netReceivedMinor.present) {
+      map['net_received_minor'] = Variable<int>(netReceivedMinor.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DpsAccountsCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('bankName: $bankName, ')
+          ..write('accountNumber: $accountNumber, ')
+          ..write('installmentMinor: $installmentMinor, ')
+          ..write('tenureMonths: $tenureMonths, ')
+          ..write('openDate: $openDate, ')
+          ..write('firstDueDate: $firstDueDate, ')
+          ..write('rateBp: $rateBp, ')
+          ..write('bankMaturityMinor: $bankMaturityMinor, ')
+          ..write('taxRateBp: $taxRateBp, ')
+          ..write('lateFeeMinor: $lateFeeMinor, ')
+          ..write('graceDays: $graceDays, ')
+          ..write('missedLimit: $missedLimit, ')
+          ..write('note: $note, ')
+          ..write('closingType: $closingType, ')
+          ..write('closedDate: $closedDate, ')
+          ..write('profitMinor: $profitMinor, ')
+          ..write('taxMinor: $taxMinor, ')
+          ..write('chargeMinor: $chargeMinor, ')
+          ..write('netReceivedMinor: $netReceivedMinor, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $DpsPaymentsTable extends DpsPayments
+    with TableInfo<$DpsPaymentsTable, DpsPaymentRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $DpsPaymentsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _profileIdMeta = const VerificationMeta(
+    'profileId',
+  );
+  @override
+  late final GeneratedColumn<int> profileId = GeneratedColumn<int>(
+    'profile_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _dpsIdMeta = const VerificationMeta('dpsId');
+  @override
+  late final GeneratedColumn<int> dpsId = GeneratedColumn<int>(
+    'dps_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _installmentsMeta = const VerificationMeta(
+    'installments',
+  );
+  @override
+  late final GeneratedColumn<int> installments = GeneratedColumn<int>(
+    'installments',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lateFeeMinorMeta = const VerificationMeta(
+    'lateFeeMinor',
+  );
+  @override
+  late final GeneratedColumn<int> lateFeeMinor = GeneratedColumn<int>(
+    'late_fee_minor',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _paymentDateMeta = const VerificationMeta(
+    'paymentDate',
+  );
+  @override
+  late final GeneratedColumn<String> paymentDate = GeneratedColumn<String>(
+    'payment_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _noteMeta = const VerificationMeta('note');
+  @override
+  late final GeneratedColumn<String> note = GeneratedColumn<String>(
+    'note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _isDeletedMeta = const VerificationMeta(
+    'isDeleted',
+  );
+  @override
+  late final GeneratedColumn<bool> isDeleted = GeneratedColumn<bool>(
+    'is_deleted',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_deleted" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+    'created_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    profileId,
+    dpsId,
+    installments,
+    lateFeeMinor,
+    paymentDate,
+    note,
+    isDeleted,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'dps_payments';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<DpsPaymentRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('profile_id')) {
+      context.handle(
+        _profileIdMeta,
+        profileId.isAcceptableOrUnknown(data['profile_id']!, _profileIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_profileIdMeta);
+    }
+    if (data.containsKey('dps_id')) {
+      context.handle(
+        _dpsIdMeta,
+        dpsId.isAcceptableOrUnknown(data['dps_id']!, _dpsIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dpsIdMeta);
+    }
+    if (data.containsKey('installments')) {
+      context.handle(
+        _installmentsMeta,
+        installments.isAcceptableOrUnknown(
+          data['installments']!,
+          _installmentsMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_installmentsMeta);
+    }
+    if (data.containsKey('late_fee_minor')) {
+      context.handle(
+        _lateFeeMinorMeta,
+        lateFeeMinor.isAcceptableOrUnknown(
+          data['late_fee_minor']!,
+          _lateFeeMinorMeta,
+        ),
+      );
+    }
+    if (data.containsKey('payment_date')) {
+      context.handle(
+        _paymentDateMeta,
+        paymentDate.isAcceptableOrUnknown(
+          data['payment_date']!,
+          _paymentDateMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_paymentDateMeta);
+    }
+    if (data.containsKey('note')) {
+      context.handle(
+        _noteMeta,
+        note.isAcceptableOrUnknown(data['note']!, _noteMeta),
+      );
+    }
+    if (data.containsKey('is_deleted')) {
+      context.handle(
+        _isDeletedMeta,
+        isDeleted.isAcceptableOrUnknown(data['is_deleted']!, _isDeletedMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+    {profileId, id},
+  ];
+  @override
+  DpsPaymentRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return DpsPaymentRow(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      profileId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}profile_id'],
+      )!,
+      dpsId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}dps_id'],
+      )!,
+      installments: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}installments'],
+      )!,
+      lateFeeMinor: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}late_fee_minor'],
+      )!,
+      paymentDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}payment_date'],
+      )!,
+      note: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}note'],
+      ),
+      isDeleted: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_deleted'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}created_at'],
+      )!,
+    );
+  }
+
+  @override
+  $DpsPaymentsTable createAlias(String alias) {
+    return $DpsPaymentsTable(attachedDatabase, alias);
+  }
+}
+
+class DpsPaymentRow extends DataClass implements Insertable<DpsPaymentRow> {
+  final int id;
+  final int profileId;
+  final int dpsId;
+
+  /// Number of installments this deposit covers (oldest unpaid first).
+  final int installments;
+
+  /// Late fee the bank charged with it (not part of the savings).
+  final int lateFeeMinor;
+  final String paymentDate;
+  final String? note;
+  final bool isDeleted;
+  final DateTime createdAt;
+  const DpsPaymentRow({
+    required this.id,
+    required this.profileId,
+    required this.dpsId,
+    required this.installments,
+    required this.lateFeeMinor,
+    required this.paymentDate,
+    this.note,
+    required this.isDeleted,
+    required this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['profile_id'] = Variable<int>(profileId);
+    map['dps_id'] = Variable<int>(dpsId);
+    map['installments'] = Variable<int>(installments);
+    map['late_fee_minor'] = Variable<int>(lateFeeMinor);
+    map['payment_date'] = Variable<String>(paymentDate);
+    if (!nullToAbsent || note != null) {
+      map['note'] = Variable<String>(note);
+    }
+    map['is_deleted'] = Variable<bool>(isDeleted);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  DpsPaymentsCompanion toCompanion(bool nullToAbsent) {
+    return DpsPaymentsCompanion(
+      id: Value(id),
+      profileId: Value(profileId),
+      dpsId: Value(dpsId),
+      installments: Value(installments),
+      lateFeeMinor: Value(lateFeeMinor),
+      paymentDate: Value(paymentDate),
+      note: note == null && nullToAbsent ? const Value.absent() : Value(note),
+      isDeleted: Value(isDeleted),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory DpsPaymentRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return DpsPaymentRow(
+      id: serializer.fromJson<int>(json['id']),
+      profileId: serializer.fromJson<int>(json['profileId']),
+      dpsId: serializer.fromJson<int>(json['dpsId']),
+      installments: serializer.fromJson<int>(json['installments']),
+      lateFeeMinor: serializer.fromJson<int>(json['lateFeeMinor']),
+      paymentDate: serializer.fromJson<String>(json['paymentDate']),
+      note: serializer.fromJson<String?>(json['note']),
+      isDeleted: serializer.fromJson<bool>(json['isDeleted']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'profileId': serializer.toJson<int>(profileId),
+      'dpsId': serializer.toJson<int>(dpsId),
+      'installments': serializer.toJson<int>(installments),
+      'lateFeeMinor': serializer.toJson<int>(lateFeeMinor),
+      'paymentDate': serializer.toJson<String>(paymentDate),
+      'note': serializer.toJson<String?>(note),
+      'isDeleted': serializer.toJson<bool>(isDeleted),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  DpsPaymentRow copyWith({
+    int? id,
+    int? profileId,
+    int? dpsId,
+    int? installments,
+    int? lateFeeMinor,
+    String? paymentDate,
+    Value<String?> note = const Value.absent(),
+    bool? isDeleted,
+    DateTime? createdAt,
+  }) => DpsPaymentRow(
+    id: id ?? this.id,
+    profileId: profileId ?? this.profileId,
+    dpsId: dpsId ?? this.dpsId,
+    installments: installments ?? this.installments,
+    lateFeeMinor: lateFeeMinor ?? this.lateFeeMinor,
+    paymentDate: paymentDate ?? this.paymentDate,
+    note: note.present ? note.value : this.note,
+    isDeleted: isDeleted ?? this.isDeleted,
+    createdAt: createdAt ?? this.createdAt,
+  );
+  DpsPaymentRow copyWithCompanion(DpsPaymentsCompanion data) {
+    return DpsPaymentRow(
+      id: data.id.present ? data.id.value : this.id,
+      profileId: data.profileId.present ? data.profileId.value : this.profileId,
+      dpsId: data.dpsId.present ? data.dpsId.value : this.dpsId,
+      installments: data.installments.present
+          ? data.installments.value
+          : this.installments,
+      lateFeeMinor: data.lateFeeMinor.present
+          ? data.lateFeeMinor.value
+          : this.lateFeeMinor,
+      paymentDate: data.paymentDate.present
+          ? data.paymentDate.value
+          : this.paymentDate,
+      note: data.note.present ? data.note.value : this.note,
+      isDeleted: data.isDeleted.present ? data.isDeleted.value : this.isDeleted,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DpsPaymentRow(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('dpsId: $dpsId, ')
+          ..write('installments: $installments, ')
+          ..write('lateFeeMinor: $lateFeeMinor, ')
+          ..write('paymentDate: $paymentDate, ')
+          ..write('note: $note, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    profileId,
+    dpsId,
+    installments,
+    lateFeeMinor,
+    paymentDate,
+    note,
+    isDeleted,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is DpsPaymentRow &&
+          other.id == this.id &&
+          other.profileId == this.profileId &&
+          other.dpsId == this.dpsId &&
+          other.installments == this.installments &&
+          other.lateFeeMinor == this.lateFeeMinor &&
+          other.paymentDate == this.paymentDate &&
+          other.note == this.note &&
+          other.isDeleted == this.isDeleted &&
+          other.createdAt == this.createdAt);
+}
+
+class DpsPaymentsCompanion extends UpdateCompanion<DpsPaymentRow> {
+  final Value<int> id;
+  final Value<int> profileId;
+  final Value<int> dpsId;
+  final Value<int> installments;
+  final Value<int> lateFeeMinor;
+  final Value<String> paymentDate;
+  final Value<String?> note;
+  final Value<bool> isDeleted;
+  final Value<DateTime> createdAt;
+  const DpsPaymentsCompanion({
+    this.id = const Value.absent(),
+    this.profileId = const Value.absent(),
+    this.dpsId = const Value.absent(),
+    this.installments = const Value.absent(),
+    this.lateFeeMinor = const Value.absent(),
+    this.paymentDate = const Value.absent(),
+    this.note = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  DpsPaymentsCompanion.insert({
+    this.id = const Value.absent(),
+    required int profileId,
+    required int dpsId,
+    required int installments,
+    this.lateFeeMinor = const Value.absent(),
+    required String paymentDate,
+    this.note = const Value.absent(),
+    this.isDeleted = const Value.absent(),
+    required DateTime createdAt,
+  }) : profileId = Value(profileId),
+       dpsId = Value(dpsId),
+       installments = Value(installments),
+       paymentDate = Value(paymentDate),
+       createdAt = Value(createdAt);
+  static Insertable<DpsPaymentRow> custom({
+    Expression<int>? id,
+    Expression<int>? profileId,
+    Expression<int>? dpsId,
+    Expression<int>? installments,
+    Expression<int>? lateFeeMinor,
+    Expression<String>? paymentDate,
+    Expression<String>? note,
+    Expression<bool>? isDeleted,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (profileId != null) 'profile_id': profileId,
+      if (dpsId != null) 'dps_id': dpsId,
+      if (installments != null) 'installments': installments,
+      if (lateFeeMinor != null) 'late_fee_minor': lateFeeMinor,
+      if (paymentDate != null) 'payment_date': paymentDate,
+      if (note != null) 'note': note,
+      if (isDeleted != null) 'is_deleted': isDeleted,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  DpsPaymentsCompanion copyWith({
+    Value<int>? id,
+    Value<int>? profileId,
+    Value<int>? dpsId,
+    Value<int>? installments,
+    Value<int>? lateFeeMinor,
+    Value<String>? paymentDate,
+    Value<String?>? note,
+    Value<bool>? isDeleted,
+    Value<DateTime>? createdAt,
+  }) {
+    return DpsPaymentsCompanion(
+      id: id ?? this.id,
+      profileId: profileId ?? this.profileId,
+      dpsId: dpsId ?? this.dpsId,
+      installments: installments ?? this.installments,
+      lateFeeMinor: lateFeeMinor ?? this.lateFeeMinor,
+      paymentDate: paymentDate ?? this.paymentDate,
+      note: note ?? this.note,
+      isDeleted: isDeleted ?? this.isDeleted,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (profileId.present) {
+      map['profile_id'] = Variable<int>(profileId.value);
+    }
+    if (dpsId.present) {
+      map['dps_id'] = Variable<int>(dpsId.value);
+    }
+    if (installments.present) {
+      map['installments'] = Variable<int>(installments.value);
+    }
+    if (lateFeeMinor.present) {
+      map['late_fee_minor'] = Variable<int>(lateFeeMinor.value);
+    }
+    if (paymentDate.present) {
+      map['payment_date'] = Variable<String>(paymentDate.value);
+    }
+    if (note.present) {
+      map['note'] = Variable<String>(note.value);
+    }
+    if (isDeleted.present) {
+      map['is_deleted'] = Variable<bool>(isDeleted.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('DpsPaymentsCompanion(')
+          ..write('id: $id, ')
+          ..write('profileId: $profileId, ')
+          ..write('dpsId: $dpsId, ')
+          ..write('installments: $installments, ')
+          ..write('lateFeeMinor: $lateFeeMinor, ')
+          ..write('paymentDate: $paymentDate, ')
+          ..write('note: $note, ')
+          ..write('isDeleted: $isDeleted, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -16331,6 +18256,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $FixedDepositsTable fixedDeposits = $FixedDepositsTable(this);
   late final $FixedDepositTermsTable fixedDepositTerms =
       $FixedDepositTermsTable(this);
+  late final $DpsAccountsTable dpsAccounts = $DpsAccountsTable(this);
+  late final $DpsPaymentsTable dpsPayments = $DpsPaymentsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -16361,6 +18288,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     creditCardPayments,
     fixedDeposits,
     fixedDepositTerms,
+    dpsAccounts,
+    dpsPayments,
   ];
 }
 
@@ -24544,6 +26473,879 @@ typedef $$FixedDepositTermsTableProcessedTableManager =
       FixedDepositTermRow,
       PrefetchHooks Function()
     >;
+typedef $$DpsAccountsTableCreateCompanionBuilder =
+    DpsAccountsCompanion Function({
+      Value<int> id,
+      required int profileId,
+      required String bankName,
+      Value<String?> accountNumber,
+      required int installmentMinor,
+      required int tenureMonths,
+      required String openDate,
+      required String firstDueDate,
+      required int rateBp,
+      Value<int?> bankMaturityMinor,
+      Value<int> taxRateBp,
+      Value<int> lateFeeMinor,
+      Value<int> graceDays,
+      Value<int> missedLimit,
+      Value<String?> note,
+      Value<String?> closingType,
+      Value<String?> closedDate,
+      Value<int?> profitMinor,
+      Value<int?> taxMinor,
+      Value<int?> chargeMinor,
+      Value<int?> netReceivedMinor,
+      Value<bool> isActive,
+      required DateTime createdAt,
+      required DateTime updatedAt,
+    });
+typedef $$DpsAccountsTableUpdateCompanionBuilder =
+    DpsAccountsCompanion Function({
+      Value<int> id,
+      Value<int> profileId,
+      Value<String> bankName,
+      Value<String?> accountNumber,
+      Value<int> installmentMinor,
+      Value<int> tenureMonths,
+      Value<String> openDate,
+      Value<String> firstDueDate,
+      Value<int> rateBp,
+      Value<int?> bankMaturityMinor,
+      Value<int> taxRateBp,
+      Value<int> lateFeeMinor,
+      Value<int> graceDays,
+      Value<int> missedLimit,
+      Value<String?> note,
+      Value<String?> closingType,
+      Value<String?> closedDate,
+      Value<int?> profitMinor,
+      Value<int?> taxMinor,
+      Value<int?> chargeMinor,
+      Value<int?> netReceivedMinor,
+      Value<bool> isActive,
+      Value<DateTime> createdAt,
+      Value<DateTime> updatedAt,
+    });
+
+class $$DpsAccountsTableFilterComposer
+    extends Composer<_$AppDatabase, $DpsAccountsTable> {
+  $$DpsAccountsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get bankName => $composableBuilder(
+    column: $table.bankName,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get accountNumber => $composableBuilder(
+    column: $table.accountNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get installmentMinor => $composableBuilder(
+    column: $table.installmentMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get tenureMonths => $composableBuilder(
+    column: $table.tenureMonths,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get openDate => $composableBuilder(
+    column: $table.openDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get firstDueDate => $composableBuilder(
+    column: $table.firstDueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get rateBp => $composableBuilder(
+    column: $table.rateBp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get bankMaturityMinor => $composableBuilder(
+    column: $table.bankMaturityMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taxRateBp => $composableBuilder(
+    column: $table.taxRateBp,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lateFeeMinor => $composableBuilder(
+    column: $table.lateFeeMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get graceDays => $composableBuilder(
+    column: $table.graceDays,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get missedLimit => $composableBuilder(
+    column: $table.missedLimit,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get closingType => $composableBuilder(
+    column: $table.closingType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get closedDate => $composableBuilder(
+    column: $table.closedDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get profitMinor => $composableBuilder(
+    column: $table.profitMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get taxMinor => $composableBuilder(
+    column: $table.taxMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get chargeMinor => $composableBuilder(
+    column: $table.chargeMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get netReceivedMinor => $composableBuilder(
+    column: $table.netReceivedMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DpsAccountsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DpsAccountsTable> {
+  $$DpsAccountsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get bankName => $composableBuilder(
+    column: $table.bankName,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get accountNumber => $composableBuilder(
+    column: $table.accountNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get installmentMinor => $composableBuilder(
+    column: $table.installmentMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get tenureMonths => $composableBuilder(
+    column: $table.tenureMonths,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get openDate => $composableBuilder(
+    column: $table.openDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get firstDueDate => $composableBuilder(
+    column: $table.firstDueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get rateBp => $composableBuilder(
+    column: $table.rateBp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get bankMaturityMinor => $composableBuilder(
+    column: $table.bankMaturityMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taxRateBp => $composableBuilder(
+    column: $table.taxRateBp,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lateFeeMinor => $composableBuilder(
+    column: $table.lateFeeMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get graceDays => $composableBuilder(
+    column: $table.graceDays,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get missedLimit => $composableBuilder(
+    column: $table.missedLimit,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get closingType => $composableBuilder(
+    column: $table.closingType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get closedDate => $composableBuilder(
+    column: $table.closedDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get profitMinor => $composableBuilder(
+    column: $table.profitMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get taxMinor => $composableBuilder(
+    column: $table.taxMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get chargeMinor => $composableBuilder(
+    column: $table.chargeMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get netReceivedMinor => $composableBuilder(
+    column: $table.netReceivedMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+    column: $table.isActive,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+    column: $table.updatedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DpsAccountsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DpsAccountsTable> {
+  $$DpsAccountsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<String> get bankName =>
+      $composableBuilder(column: $table.bankName, builder: (column) => column);
+
+  GeneratedColumn<String> get accountNumber => $composableBuilder(
+    column: $table.accountNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get installmentMinor => $composableBuilder(
+    column: $table.installmentMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get tenureMonths => $composableBuilder(
+    column: $table.tenureMonths,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get openDate =>
+      $composableBuilder(column: $table.openDate, builder: (column) => column);
+
+  GeneratedColumn<String> get firstDueDate => $composableBuilder(
+    column: $table.firstDueDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get rateBp =>
+      $composableBuilder(column: $table.rateBp, builder: (column) => column);
+
+  GeneratedColumn<int> get bankMaturityMinor => $composableBuilder(
+    column: $table.bankMaturityMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get taxRateBp =>
+      $composableBuilder(column: $table.taxRateBp, builder: (column) => column);
+
+  GeneratedColumn<int> get lateFeeMinor => $composableBuilder(
+    column: $table.lateFeeMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get graceDays =>
+      $composableBuilder(column: $table.graceDays, builder: (column) => column);
+
+  GeneratedColumn<int> get missedLimit => $composableBuilder(
+    column: $table.missedLimit,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<String> get closingType => $composableBuilder(
+    column: $table.closingType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get closedDate => $composableBuilder(
+    column: $table.closedDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get profitMinor => $composableBuilder(
+    column: $table.profitMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get taxMinor =>
+      $composableBuilder(column: $table.taxMinor, builder: (column) => column);
+
+  GeneratedColumn<int> get chargeMinor => $composableBuilder(
+    column: $table.chargeMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get netReceivedMinor => $composableBuilder(
+    column: $table.netReceivedMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$DpsAccountsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DpsAccountsTable,
+          DpsAccountRow,
+          $$DpsAccountsTableFilterComposer,
+          $$DpsAccountsTableOrderingComposer,
+          $$DpsAccountsTableAnnotationComposer,
+          $$DpsAccountsTableCreateCompanionBuilder,
+          $$DpsAccountsTableUpdateCompanionBuilder,
+          (
+            DpsAccountRow,
+            BaseReferences<_$AppDatabase, $DpsAccountsTable, DpsAccountRow>,
+          ),
+          DpsAccountRow,
+          PrefetchHooks Function()
+        > {
+  $$DpsAccountsTableTableManager(_$AppDatabase db, $DpsAccountsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DpsAccountsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DpsAccountsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DpsAccountsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> profileId = const Value.absent(),
+                Value<String> bankName = const Value.absent(),
+                Value<String?> accountNumber = const Value.absent(),
+                Value<int> installmentMinor = const Value.absent(),
+                Value<int> tenureMonths = const Value.absent(),
+                Value<String> openDate = const Value.absent(),
+                Value<String> firstDueDate = const Value.absent(),
+                Value<int> rateBp = const Value.absent(),
+                Value<int?> bankMaturityMinor = const Value.absent(),
+                Value<int> taxRateBp = const Value.absent(),
+                Value<int> lateFeeMinor = const Value.absent(),
+                Value<int> graceDays = const Value.absent(),
+                Value<int> missedLimit = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<String?> closingType = const Value.absent(),
+                Value<String?> closedDate = const Value.absent(),
+                Value<int?> profitMinor = const Value.absent(),
+                Value<int?> taxMinor = const Value.absent(),
+                Value<int?> chargeMinor = const Value.absent(),
+                Value<int?> netReceivedMinor = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+                Value<DateTime> updatedAt = const Value.absent(),
+              }) => DpsAccountsCompanion(
+                id: id,
+                profileId: profileId,
+                bankName: bankName,
+                accountNumber: accountNumber,
+                installmentMinor: installmentMinor,
+                tenureMonths: tenureMonths,
+                openDate: openDate,
+                firstDueDate: firstDueDate,
+                rateBp: rateBp,
+                bankMaturityMinor: bankMaturityMinor,
+                taxRateBp: taxRateBp,
+                lateFeeMinor: lateFeeMinor,
+                graceDays: graceDays,
+                missedLimit: missedLimit,
+                note: note,
+                closingType: closingType,
+                closedDate: closedDate,
+                profitMinor: profitMinor,
+                taxMinor: taxMinor,
+                chargeMinor: chargeMinor,
+                netReceivedMinor: netReceivedMinor,
+                isActive: isActive,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int profileId,
+                required String bankName,
+                Value<String?> accountNumber = const Value.absent(),
+                required int installmentMinor,
+                required int tenureMonths,
+                required String openDate,
+                required String firstDueDate,
+                required int rateBp,
+                Value<int?> bankMaturityMinor = const Value.absent(),
+                Value<int> taxRateBp = const Value.absent(),
+                Value<int> lateFeeMinor = const Value.absent(),
+                Value<int> graceDays = const Value.absent(),
+                Value<int> missedLimit = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<String?> closingType = const Value.absent(),
+                Value<String?> closedDate = const Value.absent(),
+                Value<int?> profitMinor = const Value.absent(),
+                Value<int?> taxMinor = const Value.absent(),
+                Value<int?> chargeMinor = const Value.absent(),
+                Value<int?> netReceivedMinor = const Value.absent(),
+                Value<bool> isActive = const Value.absent(),
+                required DateTime createdAt,
+                required DateTime updatedAt,
+              }) => DpsAccountsCompanion.insert(
+                id: id,
+                profileId: profileId,
+                bankName: bankName,
+                accountNumber: accountNumber,
+                installmentMinor: installmentMinor,
+                tenureMonths: tenureMonths,
+                openDate: openDate,
+                firstDueDate: firstDueDate,
+                rateBp: rateBp,
+                bankMaturityMinor: bankMaturityMinor,
+                taxRateBp: taxRateBp,
+                lateFeeMinor: lateFeeMinor,
+                graceDays: graceDays,
+                missedLimit: missedLimit,
+                note: note,
+                closingType: closingType,
+                closedDate: closedDate,
+                profitMinor: profitMinor,
+                taxMinor: taxMinor,
+                chargeMinor: chargeMinor,
+                netReceivedMinor: netReceivedMinor,
+                isActive: isActive,
+                createdAt: createdAt,
+                updatedAt: updatedAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DpsAccountsTable, DpsAccountRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $DpsAccountsTable,
+                    DpsAccountRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DpsAccountsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DpsAccountsTable,
+      DpsAccountRow,
+      $$DpsAccountsTableFilterComposer,
+      $$DpsAccountsTableOrderingComposer,
+      $$DpsAccountsTableAnnotationComposer,
+      $$DpsAccountsTableCreateCompanionBuilder,
+      $$DpsAccountsTableUpdateCompanionBuilder,
+      (
+        DpsAccountRow,
+        BaseReferences<_$AppDatabase, $DpsAccountsTable, DpsAccountRow>,
+      ),
+      DpsAccountRow,
+      PrefetchHooks Function()
+    >;
+typedef $$DpsPaymentsTableCreateCompanionBuilder =
+    DpsPaymentsCompanion Function({
+      Value<int> id,
+      required int profileId,
+      required int dpsId,
+      required int installments,
+      Value<int> lateFeeMinor,
+      required String paymentDate,
+      Value<String?> note,
+      Value<bool> isDeleted,
+      required DateTime createdAt,
+    });
+typedef $$DpsPaymentsTableUpdateCompanionBuilder =
+    DpsPaymentsCompanion Function({
+      Value<int> id,
+      Value<int> profileId,
+      Value<int> dpsId,
+      Value<int> installments,
+      Value<int> lateFeeMinor,
+      Value<String> paymentDate,
+      Value<String?> note,
+      Value<bool> isDeleted,
+      Value<DateTime> createdAt,
+    });
+
+class $$DpsPaymentsTableFilterComposer
+    extends Composer<_$AppDatabase, $DpsPaymentsTable> {
+  $$DpsPaymentsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get dpsId => $composableBuilder(
+    column: $table.dpsId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get installments => $composableBuilder(
+    column: $table.installments,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get lateFeeMinor => $composableBuilder(
+    column: $table.lateFeeMinor,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get paymentDate => $composableBuilder(
+    column: $table.paymentDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$DpsPaymentsTableOrderingComposer
+    extends Composer<_$AppDatabase, $DpsPaymentsTable> {
+  $$DpsPaymentsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get profileId => $composableBuilder(
+    column: $table.profileId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get dpsId => $composableBuilder(
+    column: $table.dpsId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get installments => $composableBuilder(
+    column: $table.installments,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get lateFeeMinor => $composableBuilder(
+    column: $table.lateFeeMinor,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get paymentDate => $composableBuilder(
+    column: $table.paymentDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get note => $composableBuilder(
+    column: $table.note,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isDeleted => $composableBuilder(
+    column: $table.isDeleted,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$DpsPaymentsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $DpsPaymentsTable> {
+  $$DpsPaymentsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get profileId =>
+      $composableBuilder(column: $table.profileId, builder: (column) => column);
+
+  GeneratedColumn<int> get dpsId =>
+      $composableBuilder(column: $table.dpsId, builder: (column) => column);
+
+  GeneratedColumn<int> get installments => $composableBuilder(
+    column: $table.installments,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get lateFeeMinor => $composableBuilder(
+    column: $table.lateFeeMinor,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get paymentDate => $composableBuilder(
+    column: $table.paymentDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get note =>
+      $composableBuilder(column: $table.note, builder: (column) => column);
+
+  GeneratedColumn<bool> get isDeleted =>
+      $composableBuilder(column: $table.isDeleted, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$DpsPaymentsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $DpsPaymentsTable,
+          DpsPaymentRow,
+          $$DpsPaymentsTableFilterComposer,
+          $$DpsPaymentsTableOrderingComposer,
+          $$DpsPaymentsTableAnnotationComposer,
+          $$DpsPaymentsTableCreateCompanionBuilder,
+          $$DpsPaymentsTableUpdateCompanionBuilder,
+          (
+            DpsPaymentRow,
+            BaseReferences<_$AppDatabase, $DpsPaymentsTable, DpsPaymentRow>,
+          ),
+          DpsPaymentRow,
+          PrefetchHooks Function()
+        > {
+  $$DpsPaymentsTableTableManager(_$AppDatabase db, $DpsPaymentsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$DpsPaymentsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$DpsPaymentsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$DpsPaymentsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int> profileId = const Value.absent(),
+                Value<int> dpsId = const Value.absent(),
+                Value<int> installments = const Value.absent(),
+                Value<int> lateFeeMinor = const Value.absent(),
+                Value<String> paymentDate = const Value.absent(),
+                Value<String?> note = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                Value<DateTime> createdAt = const Value.absent(),
+              }) => DpsPaymentsCompanion(
+                id: id,
+                profileId: profileId,
+                dpsId: dpsId,
+                installments: installments,
+                lateFeeMinor: lateFeeMinor,
+                paymentDate: paymentDate,
+                note: note,
+                isDeleted: isDeleted,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required int profileId,
+                required int dpsId,
+                required int installments,
+                Value<int> lateFeeMinor = const Value.absent(),
+                required String paymentDate,
+                Value<String?> note = const Value.absent(),
+                Value<bool> isDeleted = const Value.absent(),
+                required DateTime createdAt,
+              }) => DpsPaymentsCompanion.insert(
+                id: id,
+                profileId: profileId,
+                dpsId: dpsId,
+                installments: installments,
+                lateFeeMinor: lateFeeMinor,
+                paymentDate: paymentDate,
+                note: note,
+                isDeleted: isDeleted,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$DpsPaymentsTable, DpsPaymentRow>(table),
+                  BaseReferences<
+                    _$AppDatabase,
+                    $DpsPaymentsTable,
+                    DpsPaymentRow
+                  >(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$DpsPaymentsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $DpsPaymentsTable,
+      DpsPaymentRow,
+      $$DpsPaymentsTableFilterComposer,
+      $$DpsPaymentsTableOrderingComposer,
+      $$DpsPaymentsTableAnnotationComposer,
+      $$DpsPaymentsTableCreateCompanionBuilder,
+      $$DpsPaymentsTableUpdateCompanionBuilder,
+      (
+        DpsPaymentRow,
+        BaseReferences<_$AppDatabase, $DpsPaymentsTable, DpsPaymentRow>,
+      ),
+      DpsPaymentRow,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -24600,4 +27402,8 @@ class $AppDatabaseManager {
       $$FixedDepositsTableTableManager(_db, _db.fixedDeposits);
   $$FixedDepositTermsTableTableManager get fixedDepositTerms =>
       $$FixedDepositTermsTableTableManager(_db, _db.fixedDepositTerms);
+  $$DpsAccountsTableTableManager get dpsAccounts =>
+      $$DpsAccountsTableTableManager(_db, _db.dpsAccounts);
+  $$DpsPaymentsTableTableManager get dpsPayments =>
+      $$DpsPaymentsTableTableManager(_db, _db.dpsPayments);
 }

@@ -27,6 +27,8 @@ import '../../features/debts/presentation/debt_detail_screen.dart';
 import '../../features/debts/presentation/debt_list_screen.dart';
 import '../../features/goals/presentation/goal_list_screen.dart';
 import '../../features/import/presentation/csv_import_screen.dart';
+import '../../features/dps/presentation/dps_detail_screen.dart';
+import '../../features/dps/presentation/dps_list_screen.dart';
 import '../../features/fixed_deposits/presentation/fd_detail_screen.dart';
 import '../../features/fixed_deposits/presentation/fd_list_screen.dart';
 import '../../features/loans/presentation/loan_detail_screen.dart';
@@ -172,6 +174,18 @@ final appRouterProvider = Provider<GoRouter>((ref) {
             path: ':id',
             builder: (_, state) => LoanDetailScreen(
               loanId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
+            ),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/dps',
+        builder: (_, _) => const DpsListScreen(),
+        routes: [
+          GoRoute(
+            path: ':id',
+            builder: (_, state) => DpsDetailScreen(
+              dpsId: int.tryParse(state.pathParameters['id'] ?? '') ?? -1,
             ),
           ),
         ],

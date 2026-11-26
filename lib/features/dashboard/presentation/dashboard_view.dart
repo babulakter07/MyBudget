@@ -9,6 +9,7 @@ import '../../goals/presentation/goals_summary_card.dart';
 import '../../insights/presentation/insights_highlights_card.dart';
 import '../../ledger/presentation/period_pickers.dart';
 import '../../profiles/data/profile_providers.dart';
+import '../../upcoming/presentation/upcoming_payments_card.dart';
 import '../providers/dashboard_providers.dart';
 import 'analytics_section.dart';
 import 'overview_section.dart';
@@ -40,6 +41,7 @@ class DashboardView extends ConsumerWidget {
             ),
           ),
           const SizedBox(height: 8),
+          const UpcomingPaymentsCard(),
           const _PeriodFilter(),
           const SizedBox(height: 12),
           const OverviewSection(),

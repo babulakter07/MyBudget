@@ -161,7 +161,7 @@ void main() {
 
     test('export carries the deposit chain', () async {
       final j = await export();
-      expect(j['schemaVersion'], 7);
+      expect(j['schemaVersion'], 8);
       expect(table(j, 'fixed_deposits'), hasLength(1));
       expect(table(j, 'fixed_deposit_terms'), hasLength(2));
       expect(service.validate(jsonEncode(j)).isValid, isTrue);

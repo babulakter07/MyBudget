@@ -299,36 +299,77 @@
   "notificationsFdrTitle": "{scheme} maturing",
   "@notificationsFdrTitle": {
     "placeholders": {
-      "scheme": { "type": "String" }
+      "scheme": {
+        "type": "String"
+      }
     }
   },
   "notificationsFdrBodyUpcoming": "{scheme} {number} of {bank} matures in {days} days ({date}). Principal {amount}.",
   "@notificationsFdrBodyUpcoming": {
     "placeholders": {
-      "scheme": { "type": "String" },
-      "number": { "type": "String" },
-      "bank": { "type": "String" },
-      "days": { "type": "int" },
-      "date": { "type": "String" },
-      "amount": { "type": "String" }
+      "scheme": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "bank": {
+        "type": "String"
+      },
+      "days": {
+        "type": "int"
+      },
+      "date": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "notificationsFdrBodyTomorrow": "{scheme} {number} of {bank} matures tomorrow. Principal {amount}.",
   "@notificationsFdrBodyTomorrow": {
     "placeholders": {
-      "scheme": { "type": "String" },
-      "number": { "type": "String" },
-      "bank": { "type": "String" },
-      "amount": { "type": "String" }
+      "scheme": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "bank": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
     }
   },
   "notificationsFdrBodyToday": "{scheme} {number} of {bank} matures today. Principal {amount}.",
   "@notificationsFdrBodyToday": {
     "placeholders": {
-      "scheme": { "type": "String" },
-      "number": { "type": "String" },
-      "bank": { "type": "String" },
-      "amount": { "type": "String" }
+      "scheme": {
+        "type": "String"
+      },
+      "number": {
+        "type": "String"
+      },
+      "bank": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationsDpsName": "{bank} DPS installment #{number}",
+  "@notificationsDpsName": {
+    "placeholders": {
+      "bank": {
+        "type": "String"
+      },
+      "number": {
+        "type": "int"
+      }
     }
   }
 }

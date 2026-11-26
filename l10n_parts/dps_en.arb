@@ -1,0 +1,255 @@
+{
+  "dpsTitle": "DPS (monthly savings)",
+  "dpsAdd": "Add DPS",
+  "dpsEdit": "Edit DPS",
+  "dpsEmpty": "No DPS yet. Tap + to add one.",
+  "dpsNotFound": "This DPS was not found.",
+  "dpsShowArchived": "Show archived",
+  "dpsArchived": "Archived",
+  "dpsArchive": "Archive",
+  "dpsUnarchive": "Unarchive",
+  "dpsSummaryOpen": "Open",
+  "dpsSummaryDeposited": "Deposited",
+  "dpsSummaryMonthly": "Per month",
+  "dpsSummaryOverdue": "Overdue installments: {amount}",
+  "@dpsSummaryOverdue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsPerMonth": "{amount} per month",
+  "@dpsPerMonth": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsPaidOf": "{paid} of {total} installments paid",
+  "@dpsPaidOf": {
+    "placeholders": {
+      "paid": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsNextDue": "Next installment: {date}",
+  "@dpsNextDue": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsMaturesOn": "All paid. Matures {date}",
+  "@dpsMaturesOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsStatusActive": "Active",
+  "dpsStatusOverdue": "Overdue",
+  "dpsStatusAtRisk": "At risk",
+  "dpsStatusMatured": "Matured",
+  "dpsStatusClosed": "Closed",
+  "dpsInstallmentPaid": "Paid",
+  "dpsInstallmentDue": "Due",
+  "dpsInstallmentUpcoming": "Upcoming",
+  "dpsBankName": "Bank or institution",
+  "dpsBankRequired": "Enter a name (up to 80 characters)",
+  "dpsAccountNumber": "DPS account number (optional)",
+  "dpsAccountNumberValue": "Account: {number}",
+  "@dpsAccountNumberValue": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsInstallment": "Monthly installment",
+  "dpsTenureMonths": "Term in months",
+  "dpsYears": "{years} years",
+  "@dpsYears": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsOpenDate": "Opening date",
+  "dpsFirstDueDate": "First installment due date",
+  "dpsAlreadyPaid": "Installments already paid (optional)",
+  "dpsAlreadyPaidHelper": "For a DPS you already have. {count} due dates have passed. Check your statement.",
+  "@dpsAlreadyPaidHelper": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsRate": "Yearly profit rate %",
+  "dpsBankMaturity": "Maturity amount quoted by bank (optional)",
+  "dpsBankMaturityHelper": "Before tax. Use the figure from your bank if you have it.",
+  "dpsEstimateHelper": "Before tax. App estimate: {amount}. Your bank's figure may differ.",
+  "@dpsEstimateHelper": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsTaxRate": "Tax deducted from profit %",
+  "dpsTaxHelper": "Often 10% with a TIN and 15% without. Rules change, so confirm with your bank.",
+  "dpsBankRules": "Your bank's rules",
+  "dpsBankRulesNote": "These differ between banks. Copy them from your DPS terms.",
+  "dpsLateFee": "Late fee per installment (0 if none)",
+  "dpsGraceDays": "Grace days after the due date",
+  "dpsMissedLimit": "Missed installments in a row before closure",
+  "dpsMissedLimitHelper": "Some banks use 3. Enter 0 if yours has no such rule.",
+  "dpsNote": "Note (optional)",
+  "dpsInvalid": "Check this value",
+  "dpsLockedNote": "The installment, term and dates are locked because deposits are recorded.",
+  "dpsRecordDeposit": "Record deposit",
+  "dpsInstallmentCount": "Number of installments",
+  "dpsInstallmentCountHelper": "{remaining} left, {overdue} overdue",
+  "@dpsInstallmentCountHelper": {
+    "placeholders": {
+      "remaining": {
+        "type": "int"
+      },
+      "overdue": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsDepositDate": "Deposit date",
+  "dpsLateFeeCharged": "Late fee charged",
+  "dpsDepositTotal": "Total paid: {amount}",
+  "@dpsDepositTotal": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsSeparateLedgerNote": "This does not change your account balances or budgets.",
+  "dpsDeposits": "Deposits",
+  "dpsNoDeposits": "No deposits recorded yet.",
+  "dpsInstallmentsCount": "{count} installment(s)",
+  "@dpsInstallmentsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsLateFeeValue": "Late fee {amount}",
+  "@dpsLateFeeValue": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsLateFeesPaid": "Late fees paid",
+  "dpsVoid": "Void",
+  "dpsVoided": "Voided",
+  "dpsVoidTitle": "Void this deposit?",
+  "dpsVoidMessage": "It stays in the history but no longer counts.",
+  "dpsSchedule": "Installment schedule",
+  "dpsPaidOn": "Paid {date}",
+  "@dpsPaidOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsAtRiskWarning": "{count} installments are overdue. Your bank may close this DPS. Contact the bank.",
+  "@dpsAtRiskWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsOneMoreWarning": "One more missed installment reaches your bank's limit of {limit}.",
+  "@dpsOneMoreWarning": {
+    "placeholders": {
+      "limit": {
+        "type": "int"
+      }
+    }
+  },
+  "dpsOverdueWarning": "{count} installment(s) overdue: {amount}",
+  "@dpsOverdueWarning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsNextInstallment": "Next installment",
+  "dpsMaturityDate": "Maturity date",
+  "dpsMaturityEstimate": "Maturity value (app estimate)",
+  "dpsMaturityFromBank": "Maturity value (from bank)",
+  "dpsExpectedTax": "Tax on profit at {rate}%",
+  "@dpsExpectedTax": {
+    "placeholders": {
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsExpectedNet": "Expected after tax",
+  "dpsMaturityNote": "Assumes every installment is paid on time. Excise duty and bank charges are not included.",
+  "dpsClose": "Close DPS",
+  "dpsCloseTitle": "Close or encash",
+  "dpsCloseMatured": "Matured",
+  "dpsClosePremature": "Closed early",
+  "dpsCloseBank": "Closed by bank",
+  "dpsCloseConfirm": "Close this DPS with {amount} received? A closed DPS cannot be changed.",
+  "@dpsCloseConfirm": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsEarlyNote": "Rules for early closure differ between banks. Some do not allow it in the first months and many pay a lower rate. Enter the figures from your bank.",
+  "dpsClosingDate": "Closing date",
+  "dpsDepositedAmount": "Deposited {amount}",
+  "@dpsDepositedAmount": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsProfit": "Profit",
+  "dpsProfitHelper": "Before tax, from the bank's statement.",
+  "dpsTax": "Tax deducted",
+  "dpsCharges": "Excise duty and other charges",
+  "dpsChargesHelper": "Enter what the bank deducted.",
+  "dpsCalculatedNet": "Calculated amount received: {amount}",
+  "@dpsCalculatedNet": {
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dpsFinalNet": "Amount actually received (optional)",
+  "dpsFinalNetHelper": "Fill only if it differs from the calculated amount.",
+  "dpsNetReceived": "Amount received"
+}

@@ -181,7 +181,7 @@ void main() {
     test('is versioned, includes all rows and integer money', () async {
       final j = mutable(await service.exportJson());
       expect(j['format'], 'mybudget-backup');
-      expect(j['version'], 5);
+      expect(j['version'], 6);
       expect(j['schemaVersion'], AppDatabase.currentSchemaVersion);
       expect(rows(j, 'financial_transactions'), hasLength(4));
       expect(

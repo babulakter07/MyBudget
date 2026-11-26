@@ -11,6 +11,7 @@ import '../../features/backup/data/folder_backup_service.dart';
 import '../../features/onboarding/data/backup_reminder.dart';
 import '../../features/notifications/data/notification_providers.dart';
 import '../../features/recurring/providers/recurring_providers.dart';
+import '../../features/upcoming/providers/upcoming_providers.dart';
 import '../../shared/providers/core_providers.dart';
 import '../router/app_router.dart';
 import '../shell/home_tab_provider.dart';
@@ -33,7 +34,8 @@ final dataChangeFingerprintProvider = StreamProvider<String>((ref) {
         '(SELECT COUNT(*) FROM loan_payments WHERE profile_id = ?1 AND is_deleted = 0) AS lp, '
         '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM credit_card_bills WHERE profile_id = ?1) AS b, '
         '(SELECT COUNT(*) FROM credit_card_payments WHERE profile_id = ?1 AND is_deleted = 0) AS cp, '
-        '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM fixed_deposit_terms WHERE profile_id = ?1) AS fd',
+        '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM fixed_deposit_terms WHERE profile_id = ?1) AS fd, '
+        '(SELECT COUNT(*) || \':\' || IFNULL(MAX(updated_at), 0) FROM dps_accounts WHERE profile_id = ?1) AS dps',
         variables: [Variable.withInt(profileId)],
         readsFrom: {
           db.financialTransactions,
@@ -45,6 +47,7 @@ final dataChangeFingerprintProvider = StreamProvider<String>((ref) {
           db.creditCardBills,
           db.creditCardPayments,
           db.fixedDepositTerms,
+          db.dpsAccounts,
         },
       )
       .watchSingle()
@@ -54,7 +57,7 @@ final dataChangeFingerprintProvider = StreamProvider<String>((ref) {
             '${r.read<String>('d')}|${r.read<int>('dp')}|'
             '${r.read<String>('l')}|${r.read<int>('lp')}|'
             '${r.read<String>('b')}|${r.read<int>('cp')}|'
-            '${r.read<String>('fd')}',
+            '${r.read<String>('fd')}|${r.read<String>('dps')}',
       );
 });
 
@@ -154,6 +157,8 @@ class _AppTasksState extends ConsumerState<AppTasks>
 
   Future<void> _runAll() async {
     if (!mounted || ref.read(activeProfileIdProvider) == null) return;
+    // The date may have changed while the app was in the background.
+    ref.invalidate(upcomingPaymentsProvider);
     await _guard('attachments', () async {
       await ref
           .read(attachmentRepositoryProvider)

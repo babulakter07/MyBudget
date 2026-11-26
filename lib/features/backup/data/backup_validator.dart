@@ -7,7 +7,7 @@ import 'backup_paths.dart';
 import 'backup_schema.dart';
 
 /// Highest database schema version this build can restore.
-const int maxSupportedSchemaVersion = 7;
+const int maxSupportedSchemaVersion = 8;
 
 /// Pure validation of a backup file (no database access). Mirrors every
 /// constraint the database enforces so a bad file is rejected *before* any
@@ -850,6 +850,88 @@ class BackupValidator {
     for (final e in fdActive.entries) {
       if (e.value > 1) {
         err('fixed_deposits id ${e.key}: more than one running instrument.');
+      }
+    }
+
+    final dpsNumbers = <String>{};
+    final dpsById = <Object?, Map<String, dynamic>>{};
+    for (final r in rows['dps_accounts']!) {
+      profileRef('dps_accounts', r);
+      final label = 'dps_accounts id ${r['id']}';
+      dpsById[r['id']] = r;
+      final bank = r['bank_name'] as String;
+      if (bank.isEmpty || bank.length > 80) {
+        err('$label: bank name must be 1-80 characters.');
+      }
+      final number = r['account_number'] as String?;
+      if (number != null &&
+          !dpsNumbers.add('${r['profile_id']}|${_nocase(number)}')) {
+        err('$label: duplicate account number.');
+      }
+      if ((r['installment_minor'] as int) <= 0) {
+        err('$label: installment must be greater than zero.');
+      }
+      bool outside(String c, int low, int high) {
+        final v = r[c] as int;
+        return v < low || v > high;
+      }
+
+      if (outside('tenure_months', 1, 360) ||
+          outside('rate_bp', 0, 10000) ||
+          outside('tax_rate_bp', 0, 10000) ||
+          outside('grace_days', 0, 60) ||
+          outside('missed_limit', 0, 24) ||
+          (r['late_fee_minor'] as int) < 0) {
+        err('$label: a term, rate or rule is out of range.');
+      }
+      if (!dateRe(r['open_date'] as String) ||
+          !dateRe(r['first_due_date'] as String)) {
+        err('$label: dates must be valid yyyy-MM-dd dates.');
+      }
+      final closing = r['closing_type'];
+      if (closing != null) {
+        if (!{'matured', 'premature', 'bank_closed'}.contains(closing)) {
+          err('$label: unknown closing type "$closing".');
+        }
+        final closed = r['closed_date'] as String?;
+        if (closed == null || !dateRe(closed)) {
+          err('$label: a closed DPS needs a valid closed_date.');
+        }
+        for (final c in [
+          'profit_minor',
+          'tax_minor',
+          'charge_minor',
+          'net_received_minor',
+        ]) {
+          final v = r[c];
+          if (v == null || (v as int) < 0) {
+            err('$label: $c is required and not negative.');
+          }
+        }
+      }
+    }
+
+    final dpsPaid = <Object?, int>{};
+    for (final r in rows['dps_payments']!) {
+      profileRef('dps_payments', r);
+      ref('dps_payments', r, 'dps_id', 'dps_accounts');
+      final label = 'dps_payments id ${r['id']}';
+      final count = r['installments'] as int;
+      if (count < 1) err('$label: installments must be at least 1.');
+      if ((r['late_fee_minor'] as int) < 0) {
+        err('$label: late fee cannot be negative.');
+      }
+      if (!dateRe(r['payment_date'] as String)) {
+        err('$label: payment_date must be a valid yyyy-MM-dd date.');
+      }
+      if (r['is_deleted'] != true) {
+        dpsPaid[r['dps_id']] = (dpsPaid[r['dps_id']] ?? 0) + count;
+      }
+    }
+    for (final e in dpsPaid.entries) {
+      final account = dpsById[e.key];
+      if (account != null && e.value > (account['tenure_months'] as int)) {
+        err('dps_accounts id ${e.key}: more installments paid than its term.');
       }
     }
 

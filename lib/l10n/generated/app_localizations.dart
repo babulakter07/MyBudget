@@ -3154,6 +3154,588 @@ abstract class AppLocalizations {
   /// **'Voided'**
   String get debtsVoided;
 
+  /// No description provided for @dpsAccountNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'DPS account number (optional)'**
+  String get dpsAccountNumber;
+
+  /// No description provided for @dpsAccountNumberValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Account: {number}'**
+  String dpsAccountNumberValue(String number);
+
+  /// No description provided for @dpsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add DPS'**
+  String get dpsAdd;
+
+  /// No description provided for @dpsAlreadyPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Installments already paid (optional)'**
+  String get dpsAlreadyPaid;
+
+  /// No description provided for @dpsAlreadyPaidHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'For a DPS you already have. {count} due dates have passed. Check your statement.'**
+  String dpsAlreadyPaidHelper(int count);
+
+  /// No description provided for @dpsArchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Archive'**
+  String get dpsArchive;
+
+  /// No description provided for @dpsArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Archived'**
+  String get dpsArchived;
+
+  /// No description provided for @dpsAtRiskWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} installments are overdue. Your bank may close this DPS. Contact the bank.'**
+  String dpsAtRiskWarning(int count);
+
+  /// No description provided for @dpsBankMaturity.
+  ///
+  /// In en, this message translates to:
+  /// **'Maturity amount quoted by bank (optional)'**
+  String get dpsBankMaturity;
+
+  /// No description provided for @dpsBankMaturityHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Before tax. Use the figure from your bank if you have it.'**
+  String get dpsBankMaturityHelper;
+
+  /// No description provided for @dpsBankName.
+  ///
+  /// In en, this message translates to:
+  /// **'Bank or institution'**
+  String get dpsBankName;
+
+  /// No description provided for @dpsBankRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a name (up to 80 characters)'**
+  String get dpsBankRequired;
+
+  /// No description provided for @dpsBankRules.
+  ///
+  /// In en, this message translates to:
+  /// **'Your bank\'s rules'**
+  String get dpsBankRules;
+
+  /// No description provided for @dpsBankRulesNote.
+  ///
+  /// In en, this message translates to:
+  /// **'These differ between banks. Copy them from your DPS terms.'**
+  String get dpsBankRulesNote;
+
+  /// No description provided for @dpsCalculatedNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Calculated amount received: {amount}'**
+  String dpsCalculatedNet(String amount);
+
+  /// No description provided for @dpsCharges.
+  ///
+  /// In en, this message translates to:
+  /// **'Excise duty and other charges'**
+  String get dpsCharges;
+
+  /// No description provided for @dpsChargesHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter what the bank deducted.'**
+  String get dpsChargesHelper;
+
+  /// No description provided for @dpsClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close DPS'**
+  String get dpsClose;
+
+  /// No description provided for @dpsCloseBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed by bank'**
+  String get dpsCloseBank;
+
+  /// No description provided for @dpsCloseConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Close this DPS with {amount} received? A closed DPS cannot be changed.'**
+  String dpsCloseConfirm(String amount);
+
+  /// No description provided for @dpsCloseMatured.
+  ///
+  /// In en, this message translates to:
+  /// **'Matured'**
+  String get dpsCloseMatured;
+
+  /// No description provided for @dpsClosePremature.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed early'**
+  String get dpsClosePremature;
+
+  /// No description provided for @dpsCloseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Close or encash'**
+  String get dpsCloseTitle;
+
+  /// No description provided for @dpsClosingDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Closing date'**
+  String get dpsClosingDate;
+
+  /// No description provided for @dpsDepositDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposit date'**
+  String get dpsDepositDate;
+
+  /// No description provided for @dpsDepositTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Total paid: {amount}'**
+  String dpsDepositTotal(String amount);
+
+  /// No description provided for @dpsDepositedAmount.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposited {amount}'**
+  String dpsDepositedAmount(String amount);
+
+  /// No description provided for @dpsDeposits.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposits'**
+  String get dpsDeposits;
+
+  /// No description provided for @dpsEarlyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules for early closure differ between banks. Some do not allow it in the first months and many pay a lower rate. Enter the figures from your bank.'**
+  String get dpsEarlyNote;
+
+  /// No description provided for @dpsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit DPS'**
+  String get dpsEdit;
+
+  /// No description provided for @dpsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No DPS yet. Tap + to add one.'**
+  String get dpsEmpty;
+
+  /// No description provided for @dpsEstimateHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Before tax. App estimate: {amount}. Your bank\'s figure may differ.'**
+  String dpsEstimateHelper(String amount);
+
+  /// No description provided for @dpsExpectedNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Expected after tax'**
+  String get dpsExpectedNet;
+
+  /// No description provided for @dpsExpectedTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax on profit at {rate}%'**
+  String dpsExpectedTax(String rate);
+
+  /// No description provided for @dpsFinalNet.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount actually received (optional)'**
+  String get dpsFinalNet;
+
+  /// No description provided for @dpsFinalNetHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill only if it differs from the calculated amount.'**
+  String get dpsFinalNetHelper;
+
+  /// No description provided for @dpsFirstDueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'First installment due date'**
+  String get dpsFirstDueDate;
+
+  /// No description provided for @dpsGraceDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Grace days after the due date'**
+  String get dpsGraceDays;
+
+  /// No description provided for @dpsInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly installment'**
+  String get dpsInstallment;
+
+  /// No description provided for @dpsInstallmentCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of installments'**
+  String get dpsInstallmentCount;
+
+  /// No description provided for @dpsInstallmentCountHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'{remaining} left, {overdue} overdue'**
+  String dpsInstallmentCountHelper(int remaining, int overdue);
+
+  /// No description provided for @dpsInstallmentDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Due'**
+  String get dpsInstallmentDue;
+
+  /// No description provided for @dpsInstallmentPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get dpsInstallmentPaid;
+
+  /// No description provided for @dpsInstallmentUpcoming.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming'**
+  String get dpsInstallmentUpcoming;
+
+  /// No description provided for @dpsInstallmentsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} installment(s)'**
+  String dpsInstallmentsCount(int count);
+
+  /// No description provided for @dpsInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Check this value'**
+  String get dpsInvalid;
+
+  /// No description provided for @dpsLateFee.
+  ///
+  /// In en, this message translates to:
+  /// **'Late fee per installment (0 if none)'**
+  String get dpsLateFee;
+
+  /// No description provided for @dpsLateFeeCharged.
+  ///
+  /// In en, this message translates to:
+  /// **'Late fee charged'**
+  String get dpsLateFeeCharged;
+
+  /// No description provided for @dpsLateFeeValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Late fee {amount}'**
+  String dpsLateFeeValue(String amount);
+
+  /// No description provided for @dpsLateFeesPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Late fees paid'**
+  String get dpsLateFeesPaid;
+
+  /// No description provided for @dpsLockedNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The installment, term and dates are locked because deposits are recorded.'**
+  String get dpsLockedNote;
+
+  /// No description provided for @dpsMaturesOn.
+  ///
+  /// In en, this message translates to:
+  /// **'All paid. Matures {date}'**
+  String dpsMaturesOn(String date);
+
+  /// No description provided for @dpsMaturityDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Maturity date'**
+  String get dpsMaturityDate;
+
+  /// No description provided for @dpsMaturityEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Maturity value (app estimate)'**
+  String get dpsMaturityEstimate;
+
+  /// No description provided for @dpsMaturityFromBank.
+  ///
+  /// In en, this message translates to:
+  /// **'Maturity value (from bank)'**
+  String get dpsMaturityFromBank;
+
+  /// No description provided for @dpsMaturityNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Assumes every installment is paid on time. Excise duty and bank charges are not included.'**
+  String get dpsMaturityNote;
+
+  /// No description provided for @dpsMissedLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'Missed installments in a row before closure'**
+  String get dpsMissedLimit;
+
+  /// No description provided for @dpsMissedLimitHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Some banks use 3. Enter 0 if yours has no such rule.'**
+  String get dpsMissedLimitHelper;
+
+  /// No description provided for @dpsNetReceived.
+  ///
+  /// In en, this message translates to:
+  /// **'Amount received'**
+  String get dpsNetReceived;
+
+  /// No description provided for @dpsNextDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Next installment: {date}'**
+  String dpsNextDue(String date);
+
+  /// No description provided for @dpsNextInstallment.
+  ///
+  /// In en, this message translates to:
+  /// **'Next installment'**
+  String get dpsNextInstallment;
+
+  /// No description provided for @dpsNoDeposits.
+  ///
+  /// In en, this message translates to:
+  /// **'No deposits recorded yet.'**
+  String get dpsNoDeposits;
+
+  /// No description provided for @dpsNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'This DPS was not found.'**
+  String get dpsNotFound;
+
+  /// No description provided for @dpsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Note (optional)'**
+  String get dpsNote;
+
+  /// No description provided for @dpsOneMoreWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'One more missed installment reaches your bank\'s limit of {limit}.'**
+  String dpsOneMoreWarning(int limit);
+
+  /// No description provided for @dpsOpenDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Opening date'**
+  String get dpsOpenDate;
+
+  /// No description provided for @dpsOverdueWarning.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} installment(s) overdue: {amount}'**
+  String dpsOverdueWarning(int count, String amount);
+
+  /// No description provided for @dpsPaidOf.
+  ///
+  /// In en, this message translates to:
+  /// **'{paid} of {total} installments paid'**
+  String dpsPaidOf(int paid, int total);
+
+  /// No description provided for @dpsPaidOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid {date}'**
+  String dpsPaidOn(String date);
+
+  /// No description provided for @dpsPerMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'{amount} per month'**
+  String dpsPerMonth(String amount);
+
+  /// No description provided for @dpsProfit.
+  ///
+  /// In en, this message translates to:
+  /// **'Profit'**
+  String get dpsProfit;
+
+  /// No description provided for @dpsProfitHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Before tax, from the bank\'s statement.'**
+  String get dpsProfitHelper;
+
+  /// No description provided for @dpsRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Yearly profit rate %'**
+  String get dpsRate;
+
+  /// No description provided for @dpsRecordDeposit.
+  ///
+  /// In en, this message translates to:
+  /// **'Record deposit'**
+  String get dpsRecordDeposit;
+
+  /// No description provided for @dpsSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'Installment schedule'**
+  String get dpsSchedule;
+
+  /// No description provided for @dpsSeparateLedgerNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This does not change your account balances or budgets.'**
+  String get dpsSeparateLedgerNote;
+
+  /// No description provided for @dpsShowArchived.
+  ///
+  /// In en, this message translates to:
+  /// **'Show archived'**
+  String get dpsShowArchived;
+
+  /// No description provided for @dpsStatusActive.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get dpsStatusActive;
+
+  /// No description provided for @dpsStatusAtRisk.
+  ///
+  /// In en, this message translates to:
+  /// **'At risk'**
+  String get dpsStatusAtRisk;
+
+  /// No description provided for @dpsStatusClosed.
+  ///
+  /// In en, this message translates to:
+  /// **'Closed'**
+  String get dpsStatusClosed;
+
+  /// No description provided for @dpsStatusMatured.
+  ///
+  /// In en, this message translates to:
+  /// **'Matured'**
+  String get dpsStatusMatured;
+
+  /// No description provided for @dpsStatusOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue'**
+  String get dpsStatusOverdue;
+
+  /// No description provided for @dpsSummaryDeposited.
+  ///
+  /// In en, this message translates to:
+  /// **'Deposited'**
+  String get dpsSummaryDeposited;
+
+  /// No description provided for @dpsSummaryMonthly.
+  ///
+  /// In en, this message translates to:
+  /// **'Per month'**
+  String get dpsSummaryMonthly;
+
+  /// No description provided for @dpsSummaryOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open'**
+  String get dpsSummaryOpen;
+
+  /// No description provided for @dpsSummaryOverdue.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue installments: {amount}'**
+  String dpsSummaryOverdue(String amount);
+
+  /// No description provided for @dpsTax.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax deducted'**
+  String get dpsTax;
+
+  /// No description provided for @dpsTaxHelper.
+  ///
+  /// In en, this message translates to:
+  /// **'Often 10% with a TIN and 15% without. Rules change, so confirm with your bank.'**
+  String get dpsTaxHelper;
+
+  /// No description provided for @dpsTaxRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Tax deducted from profit %'**
+  String get dpsTaxRate;
+
+  /// No description provided for @dpsTenureMonths.
+  ///
+  /// In en, this message translates to:
+  /// **'Term in months'**
+  String get dpsTenureMonths;
+
+  /// No description provided for @dpsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'DPS (monthly savings)'**
+  String get dpsTitle;
+
+  /// No description provided for @dpsUnarchive.
+  ///
+  /// In en, this message translates to:
+  /// **'Unarchive'**
+  String get dpsUnarchive;
+
+  /// No description provided for @dpsVoid.
+  ///
+  /// In en, this message translates to:
+  /// **'Void'**
+  String get dpsVoid;
+
+  /// No description provided for @dpsVoidMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'It stays in the history but no longer counts.'**
+  String get dpsVoidMessage;
+
+  /// No description provided for @dpsVoidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Void this deposit?'**
+  String get dpsVoidTitle;
+
+  /// No description provided for @dpsVoided.
+  ///
+  /// In en, this message translates to:
+  /// **'Voided'**
+  String get dpsVoided;
+
+  /// No description provided for @dpsYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years'**
+  String dpsYears(int years);
+
   /// No description provided for @fixedDepositsAdd.
   ///
   /// In en, this message translates to:
@@ -5144,6 +5726,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{person} (to collect)'**
   String notificationsDebtLentName(String person);
+
+  /// No description provided for @notificationsDpsName.
+  ///
+  /// In en, this message translates to:
+  /// **'{bank} DPS installment #{number}'**
+  String notificationsDpsName(String bank, int number);
 
   /// No description provided for @notificationsDueInDays.
   ///
@@ -7798,6 +8386,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **' and '**
   String get transactionsWarningAnd;
+
+  /// No description provided for @upcomingCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Card bill'**
+  String get upcomingCard;
+
+  /// No description provided for @upcomingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} payments'**
+  String upcomingCount(int count);
+
+  /// No description provided for @upcomingDebt.
+  ///
+  /// In en, this message translates to:
+  /// **'Debt'**
+  String get upcomingDebt;
+
+  /// No description provided for @upcomingDps.
+  ///
+  /// In en, this message translates to:
+  /// **'DPS installment'**
+  String get upcomingDps;
+
+  /// No description provided for @upcomingDueOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Due {date}'**
+  String upcomingDueOn(String date);
+
+  /// No description provided for @upcomingDueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due today'**
+  String get upcomingDueToday;
+
+  /// No description provided for @upcomingDueTomorrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Due tomorrow'**
+  String get upcomingDueTomorrow;
+
+  /// No description provided for @upcomingDueTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Due in {days} days: {amount}'**
+  String upcomingDueTotal(String amount, int days);
+
+  /// No description provided for @upcomingLoan.
+  ///
+  /// In en, this message translates to:
+  /// **'Loan'**
+  String get upcomingLoan;
+
+  /// No description provided for @upcomingNextDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Next {days} days'**
+  String upcomingNextDays(int days);
+
+  /// No description provided for @upcomingNothingDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing due in the next {days} days.'**
+  String upcomingNothingDue(int days);
+
+  /// No description provided for @upcomingOverdueSince.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue since {date}'**
+  String upcomingOverdueSince(String date);
+
+  /// No description provided for @upcomingOverdueTotal.
+  ///
+  /// In en, this message translates to:
+  /// **'Overdue: {amount}'**
+  String upcomingOverdueTotal(String amount);
+
+  /// No description provided for @upcomingRecurring.
+  ///
+  /// In en, this message translates to:
+  /// **'Recurring'**
+  String get upcomingRecurring;
+
+  /// No description provided for @upcomingShowAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all ({count})'**
+  String upcomingShowAll(int count);
+
+  /// No description provided for @upcomingShowLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Show less'**
+  String get upcomingShowLess;
+
+  /// No description provided for @upcomingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Upcoming payments'**
+  String get upcomingTitle;
 
   /// No description provided for @walletsAddAccount.
   ///

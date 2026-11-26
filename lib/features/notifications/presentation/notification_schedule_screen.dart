@@ -17,6 +17,7 @@ class NotificationScheduleScreen extends ConsumerWidget {
     NotificationKind.loan => Icons.account_balance_outlined,
     NotificationKind.card => Icons.credit_card,
     NotificationKind.fdr => Icons.lock_clock_outlined,
+    NotificationKind.dps => Icons.savings,
     NotificationKind.debt => Icons.handshake_outlined,
     NotificationKind.recurring => Icons.repeat,
     _ => Icons.notifications_outlined,

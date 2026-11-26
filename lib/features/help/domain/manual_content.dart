@@ -127,6 +127,7 @@ const manualTopics = <ManualTopic>[
       'Finished steps are ticked off. Tap Go on a step to open the right screen.',
       'While steps remain, a "Finish setting up" card also appears at the top of the Home tab. Tap the X to hide it; the guide stays in Settings.',
       'If your last backup is 30 or more days old (or you never made one), Home shows a backup reminder. Tap Back up, or Later to hide it for a week.',
+      'Home also shows Upcoming payments: overdue items and those due in the next 7 or 30 days from loans, credit card bills, money you borrowed and recurring expenses. Tap a row to open it.',
     ],
   ),
   ManualTopic(
@@ -287,6 +288,26 @@ const manualTopics = <ManualTopic>[
       'An extra payment simply covers the following installments. You cannot pay more than the remaining total.',
       'After the first payment you can still edit the interest rate and installment (for example when the bank revises a variable rate); other terms are locked, but notes and bank details can always be changed. Archive a loan instead of deleting it.',
       'Loans are a separate ledger: they do not change your account balances or budgets.',
+    ],
+  ),
+  ManualTopic(
+    id: 'dps',
+    title: 'DPS (monthly savings)',
+    icon: Icons.savings,
+    summary: 'Track a deposit pension scheme: monthly installments, missed payments, maturity value and closing.',
+    steps: [
+      'More > DPS (monthly savings) > add. Enter the bank, monthly installment, term in months, opening date, first installment date and yearly profit rate.',
+      'If your bank quoted a maturity amount, enter it. Otherwise the app shows an estimate with profit added monthly.',
+      'Copy your bank\'s rules: tax on profit, late fee per installment, grace days, and how many missed installments in a row can close the DPS.',
+      'For a DPS you already have, enter how many installments you have paid. They are recorded on their due dates without late fees.',
+      'Open the DPS and tap Record deposit each time you pay. You can pay several installments together; the oldest unpaid ones are settled first. Change the suggested late fee if your bank charged something else. Check whether your bank accepts advance installments.',
+      'When it ends, tap Close or encash. Choose matured, closed early or closed by bank, and enter the profit, tax and charges from the bank.',
+    ],
+    tips: [
+      'The app warns you about missed installments but never closes a DPS by itself.',
+      'DPS records are separate: they do not change account balances or budgets.',
+      'Excise duty is not calculated. Enter what the bank deducted when you close.',
+      'A DPS you added earlier under Fixed deposits stays there. If you add it here too, close or archive the old record to avoid two entries.',
     ],
   ),
   ManualTopic(

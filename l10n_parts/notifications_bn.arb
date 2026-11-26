@@ -63,5 +63,6 @@
   "notificationsFdrTitle": "{scheme} মেয়াদপূর্তি",
   "notificationsFdrBodyUpcoming": "{bank}-এর {scheme} {number} {days} দিন পর ({date}) মেয়াদপূর্ণ হবে। আসল {amount}।",
   "notificationsFdrBodyTomorrow": "{bank}-এর {scheme} {number} আগামীকাল মেয়াদপূর্ণ হবে। আসল {amount}।",
-  "notificationsFdrBodyToday": "{bank}-এর {scheme} {number} আজ মেয়াদপূর্ণ হচ্ছে। আসল {amount}।"
+  "notificationsFdrBodyToday": "{bank}-এর {scheme} {number} আজ মেয়াদপূর্ণ হচ্ছে। আসল {amount}।",
+  "notificationsDpsName": "{bank} ডিপিএস কিস্তি #{number}"
 }

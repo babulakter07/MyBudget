@@ -1,0 +1,19 @@
+{
+  "upcomingTitle": "আসন্ন পেমেন্ট",
+  "upcomingNextDays": "পরের {days} দিন",
+  "upcomingOverdueTotal": "বকেয়া: {amount}",
+  "upcomingDueTotal": "{days} দিনের মধ্যে দিতে হবে: {amount}",
+  "upcomingNothingDue": "পরের {days} দিনে কোনো পেমেন্ট নেই।",
+  "upcomingOverdueSince": "{date} থেকে বকেয়া",
+  "upcomingDueToday": "আজ দিতে হবে",
+  "upcomingDueTomorrow": "আগামীকাল দিতে হবে",
+  "upcomingDueOn": "শেষ তারিখ {date}",
+  "upcomingCount": "{count}টি পেমেন্ট",
+  "upcomingShowAll": "সব দেখুন ({count})",
+  "upcomingShowLess": "কম দেখুন",
+  "upcomingLoan": "ঋণ",
+  "upcomingCard": "কার্ড বিল",
+  "upcomingDebt": "ধার",
+  "upcomingRecurring": "পুনরাবৃত্ত",
+  "upcomingDps": "ডিপিএস কিস্তি"
+}

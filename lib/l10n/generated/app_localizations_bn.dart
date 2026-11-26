@@ -1747,6 +1747,347 @@ class AppLocalizationsBn extends AppLocalizations {
   String get debtsVoided => 'বাতিল করা';
 
   @override
+  String get dpsAccountNumber => 'ডিপিএস হিসাব নম্বর (ঐচ্ছিক)';
+
+  @override
+  String dpsAccountNumberValue(String number) {
+    return 'হিসাব: $number';
+  }
+
+  @override
+  String get dpsAdd => 'ডিপিএস যোগ করুন';
+
+  @override
+  String get dpsAlreadyPaid => 'আগেই জমা দেওয়া কিস্তি (ঐচ্ছিক)';
+
+  @override
+  String dpsAlreadyPaidHelper(int count) {
+    return 'আগে থেকে চালু ডিপিএসের জন্য। $countটি কিস্তির তারিখ পার হয়েছে। স্টেটমেন্ট মিলিয়ে নিন।';
+  }
+
+  @override
+  String get dpsArchive => 'আর্কাইভ করুন';
+
+  @override
+  String get dpsArchived => 'আর্কাইভ করা';
+
+  @override
+  String dpsAtRiskWarning(int count) {
+    return '$countটি কিস্তি বকেয়া। ব্যাংক ডিপিএসটি বন্ধ করে দিতে পারে। ব্যাংকে যোগাযোগ করুন।';
+  }
+
+  @override
+  String get dpsBankMaturity => 'ব্যাংকের জানানো মেয়াদপূর্তির অঙ্ক (ঐচ্ছিক)';
+
+  @override
+  String get dpsBankMaturityHelper =>
+      'কর কাটার আগে। ব্যাংকের দেওয়া অঙ্ক থাকলে সেটি লিখুন।';
+
+  @override
+  String get dpsBankName => 'ব্যাংক বা প্রতিষ্ঠান';
+
+  @override
+  String get dpsBankRequired => 'নাম লিখুন (সর্বোচ্চ ৮০ অক্ষর)';
+
+  @override
+  String get dpsBankRules => 'আপনার ব্যাংকের নিয়ম';
+
+  @override
+  String get dpsBankRulesNote =>
+      'ব্যাংকভেদে এগুলো ভিন্ন হয়। আপনার ডিপিএসের শর্ত থেকে লিখুন।';
+
+  @override
+  String dpsCalculatedNet(String amount) {
+    return 'হিসাব অনুযায়ী প্রাপ্য: $amount';
+  }
+
+  @override
+  String get dpsCharges => 'আবগারি শুল্ক ও অন্যান্য চার্জ';
+
+  @override
+  String get dpsChargesHelper => 'ব্যাংক যা কেটেছে তা লিখুন।';
+
+  @override
+  String get dpsClose => 'ডিপিএস বন্ধ করুন';
+
+  @override
+  String get dpsCloseBank => 'ব্যাংক বন্ধ করেছে';
+
+  @override
+  String dpsCloseConfirm(String amount) {
+    return '$amount পেয়েছেন ধরে ডিপিএসটি বন্ধ করবেন? বন্ধ করার পর আর বদলানো যাবে না।';
+  }
+
+  @override
+  String get dpsCloseMatured => 'মেয়াদ শেষে';
+
+  @override
+  String get dpsClosePremature => 'মেয়াদের আগে';
+
+  @override
+  String get dpsCloseTitle => 'বন্ধ বা নগদায়ন';
+
+  @override
+  String get dpsClosingDate => 'বন্ধের তারিখ';
+
+  @override
+  String get dpsDepositDate => 'জমার তারিখ';
+
+  @override
+  String dpsDepositTotal(String amount) {
+    return 'মোট পরিশোধ: $amount';
+  }
+
+  @override
+  String dpsDepositedAmount(String amount) {
+    return 'জমা $amount';
+  }
+
+  @override
+  String get dpsDeposits => 'জমার তালিকা';
+
+  @override
+  String get dpsEarlyNote =>
+      'মেয়াদের আগে বন্ধের নিয়ম ব্যাংকভেদে ভিন্ন। কিছু ব্যাংক শুরুর কয়েক মাসে অনুমতি দেয় না এবং অনেকে কম মুনাফা দেয়। ব্যাংকের দেওয়া অঙ্ক লিখুন।';
+
+  @override
+  String get dpsEdit => 'ডিপিএস সম্পাদনা';
+
+  @override
+  String get dpsEmpty => 'এখনও কোনো ডিপিএস নেই। যোগ করতে + চাপুন।';
+
+  @override
+  String dpsEstimateHelper(String amount) {
+    return 'কর কাটার আগে। অ্যাপের অনুমান: $amount। ব্যাংকের অঙ্ক ভিন্ন হতে পারে।';
+  }
+
+  @override
+  String get dpsExpectedNet => 'কর বাদে প্রত্যাশিত';
+
+  @override
+  String dpsExpectedTax(String rate) {
+    return 'মুনাফার ওপর $rate% কর';
+  }
+
+  @override
+  String get dpsFinalNet => 'আসলে যত টাকা পেয়েছেন (ঐচ্ছিক)';
+
+  @override
+  String get dpsFinalNetHelper => 'হিসাবের সাথে না মিললে তবেই লিখুন।';
+
+  @override
+  String get dpsFirstDueDate => 'প্রথম কিস্তির তারিখ';
+
+  @override
+  String get dpsGraceDays => 'তারিখের পর অতিরিক্ত সময় (দিন)';
+
+  @override
+  String get dpsInstallment => 'মাসিক কিস্তি';
+
+  @override
+  String get dpsInstallmentCount => 'কয়টি কিস্তি';
+
+  @override
+  String dpsInstallmentCountHelper(int remaining, int overdue) {
+    return 'বাকি $remainingটি, বকেয়া $overdueটি';
+  }
+
+  @override
+  String get dpsInstallmentDue => 'দেয়';
+
+  @override
+  String get dpsInstallmentPaid => 'জমা';
+
+  @override
+  String get dpsInstallmentUpcoming => 'আসন্ন';
+
+  @override
+  String dpsInstallmentsCount(int count) {
+    return '$countটি কিস্তি';
+  }
+
+  @override
+  String get dpsInvalid => 'মানটি ঠিক করুন';
+
+  @override
+  String get dpsLateFee => 'প্রতি কিস্তির বিলম্ব ফি (না থাকলে ০)';
+
+  @override
+  String get dpsLateFeeCharged => 'নেওয়া বিলম্ব ফি';
+
+  @override
+  String dpsLateFeeValue(String amount) {
+    return 'বিলম্ব ফি $amount';
+  }
+
+  @override
+  String get dpsLateFeesPaid => 'পরিশোধিত বিলম্ব ফি';
+
+  @override
+  String get dpsLockedNote =>
+      'কিস্তি জমা থাকায় কিস্তির অঙ্ক, মেয়াদ ও তারিখ বদলানো যাবে না।';
+
+  @override
+  String dpsMaturesOn(String date) {
+    return 'সব কিস্তি জমা। মেয়াদপূর্তি $date';
+  }
+
+  @override
+  String get dpsMaturityDate => 'মেয়াদপূর্তির তারিখ';
+
+  @override
+  String get dpsMaturityEstimate => 'মেয়াদপূর্তির অঙ্ক (অ্যাপের অনুমান)';
+
+  @override
+  String get dpsMaturityFromBank => 'মেয়াদপূর্তির অঙ্ক (ব্যাংকের)';
+
+  @override
+  String get dpsMaturityNote =>
+      'ধরে নেওয়া হয়েছে সব কিস্তি সময়মতো জমা হবে। আবগারি শুল্ক ও ব্যাংক চার্জ ধরা হয়নি।';
+
+  @override
+  String get dpsMissedLimit => 'বন্ধ হওয়ার আগে টানা বাকি কিস্তির সংখ্যা';
+
+  @override
+  String get dpsMissedLimitHelper =>
+      'কিছু ব্যাংকে ৩। আপনার ব্যাংকে এমন নিয়ম না থাকলে ০ দিন।';
+
+  @override
+  String get dpsNetReceived => 'প্রাপ্ত অর্থ';
+
+  @override
+  String dpsNextDue(String date) {
+    return 'পরবর্তী কিস্তি: $date';
+  }
+
+  @override
+  String get dpsNextInstallment => 'পরবর্তী কিস্তি';
+
+  @override
+  String get dpsNoDeposits => 'এখনও কোনো জমা নেই।';
+
+  @override
+  String get dpsNotFound => 'ডিপিএসটি পাওয়া যায়নি।';
+
+  @override
+  String get dpsNote => 'নোট (ঐচ্ছিক)';
+
+  @override
+  String dpsOneMoreWarning(int limit) {
+    return 'আর একটি কিস্তি বাকি পড়লে ব্যাংকের $limitটির সীমা পূর্ণ হবে।';
+  }
+
+  @override
+  String get dpsOpenDate => 'খোলার তারিখ';
+
+  @override
+  String dpsOverdueWarning(int count, String amount) {
+    return '$countটি কিস্তি বকেয়া: $amount';
+  }
+
+  @override
+  String dpsPaidOf(int paid, int total) {
+    return '$totalটির মধ্যে $paidটি কিস্তি জমা';
+  }
+
+  @override
+  String dpsPaidOn(String date) {
+    return 'জমা $date';
+  }
+
+  @override
+  String dpsPerMonth(String amount) {
+    return 'প্রতি মাসে $amount';
+  }
+
+  @override
+  String get dpsProfit => 'মুনাফা';
+
+  @override
+  String get dpsProfitHelper => 'কর কাটার আগে, ব্যাংকের স্টেটমেন্ট অনুযায়ী।';
+
+  @override
+  String get dpsRate => 'বার্ষিক মুনাফার হার %';
+
+  @override
+  String get dpsRecordDeposit => 'কিস্তি জমা লিখুন';
+
+  @override
+  String get dpsSchedule => 'কিস্তির সূচি';
+
+  @override
+  String get dpsSeparateLedgerNote =>
+      'এতে অ্যাকাউন্টের ব্যালেন্স বা বাজেট বদলায় না।';
+
+  @override
+  String get dpsShowArchived => 'আর্কাইভ করা দেখান';
+
+  @override
+  String get dpsStatusActive => 'চলমান';
+
+  @override
+  String get dpsStatusAtRisk => 'ঝুঁকিতে';
+
+  @override
+  String get dpsStatusClosed => 'বন্ধ';
+
+  @override
+  String get dpsStatusMatured => 'মেয়াদ পূর্ণ';
+
+  @override
+  String get dpsStatusOverdue => 'বকেয়া';
+
+  @override
+  String get dpsSummaryDeposited => 'জমা হয়েছে';
+
+  @override
+  String get dpsSummaryMonthly => 'প্রতি মাসে';
+
+  @override
+  String get dpsSummaryOpen => 'চলমান';
+
+  @override
+  String dpsSummaryOverdue(String amount) {
+    return 'বকেয়া কিস্তি: $amount';
+  }
+
+  @override
+  String get dpsTax => 'কাটা কর';
+
+  @override
+  String get dpsTaxHelper =>
+      'সাধারণত টিআইএন থাকলে ১০%, না থাকলে ১৫%। নিয়ম বদলায়, তাই ব্যাংক থেকে নিশ্চিত হোন।';
+
+  @override
+  String get dpsTaxRate => 'মুনাফা থেকে কাটা কর %';
+
+  @override
+  String get dpsTenureMonths => 'মেয়াদ (মাস)';
+
+  @override
+  String get dpsTitle => 'ডিপিএস (মাসিক সঞ্চয়)';
+
+  @override
+  String get dpsUnarchive => 'আর্কাইভ থেকে ফেরান';
+
+  @override
+  String get dpsVoid => 'বাতিল করুন';
+
+  @override
+  String get dpsVoidMessage => 'ইতিহাসে থাকবে, কিন্তু হিসাবে ধরা হবে না।';
+
+  @override
+  String get dpsVoidTitle => 'এই জমা বাতিল করবেন?';
+
+  @override
+  String get dpsVoided => 'বাতিল';
+
+  @override
+  String dpsYears(int years) {
+    return '$years বছর';
+  }
+
+  @override
   String get fixedDepositsAdd => 'ডিপোজিট যোগ করুন';
 
   @override
@@ -2951,6 +3292,11 @@ class AppLocalizationsBn extends AppLocalizations {
   @override
   String notificationsDebtLentName(String person) {
     return '$person (আদায়)';
+  }
+
+  @override
+  String notificationsDpsName(String bank, int number) {
+    return '$bank ডিপিএস কিস্তি #$number';
   }
 
   @override
@@ -4477,6 +4823,73 @@ class AppLocalizationsBn extends AppLocalizations {
 
   @override
   String get transactionsWarningAnd => ' এবং ';
+
+  @override
+  String get upcomingCard => 'কার্ড বিল';
+
+  @override
+  String upcomingCount(int count) {
+    return '$countটি পেমেন্ট';
+  }
+
+  @override
+  String get upcomingDebt => 'ধার';
+
+  @override
+  String get upcomingDps => 'ডিপিএস কিস্তি';
+
+  @override
+  String upcomingDueOn(String date) {
+    return 'শেষ তারিখ $date';
+  }
+
+  @override
+  String get upcomingDueToday => 'আজ দিতে হবে';
+
+  @override
+  String get upcomingDueTomorrow => 'আগামীকাল দিতে হবে';
+
+  @override
+  String upcomingDueTotal(String amount, int days) {
+    return '$days দিনের মধ্যে দিতে হবে: $amount';
+  }
+
+  @override
+  String get upcomingLoan => 'ঋণ';
+
+  @override
+  String upcomingNextDays(int days) {
+    return 'পরের $days দিন';
+  }
+
+  @override
+  String upcomingNothingDue(int days) {
+    return 'পরের $days দিনে কোনো পেমেন্ট নেই।';
+  }
+
+  @override
+  String upcomingOverdueSince(String date) {
+    return '$date থেকে বকেয়া';
+  }
+
+  @override
+  String upcomingOverdueTotal(String amount) {
+    return 'বকেয়া: $amount';
+  }
+
+  @override
+  String get upcomingRecurring => 'পুনরাবৃত্ত';
+
+  @override
+  String upcomingShowAll(int count) {
+    return 'সব দেখুন ($count)';
+  }
+
+  @override
+  String get upcomingShowLess => 'কম দেখুন';
+
+  @override
+  String get upcomingTitle => 'আসন্ন পেমেন্ট';
 
   @override
   String get walletsAddAccount => 'হিসাব যোগ করুন';

@@ -79,7 +79,7 @@ void main() {
 
   test('export carries loan and credit card tables', () async {
     final j = await export();
-    expect(j['schemaVersion'], 7);
+    expect(j['schemaVersion'], 8);
     expect(table(j, 'loans'), hasLength(1));
     expect(table(j, 'loan_payments'), hasLength(2));
     expect(table(j, 'credit_cards'), hasLength(1));

@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'database_tables.dart';
 import 'database_tables_v6.dart';
 import 'database_tables_v7.dart';
+import 'database_tables_v8.dart';
 
 part 'app_database.g.dart';
 
@@ -38,6 +39,8 @@ part 'app_database.g.dart';
     CreditCardPayments,
     FixedDeposits,
     FixedDepositTerms,
+    DpsAccounts,
+    DpsPayments,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -46,7 +49,7 @@ class AppDatabase extends _$AppDatabase {
   /// In-memory database for tests.
   AppDatabase.memory() : super(NativeDatabase.memory());
 
-  static const int currentSchemaVersion = 7;
+  static const int currentSchemaVersion = 8;
 
   @override
   int get schemaVersion => currentSchemaVersion;
@@ -61,6 +64,7 @@ class AppDatabase extends _$AppDatabase {
       await _createV5Indexes();
       await _createV6Indexes();
       await _createV7Indexes();
+      await _createV8Indexes();
     },
     onUpgrade: (m, from, to) async {
       // Stepwise migrations. Never rewrite earlier steps.
@@ -139,6 +143,11 @@ class AppDatabase extends _$AppDatabase {
         await m.createTable(fixedDepositTerms);
         await _createV7Indexes();
       }
+      if (from < 8) {
+        await m.createTable(dpsAccounts);
+        await m.createTable(dpsPayments);
+        await _createV8Indexes();
+      }
     },
     beforeOpen: (details) async {
       await customStatement('PRAGMA foreign_keys = ON');
@@ -205,6 +214,16 @@ class AppDatabase extends _$AppDatabase {
     );
     await customStatement(
       'CREATE INDEX IF NOT EXISTS idx_card_payments_bill ON credit_card_payments (profile_id, bill_id)',
+    );
+  }
+
+  /// v8 indexes (DPS).
+  Future<void> _createV8Indexes() async {
+    await customStatement(
+      'CREATE UNIQUE INDEX IF NOT EXISTS uq_dps_account_number ON dps_accounts (profile_id, account_number COLLATE NOCASE) WHERE account_number IS NOT NULL',
+    );
+    await customStatement(
+      'CREATE INDEX IF NOT EXISTS idx_dps_payments_account ON dps_payments (profile_id, dps_id)',
     );
   }
 

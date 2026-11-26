@@ -169,7 +169,7 @@ class FdRow extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: theme.textTheme.bodyMedium),
+          Flexible(child: Text(label, style: theme.textTheme.bodyMedium)),
           const SizedBox(width: 12),
           Flexible(
             child: Text(value, style: style, textAlign: TextAlign.end),

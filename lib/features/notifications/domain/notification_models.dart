@@ -11,7 +11,7 @@ class NotificationChannels {
   static const budgetDescription = 'Warnings when spending nears the budget';
 }
 
-enum NotificationKind { recurring, debt, loan, card, fdr, budget, test }
+enum NotificationKind { recurring, debt, loan, card, fdr, dps, budget, test }
 
 /// When a reminder fires relative to the due date.
 enum NotificationPhase { upcoming, today, expired }

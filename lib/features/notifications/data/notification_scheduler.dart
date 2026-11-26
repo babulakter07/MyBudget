@@ -2,6 +2,8 @@ import 'package:drift/drift.dart' show Variable;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../core/database/app_database.dart';
+import '../../dps/data/dps_repository.dart';
+import '../../dps/domain/dps.dart';
 import '../../fixed_deposits/domain/fixed_deposit_calculator.dart';
 import '../../loans/data/loan_repository.dart';
 import '../../loans/domain/loan_calculator.dart';
@@ -107,7 +109,7 @@ WHERE t.profile_id = ?1 AND t.outcome = 'active' AND d.is_active = 1
     ];
   }
 
-  /// Unpaid loan installments and unpaid credit-card bills.
+  /// Unpaid loan and DPS installments, and unpaid credit-card bills.
   Future<List<DueItemInput>> dueItems(
     int profileId,
     AppLocalizations l10n,
@@ -124,6 +126,21 @@ WHERE t.profile_id = ?1 AND t.outcome = 'active' AND d.is_active = 1
             id: p.loan.id,
             name: l10n.notificationsLoanName(p.loan.lenderName, i.no),
             amountMinor: i.unpaidMinor,
+            dueDate: i.dueDate,
+          ),
+        );
+      }
+    }
+    for (final p in await DpsRepository(_db).loadAll(profileId)) {
+      if (p.isClosed) continue;
+      for (final i in p.schedule) {
+        if (i.status == DpsInstallmentStatus.paid) continue;
+        out.add(
+          DueItemInput(
+            source: 'dps',
+            id: p.account.id,
+            name: l10n.notificationsDpsName(p.terms.bankName, i.no),
+            amountMinor: p.terms.installmentMinor,
             dueDate: i.dueDate,
           ),
         );
